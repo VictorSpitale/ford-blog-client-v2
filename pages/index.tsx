@@ -1,8 +1,11 @@
+import SEO from "../components/seo";
+
 export default function Home() {
     return (
-        <div>
+        <>
+            <SEO title={"Accueil"} />
             <h1>Titre</h1>
             <p>Texte</p>
-        </div>
+        </>
     );
 }
