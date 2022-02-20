@@ -1,12 +1,11 @@
 import React, {useEffect, useRef} from 'react';
-import SEO from "./seo";
 import styles from '../styles/Loading.module.css'
 import group from '../public/static/img/SPLASH.svg'
 import groupLoaded from '../public/static/img/SPLASH-2.svg'
 import fu from '../public/static/img/FORD _UNIVERSE.svg'
 import car from '../public/static/img/car_logo.svg'
-import {className} from "../shared/utils/classUtils";
-import {Children} from "../shared/types/props.types";
+import {className} from "../shared/utils/class.utils";
+import {Children} from "../shared/types/props.type";
 
 type PropsType = {
     isLoading: boolean,
@@ -39,7 +38,6 @@ const LoadingScreen = ({isLoading, children}: PropsType) => {
     return (
         <div ref={pageRef} className={styles.page_container}>
             <div className={styles.container}>
-                <SEO title={'Chargement...'} />
                 <div className={styles.group_container}>
                     <img src={groupLoaded.src} alt="" className={styles.group_2} />
                     <img ref={groupRef} src={group.src} alt="" className={styles.group} />

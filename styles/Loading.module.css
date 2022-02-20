@@ -138,6 +138,7 @@
 .content_container {
     position : absolute;
     top      : 100%;
+    width    : 100vw;
 }
 
 .content_container_loaded {

@@ -1,6 +1,8 @@
 import SEO from "../components/seo";
 import LoadingScreen from "../components/LoadingScreen";
 import {useEffect, useState} from "react";
+import PostCard from "../components/posts/PostCard";
+import {postStub} from "../tests/stub/postStub";
 
 export default function Home() {
 
@@ -15,16 +17,11 @@ export default function Home() {
 
     return (
         <>
-            <SEO title={"Accueil"} />
+            <SEO title={isLoading ? 'Chargement...' : 'Accueil'} />
             <LoadingScreen isLoading={isLoading}>
-                <p className={"px-5"}>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi deserunt doloremque earum labore
-                    tempora? Ducimus impedit nobis quod sapiente temporibus voluptates. Amet at, aut dignissimos dolore
-                    expedita nesciunt? Maiores, minima.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dicta earum ipsam minima optio
-                    quibusdam sint soluta. Debitis incidunt inventore laborum libero reiciendis rem voluptas? Dolorem
-                    praesentium qui voluptate voluptatem!
-                </p>
+                <div className={"px-5 mx-auto w-fit"}>
+                    <PostCard post={postStub()} />
+                </div>
             </LoadingScreen>
         </>
     );
