@@ -16,15 +16,17 @@ const categories: ICategory[] = [
 
 const PostCard = ({post}: { post: IPost }) => {
     return (
-        <div className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-96 overflow-hidden"}>
-            <Link href={"/post/slug"}>
+        <div className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-80 overflow-hidden"}>
+            <Link href={`/post/${post.slug}`}>
                 <a><img src={picture.src} alt={post.title} /></a>
             </Link>
             <div className={"py-2"}>
                 <div className={"px-4 flex flex-wrap"}>
                     <div className={"flex justify-between w-full py-1"}>
-                        {categories.map((cat, i) => {
-                            return i < 3 && <CategoryInput key={i} category={cat} />
+                        {post.categories.map((cat, i) => {
+                            if (i < 2) return <CategoryInput key={i} category={cat} />
+                            if (i === post.categories.length - 1 && i >= 2) return <CategoryInput key={i}
+                                                                                                  more={post.categories.length - 2} />
                         })}
                     </div>
                     <h3 className={"text-sm md:text-lg font-bold truncate tracking-wide"}>{post.title}</h3>

@@ -5,12 +5,22 @@ import {AnyFunction} from "../shared/types/props.type";
 
 type PropsType = {
     onClick?: AnyFunction,
-    category: ICategory
+    category: ICategory | string
     disable?: boolean,
-    active?: boolean
+    active?: boolean,
+    more?: number
+}
+type PropsTypeMore = {
+    onClick?: AnyFunction,
+    category?: ICategory | string
+    disable?: boolean,
+    active?: boolean,
+    more: number
 }
 
-const CategoryInput = ({onClick, category, disable, active}: PropsType) => {
+const CategoryInput = ({onClick, category, disable, active, more}: PropsType | PropsTypeMore) => {
+
+    const catName = (typeof category === "string" ? category : category?.name)
 
     const [isChecked, setIsChecked] = useState(active ? active : false)
     const onChecked = (callback: AnyFunction) => {
@@ -22,14 +32,15 @@ const CategoryInput = ({onClick, category, disable, active}: PropsType) => {
 
     return (
         <div className={"box-border float-left relative w-fit"}>
-            <input id={category.name} defaultChecked={active} disabled={disable}
+            <input id={catName && catName} defaultChecked={active} disabled={disable}
                    onChange={(e) => onClick && onChecked(onClick(e) as AnyFunction)}
                    className={`h-full w-full absolute top-0 opacity-0 left-0 ${!disable && 'cursor-pointer'}`}
-                   type="checkbox" value={category.name} />
+                   type="checkbox" value={catName && catName} />
             <div
                 className={`${isChecked ? 'bg-secondary-500 text-white' : 'text-secondary-600'} border border-secondary-600 
                 text-sm md:text-base px-2 md:px-4 w-full flex rounded-2xl`}>
-                <label htmlFor={category.name} className={"text-inherit"}>{capitalize(category.name)}</label>
+                <label htmlFor={catName && catName}
+                       className={"text-inherit"}>{catName ? capitalize(catName) : `+ ${more}`}</label>
             </div>
         </div>
     );

@@ -1,34 +1,25 @@
 import SEO from "../components/seo";
 import LoadingScreen from "../components/LoadingScreen";
-import {useEffect, useState} from "react";
-import PostCard from "../components/posts/PostCard";
-import {postStub} from "../tests/stub/postStub";
+import LastPosts from "../components/posts/LastPosts";
+import {NextPage} from "next";
+import {IPost} from "../shared/types/post.type";
 
-export default function Home() {
+const Home: NextPage = () => {
 
-    //@TODO: initialState = true
-    const [isLoading, setIsLoading] = useState(false)
-
-    useEffect(() => {
-        // setTimeout(() => {
-        //     setIsLoading(false)
-        // }, 2000)
-    }, [])
+    const pending = false;
+    const isAlreadyLoaded = true;
+    const data: IPost[] = []
 
     return (
         <>
-            <SEO title={isLoading ? 'Chargement...' : 'Accueil'} />
-            <LoadingScreen isLoading={isLoading}>
-                <div className={"px-5 mx-auto w-fit"}>
-                    <PostCard post={postStub()} />
+            <SEO title={pending ? 'Chargement...' : 'Accueil'} />
+            <LoadingScreen alreadyLoaded={isAlreadyLoaded} isLoading={pending}>
+                <div className={"px-1 mx-auto w-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4"}>
+                    <LastPosts posts={data} />
                 </div>
             </LoadingScreen>
         </>
     );
 }
 
-// export const getServerSideProps = async ({locale}: { locale: string }) => ({
-//     props: {
-//         ...(await serverSideTranslations(locale, ['common']))
-//     }
-// });
+export default Home

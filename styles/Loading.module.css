@@ -13,7 +13,8 @@
 }
 
 .page_container_loaded {
-    overflow : unset;
+    overflow   : unset;
+    overflow-x : hidden;
 }
 
 /*===========================================*/
@@ -23,7 +24,7 @@
 .group_container {
     height   : 100vh;
     position : relative;
-    width    : 100vw;
+    width    : 100%;
 }
 
 .group, .group_2 {
@@ -33,7 +34,7 @@
     object-position : center;
     opacity         : 1;
     position        : absolute;
-    width           : 100vw;
+    width           : 100%;
 }
 
 .group {
@@ -138,7 +139,7 @@
 .content_container {
     position : absolute;
     top      : 100%;
-    width    : 100vw;
+    width    : 100%;
 }
 
 .content_container_loaded {
