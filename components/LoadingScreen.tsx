@@ -32,7 +32,7 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
                         logoRef.current?.classList.add(styles.loaded_2)
                         fuRef.current?.classList.add(styles.fu_loaded)
                         contentRef.current?.classList.add(styles.content_container_loaded)
-                    }, /*@TODO: Initial duration = --duration / 2 */ 1000)
+                    }, 1000)
                 }
             }, false)
         }

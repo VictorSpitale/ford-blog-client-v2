@@ -1,8 +1,10 @@
 import React from 'react';
-import {IPost} from "../../shared/types/post.type";
-import {GetServerSideProps} from "next";
+import {useAppSelector} from "../../context/hooks";
+import {wrapper} from "../../context/store";
+import {getPost} from "../../context/actions/posts.actions";
 
-const SinglePost = ({post}: { post: IPost }) => {
+const SinglePost = () => {
+    const {post} = useAppSelector((state => state.post))
     return (
         <div>
             {post.title}
@@ -12,21 +14,9 @@ const SinglePost = ({post}: { post: IPost }) => {
 
 export default SinglePost;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    // params contains the post `id`.
-    // If the route is like /posts/1, then params.id is 1
-    const posts = await fetch('http://localhost:5000/api/post').then(res => res.json())
-    const post = posts.find((post: IPost) => post.slug == context.params?.id)
-    if (!post) {
-        // If there is a server error, you might want to
-        // throw an error instead of returning so that the cache is not updated
-        // until the next successful request.
-        return {
-            notFound: true
+SinglePost.getInitialProps = wrapper.getInitialPageProps(
+    ({dispatch}) =>
+        async (context) => {
+            await dispatch(getPost(context.query.id as string));
         }
-    }
-    // Pass post data to the page via props
-    return {
-        props: {post}
-    }
-}
+);

@@ -8,7 +8,7 @@ export type IPost = {
     desc: string,
     _id: string,
     likers: string[],
-    picture?: string,
+    picture: string,
     slug: string,
     sourceLink: string,
     sourceName: string,

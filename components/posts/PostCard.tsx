@@ -1,24 +1,21 @@
 import React from 'react';
 import {IPost} from "../../shared/types/post.type";
 import Link from "next/link";
-import picture from '../../tests/stub/ford-f-100-eluminator-concept.jpg'
 import {capitalize} from "../../shared/utils/string.utils";
 import {timeSince} from "../../shared/utils/date.utils";
-import {ICategory} from "../../shared/types/category.type";
-import {categoryStub} from "../../tests/stub/categoryStub";
 import CategoryInput from "../CategoryInput";
-
-const categories: ICategory[] = [
-    categoryStub('sport'), categoryStub('EV'),
-    categoryStub('suv'), categoryStub('compact'),
-    categoryStub('pick-up')
-]
+import Image from "next/image";
+import {blurImg} from "../../shared/images/blurImg";
+import {getPostCardImg} from "../../shared/images/postCardImg";
 
 const PostCard = ({post}: { post: IPost }) => {
     return (
         <div className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-80 overflow-hidden"}>
             <Link href={`/post/${post.slug}`}>
-                <a><img src={picture.src} alt={post.title} /></a>
+                <a className={"w-full block"}><Image src={getPostCardImg(post)} alt={post.title} width={"500"}
+                                                     height={"250"}
+                                                     objectFit={"cover"} placeholder={"blur"}
+                                                     blurDataURL={blurImg} /></a>
             </Link>
             <div className={"py-2"}>
                 <div className={"px-4 flex flex-wrap"}>
