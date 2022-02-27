@@ -30,9 +30,10 @@ const PostCard = ({post}: { post: IPost }) => {
                     <p className={"break-words text-justify text-sm line-clamp-3"}>{post.desc}</p>
                 </div>
                 <div className={"px-4 flex items-center justify-between pt-3"}>
-                    <div>
+                    <div className={"w-1/2"}>
                         <Link href={post.sourceLink}>
-                            <a target={"_blank"} rel="noopener noreferrer">{capitalize(post.sourceName)}</a>
+                            <a className={"line-clamp-1"} target={"_blank"}
+                               rel="noopener noreferrer">{capitalize(post.sourceName)}</a>
                         </Link>
                         <p>{timeSince(post.createdAt)}</p>
                     </div>
