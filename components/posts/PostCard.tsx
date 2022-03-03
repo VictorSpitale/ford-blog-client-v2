@@ -18,7 +18,7 @@ const PostCard = ({post}: { post: IPost }) => {
                                                      blurDataURL={blurImg} /></a>
             </Link>
             <div className={"py-2"}>
-                <div className={"px-4 flex flex-wrap"}>
+                <div className={"px-4 flex flex-wrap flex-col"}>
                     <div className={"flex justify-between w-full py-1"}>
                         {post.categories.map((cat, i) => {
                             if (i < 2) return <CategoryInput key={i} category={cat} />
@@ -26,7 +26,7 @@ const PostCard = ({post}: { post: IPost }) => {
                                                                                                   more={post.categories.length - 2} />
                         })}
                     </div>
-                    <h3 className={"text-sm md:text-lg font-bold truncate tracking-wide"}>{post.title}</h3>
+                    <h3 className={"text-sm md:text-lg font-bold truncate tracking-wide w-full"}>{post.title}</h3>
                     <p className={"break-words text-justify text-sm line-clamp-3"}>{post.desc}</p>
                 </div>
                 <div className={"px-4 flex items-center justify-between pt-3"}>
