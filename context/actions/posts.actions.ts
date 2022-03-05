@@ -5,6 +5,18 @@ import {isEmpty} from "../../shared/utils/object.utils";
 import {instance} from "../instance";
 
 export const GET_POSTS = "GET_POSTS"
+export const GET_POST = "GET_POST"
+export const GET_LAST_POSTS = "GET_LAST_POSTS"
+
+export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
+    const {posts} = getState().lastPosts
+    if (!isEmpty(posts)) {
+        return posts
+    }
+    let response: IPost[] = []
+    await instance.get('/posts/last').then((res) => response = res.data)
+    return response
+})
 
 export const getPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_POSTS, async (_, {getState}) => {
     const {posts} = getState().posts
@@ -12,10 +24,9 @@ export const getPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GE
         return posts
     }
     let response: IPost[] = []
-    await instance.get('/post').then((res) => response = res.data)
+    await instance.get('/posts').then((res) => response = res.data)
     return response
 })
-export const GET_POST = "GET_POST"
 
 export const getPost = createAsyncThunk<IPost, string, { state: RootState }>(GET_POST, async (slug, {getState}) => {
 
@@ -24,6 +35,6 @@ export const getPost = createAsyncThunk<IPost, string, { state: RootState }>(GET
         return post
     }
     let response: IPost = {} as IPost
-    await instance.get('/post/' + slug).then((res) => response = res.data)
+    await instance.get('/posts/' + slug).then((res) => response = res.data)
     return response
 })

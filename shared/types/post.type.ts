@@ -1,13 +1,15 @@
 import {IComment} from "./comment.type";
+import {ICategory} from "./category.type";
 
 export type IPost = {
     authorId?: string,
-    categories: string[],
+    categories: ICategory[],
     comments: IComment[],
     createdAt: string,
     desc: string,
     _id: string,
-    likers: string[],
+    likes: number,
+    authUserLiked: boolean,
     picture: string,
     slug: string,
     sourceLink: string,

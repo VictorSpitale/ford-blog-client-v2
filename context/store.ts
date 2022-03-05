@@ -3,9 +3,11 @@ import {Action, AnyAction, combineReducers, configureStore, ThunkAction} from "@
 import {postsReducer} from "./reducers/posts.reducer";
 import postReducer from "./reducers/post.reducer";
 import {firstHydrateReducer} from "./reducers/firstHydrate.reducer";
+import lastPostsReducer from "./reducers/lastPosts.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
+    lastPosts: lastPostsReducer,
     post: postReducer,
     hydrateStatus: firstHydrateReducer
 })
