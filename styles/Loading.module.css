@@ -1,0 +1,157 @@
+.container {
+    overflow : hidden;
+    position : relative;
+}
+
+/*===========================================*/
+/*=================PAGE======================*/
+/*===========================================*/
+.page_container {
+    height   : 100vh;
+    overflow : hidden;
+    position : relative;
+}
+
+.page_container_loaded {
+    overflow   : unset;
+    overflow-x : hidden;
+}
+
+/*===========================================*/
+/*================SPLASH=====================*/
+/*===========================================*/
+
+.group_container {
+    height   : 100vh;
+    position : relative;
+    width    : 100%;
+}
+
+.group, .group_2 {
+    height          : 100vh;
+    left            : 0;
+    object-fit      : cover;
+    object-position : center;
+    opacity         : 1;
+    position        : absolute;
+    width           : 100%;
+}
+
+.group {
+    transition : opacity calc(var(--animation-duration) / 2) ease-in-out;
+}
+
+.group.group_loaded {
+    opacity : 0;
+}
+
+/*===========================================*/
+/*================FU_LOGO====================*/
+/*===========================================*/
+.fu_logo {
+    display  : block;
+    margin   : auto;
+    position : absolute;
+    top      : 75%;
+    width    : 300px;
+}
+
+.fu_loaded {
+    animation : fu_loaded calc(var(--animation-duration) / 2) ease-out forwards;
+}
+
+.logo_container {
+    display         : flex;
+    justify-content : center
+}
+
+@keyframes fu_loaded {
+    from {
+        width : 300px;
+        top   : 75%;
+    }
+    to {
+        width : 150px;
+        top   : 60px;
+    }
+}
+
+
+/*===========================================*/
+/*==================CAR======================*/
+/*===========================================*/
+
+.car_logo {
+    position  : absolute;
+    top       : 50%;
+    transform : translateY(-50%);
+    width     : 300px;
+}
+
+.car_logo.animate {
+    animation : loading var(--animation-duration) linear infinite;
+}
+
+.car_logo.loaded {
+    animation : loaded calc(var(--animation-duration) / 2) ease-out forwards;
+}
+
+.car_logo.loaded_2 {
+    animation : loaded_2 calc(var(--animation-duration) / 2) ease-out forwards;
+    left      : 50%;
+    transform : translate(-50%, -50%);
+}
+
+@keyframes loaded {
+    from {
+        left : -200px;
+    }
+    to {
+        left      : 50%;
+        transform : translate(-50%, -50%);
+    }
+}
+
+@keyframes loaded_2 {
+    from {
+        top   : 50%;
+        width : 300px;
+    }
+    to {
+        top   : 30px;
+        width : 150px;
+    }
+}
+
+@keyframes loading {
+    from {
+        left : -200px;
+    }
+
+    to {
+        left : calc(100% + 100px);
+    }
+}
+
+/*===========================================*/
+/*================CONTENT====================*/
+/*===========================================*/
+.content_container {
+    position : absolute;
+    top      : 100%;
+    width    : 100%;
+}
+
+.content_container_loaded {
+    animation : contentLoaded calc(var(--animation-duration) / 2) ease-out forwards;
+}
+
+@keyframes contentLoaded {
+    from {
+        top : 100%;
+    }
+    to {
+        top : 150px;
+    }
+}
+

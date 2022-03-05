@@ -1,20 +1,40 @@
 import SEO from "../components/seo";
-import {useTranslation} from "next-i18next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {NextPage} from "next";
+import {wrapper} from "../context/store";
+import {getLastPosts} from "../context/actions/posts.actions";
+import {useAppSelector} from "../context/hooks";
+import dynamic from "next/dynamic";
+import {changeStatus} from "../context/actions/firstHydrate.actions";
+import {HydrateStatus} from "../context/reducers/firstHydrate.reducer";
 
-export default function Home() {
-    const {t} = useTranslation()
+const LoadingScreen = dynamic(() => import("../components/LoadingScreen"))
+const LastPosts = dynamic(() => import("../components/posts/LastPosts"))
+
+const Home: NextPage = () => {
+
+    const {posts, pending} = useAppSelector((state) => state.lastPosts);
+    const {status} = useAppSelector((state) => state.hydrateStatus)
+
     return (
         <>
-            <SEO title={"Accueil"} />
-            <h1>{t('welcome')}</h1>
-            <p>Texte</p>
+            <SEO title={pending ? 'Chargement...' : 'Accueil'} />
+            <LoadingScreen isLoading={pending} alreadyLoaded={status !== HydrateStatus.FIRST}>
+                {posts.length === 0 ?
+                    (<h1 className={"text-center text-2xl"}>Aucun article disponible</h1>) :
+                    (<div className={"px-1 mx-auto w-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4"}>
+                        <LastPosts posts={posts} />
+                    </div>)
+                }
+            </LoadingScreen>
         </>
     );
 }
+Home.getInitialProps = wrapper.getInitialPageProps(
+    ({dispatch}) =>
+        async () => {
+            await dispatch(getLastPosts());
+            await dispatch(changeStatus())
+        }
+);
 
-export const getServerSideProps = async ({locale}: { locale: string }) => ({
-    props: {
-        ...(await serverSideTranslations(locale, ['common']))
-    }
-});
+export default Home

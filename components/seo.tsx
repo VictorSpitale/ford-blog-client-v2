@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from "next/head";
-import {Children} from "../shared/types/props.types";
+import {Children} from "../shared/types/props.type";
 
 type PropsType = {
     description?: string,
@@ -15,6 +15,8 @@ const defaultDescription = "Ford Universe, blog sur l'automobile consacré à Fo
 const SEO = ({description = defaultDescription, title, siteTitle = defaultSiteTitle, children}: PropsType) => {
     return (
         <Head>
+            <meta charSet="utf-8" />
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <title>{`${title} | ${siteTitle}`}</title>
             <meta name="description" content={description} />
             <meta property="og:type" content="website" />
