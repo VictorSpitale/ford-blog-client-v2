@@ -1,8 +1,9 @@
 import {AnyFunction} from "../types/props.type";
 import {useCallback, useState} from "react";
 import axios, {AxiosRequestConfig} from "axios";
+import {IMethods} from "../types/methods.type";
 
-export function useFetch(url: string, method = 'POST', callback: AnyFunction) {
+export function useFetch(url: string, method = IMethods.POST, callback: AnyFunction) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const load = useCallback(
