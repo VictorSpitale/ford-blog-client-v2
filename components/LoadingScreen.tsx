@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from '../styles/Loading.module.css'
 import group from '../public/static/img/SPLASH.svg'
 import groupLoaded from '../public/static/img/SPLASH-2.svg'
@@ -21,6 +21,8 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
     const contentRef = useRef<HTMLDivElement>(null)
     const fuRef = useRef<HTMLImageElement>(null)
 
+    const [showNav, setShowNav] = useState(alreadyLoaded);
+
     useEffect(() => {
         if (!alreadyLoaded) {
             logoRef.current?.addEventListener('animationiteration', () => {
@@ -32,6 +34,7 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
                         logoRef.current?.classList.add(styles.loaded_2)
                         fuRef.current?.classList.add(styles.fu_loaded)
                         contentRef.current?.classList.add(styles.content_container_loaded)
+                        setShowNav(true)
                     }, 1000)
                 }
             }, false)
@@ -39,26 +42,29 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
     })
 
     return (
-        <div ref={pageRef}
-             className={className(alreadyLoaded ? styles.page_container_loaded : '', styles.page_container)}>
-            <div className={styles.container}>
-                <div className={styles.group_container}>
-                    <img src={groupLoaded.src} alt="background" className={styles.group_2} />
-                    <img ref={groupRef} src={group.src} alt="background during loading"
-                         className={className(styles.group, alreadyLoaded ? styles.group_loaded : '')} />
+        <>
+            {/*<NavbarOpener showButton={showNav} />*/}
+            <div ref={pageRef}
+                 className={className(alreadyLoaded ? styles.page_container_loaded : '', styles.page_container)}>
+                <div className={styles.container}>
+                    <div className={styles.group_container}>
+                        <img src={groupLoaded.src} alt="background" className={styles.group_2} />
+                        <img ref={groupRef} src={group.src} alt="background during loading"
+                             className={className(styles.group, alreadyLoaded ? styles.group_loaded : '')} />
+                    </div>
+                    <div className={styles.logo_container}>
+                        <img ref={fuRef} src={fu.src} alt="Ford Universe"
+                             className={className(alreadyLoaded ? styles.fu_loaded : '', styles.fu_logo)} />
+                    </div>
+                    <img ref={logoRef} src={car.src} alt="Ford Universe Logo"
+                         className={className(alreadyLoaded ? styles.loaded_2 : styles.animate, styles.car_logo)} />
                 </div>
-                <div className={styles.logo_container}>
-                    <img ref={fuRef} src={fu.src} alt="Ford Universe"
-                         className={className(alreadyLoaded ? styles.fu_loaded : '', styles.fu_logo)} />
+                <div ref={contentRef}
+                     className={className(alreadyLoaded ? styles.content_container_loaded : '', styles.content_container)}>
+                    {children}
                 </div>
-                <img ref={logoRef} src={car.src} alt="Ford Universe Logo"
-                     className={className(alreadyLoaded ? styles.loaded_2 : styles.animate, styles.car_logo)} />
             </div>
-            <div ref={contentRef}
-                 className={className(alreadyLoaded ? styles.content_container_loaded : '', styles.content_container)}>
-                {children}
-            </div>
-        </div>
+        </>
     );
 };
 
