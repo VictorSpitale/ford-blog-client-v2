@@ -161,14 +161,7 @@
         min-height : 150px;
         width      : 100%;
     }
-
-    .search_form {
-        grid-template-columns : auto 80px;
-    }
-
-    .search_form > button {
-        font-size : 12px;
-    }
+    
 }
 
 @media (max-width : 425px) {
