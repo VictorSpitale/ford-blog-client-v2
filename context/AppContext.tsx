@@ -15,7 +15,11 @@ export function AppWrapper({children}: { children: Children }) {
                     'Authorization': `Bearer ${token}`
                 }
             }).then((res) => {
-                if (res.data) setUuid(res.data)
+                if (res.data) {
+                    setUuid(res.data)
+                } else {
+                    localStorage.removeItem('token')
+                }
             })
         };
         fetchUuid();
