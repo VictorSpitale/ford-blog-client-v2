@@ -20,6 +20,8 @@ export function AppWrapper({children}: { children: Children }) {
                 } else {
                     localStorage.removeItem('token')
                 }
+            }).catch(() => {
+                localStorage.removeItem('token')
             })
         };
         fetchUuid();
