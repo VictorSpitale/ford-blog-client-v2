@@ -6,13 +6,20 @@ type PropsType = {
     description?: string,
     title: string,
     siteTitle?: string,
-    children?: Children
+    children?: Children,
+    shouldIndex?: boolean,
 }
 
 const defaultSiteTitle = process.env.NEXT_PUBLIC_SITE_TITLE
 const defaultDescription = "Ford Universe, blog sur l'automobile consacré à Ford"
 
-const SEO = ({description = defaultDescription, title, siteTitle = defaultSiteTitle, children}: PropsType) => {
+const SEO = ({
+                 description = defaultDescription,
+                 title,
+                 siteTitle = defaultSiteTitle,
+                 children,
+                 shouldIndex = true
+             }: PropsType) => {
     return (
         <Head>
             <meta charSet="utf-8" />
@@ -25,7 +32,8 @@ const SEO = ({description = defaultDescription, title, siteTitle = defaultSiteTi
             <meta property="og:site_name" content={siteTitle} />
             <meta property="og:locale" content="fr_FR" />
             <meta property="og:locale:alternate" content="en_US" />
-            <meta name="robots" content="noimageindex" />
+            {shouldIndex ? <meta name="robots" content="noimageindex" /> :
+                <meta name="robots" content="noimageindex, noindex, nofollow" />}
             {children}
         </Head>
     );
