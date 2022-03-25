@@ -1,7 +1,7 @@
 import React from 'react';
-import fu from "../public/static/img/FORD _UNIVERSE.svg";
-import car from "../public/static/img/car_logo.svg";
-import styles from '../styles/Header.module.css'
+import fu from "../../public/static/img/FORD _UNIVERSE.svg";
+import car from "../../public/static/img/car_logo.svg";
+import styles from '../../styles/Header.module.css'
 
 const Header = () => {
     return (
