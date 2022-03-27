@@ -6,9 +6,13 @@ export enum SignStatus {
 }
 
 const SignWithGoogle = ({status}: { status: SignStatus }) => {
-    return (
 
-        <button type="button" className={styles.loginWithGoogleBtn}>
+    const googleConnect = () => {
+        location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`
+    }
+
+    return (
+        <button type="button" className={styles.loginWithGoogleBtn} onClick={googleConnect}>
             Sign {status === SignStatus.SIGN_IN ? "in" : "up"} with Google
         </button>
     );

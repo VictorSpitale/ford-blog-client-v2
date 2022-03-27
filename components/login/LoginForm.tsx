@@ -1,4 +1,4 @@
-import React, {FormEvent, useRef, useState} from 'react';
+import React, {FormEvent, useEffect, useRef, useState} from 'react';
 import styles from '../../styles/Login.module.css'
 import Image from "next/image"
 import loginImg from '../../public/static/img/cropped-500-500-318084.jpg'
@@ -21,6 +21,12 @@ const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
+
+    useEffect(() => {
+        if (router.query.status && router.query.status === "failed") {
+            setError("L'authentification a échouée")
+        }
+    }, [router])
 
     const canSubmit = (): boolean => {
         return (email !== "" && password !== "" && password.length >= 6);
@@ -79,9 +85,9 @@ const LoginForm = () => {
                 {error && <p className={"text-center text-red-500 text-sm"}>{error}</p>}
                 <form className={className("px-2 md:px-[30px]", styles.login_form)}
                       onSubmit={handleSubmit}>
-                    <InputField ref={emailRef} name={"email"} label={"Adresse email"} required={false}
+                    <InputField ref={emailRef} name={"email"} label={"Adresse email"} required={true}
                                 autoComplete={"email"} onChange={(e) => setEmail(e.target.value)} />
-                    <InputField ref={passwordRef} name={"password"} label={"Mot de passe"} required={false}
+                    <InputField ref={passwordRef} name={"password"} label={"Mot de passe"} required={true}
                                 type={"password"} autoComplete={"current-password"}
                                 onChange={(e) => setPassword(e.target.value)} />
                     <div className={"relative w-full mt-2"}>
