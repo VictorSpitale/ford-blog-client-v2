@@ -1,0 +1,69 @@
+.register_container {
+    display   : flex;
+    height    : max-content;
+    left      : 0;
+    margin    : auto;
+    max-width : 1000px;
+    /*min-width : 600px;*/
+    position  : absolute;
+    right     : 0;
+    top       : 50%;
+    transform : translateY(-50%);
+}
+
+.register_container_left {
+    position : relative;
+    width    : 50%;
+}
+
+.register_container_right {
+    width : 50%;
+}
+
+.car_logo {
+    margin       : auto;
+    margin-block : 50px;
+}
+
+.form_img_container {
+    display   : inline-block;
+    height    : 100%;
+    margin    : auto;
+    position  : relative;
+    /*width     : fit-content;*/
+
+    top       : 30%;
+    transform : translateY(-30%);
+    width     : 100%;
+}
+
+.form_img_container > span {
+    height   : 100% !important;
+    position : unset !important;
+    width    : 100% !important;
+}
+
+.form_img {
+    height     : 100% !important;
+    object-fit : cover;
+    position   : relative !important;
+    width      : 100% !important;
+}
+
+
+.form_left_text_container {
+    bottom    : 9%;
+    position  : absolute;
+    transform : translateY(-30%);
+}
+
+.register_form {
+    display   : flex;
+    flex-wrap : wrap;
+    margin    : auto;
+    width     : 80%;
+}
+
+.register_form > label {
+    margin-top : 15px;
+}
