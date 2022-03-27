@@ -1,8 +1,8 @@
 .delimiter {
     height      : 50px;
     line-height : 50px;
+    margin      : auto;
     position    : relative;
-
     text-align  : center;
     width       : 300px;
 }
