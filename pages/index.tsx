@@ -1,4 +1,4 @@
-import SEO from "../components/seo";
+import SEO from "../components/shared/seo";
 import {NextPage} from "next";
 import {wrapper} from "../context/store";
 import {getLastPosts} from "../context/actions/posts.actions";
