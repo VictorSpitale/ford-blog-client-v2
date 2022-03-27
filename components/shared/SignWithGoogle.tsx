@@ -1,10 +1,15 @@
 import styles from '../../styles/SignWith.module.css'
 
-const SignWithGoogle = () => {
+export enum SignStatus {
+    SIGN_IN,
+    SIGN_UP
+}
+
+const SignWithGoogle = ({status}: { status: SignStatus }) => {
     return (
 
         <button type="button" className={styles.loginWithGoogleBtn}>
-            Sign in with Google
+            Sign {status === SignStatus.SIGN_IN ? "in" : "up"} with Google
         </button>
     );
 };

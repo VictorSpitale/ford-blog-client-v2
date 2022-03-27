@@ -1,12 +1,11 @@
-import React, {ForwardedRef, forwardRef, HTMLInputTypeAttribute} from 'react';
-import {AnyFunction} from "../../shared/types/props.type";
+import React, {ChangeEvent, ForwardedRef, forwardRef, HTMLInputTypeAttribute} from 'react';
 
 type PropsType = {
     name: string;
     label?: string;
     value?: never;
     placeholder?: string;
-    onChange?: AnyFunction;
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => any;
     required?: boolean;
     type?: HTMLInputTypeAttribute,
     autoComplete?: string;
