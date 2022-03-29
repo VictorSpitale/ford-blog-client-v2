@@ -3,7 +3,7 @@ import styles from '../../styles/Login.module.css'
 import Image from "next/image"
 import loginImg from '../../public/static/img/cropped-500-500-318084.jpg'
 import {className} from "../../shared/utils/class.utils";
-import fu from "../../public/static/img/FORD _UNIVERSE.svg";
+import fu from "../../public/static/img/FORD_UNIVERSE.svg";
 import InputField from "../shared/InputField";
 import Delimiter from "../shared/Delimiter";
 import SignWithGoogle, {SignStatus} from "../shared/SignWithGoogle";
@@ -18,6 +18,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
 
     const handleRequest = (data: { access_token: string; }) => {
@@ -34,6 +35,8 @@ const LoginForm = () => {
     useEffect(() => {
         if (router.query.status && router.query.status === "failed") {
             setError("L'authentification a échouée")
+        } else if (router.query.register && router.query.register === "success") {
+            setSuccessMessage("Votre inscription a été prise en compte")
         }
     }, [router])
 
@@ -45,6 +48,7 @@ const LoginForm = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setError('');
+        setSuccessMessage('');
         if (!canSubmit()) {
             setError("Veuillez remplir tous les champs");
             return;
@@ -73,10 +77,12 @@ const LoginForm = () => {
                 </div>
             </div>
             <div className={"w-max md:w-1/2"}>
-                <img src={fu.src} alt="Ford Universe Logo"
-                     className={className(styles.car_logo)} />
+                <div className={styles.car_logo}>
+                    <Image width={"159"} height={"53"} src={fu.src} alt="Ford Universe Logo" />
+                </div>
                 <h1 className={"text-lg text-center"}>Bienvenue sur Ford Universe</h1>
                 {(error || fetchError) && <p className={"text-center text-red-500 text-sm"}>{error || fetchError}</p>}
+                {(successMessage) && <p className={"text-center text-green-500 text-sm"}>{successMessage}</p>}
                 <form className={className("px-2 md:px-[30px]", styles.login_form)}
                       onSubmit={handleSubmit}>
                     <InputField name={"email"} label={"Adresse email"} required={true}
