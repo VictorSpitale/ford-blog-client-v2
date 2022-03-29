@@ -21,8 +21,12 @@
 }
 
 .car_logo {
-    margin       : auto;
     margin-block : 50px;
+}
+
+.car_logo > * {
+    display : block !important;
+    margin  : auto !important;
 }
 
 .form_img_container {

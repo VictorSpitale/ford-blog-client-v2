@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import styles from '../styles/Loading.module.css'
 import group from '../public/static/img/SPLASH.svg'
 import groupLoaded from '../public/static/img/SPLASH-2.svg'
-import fu from '../public/static/img/FORD _UNIVERSE.svg'
+import fu from '../public/static/img/FORD_UNIVERSE.svg'
 import car from '../public/static/img/car_logo.svg'
 import {className} from "../shared/utils/class.utils";
 import {Children} from "../shared/types/props.type";

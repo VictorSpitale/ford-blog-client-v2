@@ -1,5 +1,5 @@
 import React from 'react';
-import fu from "../../public/static/img/FORD _UNIVERSE.svg";
+import fu from "../../public/static/img/FORD_UNIVERSE.svg";
 import car from "../../public/static/img/car_logo.svg";
 import styles from '../../styles/Header.module.css'
 
