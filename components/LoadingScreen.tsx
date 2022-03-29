@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from '../styles/Loading.module.css'
 import group from '../public/static/img/SPLASH.svg'
 import groupLoaded from '../public/static/img/SPLASH-2.svg'
-import fu from '../public/static/img/FORD _UNIVERSE.svg'
+import fu from '../public/static/img/FORD_UNIVERSE.svg'
 import car from '../public/static/img/car_logo.svg'
 import {className} from "../shared/utils/class.utils";
 import {Children} from "../shared/types/props.type";
@@ -21,8 +21,6 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
     const contentRef = useRef<HTMLDivElement>(null)
     const fuRef = useRef<HTMLImageElement>(null)
 
-    const [showNav, setShowNav] = useState(alreadyLoaded);
-
     useEffect(() => {
         if (!alreadyLoaded) {
             logoRef.current?.addEventListener('animationiteration', () => {
@@ -34,7 +32,6 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
                         logoRef.current?.classList.add(styles.loaded_2)
                         fuRef.current?.classList.add(styles.fu_loaded)
                         contentRef.current?.classList.add(styles.content_container_loaded)
-                        setShowNav(true)
                     }, 1000)
                 }
             }, false)
@@ -43,7 +40,6 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
 
     return (
         <>
-            {/*<NavbarOpener showButton={showNav} />*/}
             <div ref={pageRef}
                  className={className(alreadyLoaded ? styles.page_container_loaded : '', styles.page_container)}>
                 <div className={styles.container}>

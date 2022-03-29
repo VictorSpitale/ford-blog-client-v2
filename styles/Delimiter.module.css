@@ -1,0 +1,26 @@
+.delimiter {
+    height      : 50px;
+    line-height : 50px;
+    margin      : auto;
+    position    : relative;
+    text-align  : center;
+    width       : 300px;
+}
+
+.delimiter::before,
+.delimiter::after {
+    background-color : #aaa;
+    content          : "";
+    height           : 1px;
+    position         : absolute;
+    top              : 24px;
+    width            : 40%;
+}
+
+.delimiter::before {
+    left : 0;
+}
+
+.delimiter::after {
+    right : 0;
+}

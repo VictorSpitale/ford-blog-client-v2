@@ -5,8 +5,8 @@ import {getPost} from "../../context/actions/posts.actions";
 import {isEmpty} from "../../shared/utils/object.utils";
 import Head from "next/head";
 import DefaultErrorPage from 'next/error'
-import Header from "../../components/Header";
-import SEO from "../../components/seo";
+import Header from "../../components/shared/Header";
+import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
 import SinglePost from "../../components/posts/SinglePost";
 

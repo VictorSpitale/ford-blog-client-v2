@@ -1,0 +1,74 @@
+.login_container {
+    display   : flex;
+    height    : fit-content;
+    left      : 0;
+    margin    : auto;
+    max-width : 1000px;
+    /*min-width : 600px;*/
+    position  : absolute;
+    right     : 0;
+    top       : 50%;
+    transform : translateY(-50%);
+}
+
+.login_container_left {
+    position : relative;
+    width    : 50%;
+}
+
+.login_container_right {
+    width : 50%;
+}
+
+.car_logo {
+    margin-block : 50px;
+}
+
+.car_logo > * {
+    display : block !important;
+    margin  : auto !important;
+}
+
+.form_img_container {
+    display   : inline-block;
+    height    : 100%;
+    margin    : auto;
+    position  : relative;
+    /*width     : fit-content;*/
+
+    top       : 30%;
+    transform : translateY(-30%);
+    width     : 100%;
+}
+
+.form_img_container > span {
+    height   : 100% !important;
+    position : unset !important;
+    width    : 100% !important;
+}
+
+.form_img {
+    height     : 100% !important;
+    object-fit : cover;
+    position   : relative !important;
+    width      : 100% !important;
+}
+
+
+.form_left_text_container {
+    position  : absolute;
+    top       : 15%;
+    transform : translateY(-30%);
+}
+
+.login_form {
+    display        : flex;
+    flex-wrap      : wrap;
+    margin         : auto;
+    padding-inline : 30px;
+    width          : 80%;
+}
+
+.login_form > label {
+    margin-top : 15px;
+}
