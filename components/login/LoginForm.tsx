@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useRef, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import styles from '../../styles/Login.module.css'
 import Image from "next/image"
 import loginImg from '../../public/static/img/cropped-500-500-318084.jpg'
@@ -9,18 +9,27 @@ import Delimiter from "../shared/Delimiter";
 import SignWithGoogle, {SignStatus} from "../shared/SignWithGoogle";
 import Link from 'next/link'
 import {validateEmail} from "../../shared/utils/regex.utils";
-import axios from "axios";
 import {useRouter} from "next/router";
+import {useFetch} from "../../shared/hooks/useFetch";
+import {IMethods} from "../../shared/types/methods.type";
 
 const LoginForm = () => {
 
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
+
+    const handleRequest = (data: { access_token: string; }) => {
+        localStorage.setItem("token", data.access_token);
+        if (router.pathname === "/account") {
+            router.reload();
+        } else {
+            router.push('/account')
+        }
+    }
+
+    const {load, loading, error: fetchError} = useFetch('/auth/login', IMethods.POST, handleRequest);
 
     useEffect(() => {
         if (router.query.status && router.query.status === "failed") {
@@ -32,34 +41,19 @@ const LoginForm = () => {
         return (email !== "" && password !== "" && password.length >= 6);
     }
 
-    const resetWithError = (error: string) => {
-        setError(error);
-        setLoading(false);
-    }
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
         if (!canSubmit()) {
-            resetWithError("Veuillez remplir tous les champs");
+            setError("Veuillez remplir tous les champs");
             return;
         }
         if (!validateEmail(email)) {
-            resetWithError("Email non conforme");
+            setError("Email non conforme");
             return;
         }
-        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-            email, password
-        }).then((res) => {
-            localStorage.setItem("token", res.data.access_token);
-            if (router.pathname === "/account") {
-                router.reload();
-            } else {
-                router.push('/account')
-            }
-        }).catch((res) => {
-            resetWithError(res.response.data.message)
-        })
+        await load({email, password});
     }
 
 
@@ -82,12 +76,12 @@ const LoginForm = () => {
                 <img src={fu.src} alt="Ford Universe Logo"
                      className={className(styles.car_logo)} />
                 <h1 className={"text-lg text-center"}>Bienvenue sur Ford Universe</h1>
-                {error && <p className={"text-center text-red-500 text-sm"}>{error}</p>}
+                {(error || fetchError) && <p className={"text-center text-red-500 text-sm"}>{error || fetchError}</p>}
                 <form className={className("px-2 md:px-[30px]", styles.login_form)}
                       onSubmit={handleSubmit}>
-                    <InputField ref={emailRef} name={"email"} label={"Adresse email"} required={true}
+                    <InputField name={"email"} label={"Adresse email"} required={true}
                                 autoComplete={"email"} onChange={(e) => setEmail(e.target.value)} />
-                    <InputField ref={passwordRef} name={"password"} label={"Mot de passe"} required={true}
+                    <InputField name={"password"} label={"Mot de passe"} required={true}
                                 type={"password"} autoComplete={"current-password"}
                                 onChange={(e) => setPassword(e.target.value)} />
                     <div className={"relative w-full mt-2"}>

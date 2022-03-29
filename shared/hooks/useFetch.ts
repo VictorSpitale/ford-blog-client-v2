@@ -7,7 +7,7 @@ export function useFetch(url: string, method = IMethods.POST, callback: AnyFunct
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const load = useCallback(
-        async (data) => {
+        async (data: unknown) => {
             setLoading(true);
             await axios({
                 method,
@@ -23,7 +23,7 @@ export function useFetch(url: string, method = IMethods.POST, callback: AnyFunct
                     if (callback) callback(res.data);
                 })
                 .catch((e) => {
-                    setError(e.response && e.response.data ? e.response.data : "Error");
+                    setError(e.response.data.message || "Erreur")
                     setLoading(false);
                 });
         },
