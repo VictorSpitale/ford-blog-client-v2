@@ -13,9 +13,6 @@ export function useFetch(url: string, method = IMethods.POST, callback: AnyFunct
                 method,
                 url: process.env.NEXT_PUBLIC_API_URL + url,
                 withCredentials: true,
-                headers: {
-                    'x-api-key': process.env.NEXT_PUBLIC_API_KEY
-                },
                 data,
             } as AxiosRequestConfig)
                 .then((res) => {
