@@ -41,7 +41,7 @@ PostPage.getInitialProps = wrapper.getInitialPageProps(
                 context.res.statusCode = 404
                 return;
             }
-            await dispatch(getPost(context.query.slug as string));
+            await dispatch(getPost({slug: context.query.slug as string, context}));
             const {error} = getState().post
             if (error && context.res && context.res.statusCode) {
                 context.res.statusCode = 404
