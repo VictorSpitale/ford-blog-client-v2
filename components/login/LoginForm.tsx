@@ -22,8 +22,7 @@ const LoginForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
 
-    const handleRequest = (data: { access_token: string; }) => {
-        localStorage.setItem("token", data.access_token);
+    const handleRequest = () => {
         if (router.pathname === "/account") {
             router.reload();
         } else {
