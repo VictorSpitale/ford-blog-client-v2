@@ -7,6 +7,7 @@ import NavLink from "./NavLink";
 import Image from 'next/image'
 import searchBackground from '../../public/static/img/search_background-3.jpg'
 import NavSearch from "./NavSearch";
+import {blurImg} from "../../shared/images/blurImg";
 
 const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
 
@@ -70,7 +71,8 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
                 <div className={styles.search_container}>
                     <div className={styles.search_img_container}>
                         <Image src={searchBackground.src} className={styles.search_img} layout="fill"
-                               alt={"Search background image"} />
+                               alt={"Search background image"} placeholder={"blur"}
+                               blurDataURL={blurImg} />
                     </div>
                     <NavSearch onClick={closeContent} />
                 </div>

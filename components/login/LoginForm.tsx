@@ -12,6 +12,7 @@ import {validateEmail} from "../../shared/utils/regex.utils";
 import {useRouter} from "next/router";
 import {useFetch} from "../../shared/hooks/useFetch";
 import {IMethods} from "../../shared/types/methods.type";
+import {blurImg} from "../../shared/images/blurImg";
 
 const LoginForm = () => {
 
@@ -67,7 +68,8 @@ const LoginForm = () => {
             <div className={className("hidden md:block bg-primary-100", styles.login_container_left)}>
                 <div className={styles.form_img_container}>
                     <Image src={loginImg.src} className={styles.form_img} layout={"fill"} objectFit={"cover"}
-                           alt={"Login background image"} priority />
+                           alt={"Login background image"} priority placeholder={"blur"}
+                           blurDataURL={blurImg} />
                 </div>
                 <div className={styles.form_left_text_container}>
                     <h1 className={"text-xl text-center"}>Ford Universe Blog</h1>

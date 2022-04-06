@@ -7,6 +7,7 @@ import CategoryInput from "../CategoryInput";
 import LikePostButton from "./like/LikePostButton";
 import {className} from "../../shared/utils/class.utils";
 import {IPost} from "../../shared/types/post.type";
+import {blurImg} from "../../shared/images/blurImg";
 
 const SinglePost = ({post}: { post: IPost }) => {
     return (
@@ -16,7 +17,8 @@ const SinglePost = ({post}: { post: IPost }) => {
                 className={"shadow-xl mx-auto w-[256px] h-[140px] md:w-[576px] md:h-[315px]" +
                     " lg:h-96 lg:w-[700px] relative rounded-2xl overflow-hidden"}>
                 <Image src={getPostCardImg(post)} layout={"fill"}
-                       objectFit={"cover"} priority={true} alt={post.title} />
+                       objectFit={"cover"} priority={true} alt={post.title} placeholder={"blur"}
+                       blurDataURL={blurImg} />
             </div>
             <div className={"px-4 pt-8"}>
                 <h1 className={"text-2xl text-justify md:font-semibold"}>{post.title}</h1>
