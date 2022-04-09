@@ -8,28 +8,31 @@ import Image from 'next/image'
 import searchBackground from '../../public/static/img/search_background-3.jpg'
 import NavSearch from "./NavSearch";
 import {blurImg} from "../../shared/images/blurImg";
+import {useTranslation} from "next-i18next";
 
 const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
 
     const links = [{
-        label: "Accueil",
+        code: "0",
         href: "/"
     }, {
-        label: "Actualités",
+        code: "1",
         href: "/news"
     }, {
-        label: "Catégories",
+        code: "2",
         href: "/categories"
     }, {
-        label: "Poster",
+        code: "3",
         href: "/write"
     }, {
-        label: "Contact",
+        code: "4",
         href: "/contact"
     }, {
-        label: "Mon compte",
+        code: "5",
         href: "/account"
     }]
+
+    const {t} = useTranslation('common')
 
     const close = useCallback((ev: KeyboardEvent) => {
         if (ev.key === "Escape") closeContent()
@@ -63,7 +66,7 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
                     {links.map((link, i) => {
                         return <li key={i} onClick={closeContent}
                                    className={"shadow drop-shadow hover:bg-primary-300 text-white"}>
-                            <NavLink href={link.href} label={link.label} />
+                            <NavLink href={link.href} label={t('navbar.' + link.code)} />
                         </li>
                     })}
                 </ul>

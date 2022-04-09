@@ -6,6 +6,7 @@ import {IMethods} from "../types/methods.type";
 export function useFetch(url: string, method = IMethods.POST, callback: AnyFunction) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [code, setCode] = useState(undefined);
     const load = useCallback(
         async (data: unknown) => {
             setLoading(true);
@@ -20,6 +21,7 @@ export function useFetch(url: string, method = IMethods.POST, callback: AnyFunct
                     if (callback) callback(res.data);
                 })
                 .catch((e) => {
+                    if (e.response.data.code) setCode(e.response.data.code)
                     setError(e.response.data.message || "Erreur")
                     setLoading(false);
                 });
@@ -36,5 +38,6 @@ export function useFetch(url: string, method = IMethods.POST, callback: AnyFunct
         error,
         load,
         clear,
+        code
     };
 }

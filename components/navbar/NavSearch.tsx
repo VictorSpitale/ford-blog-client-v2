@@ -5,6 +5,7 @@ import {AnyFunction} from "../../shared/types/props.type";
 import {IPost} from "../../shared/types/post.type";
 import {useFetch} from "../../shared/hooks/useFetch";
 import {IMethods} from "../../shared/types/methods.type";
+import {useTranslation} from "next-i18next";
 
 const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
 
@@ -12,7 +13,8 @@ const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
     const [query, setQuery] = useState('')
     const [previousQuery, setPreviousQuery] = useState('')
     const {load} = useFetch('/posts/query?search=' + query, IMethods.GET, (data) => setPosts(data as IPost[]));
-
+    const {t} = useTranslation('common')
+    
     const onInput = async (ev: React.ChangeEvent<HTMLInputElement>) => {
         const search = ev.target.value
         setQuery(search.trim())
@@ -33,7 +35,7 @@ const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
 
     return (<>
             <div className={styles.search_form}>
-                <input type="search" onChange={onInput} placeholder={"Vos mots clés ..."} />
+                <input type="search" onChange={onInput} placeholder={t('navbar.keywords')} />
             </div>
             <div className={styles.search_result_container}>
                 {(posts.length === 0 && query != "") ?

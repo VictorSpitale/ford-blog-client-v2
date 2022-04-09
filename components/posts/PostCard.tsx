@@ -7,8 +7,20 @@ import CategoryInput from "../CategoryInput";
 import Image from "next/image";
 import {blurImg} from "../../shared/images/blurImg";
 import {getPostCardImg} from "../../shared/images/postCardImg";
+import {useTranslation} from "next-i18next";
 
 const PostCard = ({post}: { post: IPost }) => {
+    const {t} = useTranslation('posts')
+    const {t: comT} = useTranslation('common')
+    const timeSinceObj = timeSince(post.createdAt)
+
+    const timeSinceMsg = () => {
+        return t('timeSince', {
+            time: timeSinceObj.time,
+            format: comT('timeSince.' + timeSinceObj.format, {s: timeSinceObj.time > 1 ? 's' : ""})
+        })
+    }
+
     return (
         <div className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-80 overflow-hidden"}>
             <Link href={`/post/${post.slug}`}>
@@ -35,13 +47,13 @@ const PostCard = ({post}: { post: IPost }) => {
                             <a className={"line-clamp-1"} target={"_blank"}
                                rel="noopener noreferrer">{capitalize(post.sourceName)}</a>
                         </Link>
-                        <p>{timeSince(post.createdAt)}</p>
+                        <p>{timeSinceMsg()}</p>
                     </div>
                     <Link href={`/post/${post.slug}`}>
                         <a className={"bg-primary-400 text-white px-2 py-1" +
                             " md:px-4 md:py-2 rounded-lg shadow-md shadow-primary-300/40" +
                             " hover:shadow-primary-300/60 text-sm hover:bg-primary-500"}>
-                            Lire la suite</a>
+                            {t('readMore')}</a>
                     </Link>
                 </div>
             </div>

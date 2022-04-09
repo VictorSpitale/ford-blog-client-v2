@@ -3,6 +3,7 @@ import {useAppContext} from "../context/AppContext";
 import Login from "./login";
 import {useRouter} from "next/router";
 import {instance} from "../context/instance";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const Account = () => {
 
@@ -37,5 +38,12 @@ const Account = () => {
         </div>
     );
 };
+
+
+export const getStaticProps = async ({locale}: { locale: string }) => ({
+    props: {
+        ...await serverSideTranslations(locale, ['common', 'httpErrors', 'auth']),
+    },
+})
 
 export default Account;

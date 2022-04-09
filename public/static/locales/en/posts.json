@@ -1,0 +1,9 @@
+{
+  "like": {
+    "needLoggedIn": "Log in to like this post",
+    "count": "{{count}} like{{s}}"
+  },
+  "readMore": "Read more",
+  "timeSince": "{{time}} {{format}} ago",
+  "sourceName": "Source"
+}

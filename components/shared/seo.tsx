@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from "next/head";
 import {Children} from "../../shared/types/props.type";
+import {useTranslation} from "next-i18next";
 
 type PropsType = {
     description?: string,
@@ -10,28 +11,42 @@ type PropsType = {
     shouldIndex?: boolean,
 }
 
-const defaultSiteTitle = process.env.NEXT_PUBLIC_SITE_TITLE
-const defaultDescription = "Ford Universe, blog sur l'automobile consacré à Ford"
-
 const SEO = ({
-                 description = defaultDescription,
+                 description,
                  title,
-                 siteTitle = defaultSiteTitle,
+                 siteTitle,
                  children,
                  shouldIndex = true
              }: PropsType) => {
+
+    const {t} = useTranslation('common');
+
+    const getSiteTitle = () => {
+        if (!siteTitle) {
+            return t('siteName')
+        }
+        return siteTitle;
+    }
+
+    const getDesc = () => {
+        if (!description) {
+            return t('desc')
+        }
+        return description;
+    }
+
     return (
         <Head>
             <meta charSet="utf-8" />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-            <title>{`${title} | ${siteTitle}`}</title>
-            <meta name="description" content={description} />
+            <title>{`${title} | ${getSiteTitle()}`}</title>
+            <meta name="description" content={getDesc()} />
             <meta property="og:type" content="website" />
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
-            <meta property="og:site_name" content={siteTitle} />
+            <meta property="og:site_name" content={getSiteTitle()} />
             <meta property="og:locale" content="fr_FR" />
-            <meta property="og:locale:alternate" content="en_US" />
+            <meta property="og:locale:alternate" content="en" />
             {shouldIndex ? <meta name="robots" content="noimageindex" /> :
                 <meta name="robots" content="noimageindex, noindex, nofollow" />}
             {children}

@@ -5,20 +5,13 @@ import {AnyFunction} from "../shared/types/props.type";
 
 type PropsType = {
     onClick?: AnyFunction,
-    category: ICategory | string
+    category?: ICategory | string
     disable?: boolean,
     active?: boolean,
     more?: number
 }
-type PropsTypeMore = {
-    onClick?: AnyFunction,
-    category?: ICategory | string
-    disable?: boolean,
-    active?: boolean,
-    more: number
-}
 
-const CategoryInput = ({onClick, category, disable, active, more}: PropsType | PropsTypeMore) => {
+const CategoryInput = ({onClick, category, disable, active, more}: PropsType) => {
 
     const catName = (typeof category === "string" ? category : category?.name)
 
