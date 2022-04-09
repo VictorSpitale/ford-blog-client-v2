@@ -14,8 +14,8 @@ const SinglePost = ({post}: { post: IPost }) => {
         <div
             className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
             <div
-                className={"shadow-xl mx-auto w-[256px] h-[140px] md:w-[576px] md:h-[315px]" +
-                    " lg:h-96 lg:w-[700px] relative rounded-2xl overflow-hidden"}>
+                className={"shadow-xl mx-auto w-full h-[315px]" +
+                    " lg:h-[450px] relative rounded-t-2xl overflow-hidden"}>
                 <Image src={getPostCardImg(post)} layout={"fill"}
                        objectFit={"cover"} priority={true} alt={post.title} placeholder={"blur"}
                        blurDataURL={blurImg} />
