@@ -1,9 +1,6 @@
 import React from 'react';
 import {useAppSelector} from "../../context/hooks";
 import {wrapper} from "../../context/store";
-import {isEmpty} from "../../shared/utils/object.utils";
-import Head from "next/head";
-import DefaultErrorPage from 'next/error'
 import Header from "../../components/shared/Header";
 import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
@@ -13,16 +10,16 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const PostPage = () => {
     const {post} = useAppSelector((state => state.post))
-    if (isEmpty(post)) {
-        return (
-            <>
-                <Head>
-                    <meta name={"robots"} content={"noindex"} />
-                </Head>
-                <DefaultErrorPage statusCode={404} />
-            </>
-        )
-    }
+    // if (isEmpty(post)) {
+    //     return (
+    //         <>
+    //             <Head>
+    //                 <meta name={"robots"} content={"noindex"} />
+    //             </Head>
+    //             <DefaultErrorPage statusCode={404} />
+    //         </>
+    //     )
+    // }
 
     return (
         <>
@@ -39,7 +36,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({lo
     if (!params || !params.slug || params.slug === "last") {
         res.statusCode = 404
         return {
-            props: {}
+            notFound: true
         };
     }
     await store.dispatch(getPost({slug: params.slug as string, req}));
@@ -47,7 +44,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({lo
     if (error && res && res.statusCode) {
         res.statusCode = 404
         return {
-            props: {}
+            notFound: true
         };
     }
     return {

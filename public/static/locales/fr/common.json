@@ -7,6 +7,9 @@
   "menu": "Menu",
   "home": "Accueil",
   "noPost": "Aucun article disponible",
+  "error": "Erreur {{code}}",
+  "errorSub": "Une erreur s'est produite",
+  "backHome": "Retourner à l'accueil",
   "navbar": {
     "0": "Accueil",
     "1": "Actualités",
