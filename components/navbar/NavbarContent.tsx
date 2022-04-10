@@ -9,8 +9,13 @@ import searchBackground from '../../public/static/img/search_background-3.jpg'
 import NavSearch from "./NavSearch";
 import {blurImg} from "../../shared/images/blurImg";
 import {useTranslation} from "next-i18next";
+import {IUserRole} from "../../shared/types/user.type";
+import {useAppSelector} from "../../context/hooks";
+import {isEmpty} from "../../shared/utils/object.utils";
 
 const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
+
+    const {user} = useAppSelector(state => state.user)
 
     const links = [{
         code: "0",
@@ -23,7 +28,8 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
         href: "/categories"
     }, {
         code: "3",
-        href: "/write"
+        href: "/write",
+        role: IUserRole.POSTER
     }, {
         code: "4",
         href: "/contact"
@@ -64,6 +70,8 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
 
                 <ul className={className("bg-dark-500", styles.nav_links)}>
                     {links.map((link, i) => {
+                        if (link.role && isEmpty(user)) return;
+                        if (link.role && link.role > user.role) return;
                         return <li key={i} onClick={closeContent}
                                    className={"shadow drop-shadow hover:bg-primary-300 text-white"}>
                             <NavLink href={link.href} label={t('navbar.' + link.code)} />

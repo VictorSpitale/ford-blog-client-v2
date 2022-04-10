@@ -37,13 +37,13 @@ const LikePostButton = ({post}: { post: IPost }) => {
             {!uid &&
 				<>
 					<Heart isLiked={false} onClick={() => null} />
-					<p className={"ml-20 pl-2 italic text-secondary-600"}>{t('like.needLoggedIn')}</p>
+					<p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{t('like.needLoggedIn')}</p>
 				</>
             }
             {uid &&
 				<>
 					<Heart isLiked={isLiked} onClick={isLiked ? unLike : like} />
-					<p className={"ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
+					<p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
 				</>
             }
         </div>

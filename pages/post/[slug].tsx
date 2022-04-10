@@ -10,16 +10,6 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const PostPage = () => {
     const {post} = useAppSelector((state => state.post))
-    // if (isEmpty(post)) {
-    //     return (
-    //         <>
-    //             <Head>
-    //                 <meta name={"robots"} content={"noindex"} />
-    //             </Head>
-    //             <DefaultErrorPage statusCode={404} />
-    //         </>
-    //     )
-    // }
 
     return (
         <>
