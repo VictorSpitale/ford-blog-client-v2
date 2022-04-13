@@ -8,16 +8,21 @@ import Image from 'next/image'
 import searchBackground from '../../public/static/img/search_background-3.jpg'
 import NavSearch from "./NavSearch";
 import {blurImg} from "../../shared/images/blurImg";
-import {useTranslation} from "next-i18next";
 import {IUserRole} from "../../shared/types/user.type";
 import {useAppSelector} from "../../context/hooks";
 import {isEmpty} from "../../shared/utils/object.utils";
+import {useTranslation} from "../../shared/hooks/useTranslation";
 
+type Link = {
+    code: string,
+    href: string,
+    role?: IUserRole
+}
 const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
 
     const {user} = useAppSelector(state => state.user)
 
-    const links = [{
+    const links: Link[] = [{
         code: "0",
         href: "/"
     }, {
@@ -38,7 +43,7 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
         href: "/account"
     }]
 
-    const {t} = useTranslation('common')
+    const t = useTranslation()
 
     const close = useCallback((ev: KeyboardEvent) => {
         if (ev.key === "Escape") closeContent()
@@ -74,7 +79,7 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
                         if (link.role && link.role > user.role) return;
                         return <li key={i} onClick={closeContent}
                                    className={"shadow drop-shadow hover:bg-primary-300 text-white"}>
-                            <NavLink href={link.href} label={t('navbar.' + link.code)} />
+                            <NavLink href={link.href} label={t.common.navbar[link.code as never]} />
                         </li>
                     })}
                 </ul>

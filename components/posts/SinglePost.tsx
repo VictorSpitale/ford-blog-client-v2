@@ -2,29 +2,24 @@ import React from 'react';
 import Image from "next/image";
 import {getPostCardImg} from "../../shared/images/postCardImg";
 import {capitalize} from "../../shared/utils/string.utils";
-import {timeSince} from "../../shared/utils/date.utils";
 import CategoryInput from "../CategoryInput";
 import LikePostButton from "./like/LikePostButton";
 import {className} from "../../shared/utils/class.utils";
 import {IPost} from "../../shared/types/post.type";
 import {blurImg} from "../../shared/images/blurImg";
-import {useTranslation} from "next-i18next";
 import Trash from "../shared/icons/Trash";
 import Edit from "../shared/icons/Edit";
 import {useAppSelector} from "../../context/hooks";
 import {IUserRole} from "../../shared/types/user.type";
+import {useTranslation} from "../../shared/hooks/useTranslation";
+import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 
 const SinglePost = ({post}: { post: IPost }) => {
-    const {t: postT} = useTranslation('posts')
-    const {t: comT} = useTranslation('common')
+    const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
-
     const {user} = useAppSelector(state => state.user)
     const timeSinceMsg = () => {
-        return postT('timeSince', {
-            time: timeSinceObj.time,
-            format: comT('timeSince.' + timeSinceObj.format, {s: timeSinceObj.time > 1 ? 's' : ""})
-        })
+        return getTimeSinceMsg(t, timeSinceObj);
     }
     return (
         <div
@@ -40,7 +35,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                 <h1 className={"text-2xl text-justify md:font-semibold"}>{post.title}</h1>
                 <div className={"flex justify-between"}>
                     <div className={"flex flex-wrap"}>
-                        <p className={"text-secondary-600 whitespace-nowrap"}>{postT('sourceName')} :&nbsp;</p>
+                        <p className={"text-secondary-600 whitespace-nowrap"}>{t.posts.sourceName} :&nbsp;</p>
                         <a href={post.sourceLink} target={"_blank"} className={"text-primary-400 underline"}
                            rel={"noopener noreferrer"}>{capitalize(post.sourceName)}</a>
                     </div>

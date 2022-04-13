@@ -1,0 +1,77 @@
+{
+  "common": {
+    "siteName": "Ford Universe",
+    "fullSiteName": "Ford Universe Blog",
+    "siteDesc": "Ford Universe, blog sur l'automobile consacré à Ford",
+    "loading": "Chargement...",
+    "or": "Ou",
+    "menu": "Menu",
+    "noPost": "Aucun article disponible",
+    "error": "Erreur {{code}}",
+    "errorSub": "Une erreur s'est produite",
+    "backHome": "Retourner à l'accueil",
+    "navbar": {
+      "0": "Accueil",
+      "1": "Actualités",
+      "2": "Catégories",
+      "3": "Poster",
+      "4": "Contact",
+      "5": "Mon Compte"
+    },
+    "keywords": "Vos mots clés ...",
+    "timeSince": {
+      "years": "an{{s}}",
+      "months": "mois",
+      "days": "jour{{s}}",
+      "hours": "heure{{s}}",
+      "minutes": "minute{{s}}",
+      "seconds": "seconde{{s}}"
+    },
+    "home": "Accueil",
+    "title": "Bienvenue sur {{title}}",
+    "desc": "Découvre cette emblématique marque américaine à travers une communauté de passionnés"
+  },
+  "login": {
+    "title": "Connexion",
+    "email": "Adresse email",
+    "password": "Mot de passe",
+    "forgot": "Mot de passe oublié ?",
+    "connect": "Se connecter",
+    "new": "Nouveau sur {{title}} ?",
+    "register": "Inscris-toi",
+    "failed": "L'authentification a échouée",
+    "success": "Votre inscription a été prise en compte",
+    "error": {
+      "fields": "Veuillez remplir tous les champs",
+      "email": "Email non conforme"
+    }
+  },
+  "register": {
+    "title": "Inscription",
+    "email": "Adresse email",
+    "pseudo": "Pseudo",
+    "password": "Mot de passe",
+    "confPassword": "Confirmez votre mot de passe",
+    "register": "S'inscrire",
+    "already": "Tu as déjà un compte ?",
+    "signIn": "Connecte-toi",
+    "error": {
+      "fields": "Veuillez remplir tous les champs",
+      "email": "Email non conforme",
+      "password": "Les mots de passe ne correspondent pas"
+    }
+  },
+  "httpErrors": {
+    "1": "Mauvais mail ou mot de passe",
+    "3": "Pseudo ou mail déjà utilisé"
+  },
+  "posts": {
+    "like": {
+      "needLoggedIn": "Connectez-vous pour aimer cet article",
+      "count": "{{count}} mention{{s}} j'aime"
+    },
+    "readMore": "Lire la suite",
+    "timeSince": "Il y a {{time}} {{format}}",
+    "sourceName": "Source"
+  }
+}

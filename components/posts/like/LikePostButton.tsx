@@ -4,14 +4,14 @@ import {IPost, LikeStatus} from "../../../shared/types/post.type";
 import {useAppContext} from "../../../context/AppContext";
 import {useAppDispatch} from "../../../context/hooks";
 import {changeLikeStatus} from "../../../context/actions/posts.actions";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "../../../shared/hooks/useTranslation";
 
 const LikePostButton = ({post}: { post: IPost }) => {
 
     const uid = useAppContext();
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const dispatch = useAppDispatch();
-    const {t} = useTranslation('posts')
+    const t = useTranslation();
 
     const like = async () => {
         setIsLiked(true)
@@ -25,7 +25,7 @@ const LikePostButton = ({post}: { post: IPost }) => {
 
     const likeMessage = () => {
         const likes = post.likes;
-        return t('like.count', {count: likes, s: likes > 1 ? "s" : ""})
+        return t.posts.like.count.replace('{{count}}', likes.toString()).replace('{{s}}', likes > 1 ? "s" : "");
     }
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const LikePostButton = ({post}: { post: IPost }) => {
             {!uid &&
 				<>
 					<Heart isLiked={false} onClick={() => null} />
-					<p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{t('like.needLoggedIn')}</p>
+					<p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{t.posts.like.needLoggedIn}</p>
 				</>
             }
             {uid &&
