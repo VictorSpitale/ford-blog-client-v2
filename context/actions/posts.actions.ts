@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
 import {IPost, LikeStatus} from "../../shared/types/post.type";
 import {isEmpty} from "../../shared/utils/object.utils";
@@ -9,10 +9,12 @@ export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"
 export const GET_LAST_POSTS = "GET_LAST_POSTS"
 export const CHANGE_LIKE_STATUS = "CHANGE_LIKE_STATUS"
+export const DELETE_POST = "DELETE_POST";
+export const CLEAN_POST = "CLEAN_POST";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
     const {posts} = getState().lastPosts
-    if (!isEmpty(posts)) {
+    if (!isEmpty(posts) && posts.length === 6) {
         return posts
     }
     let response: IPost[] = []
@@ -68,3 +70,10 @@ export const changeLikeStatus = createAsyncThunk<number, changePostStatusParams>
     await instance.patch(`/posts/${attr.status}/${attr.slug}`).then((res) => response = res.data);
     return response;
 })
+
+export const deletePost = createAsyncThunk<string, string, { state: RootState }>(DELETE_POST, async (slug) => {
+    await instance.delete(`/posts/${slug}`);
+    return slug;
+})
+
+export const cleanPost = createAction(CLEAN_POST);

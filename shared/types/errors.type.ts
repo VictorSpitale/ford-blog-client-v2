@@ -1,6 +1,6 @@
 export type ErrorProps = {
     error?: {
-        customMessage: string,
+        customMessage?: string,
         statusCode: number
     }
 }
