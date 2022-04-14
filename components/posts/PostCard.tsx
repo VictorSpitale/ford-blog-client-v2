@@ -3,7 +3,7 @@ import {IPost} from "../../shared/types/post.type";
 import Link from "next/link";
 import {capitalize} from "../../shared/utils/string.utils";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
-import CategoryInput from "../CategoryInput";
+import CategoryInput from "../categories/CategoryInput";
 import Image from "next/image";
 import {blurImg} from "../../shared/images/blurImg";
 import {getPostCardImg} from "../../shared/images/postCardImg";

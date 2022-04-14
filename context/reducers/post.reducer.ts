@@ -2,13 +2,13 @@ import {IPost} from "../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {changeLikeStatus, cleanPost, getPost} from "../actions/posts.actions";
 
-export type PostsState = {
+export type PostState = {
     post: IPost;
     pending: boolean;
     error: boolean
 }
 
-const initial: PostsState = {
+const initial: PostState = {
     post: {} as IPost,
     pending: false,
     error: false

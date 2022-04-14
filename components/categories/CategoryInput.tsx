@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {ICategory} from "../shared/types/category.type";
-import {capitalize} from "../shared/utils/string.utils";
-import {AnyFunction} from "../shared/types/props.type";
+import {ICategory} from "../../shared/types/category.type";
+import {AnyFunction} from "../../shared/types/props.type";
 
 type PropsType = {
     onClick?: AnyFunction,
@@ -33,7 +32,7 @@ const CategoryInput = ({onClick, category, disable, active, more}: PropsType) =>
                 className={`${isChecked ? 'bg-secondary-500 text-white' : 'text-secondary-600'} border border-secondary-600 
                 text-sm md:text-base px-2 md:px-4 w-full flex rounded-2xl`}>
                 <label htmlFor={catName && catName}
-                       className={"text-inherit"}>{catName ? capitalize(catName) : `+ ${more}`}</label>
+                       className={"text-inherit"}>{catName ? catName : `+ ${more}`}</label>
             </div>
         </div>
     );
