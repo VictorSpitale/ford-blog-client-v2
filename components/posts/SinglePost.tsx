@@ -45,16 +45,21 @@ const SinglePost = ({post}: { post: IPost }) => {
                     <Cross />
                 </div>
                 <div className={"p-5"}>
-                    <p className={"text-red-500 text-2xl font-extrabold text-center"}>ATTENTION</p>
-                    <p className={"text-justify"}> Vous êtes sur le point de <span
-                        className={"text-red-400 font-bold"}>supprimer</span> l'article
-                        : <span className={"underline"}>{post.title}</span>
+                    <p className={"text-red-500 text-2xl font-extrabold text-center"}>{t.common.warning}</p>
+                    <p className={"text-justify"}>{t.posts.delete.before}
+                        <span className={"text-red-400 font-bold"}>
+                            {t.posts.delete.deleteAction}
+                        </span>
+                        {t.posts.delete.after}
+                        <span className={"underline"}>{post.title}</span>
                     </p>
+
                     <div className={"flex justify-around pt-3"}>
                         <button onClick={handleDelete}
-                                className={"px-5 py-2 rounded text-white bg-red-500"}>{pending ? "Suppression..." : "Supprimer"}
+                                className={"px-5 py-2 rounded text-white bg-red-500"}>{pending ? t.posts.delete.deleteLoading : capitalize(t.posts.delete.deleteAction)}
                         </button>
-                        <button onClick={toggle} className={"px-5 py-2 rounded bg-gray-300"}>Annuler</button>
+                        <button onClick={toggle}
+                                className={"px-5 py-2 rounded bg-gray-300"}>{t.posts.delete.cancel}</button>
                     </div>
                 </div>
             </Modal>

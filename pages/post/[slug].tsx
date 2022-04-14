@@ -9,17 +9,15 @@ import {getPost} from "../../context/actions/posts.actions";
 import Error from "../_error";
 import {ErrorProps} from "../../shared/types/errors.type";
 import {isEmpty} from "../../shared/utils/object.utils";
+import {useTranslation} from "../../shared/hooks";
 
 const PostPage = ({error}: ErrorProps) => {
     const {post} = useAppSelector((state => state.post))
-    if (isEmpty(post)) {
+    const t = useTranslation();
+    if (error || isEmpty(post)) {
         return (
-            <Error statusCode={404} customMessage={"Aucun article trouvé"} />
-        )
-    }
-    if (error) {
-        return (
-            <Error statusCode={error.statusCode} customMessage={error.customMessage} />
+            <Error statusCode={error?.statusCode || 404}
+                   customMessage={error?.customMessage || t.posts["404"]} />
         )
     }
     return (

@@ -29,7 +29,8 @@
     },
     "home": "Accueil",
     "title": "Bienvenue sur {{title}}",
-    "desc": "Découvre cette emblématique marque américaine à travers une communauté de passionnés"
+    "desc": "Découvre cette emblématique marque américaine à travers une communauté de passionnés",
+    "warning": "ATTENTION"
   },
   "login": {
     "title": "Connexion",
@@ -72,6 +73,14 @@
     },
     "readMore": "Lire la suite",
     "timeSince": "Il y a {{time}} {{format}}",
-    "sourceName": "Source"
+    "sourceName": "Source",
+    "404": "Aucun article trouvé",
+    "delete": {
+      "before": "Vous êtes sur le point de ",
+      "deleteAction": "supprimer",
+      "deleteLoading": "Suppression...",
+      "cancel": "Annuler",
+      "after": " l'article : "
+    }
   }
 }

@@ -29,7 +29,8 @@
       "seconds": "second{{s}}"
     },
     "title": "Welcome on {{title}}",
-    "desc": "Discover this iconic American brand through a community of enthusiasts"
+    "desc": "Discover this iconic American brand through a community of enthusiasts",
+    "warning": "WARNING"
   },
   "login": {
     "title": "Sign in",
@@ -72,6 +73,14 @@
     },
     "readMore": "Read more",
     "timeSince": "{{time}} {{format}} ago",
-    "sourceName": "Source"
+    "sourceName": "Source",
+    "404": "No post found",
+    "delete": {
+      "before": "You are about to ",
+      "deleteAction": "delete",
+      "deleteLoading": "Deleting...",
+      "cancel": "Cancel",
+      "after": " the post : "
+    }
   }
 }
