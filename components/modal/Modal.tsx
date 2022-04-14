@@ -24,7 +24,7 @@ const Modal = ({hasPrevious, previous, hide, isShowing, title, children}: PropsT
 					<div className={styles.modalWrapper}>
 						<div className={className("w-64 md:w-1/2 lg:w-1/3", styles.modal)} ref={ref}>
 							<div
-								className={className(title ? "border-b-secondary-500 justify-between p-4" : "justify-end pr-2", styles.modalHeader)}>
+								className={className(title ? "border-b-secondary-500 justify-between p-4" : "justify-end pr-[11px]", styles.modalHeader)}>
                                 {title && <h4 className={"text-xl md:text-2xl"}>{hasPrevious && previous &&
 									<button type={"button"} className={styles.modalButton} onClick={() => previous()}>
 										<span>&larr;</span>
