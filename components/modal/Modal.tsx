@@ -1,8 +1,9 @@
-import React, {useRef} from 'react';
+import React, {ForwardedRef, forwardRef, useRef} from 'react';
 import {AnyFunction} from "../../shared/types/props.type";
 import {useOnClickOutside} from "../../shared/hooks";
 import styles from '../../styles/Modal.module.css'
 import {className} from "../../shared/utils/class.utils";
+import {mergeRefs} from "../../shared/utils/refs.utils";
 
 type PropsType = {
     isShowing: boolean,
@@ -10,9 +11,18 @@ type PropsType = {
     title?: string,
     children: JSX.Element[] | JSX.Element,
     hasPrevious?: boolean,
-    previous?: AnyFunction
+    previous?: AnyFunction,
+    large?: boolean
 }
-const Modal = ({hasPrevious, previous, hide, isShowing, title, children}: PropsType) => {
+const Modal = forwardRef(({
+                              hasPrevious,
+                              previous,
+                              hide,
+                              isShowing,
+                              title,
+                              children,
+                              large = false
+                          }: PropsType, modalRef: ForwardedRef<HTMLDivElement>) => {
 
     const ref = useRef<HTMLDivElement>(null);
     useOnClickOutside(ref, isShowing ? () => hide() : null);
@@ -22,9 +32,11 @@ const Modal = ({hasPrevious, previous, hide, isShowing, title, children}: PropsT
             {isShowing &&
 				<div className={styles.modalOverlay}>
 					<div className={styles.modalWrapper}>
-						<div className={className("w-64 md:w-1/2 lg:w-1/3", styles.modal)} ref={ref}>
+						<div className={
+                            className(large ? "w-3/4" : "w-64 md:w-1/2 lg:w-1/3", "c-scroll",
+                                styles.modal)} ref={mergeRefs(ref, modalRef)}>
 							<div
-								className={className(title ? "border-b-secondary-500 justify-between p-4" : "justify-end pr-[11px]", styles.modalHeader)}>
+								className={className(title ? "border-b border-b-secondary-500 justify-between p-4" : "justify-end pr-[11px]", styles.modalHeader)}>
                                 {title && <h4 className={"text-xl md:text-2xl"}>{hasPrevious && previous &&
 									<button type={"button"} className={styles.modalButton} onClick={() => previous()}>
 										<span>&larr;</span>
@@ -35,12 +47,12 @@ const Modal = ({hasPrevious, previous, hide, isShowing, title, children}: PropsT
 									onClick={() => hide()}
 								>&times;</button>
 							</div>
-							<div>{children}</div>
+							<>{children}</>
 						</div>
 					</div>
 				</div>}
         </>
     );
-};
-
+});
+Modal.displayName = "Modal"
 export default Modal;

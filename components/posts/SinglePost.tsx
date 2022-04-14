@@ -2,7 +2,7 @@ import React from 'react';
 import Image from "next/image";
 import {getPostCardImg} from "../../shared/images/postCardImg";
 import {capitalize} from "../../shared/utils/string.utils";
-import CategoryInput from "../CategoryInput";
+import CategoryInput from "../categories/CategoryInput";
 import LikePostButton from "./like/LikePostButton";
 import {className} from "../../shared/utils/class.utils";
 import {IPost} from "../../shared/types/post.type";
@@ -14,12 +14,14 @@ import {IUserRole} from "../../shared/types/user.type";
 import {useModal, useTranslation} from "../../shared/hooks";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 import DeletePostModal from "./modals/DeletePostModal";
+import UpdatePostModal from "./modals/UpdatePostModal";
 
 const SinglePost = ({post}: { post: IPost }) => {
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
     const {user} = useAppSelector(state => state.user)
     const {toggle, isShowing} = useModal();
+    const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
 
     const timeSinceMsg = () => {
         return getTimeSinceMsg(t, timeSinceObj);
@@ -28,6 +30,7 @@ const SinglePost = ({post}: { post: IPost }) => {
     return (
         <>
             <DeletePostModal post={post} toggle={toggle} isShowing={isShowing} />
+            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} />
             <div
                 className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
                 <div
@@ -58,7 +61,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                         <LikePostButton post={post} />
                         {user.role >= IUserRole.POSTER && <div className={"flex"}>
 							<Trash callback={toggle} />
-							<Edit />
+							<Edit callback={toggleUpdate} />
 						</div>}
                     </div>
                     {post.desc.split(/(?:\r\n|\r|\n)/g).map((s, i) => {

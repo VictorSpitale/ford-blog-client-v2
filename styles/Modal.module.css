@@ -26,8 +26,10 @@
     background    : #fff;
     border-radius : 5px;
     margin        : auto;
-    position      : relative;
+    max-height    : 80vh;
     /*width         : auto;*/
+    overflow-y    : auto;
+    position      : relative;
     z-index       : 100;
 }
 
