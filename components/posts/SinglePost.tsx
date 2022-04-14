@@ -9,60 +9,25 @@ import {IPost} from "../../shared/types/post.type";
 import {blurImg} from "../../shared/images/blurImg";
 import Trash from "../shared/icons/Trash";
 import Edit from "../shared/icons/Edit";
-import {useAppDispatch, useAppSelector} from "../../context/hooks";
+import {useAppSelector} from "../../context/hooks";
 import {IUserRole} from "../../shared/types/user.type";
 import {useModal, useTranslation} from "../../shared/hooks";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
-import Modal from "../modal/Modal";
-import Cross from "../shared/icons/Cross";
-import {cleanPost, deletePost} from "../../context/actions/posts.actions";
-import {useRouter} from "next/router";
+import DeletePostModal from "./modals/DeletePostModal";
 
 const SinglePost = ({post}: { post: IPost }) => {
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
     const {user} = useAppSelector(state => state.user)
-    const {pending} = useAppSelector(state => state.lastPosts)
-    const dispatch = useAppDispatch();
     const {toggle, isShowing} = useModal();
-    const router = useRouter();
 
     const timeSinceMsg = () => {
         return getTimeSinceMsg(t, timeSinceObj);
     }
 
-    const handleDelete = async () => {
-        await dispatch(deletePost(post.slug)).then(async () => {
-            await router.push("/");
-            await dispatch(cleanPost());
-        })
-    }
-
     return (
         <>
-            <Modal hide={toggle} isShowing={isShowing}>
-                <div className={"flex justify-center"}>
-                    <Cross />
-                </div>
-                <div className={"p-5"}>
-                    <p className={"text-red-500 text-2xl font-extrabold text-center"}>{t.common.warning}</p>
-                    <p className={"text-justify"}>{t.posts.delete.before}
-                        <span className={"text-red-400 font-bold"}>
-                            {t.posts.delete.deleteAction}
-                        </span>
-                        {t.posts.delete.after}
-                        <span className={"underline"}>{post.title}</span>
-                    </p>
-
-                    <div className={"flex justify-around pt-3"}>
-                        <button onClick={handleDelete}
-                                className={"px-5 py-2 rounded text-white bg-red-500"}>{pending ? t.posts.delete.deleteLoading : capitalize(t.posts.delete.deleteAction)}
-                        </button>
-                        <button onClick={toggle}
-                                className={"px-5 py-2 rounded bg-gray-300"}>{t.posts.delete.cancel}</button>
-                    </div>
-                </div>
-            </Modal>
+            <DeletePostModal post={post} toggle={toggle} isShowing={isShowing} />
             <div
                 className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
                 <div
