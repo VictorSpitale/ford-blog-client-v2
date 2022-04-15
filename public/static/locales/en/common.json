@@ -7,6 +7,9 @@
   "menu": "Menu",
   "home": "Home",
   "noPost": "No post available",
+  "error": "{{code}} Error",
+  "errorSub": "An error has occurred",
+  "backHome": "Back to home",
   "navbar": {
     "0": "Home",
     "1": "News",
