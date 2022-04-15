@@ -3,7 +3,8 @@ import {RootState} from "../store";
 import {IPost, LikeStatus} from "../../shared/types/post.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {instance} from "../instance";
-import {NextPageContext} from "next";
+import {IncomingMessage} from "http";
+import {NextApiRequestCookies} from "next/dist/server/api-utils";
 
 export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"
@@ -32,7 +33,7 @@ export const getPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GE
 
 interface getPostParams {
     slug: string,
-    context: NextPageContext<any>
+    req: IncomingMessage & { cookies: NextApiRequestCookies }
 }
 
 export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr, {getState}) => {
@@ -43,14 +44,14 @@ export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState
     }
     let response: IPost = {} as IPost
     let headers;
-    if (attr.context.req?.headers.cookie) {
+    if (attr.req.headers.cookie) {
         headers = {
-            Cookie: attr.context.req.headers.cookie,
+            Cookie: attr.req.headers.cookie,
         }
     }
     await instance.get('/posts/' + attr.slug,
         {
-            ...(attr.context.req
+            ...(attr.req
                 ? {headers}
                 : {}),
         }).then((res) => response = res.data)

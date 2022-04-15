@@ -8,32 +8,49 @@ export const stringToDate = (num: string | number): Date => {
 
     return new Date(timestamp);
 };
-export const timeSince = (date: Date | string): string => {
+export const timeSince = (date: Date | string) => {
 
     if (typeof date === "string") date = stringToDate(date)
 
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;
-
     if (interval > 1) {
-        return `Il y a  ${Math.floor(interval)}  années`;
+        return {
+            time: Math.floor(interval),
+            format: "years"
+        }
     }
     interval = seconds / 2592000;
     if (interval > 1) {
-        return `Il y a  ${Math.floor(interval)}  mois`;
+        return {
+            time: Math.floor(interval),
+            format: "months"
+        }
     }
     interval = seconds / 86400;
     if (interval > 1) {
-        return `Il y a  ${Math.floor(interval)}  jours`;
+        return {
+            time: Math.floor(interval),
+            format: "days"
+        }
     }
     interval = seconds / 3600;
     if (interval > 1) {
-        return `Il y a  ${Math.floor(interval)}  heures`;
+        return {
+            time: Math.floor(interval),
+            format: "hours"
+        }
     }
     interval = seconds / 60;
     if (interval > 1) {
-        return `Il y a  ${Math.floor(interval)}  minutes`;
+        return {
+            time: Math.floor(interval),
+            format: "minutes"
+        }
     }
-    return `Il y a  ${Math.floor(seconds)}  secondes`;
+    return {
+        time: Math.floor(interval),
+        format: "seconds"
+    }
 }

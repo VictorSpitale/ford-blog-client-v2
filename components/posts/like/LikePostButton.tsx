@@ -4,12 +4,14 @@ import {IPost, LikeStatus} from "../../../shared/types/post.type";
 import {useAppContext} from "../../../context/AppContext";
 import {useAppDispatch} from "../../../context/hooks";
 import {changeLikeStatus} from "../../../context/actions/posts.actions";
+import {useTranslation} from "next-i18next";
 
 const LikePostButton = ({post}: { post: IPost }) => {
 
     const uid = useAppContext();
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const dispatch = useAppDispatch();
+    const {t} = useTranslation('posts')
 
     const like = async () => {
         setIsLiked(true)
@@ -23,10 +25,7 @@ const LikePostButton = ({post}: { post: IPost }) => {
 
     const likeMessage = () => {
         const likes = post.likes;
-        if (likes > 1) {
-            return likes + ' mentions j\'aime';
-        }
-        return likes + ' mention j\'aime';
+        return t('like.count', {count: likes, s: likes > 1 ? "s" : ""})
     }
 
     useEffect(() => {
@@ -38,7 +37,7 @@ const LikePostButton = ({post}: { post: IPost }) => {
             {!uid &&
 				<>
 					<Heart isLiked={false} onClick={() => null} />
-					<p className={"ml-20 pl-2 italic text-secondary-600"}>Connectez-vous pour aimer cet article</p>
+					<p className={"ml-20 pl-2 italic text-secondary-600"}>{t('like.needLoggedIn')}</p>
 				</>
             }
             {uid &&

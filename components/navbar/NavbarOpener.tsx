@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import styles from '../../styles/Navbar.module.css'
 import {className} from "../../shared/utils/class.utils";
 import NavbarContent from "./NavbarContent";
+import {useTranslation} from "next-i18next";
 
 const NavbarOpener = ({showButton = true}: { showButton?: boolean }) => {
 
     const [showContent, setShowContent] = useState(false);
+    const {t: comT} = useTranslation('common')
 
     return (
         <>
@@ -15,7 +17,7 @@ const NavbarOpener = ({showButton = true}: { showButton?: boolean }) => {
                 "bg-primary-400 text-white px-2 py-1 rounded-lg shadow-md" +
                 " shadow-primary-300/40 hover:shadow-primary-300/60 text-sm hover:bg-primary-500")
             } onClick={() => setShowContent(true)}>
-                Menu
+                {comT('menu')}
             </button>
             <NavbarContent showContent={showContent} closeContent={() => setShowContent(false)} />
         </>

@@ -1,0 +1,9 @@
+{
+  "like": {
+    "needLoggedIn": "Connectez-vous pour aimer cet article",
+    "count": "{{count}} mention{{s}} j'aime"
+  },
+  "readMore": "Lire la suite",
+  "timeSince": "Il y a {{time}} {{format}}",
+  "sourceName": "Source"
+}
