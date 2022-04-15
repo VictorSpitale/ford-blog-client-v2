@@ -5,6 +5,7 @@ import Layout from "../components/layouts/Layout";
 import {AppWrapper} from "../context/AppContext";
 
 function MyApp({Component, pageProps}: AppProps) {
+    
     return (
         <AppWrapper>
             <Layout>
