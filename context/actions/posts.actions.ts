@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {IPost, LikeStatus} from "../../shared/types/post.type";
+import {IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {instance} from "../instance";
 import {NextPageContext} from "next";
@@ -11,6 +11,7 @@ export const GET_LAST_POSTS = "GET_LAST_POSTS"
 export const CHANGE_LIKE_STATUS = "CHANGE_LIKE_STATUS"
 export const DELETE_POST = "DELETE_POST";
 export const CLEAN_POST = "CLEAN_POST";
+export const UPDATE_POST = "UPDATE_POST";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
     const {posts} = getState().lastPosts
@@ -77,3 +78,9 @@ export const deletePost = createAsyncThunk<string, string, { state: RootState }>
 })
 
 export const cleanPost = createAction(CLEAN_POST);
+
+export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string }, { state: RootState }>(UPDATE_POST, async (update) => {
+    let response: IPost = {} as IPost
+    await instance.patch(`/posts/${update.slug}`, update).then((res) => response = res.data);
+    return response;
+})

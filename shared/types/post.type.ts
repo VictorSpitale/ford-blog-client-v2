@@ -33,3 +33,11 @@ export enum LikeStatus {
     LIKE = "like",
     UNLIKE = "unlike"
 }
+
+export type UpdatePost = {
+    title: string;
+    desc: string;
+    sourceName: string;
+    sourceLink: string;
+    categories: string[]
+}

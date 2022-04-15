@@ -42,7 +42,7 @@ const DeletePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFu
                             className={"px-5 py-2 rounded text-white bg-red-500"}>{pending ? t.posts.delete.deleteLoading : capitalize(t.posts.delete.deleteAction)}
                     </button>
                     <button onClick={toggle}
-                            className={"px-5 py-2 rounded bg-gray-300"}>{t.posts.delete.cancel}</button>
+                            className={"px-5 py-2 rounded bg-gray-300"}>{t.common.cancel}</button>
                 </div>
             </div>
         </Modal>

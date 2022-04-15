@@ -57,7 +57,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                             if (i < 3) return <CategoryInput key={i} category={cat} />
                         })}
                     </div>
-                    <div className={"flex justify-between"}>
+                    <div className={"flex justify-between mt-4"}>
                         <LikePostButton post={post} />
                         {user.role >= IUserRole.POSTER && <div className={"flex"}>
 							<Trash callback={toggle} />

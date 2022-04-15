@@ -6,6 +6,7 @@
     "loading": "Loading...",
     "or": "Or",
     "menu": "Menu",
+    "cancel": "Cancel",
     "home": "Home",
     "noPost": "No post available",
     "error": "{{code}} Error",
@@ -79,8 +80,24 @@
       "before": "You are about to ",
       "deleteAction": "delete",
       "deleteLoading": "Deleting...",
-      "cancel": "Cancel",
       "after": " the post : "
+    },
+    "update": {
+      "title": "Edit the post",
+      "fields": {
+        "categories": "Categories",
+        "title": "Title",
+        "source": "Source",
+        "sourceLink": "Link to the source",
+        "desc": "Description",
+        "confirm": "Confirm"
+      },
+      "errors": {
+        "fields": "Please complete all fields",
+        "categories": "Please select at least one category",
+        "link": "The source link's format is not correct",
+        "failed": "Update failed"
+      }
     }
   }
 }

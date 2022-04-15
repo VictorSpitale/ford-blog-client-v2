@@ -6,6 +6,7 @@
     "loading": "Chargement...",
     "or": "Ou",
     "menu": "Menu",
+    "cancel": "Annuler",
     "noPost": "Aucun article disponible",
     "error": "Erreur {{code}}",
     "errorSub": "Une erreur s'est produite",
@@ -79,8 +80,24 @@
       "before": "Vous êtes sur le point de ",
       "deleteAction": "supprimer",
       "deleteLoading": "Suppression...",
-      "cancel": "Annuler",
       "after": " l'article : "
+    },
+    "update": {
+      "title": "Modifier l'article",
+      "fields": {
+        "categories": "Catégories",
+        "title": "Titre",
+        "source": "Source",
+        "sourceLink": "Lien de la source",
+        "desc": "Description",
+        "confirm": "Valider"
+      },
+      "errors": {
+        "fields": "Veuillez remplir tous les champs",
+        "categories": "Veuillez sélectionner au moins une catégorie",
+        "link": "Le lien de la source n'est pas correct",
+        "failed": "Impossible de mettre à jour l'article"
+      }
     }
   }
 }

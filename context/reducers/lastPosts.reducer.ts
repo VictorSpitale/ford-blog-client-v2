@@ -1,5 +1,5 @@
 import {IPost} from "../../shared/types/post.type";
-import {deletePost, getLastPosts} from "../actions/posts.actions";
+import {deletePost, getLastPosts, updatePost} from "../actions/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
 
 export type PostsState = {
@@ -27,6 +27,15 @@ export const lastPostsReducer = createReducer(initial, (builder) => {
         state.pending = false;
     }).addCase(deletePost.pending, (state) => {
         state.pending = true;
+    }).addCase(updatePost.fulfilled, (state, {payload}) => {
+        const toUpdate = state.posts.find((post) => post.slug === payload.slug);
+        if (toUpdate) {
+            state.posts = state.posts.filter((post) => post.slug !== payload.slug)
+            state.posts = [
+                ...state.posts,
+                payload
+            ]
+        }
     })
 })
 export default lastPostsReducer
