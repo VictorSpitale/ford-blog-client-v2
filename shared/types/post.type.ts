@@ -28,3 +28,8 @@ export type ICreatePost = {
     title: string,
     picture?: string
 }
+
+export enum LikeStatus {
+    LIKE = "like",
+    UNLIKE = "unlike"
+}

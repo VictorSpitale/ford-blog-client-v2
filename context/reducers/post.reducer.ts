@@ -1,6 +1,6 @@
 import {IPost} from "../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
-import {getPost} from "../actions/posts.actions";
+import {changeLikeStatus, getPost} from "../actions/posts.actions";
 
 export type PostsState = {
     post: IPost;
@@ -22,6 +22,9 @@ export const postReducer = createReducer(initial, (builder) => {
     }).addCase(getPost.rejected, (state) => {
         state.pending = false
         state.error = true
+    }).addCase(changeLikeStatus.fulfilled, (state, {payload}) => {
+        state.post.likes = payload
+        state.post.authUserLiked = !state.post.authUserLiked
     })
 })
 export default postReducer

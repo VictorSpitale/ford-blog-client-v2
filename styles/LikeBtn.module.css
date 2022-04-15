@@ -1,0 +1,28 @@
+/**
+
+    matt henley
+    https://codepen.io/mattbhenley/pen/gQbWgd
+
+ */
+.box {
+    cursor      : pointer;
+    height      : 30px;
+    margin-left : 35px;
+    position    : absolute;
+    width       : 30px;
+    z-index     : 10;
+}
+
+.heart {
+    background          : url("../public/static/img/heart.png") 0 0;
+    height              : 100px;
+    position            : absolute;
+    transition          : background-position 1s steps(28);
+    transition-duration : 0s;
+    width               : 100px;
+}
+
+.active {
+    background-position : -2800px;
+    transition-duration : 1s;
+}

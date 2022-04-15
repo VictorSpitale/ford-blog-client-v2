@@ -1,19 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import Heart from "./Heart";
-import {IPost} from "../../../shared/types/post.type";
+import {IPost, LikeStatus} from "../../../shared/types/post.type";
 import {useAppContext} from "../../../context/AppContext";
+import {useAppDispatch} from "../../../context/hooks";
+import {changeLikeStatus} from "../../../context/actions/posts.actions";
 
 const LikePostButton = ({post}: { post: IPost }) => {
 
     const uid = useAppContext();
     const [isLiked, setIsLiked] = useState<boolean>(false)
+    const dispatch = useAppDispatch();
 
-    const like = () => {
+    const like = async () => {
         setIsLiked(true)
+        await dispatch(changeLikeStatus({status: LikeStatus.LIKE, slug: post.slug}))
     }
 
-    const unLike = () => {
+    const unLike = async () => {
         setIsLiked(false)
+        await dispatch(changeLikeStatus({status: LikeStatus.UNLIKE, slug: post.slug}))
     }
 
     const likeMessage = () => {
@@ -28,22 +33,18 @@ const LikePostButton = ({post}: { post: IPost }) => {
         setIsLiked(post.authUserLiked);
     }, [post]);
 
-    //@TODO: useEffet => set default like state
-    //@TODO: get login state => uid
-    //@TODO: Translations
-
     return (
-        <div className={"flex items-center w-fit pt-3"}>
+        <div className={"flex items-center w-fit pt-3 relative"}>
             {!uid &&
 				<>
 					<Heart isLiked={false} onClick={() => null} />
-					<p className={"pl-2 italic text-secondary-600"}>Connectez-vous pour aimer cet article</p>
+					<p className={"ml-20 pl-2 italic text-secondary-600"}>Connectez-vous pour aimer cet article</p>
 				</>
             }
             {uid &&
 				<>
 					<Heart isLiked={isLiked} onClick={isLiked ? unLike : like} />
-					<p className={"pl-2 italic text-secondary-600"}>{likeMessage()}</p>
+					<p className={"ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
 				</>
             }
         </div>
