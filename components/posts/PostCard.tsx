@@ -2,23 +2,19 @@ import React from 'react';
 import {IPost} from "../../shared/types/post.type";
 import Link from "next/link";
 import {capitalize} from "../../shared/utils/string.utils";
-import {timeSince} from "../../shared/utils/date.utils";
-import CategoryInput from "../CategoryInput";
+import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
+import CategoryInput from "../categories/CategoryInput";
 import Image from "next/image";
 import {blurImg} from "../../shared/images/blurImg";
 import {getPostCardImg} from "../../shared/images/postCardImg";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "../../shared/hooks/useTranslation";
 
 const PostCard = ({post}: { post: IPost }) => {
-    const {t} = useTranslation('posts')
-    const {t: comT} = useTranslation('common')
+    const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
 
     const timeSinceMsg = () => {
-        return t('timeSince', {
-            time: timeSinceObj.time,
-            format: comT('timeSince.' + timeSinceObj.format, {s: timeSinceObj.time > 1 ? 's' : ""})
-        })
+        return getTimeSinceMsg(t, timeSinceObj);
     }
 
     return (
@@ -53,7 +49,7 @@ const PostCard = ({post}: { post: IPost }) => {
                         <a className={"bg-primary-400 text-white px-2 py-1" +
                             " md:px-4 md:py-2 rounded-lg shadow-md shadow-primary-300/40" +
                             " hover:shadow-primary-300/60 text-sm hover:bg-primary-500"}>
-                            {t('readMore')}</a>
+                            {t.posts.readMore}</a>
                     </Link>
                 </div>
             </div>

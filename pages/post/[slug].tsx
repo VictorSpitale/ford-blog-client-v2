@@ -6,21 +6,20 @@ import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
 import SinglePost from "../../components/posts/SinglePost";
 import {getPost} from "../../context/actions/posts.actions";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import Error from "../_error";
+import {ErrorProps} from "../../shared/types/errors.type";
+import {isEmpty} from "../../shared/utils/object.utils";
+import {useTranslation} from "../../shared/hooks";
 
-const PostPage = () => {
+const PostPage = ({error}: ErrorProps) => {
     const {post} = useAppSelector((state => state.post))
-    // if (isEmpty(post)) {
-    //     return (
-    //         <>
-    //             <Head>
-    //                 <meta name={"robots"} content={"noindex"} />
-    //             </Head>
-    //             <DefaultErrorPage statusCode={404} />
-    //         </>
-    //     )
-    // }
-
+    const t = useTranslation();
+    if (error || isEmpty(post)) {
+        return (
+            <Error statusCode={error?.statusCode || 404}
+                   customMessage={error?.customMessage || t.posts["404"]} />
+        )
+    }
     return (
         <>
             <Header />
@@ -32,24 +31,17 @@ const PostPage = () => {
 
 export default PostPage;
 
-export const getServerSideProps = wrapper.getServerSideProps(store => async ({locale, params, req, res}) => {
-    if (!params || !params.slug || params.slug === "last") {
-        res.statusCode = 404
-        return {
-            notFound: true
-        };
-    }
-    await store.dispatch(getPost({slug: params.slug as string, req}));
-    const {error} = store.getState().post
-    if (error && res && res.statusCode) {
-        res.statusCode = 404
-        return {
-            notFound: true
-        };
-    }
-    return {
-        props: {
-            ...await serverSideTranslations(locale as string, ['common', 'posts'])
+PostPage.getInitialProps = wrapper.getInitialPageProps(
+    ({dispatch, getState}) =>
+        async (context) => {
+            if (context.query.slug === "last" && context.res && context.res.statusCode) {
+                return {error: {statusCode: 404}} as ErrorProps
+            }
+            await dispatch(getPost({slug: context.query.slug as string, context}));
+            const {error} = getState().post
+            if (error && context.res && context.res.statusCode) {
+                return {error: {statusCode: 404}} as ErrorProps
+            }
         }
-    }
-});
+);
+

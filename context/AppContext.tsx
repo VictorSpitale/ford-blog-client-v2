@@ -1,23 +1,23 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Children} from "../shared/types/props.type";
-import axios from "axios";
+import {useAppDispatch} from "./hooks";
+import {getUser} from "./actions/user.actions";
+import {getCategories} from "./actions/categories.actions";
 
 export const AppContext = createContext('');
 
 export function AppWrapper({children}: { children: Children }) {
     const [uuid, setUuid] = useState('');
-
+    const dispatch = useAppDispatch();
     useEffect(() => {
         const fetchUuid = async () => {
-            await axios.get(process.env.NEXT_PUBLIC_API_URL + '/auth/jwt', {
-                withCredentials: true
-            }).then((res) => {
-                if (res.data) {
-                    setUuid(res.data)
-                }
-            }).catch(() => null)
+            await dispatch(getUser(setUuid))
         };
+        const fetchInitialData = async () => {
+            await dispatch(getCategories());
+        }
         fetchUuid();
+        fetchInitialData();
     }, [])
 
     return (

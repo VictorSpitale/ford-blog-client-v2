@@ -1,19 +1,21 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {IPost, LikeStatus} from "../../shared/types/post.type";
+import {IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {instance} from "../instance";
-import {IncomingMessage} from "http";
-import {NextApiRequestCookies} from "next/dist/server/api-utils";
+import {NextPageContext} from "next";
 
 export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"
 export const GET_LAST_POSTS = "GET_LAST_POSTS"
 export const CHANGE_LIKE_STATUS = "CHANGE_LIKE_STATUS"
+export const DELETE_POST = "DELETE_POST";
+export const CLEAN_POST = "CLEAN_POST";
+export const UPDATE_POST = "UPDATE_POST";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
     const {posts} = getState().lastPosts
-    if (!isEmpty(posts)) {
+    if (!isEmpty(posts) && posts.length === 6) {
         return posts
     }
     let response: IPost[] = []
@@ -33,8 +35,9 @@ export const getPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GE
 
 interface getPostParams {
     slug: string,
-    req: IncomingMessage & { cookies: NextApiRequestCookies }
+    context: NextPageContext<any>
 }
+
 
 export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr, {getState}) => {
 
@@ -44,14 +47,14 @@ export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState
     }
     let response: IPost = {} as IPost
     let headers;
-    if (attr.req.headers.cookie) {
+    if (attr.context.req?.headers.cookie) {
         headers = {
-            Cookie: attr.req.headers.cookie,
+            Cookie: attr.context.req.headers.cookie,
         }
     }
     await instance.get('/posts/' + attr.slug,
         {
-            ...(attr.req
+            ...(attr.context.req
                 ? {headers}
                 : {}),
         }).then((res) => response = res.data)
@@ -66,5 +69,18 @@ interface changePostStatusParams {
 export const changeLikeStatus = createAsyncThunk<number, changePostStatusParams>(CHANGE_LIKE_STATUS, async (attr) => {
     let response = 0
     await instance.patch(`/posts/${attr.status}/${attr.slug}`).then((res) => response = res.data);
+    return response;
+})
+
+export const deletePost = createAsyncThunk<string, string, { state: RootState }>(DELETE_POST, async (slug) => {
+    await instance.delete(`/posts/${slug}`);
+    return slug;
+})
+
+export const cleanPost = createAction(CLEAN_POST);
+
+export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string }, { state: RootState }>(UPDATE_POST, async (update) => {
+    let response: IPost = {} as IPost
+    await instance.patch(`/posts/${update.slug}`, update).then((res) => response = res.data);
     return response;
 })

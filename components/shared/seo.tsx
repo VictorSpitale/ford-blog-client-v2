@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from "next/head";
 import {Children} from "../../shared/types/props.type";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "../../shared/hooks/useTranslation";
 
 type PropsType = {
     description?: string,
@@ -19,18 +19,18 @@ const SEO = ({
                  shouldIndex = true
              }: PropsType) => {
 
-    const {t} = useTranslation('common');
+    const t = useTranslation();
 
     const getSiteTitle = () => {
         if (!siteTitle) {
-            return t('siteName')
+            return t.common.siteName
         }
         return siteTitle;
     }
 
     const getDesc = () => {
         if (!description) {
-            return t('desc')
+            return t.common.siteDesc
         }
         return description;
     }

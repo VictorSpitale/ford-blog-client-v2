@@ -13,7 +13,7 @@ import {useRouter} from "next/router";
 import {useFetch} from "../../shared/hooks/useFetch";
 import {IMethods} from "../../shared/types/methods.type";
 import {blurImg} from "../../shared/images/blurImg";
-import {useTranslation} from "next-i18next";
+import {useTranslation} from "../../shared/hooks/useTranslation";
 
 const LoginForm = () => {
 
@@ -22,9 +22,7 @@ const LoginForm = () => {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
-    const {t: HttpT} = useTranslation('httpErrors'),
-        {t: comT} = useTranslation('common'),
-        {t: authT} = useTranslation('auth')
+    const t = useTranslation();
     const handleRequest = () => {
         if (router.pathname === "/account") {
             router.reload();
@@ -37,9 +35,9 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (router.query.status && router.query.status === "failed") {
-            setError(authT('login.failed'))
+            setError(t.login.failed)
         } else if (router.query.register && router.query.register === "success") {
-            setSuccessMessage(authT('login.success'))
+            setSuccessMessage(t.login.success)
         }
     }, [router])
 
@@ -53,11 +51,11 @@ const LoginForm = () => {
         setError('');
         setSuccessMessage('');
         if (!canSubmit()) {
-            setError(authT('login.error.fields'));
+            setError(t.login.error.fields);
             return;
         }
         if (!validateEmail(email)) {
-            setError(authT('login.error.email'));
+            setError(t.login.error.email);
             return;
         }
         await load({email, password});
@@ -73,45 +71,45 @@ const LoginForm = () => {
                            blurDataURL={blurImg} />
                 </div>
                 <div className={styles.form_left_text_container}>
-                    <h1 className={"text-xl text-center"}>{comT('fullSiteName')}</h1>
-                    <p className={"text-center mx-4 mt-3 lg:text-lg"}>{authT('shared.desc')}</p>
+                    <h1 className={"text-xl text-center"}>{t.common.fullSiteName}</h1>
+                    <p className={"text-center mx-4 mt-3 lg:text-lg"}>{t.common.desc}</p>
                 </div>
             </div>
             <div className={"w-max md:w-1/2"}>
                 <div className={styles.car_logo}>
                     <Image width={"159"} height={"53"} src={fu.src} alt="Ford Universe Logo" />
                 </div>
-                <h1 className={"text-lg text-center"}>{authT('shared.title', {title: comT('siteName')})}</h1>
+                <h1 className={"text-lg text-center"}>{t.common.title.replace('{{title}}', t.common.siteName)}</h1>
                 {(code || error || fetchError) &&
-					<p className={"text-center text-red-500 text-sm"}>{code ? HttpT(code) : error || fetchError}</p>}
+					<p className={"text-center text-red-500 text-sm"}>{code ? t.httpErrors[code] : error || fetchError}</p>}
                 {(successMessage) && <p className={"text-center text-green-500 text-sm"}>{successMessage}</p>}
                 <form className={className("px-2 md:px-[30px]", styles.login_form)}
                       onSubmit={handleSubmit}>
-                    <InputField name={"email"} label={authT('login.email')} required={true}
+                    <InputField name={"email"} label={t.login.email} required={true}
                                 autoComplete={"email"} onChange={(e) => setEmail(e.target.value)} />
-                    <InputField name={"password"} label={authT('login.password')} required={true}
+                    <InputField name={"password"} label={t.login.password} required={true}
                                 type={"password"} autoComplete={"current-password"}
                                 onChange={(e) => setPassword(e.target.value)} />
                     <div className={"relative w-full mt-2"}>
                         <button type={"button"}
                                 className={"overflow-hidden float-right text-xs text-gray-400"}>
-                            {authT('login.forgot')}
+                            {t.login.forgot}
                         </button>
                     </div>
                     <button type={"submit"} disabled={!canSubmit()}
                             className={className("mx-auto mt-5 bg-primary-400 hover:bg-primary-300 text-white rounded-2xl px-4 py-2",
                                 !canSubmit() ? "hover:cursor-not-allowed bg-primary-300" : "")}>
-                        {loading ? comT('loading') : authT('login.connect')}
+                        {loading ? t.common.loading : t.login.connect}
                     </button>
-                    <Delimiter>{comT('or')}</Delimiter>
+                    <Delimiter>{t.common.or}</Delimiter>
                     <div className={"m-auto"}>
                         <SignWithGoogle status={SignStatus.SIGN_IN} />
                     </div>
                 </form>
                 <div className={"mt-6 text-sm flex justify-center pb-5"}>
-                    <p className={"text-center whitespace-nowrap"}>{authT('login.new', {title: comT('siteName')})}&nbsp;
+                    <p className={"text-center whitespace-nowrap"}>{t.login.new.replace('{{title}}', t.common.siteName)}&nbsp;
                         <Link href={"/register"}>
-                            <a className={"underline"}>{authT('login.register')}</a>
+                            <a className={"underline"}>{t.login.register}</a>
                         </Link>
                     </p>
                 </div>

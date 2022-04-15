@@ -1,11 +1,11 @@
 import '../styles/globals.css'
 import {AppProps} from "next/app";
 import {wrapper} from "../context/store";
-import {appWithTranslation} from "next-i18next";
 import Layout from "../components/layouts/Layout";
 import {AppWrapper} from "../context/AppContext";
 
 function MyApp({Component, pageProps}: AppProps) {
+    
     return (
         <AppWrapper>
             <Layout>
@@ -15,4 +15,4 @@ function MyApp({Component, pageProps}: AppProps) {
     )
 }
 
-export default wrapper.withRedux(appWithTranslation(MyApp))
+export default wrapper.withRedux(MyApp)

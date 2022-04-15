@@ -3,7 +3,7 @@ import React, {ChangeEvent, ForwardedRef, forwardRef, HTMLInputTypeAttribute} fr
 type PropsType = {
     name: string;
     label?: string;
-    value?: never;
+    value?: string | number | readonly string[];
     placeholder?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => any;
     required?: boolean;

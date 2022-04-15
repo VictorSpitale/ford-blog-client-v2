@@ -1,4 +1,5 @@
 export enum IMethods {
     GET = "GET",
-    POST = "POST"
+    POST = "POST",
+    DELETE = "DELETE"
 }

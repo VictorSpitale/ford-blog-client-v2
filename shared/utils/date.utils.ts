@@ -1,3 +1,5 @@
+import {Translation} from "../hooks/useTranslation";
+
 export const stringToDate = (num: string | number): Date => {
     let timestamp;
     if (typeof num === "string") {
@@ -53,4 +55,10 @@ export const timeSince = (date: Date | string) => {
         time: Math.floor(interval),
         format: "seconds"
     }
+}
+
+export const getTimeSinceMsg = (t: Translation, timeSinceObj: { format: string, time: number }) => {
+    const timeSince = t.posts.timeSince.replace('{{time}}', timeSinceObj.time.toString())
+    const format = t.common.timeSince[timeSinceObj.format as never] as string;
+    return timeSince.replace('{{format}}', format.replace('{{s}}', timeSinceObj.time > 1 ? "s" : ""))
 }
