@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Heart from "./Heart";
 import {IPost} from "../../../shared/types/post.type";
+import {useAppContext} from "../../../context/AppContext";
 
 const LikePostButton = ({post}: { post: IPost }) => {
 
-    const uid = false
+    const uid = useAppContext();
     const [isLiked, setIsLiked] = useState<boolean>(false)
 
     const like = () => {
@@ -22,6 +23,10 @@ const LikePostButton = ({post}: { post: IPost }) => {
         }
         return likes + ' mention j\'aime';
     }
+
+    useEffect(() => {
+        setIsLiked(post.authUserLiked);
+    }, [post]);
 
     //@TODO: useEffet => set default like state
     //@TODO: get login state => uid

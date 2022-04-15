@@ -9,20 +9,13 @@ export function AppWrapper({children}: { children: Children }) {
 
     useEffect(() => {
         const fetchUuid = async () => {
-            const token = localStorage.getItem('token');
             await axios.get(process.env.NEXT_PUBLIC_API_URL + '/auth/jwt', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                withCredentials: true
             }).then((res) => {
                 if (res.data) {
                     setUuid(res.data)
-                } else {
-                    localStorage.removeItem('token')
                 }
-            }).catch(() => {
-                localStorage.removeItem('token')
-            })
+            }).catch(() => null)
         };
         fetchUuid();
     }, [])
