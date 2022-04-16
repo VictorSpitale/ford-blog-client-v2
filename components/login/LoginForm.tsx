@@ -10,10 +10,9 @@ import SignWithGoogle, {SignStatus} from "../shared/SignWithGoogle";
 import Link from 'next/link'
 import {validateEmail} from "../../shared/utils/regex.utils";
 import {useRouter} from "next/router";
-import {useFetch} from "../../shared/hooks/useFetch";
+import {useFetch, useTranslation} from "../../shared/hooks";
 import {IMethods} from "../../shared/types/methods.type";
 import {blurImg} from "../../shared/images/blurImg";
-import {useTranslation} from "../../shared/hooks/useTranslation";
 
 const LoginForm = () => {
 
@@ -27,7 +26,7 @@ const LoginForm = () => {
         if (router.pathname === "/account") {
             router.reload();
         } else {
-            router.push('/account')
+            window.location.href = "/account"
         }
     }
 
