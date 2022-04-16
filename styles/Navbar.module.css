@@ -1,11 +1,11 @@
 .nav_opener_button {
+    height     : 28px;
     left       : 10px;
     opacity    : 1;
-    position   : absolute;
+    position   : relative;
     top        : 10px;
     transition : visibility 0.5s, opacity 0.5s linear;
     visibility : visible;
-    z-index    : 2;
 }
 
 
@@ -161,7 +161,7 @@
         min-height : 150px;
         width      : 100%;
     }
-    
+
 }
 
 @media (max-width : 425px) {
@@ -203,4 +203,47 @@
 .search_result_item_image {
     border-bottom-left-radius : 5px;
     border-top-left-radius    : 5px;
+}
+
+.select_language {
+    align-items    : center;
+    display        : flex;
+    flex-direction : column;
+}
+
+.fr {
+    background : url("../public/static/img/icons8-france-48.png") no-repeat;
+    height     : 48px;
+    width      : 48px;
+}
+
+.en {
+    background : url("../public/static/img/icons8-united-kingdom-48.png") no-repeat;
+    height     : 48px;
+    width      : 48px;
+}
+
+.dropdown {
+    display    : none;
+    left       : 0;
+    list-style : none;
+    margin     : 0;
+    padding    : 0;
+    position   : relative;
+}
+
+.select_language:hover .dropdown {
+    align-items    : center;
+    display        : flex;
+    flex-direction : column;
+}
+
+.select_language:hover .dropdown li {
+    display : block;
+    margin  : 0;
+}
+
+.select_language:hover .dropdown li div:hover {
+    cursor    : pointer;
+    transform : scale(1.1);
 }

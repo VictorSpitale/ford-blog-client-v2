@@ -1,11 +1,17 @@
 import React from 'react';
 import {Children} from "../../shared/types/props.type";
 import NavbarOpener from "../navbar/NavbarOpener";
+import LanguageSwitcher from "../navbar/LanguageSwitcher";
 
 const Layout = ({children}: { children: Children }) => {
+
+
     return (
         <>
-            <NavbarOpener />
+            <div className={"absolute flex justify-between w-full z-10"}>
+                <NavbarOpener />
+                <LanguageSwitcher />
+            </div>
             <main>{children}</main>
         </>
     );
