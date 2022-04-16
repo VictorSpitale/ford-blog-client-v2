@@ -2,15 +2,16 @@ import React from 'react';
 import SEO from "../components/shared/seo";
 import RegisterForm from "../components/login/RegisterForm";
 import {useRouter} from "next/router";
-import {useAppContext} from "../context/AppContext";
-import {useTranslation} from "../shared/hooks/useTranslation";
+import {useTranslation} from "../shared/hooks";
+import {useAppSelector} from "../context/hooks";
+import {isEmpty} from "../shared/utils/object.utils";
 
 const Register = () => {
 
     const router = useRouter();
-    const uuid = useAppContext();
+    const {user} = useAppSelector(state => state.user)
     const t = useTranslation()
-    if (uuid) {
+    if (!isEmpty(user)) {
         router.push('/account');
     }
 

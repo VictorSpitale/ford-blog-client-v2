@@ -13,6 +13,9 @@ import {useRouter} from "next/router";
 import {useFetch, useTranslation} from "../../shared/hooks";
 import {IMethods} from "../../shared/types/methods.type";
 import {blurImg} from "../../shared/images/blurImg";
+import {IUser} from "../../shared/types/user.type";
+import {useAppDispatch} from "../../context/hooks";
+import {login} from "../../context/actions/user.actions";
 
 const LoginForm = () => {
 
@@ -22,12 +25,10 @@ const LoginForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
     const t = useTranslation();
-    const handleRequest = () => {
-        if (router.pathname === "/account") {
-            router.reload();
-        } else {
-            window.location.href = "/account"
-        }
+    const dispatch = useAppDispatch();
+    const handleRequest = async (data: IUser) => {
+        await dispatch(login(data));
+        await router.push("/account");
     }
 
     const {load, loading, error: fetchError, code} = useFetch('/auth/login', IMethods.POST, handleRequest);

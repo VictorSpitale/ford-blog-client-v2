@@ -1,6 +1,6 @@
 import {IUser} from "../../shared/types/user.type";
 import {createReducer} from "@reduxjs/toolkit";
-import {getUser} from "../actions/user.actions";
+import {getUser, login, logout} from "../actions/user.actions";
 
 export type UserState = {
     user: IUser;
@@ -16,6 +16,10 @@ const initial: UserState = {
 export const userReducer = createReducer(initial, (builder => {
     builder.addCase(getUser.fulfilled, (state, {payload}) => {
         state.user = payload
+    }).addCase(logout.fulfilled, (state) => {
+        state.user = {} as IUser;
+    }).addCase(login, (state, {payload}) => {
+        state.user = payload;
     })
 }))
 
