@@ -4,6 +4,7 @@
     "fullSiteName": "Ford Universe Blog",
     "siteDesc": "Ford Universe, automotive blog dedicated to Ford",
     "loading": "Loading...",
+    "save": "Save changes",
     "or": "Or",
     "menu": "Menu",
     "cancel": "Cancel",
@@ -65,7 +66,8 @@
   },
   "httpErrors": {
     "1": "Wrong email or password",
-    "3": "Pseudo or email already used"
+    "3": "Pseudo or email already used",
+    "6": "Pseudo already used"
   },
   "posts": {
     "like": {
@@ -98,6 +100,47 @@
         "link": "The source link's format is not correct",
         "failed": "Update failed"
       }
+    }
+  },
+  "account": {
+    "title": "My account",
+    "logout": "Logout",
+    "viewsName": {
+      "PROFILE": "Profile",
+      "LIKES": "My likes",
+      "SECURITY": "Security"
+    },
+    "profile": {
+      "title": "My profile",
+      "avatar": "Avatar",
+      "upload": "Upload",
+      "delete": "Delete",
+      "email": "Email",
+      "pseudo": "Pseudo",
+      "errors": {
+        "pseudo": "The username must be between 6 and 18 characters",
+        "fileSize": "Image weight is too high",
+        "fileError": "Error when changing profile picture",
+        "removeError": "Error deleting profile picture"
+      }
+    },
+    "security": {
+      "errors": {
+        "password": "Password must contain at least 6 characters",
+        "rejectedPassword": "Error changing password",
+        "deleteAccount": "Error deleting account"
+      },
+      "success": "Your password has been changed",
+      "title": "Security",
+      "password": "Password",
+      "delete": {
+        "title": "Account deletion",
+        "warning": "Warning : You cannot go back. All your data will be deleted instantly.",
+        "action": "Delete my account"
+      }
+    },
+    "likes": {
+      "noPosts": "You haven't liked any articles yet"
     }
   }
 }

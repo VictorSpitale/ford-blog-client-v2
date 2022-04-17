@@ -10,10 +10,12 @@ import SignWithGoogle, {SignStatus} from "../shared/SignWithGoogle";
 import Link from 'next/link'
 import {validateEmail} from "../../shared/utils/regex.utils";
 import {useRouter} from "next/router";
-import {useFetch} from "../../shared/hooks/useFetch";
+import {useFetch, useTranslation} from "../../shared/hooks";
 import {IMethods} from "../../shared/types/methods.type";
 import {blurImg} from "../../shared/images/blurImg";
-import {useTranslation} from "../../shared/hooks/useTranslation";
+import {IUser} from "../../shared/types/user.type";
+import {useAppDispatch} from "../../context/hooks";
+import {login} from "../../context/actions/user.actions";
 
 const LoginForm = () => {
 
@@ -23,12 +25,10 @@ const LoginForm = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
     const t = useTranslation();
-    const handleRequest = () => {
-        if (router.pathname === "/account") {
-            router.reload();
-        } else {
-            router.push('/account')
-        }
+    const dispatch = useAppDispatch();
+    const handleRequest = async (data: IUser) => {
+        await dispatch(login(data));
+        await router.push("/account");
     }
 
     const {load, loading, error: fetchError, code} = useFetch('/auth/login', IMethods.POST, handleRequest);

@@ -7,6 +7,8 @@ import lastPostsReducer from "./reducers/lastPosts.reducer";
 import userReducer from "./reducers/user.reducer";
 import categoriesReducer from "./reducers/categories.reducer";
 import selectCategoriesReducer from "./reducers/selectCategories.reducer";
+import accountViewReducer from "./reducers/accountView.reducer";
+import likedPostsReducer from "./reducers/likedPosts.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -15,7 +17,9 @@ const combinedReducer = combineReducers({
     hydrateStatus: firstHydrateReducer,
     user: userReducer,
     categories: categoriesReducer,
-    selectCategories: selectCategoriesReducer
+    selectCategories: selectCategoriesReducer,
+    accountView: accountViewReducer,
+    likedPosts: likedPostsReducer
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {

@@ -8,7 +8,7 @@ const Layout = ({children}: { children: Children }) => {
 
     return (
         <>
-            <div className={"absolute flex justify-between w-full z-10"}>
+            <div className={"absolute flex justify-between w-full z-10 top-0"}>
                 <NavbarOpener />
                 <LanguageSwitcher />
             </div>
