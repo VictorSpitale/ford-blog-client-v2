@@ -65,7 +65,8 @@
   },
   "httpErrors": {
     "1": "Mauvais mail ou mot de passe",
-    "3": "Pseudo ou mail déjà utilisé"
+    "3": "Pseudo ou mail déjà utilisé",
+    "6": "Pseudo déjà utilisé"
   },
   "posts": {
     "like": {
@@ -97,6 +98,30 @@
         "categories": "Veuillez sélectionner au moins une catégorie",
         "link": "Le lien de la source n'est pas correct",
         "failed": "Impossible de mettre à jour l'article"
+      }
+    }
+  },
+  "account": {
+    "title": "Mon compte",
+    "logout": "Déconnexion",
+    "viewsName": {
+      "PROFILE": "Profil",
+      "LIKES": "Mes j'aimes",
+      "SECURITY": "Sécurité"
+    },
+    "profile": {
+      "title": "Mon profil",
+      "avatar": "Avatar",
+      "upload": "Ajouter",
+      "delete": "Supprimer",
+      "email": "Email",
+      "pseudo": "Pseudo",
+      "save": "Sauvegarder",
+      "errors": {
+        "pseudo": "Le pseudo doit comprendre entre 6 et 18 caractères",
+        "fileSize": "L'image est trop volumineuse",
+        "fileError": "Erreur lors du changement de photo de profile",
+        "removeError": "Erreur lors de la suppression de la photo de profile"
       }
     }
   }

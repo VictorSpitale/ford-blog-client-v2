@@ -65,7 +65,8 @@
   },
   "httpErrors": {
     "1": "Wrong email or password",
-    "3": "Pseudo or email already used"
+    "3": "Pseudo or email already used",
+    "6": "Pseudo already used"
   },
   "posts": {
     "like": {
@@ -97,6 +98,30 @@
         "categories": "Please select at least one category",
         "link": "The source link's format is not correct",
         "failed": "Update failed"
+      }
+    }
+  },
+  "account": {
+    "title": "My account",
+    "logout": "Logout",
+    "viewsName": {
+      "PROFILE": "Profile",
+      "LIKES": "My likes",
+      "SECURITY": "Security"
+    },
+    "profile": {
+      "title": "My profile",
+      "avatar": "Avatar",
+      "upload": "Upload",
+      "delete": "Delete",
+      "email": "Email",
+      "pseudo": "Pseudo",
+      "save": "Save changes",
+      "errors": {
+        "pseudo": "The username must be between 6 and 18 characters",
+        "fileSize": "Image weight is too high",
+        "fileError": "Error when changing profile picture",
+        "removeError": "Error deleting profile picture"
       }
     }
   }

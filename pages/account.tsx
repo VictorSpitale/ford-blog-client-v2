@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "../context/hooks";
 import {setView} from "../context/actions/account.actions";
 import {AccountViews} from "../shared/types/accountViews.type";
 import {isEmpty} from "../shared/utils/object.utils";
+import {useTranslation} from "../shared/hooks";
 
 const Account = () => {
 
@@ -41,6 +42,7 @@ const Account = () => {
 
 
     const {user} = useAppSelector(state => state.user)
+    const t = useTranslation();
 
     if (isEmpty(user)) {
         return <Login />
@@ -48,7 +50,7 @@ const Account = () => {
 
     return (
         <>
-            <SEO title={"Mon compte"} shouldIndex={false} />
+            <SEO title={t.account.title} shouldIndex={false} />
             <AccountView />
         </>
     );

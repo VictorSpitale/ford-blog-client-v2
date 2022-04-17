@@ -8,6 +8,10 @@ export type IUser = {
     createdAt: string;
 }
 
+export type UpdateUser = {
+    pseudo?: string;
+}
+
 export enum IUserRole {
     USER = '0',
     POSTER = '1',
