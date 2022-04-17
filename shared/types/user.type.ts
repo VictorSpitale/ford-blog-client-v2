@@ -10,6 +10,7 @@ export type IUser = {
 
 export type UpdateUser = {
     pseudo?: string;
+    password?: string;
 }
 
 export enum IUserRole {

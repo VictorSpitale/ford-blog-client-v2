@@ -1,6 +1,14 @@
 import {IUser} from "../../shared/types/user.type";
 import {createReducer} from "@reduxjs/toolkit";
-import {getUser, login, logout, removePicture, updateLoggedUser, uploadPicture} from "../actions/user.actions";
+import {
+    deleteAccount,
+    getUser,
+    login,
+    logout,
+    removePicture,
+    updateLoggedUser,
+    uploadPicture
+} from "../actions/user.actions";
 
 export type UserState = {
     user: IUser;
@@ -42,6 +50,8 @@ export const userReducer = createReducer(initial, (builder => {
         state.user = other;
     }).addCase(removePicture.rejected, (state) => {
         state.pending = false
+    }).addCase(deleteAccount.fulfilled, (state) => {
+        state.user = {} as IUser;
     })
 }))
 

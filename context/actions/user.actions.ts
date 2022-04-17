@@ -11,6 +11,7 @@ export const LOGIN = "LOGIN";
 export const UPDATE_LOGGED_USER = "UPDATE_LOGGED_USER";
 export const UPLOAD_PICTURE = "UPLOAD_PICTURE";
 export const REMOVE_PICTURE = "REMOVE_PICTURE";
+export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 
 export const getUser = createAsyncThunk<IUser, AnyFunction, { state: RootState }>(GET_USER, async (callback, {getState}) => {
     const {user: userState} = getState().user
@@ -51,4 +52,8 @@ export const uploadPicture = createAsyncThunk<string, { _id: string; data: FormD
 
 export const removePicture = createAsyncThunk<void, string, { state: RootState }>(REMOVE_PICTURE, async (id) => {
     await instance.delete(`/users/upload/${id}`);
+})
+
+export const deleteAccount = createAsyncThunk<void, string, { state: RootState }>(DELETE_ACCOUNT, async (id) => {
+    await instance.delete(`/users/${id}`);
 })
