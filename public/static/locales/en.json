@@ -138,6 +138,9 @@
         "warning": "Warning : You cannot go back. All your data will be deleted instantly.",
         "action": "Delete my account"
       }
+    },
+    "likes": {
+      "noPosts": "You haven't liked any articles yet"
     }
   }
 }

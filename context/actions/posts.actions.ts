@@ -12,6 +12,8 @@ export const CHANGE_LIKE_STATUS = "CHANGE_LIKE_STATUS"
 export const DELETE_POST = "DELETE_POST";
 export const CLEAN_POST = "CLEAN_POST";
 export const UPDATE_POST = "UPDATE_POST";
+export const GET_LIKED_POSTS = "GET_LIKED_POSTS";
+export const CLEAN_LIKED_POSTS = "CLEAN_LIKED_POSTS";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
     const {posts} = getState().lastPosts
@@ -78,9 +80,20 @@ export const deletePost = createAsyncThunk<string, string, { state: RootState }>
 })
 
 export const cleanPost = createAction(CLEAN_POST);
+export const cleanLikedPosts = createAction(CLEAN_LIKED_POSTS);
 
 export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string }, { state: RootState }>(UPDATE_POST, async (update) => {
     let response: IPost = {} as IPost
     await instance.patch(`/posts/${update.slug}`, update).then((res) => response = res.data);
+    return response;
+})
+
+export const getLikedPost = createAsyncThunk<IPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
+    const {posts} = getState().likedPosts;
+    if (!isEmpty(posts)) {
+        return posts;
+    }
+    let response: IPost[] = []
+    await instance.get(`/posts/liked/${id}`).then((res) => response = res.data);
     return response;
 })

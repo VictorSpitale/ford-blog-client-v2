@@ -9,6 +9,7 @@ import {setView} from "../context/actions/account.actions";
 import {AccountViews} from "../shared/types/accountViews.type";
 import {isEmpty} from "../shared/utils/object.utils";
 import {useTranslation} from "../shared/hooks";
+import {cleanLikedPosts} from "../context/actions/posts.actions";
 
 const Account = () => {
 
@@ -32,11 +33,12 @@ const Account = () => {
     }, [router])
 
     useEffect(() => {
-        const resetView = async () => {
+        const resetState = async () => {
             await dispatch(setView(AccountViews.PROFILE));
+            await dispatch(cleanLikedPosts());
         }
         return () => {
-            resetView();
+            resetState();
         }
     }, [])
 

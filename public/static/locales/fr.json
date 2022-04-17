@@ -138,6 +138,9 @@
         "warning": "Attention : Vous ne pourrez pas revenir en arrière. Toutes vos données seront supprimées instantanément.",
         "action": "Supprimer mon compte"
       }
+    },
+    "likes": {
+      "noPosts": "Vous n'avez pas encore aimé d'articles"
     }
   }
 }
