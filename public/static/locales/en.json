@@ -4,6 +4,7 @@
     "fullSiteName": "Ford Universe Blog",
     "siteDesc": "Ford Universe, automotive blog dedicated to Ford",
     "loading": "Loading...",
+    "save": "Save changes",
     "or": "Or",
     "menu": "Menu",
     "cancel": "Cancel",
@@ -116,7 +117,6 @@
       "delete": "Delete",
       "email": "Email",
       "pseudo": "Pseudo",
-      "save": "Save changes",
       "errors": {
         "pseudo": "The username must be between 6 and 18 characters",
         "fileSize": "Image weight is too high",

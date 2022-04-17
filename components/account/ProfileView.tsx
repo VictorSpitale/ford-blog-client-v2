@@ -88,7 +88,7 @@ const ProfileView = () => {
             </div>
             <hr className={"my-3"} />
             <button onClick={handleSave}
-                    className={"float-right rounded text-white bg-primary-400 px-3 py-1"}>{pending ? t.common.loading : t.account.profile.save}
+                    className={"float-right rounded text-white bg-primary-400 px-3 py-1"}>{pending ? t.common.loading : t.common.save}
             </button>
         </BaseView>
     );
