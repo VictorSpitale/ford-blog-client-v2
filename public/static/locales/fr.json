@@ -123,6 +123,21 @@
         "fileError": "Erreur lors du changement de photo de profile",
         "removeError": "Erreur lors de la suppression de la photo de profile"
       }
+    },
+    "security": {
+      "errors": {
+        "password": "Le mot de passe doit contenir au moins 6 caractères",
+        "rejectedPassword": "Erreur lors du changement de mot de passe",
+        "deleteAccount": "Erreur lors de la suppression du compte"
+      },
+      "success": "Votre mot de passe a bien été modifié",
+      "title": "Sécurité",
+      "password": "Mot de passe",
+      "delete": {
+        "title": "Suppression de compte",
+        "warning": "Attention : Vous ne pourrez pas revenir en arrière. Toutes vos données seront supprimées instantanément.",
+        "action": "Supprimer mon compte"
+      }
     }
   }
 }

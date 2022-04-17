@@ -123,6 +123,21 @@
         "fileError": "Error when changing profile picture",
         "removeError": "Error deleting profile picture"
       }
+    },
+    "security": {
+      "errors": {
+        "password": "Password must contain at least 6 characters",
+        "rejectedPassword": "Error changing password",
+        "deleteAccount": "Error deleting account"
+      },
+      "success": "Your password has been changed",
+      "title": "Security",
+      "password": "Password",
+      "delete": {
+        "title": "Account deletion",
+        "warning": "Warning : You cannot go back. All your data will be deleted instantly.",
+        "action": "Delete my account"
+      }
     }
   }
 }
