@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import Heart from "./Heart";
 import {IPost, LikeStatus} from "../../../shared/types/post.type";
-import {useAppContext} from "../../../context/AppContext";
-import {useAppDispatch} from "../../../context/hooks";
+import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {changeLikeStatus} from "../../../context/actions/posts.actions";
-import {useTranslation} from "../../../shared/hooks/useTranslation";
+import {useTranslation} from "../../../shared/hooks";
+import {isEmpty} from "../../../shared/utils/object.utils";
 
 const LikePostButton = ({post}: { post: IPost }) => {
 
-    const uid = useAppContext();
+    const {user} = useAppSelector(state => state.user)
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const dispatch = useAppDispatch();
     const t = useTranslation();
@@ -34,17 +34,16 @@ const LikePostButton = ({post}: { post: IPost }) => {
 
     return (
         <div className={"flex items-center w-fit pt-3 relative"}>
-            {!uid &&
-				<>
-					<Heart isLiked={false} onClick={() => null} />
-					<p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{t.posts.like.needLoggedIn}</p>
-				</>
-            }
-            {uid &&
-				<>
-					<Heart isLiked={isLiked} onClick={isLiked ? unLike : like} />
-					<p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
-				</>
+            {isEmpty(user) ?
+                <>
+                    <Heart isLiked={false} onClick={() => null} />
+                    <p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{t.posts.like.needLoggedIn}</p>
+                </>
+                :
+                <>
+                    <Heart isLiked={isLiked} onClick={isLiked ? unLike : like} />
+                    <p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
+                </>
             }
         </div>
     );
