@@ -7,7 +7,7 @@ import Link from 'next/link'
 import {AnyFunction} from "../../shared/types/props.type";
 import {blurImg} from "../../shared/images/blurImg";
 
-const NavSearchItem = ({post, onClick}: { post: IPost; onClick: AnyFunction }) => {
+const SimplifiedPostCard = ({post, onClick}: { post: IPost; onClick: AnyFunction }) => {
     return (
         <Link href={"/post/" + post.slug}>
             <a className={styles.search_result_item} onClick={onClick}>
@@ -26,4 +26,4 @@ const NavSearchItem = ({post, onClick}: { post: IPost; onClick: AnyFunction }) =
     );
 };
 
-export default NavSearchItem;
+export default SimplifiedPostCard;

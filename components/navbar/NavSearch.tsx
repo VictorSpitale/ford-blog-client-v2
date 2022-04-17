@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from "../../styles/Navbar.module.css";
-import NavSearchItem from "./NavSearchItem";
+import SimplifiedPostCard from "../posts/SimplifiedPostCard";
 import {AnyFunction} from "../../shared/types/props.type";
 import {IPost} from "../../shared/types/post.type";
 import {useFetch} from "../../shared/hooks/useFetch";
@@ -42,7 +42,7 @@ const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
                     <div className={styles.search_result_item} style={{height: "fit-content", padding: "5px"}}>Aucun
                         résultat</div> :
                     posts.map((post, index) => {
-                        return <NavSearchItem key={index} post={post} onClick={onClick} />
+                        return <SimplifiedPostCard key={index} post={post} onClick={onClick} />
                     })
                 }
             </div>
