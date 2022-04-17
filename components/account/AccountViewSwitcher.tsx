@@ -5,14 +5,12 @@ import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {className} from "../../shared/utils/class.utils";
 import {setView} from "../../context/actions/account.actions";
 import {logout} from "../../context/actions/user.actions";
-import {useRouter} from "next/router";
 
 const AccountViewSwitcher = () => {
 
     const t = useTranslation();
     const {view: activeView} = useAppSelector(state => state.accountView)
     const dispatch = useAppDispatch();
-    const router = useRouter();
     const getViews = (): ViewButtonType[] => {
         return Object.keys(AccountViews).map((view) => {
             const viewType = getViewType(view.toLowerCase());
@@ -30,9 +28,7 @@ const AccountViewSwitcher = () => {
     }
 
     const handleLogout = async () => {
-        await dispatch(logout()).then(() => {
-            router.push("/login")
-        })
+        await dispatch(logout())
     }
 
     return (
