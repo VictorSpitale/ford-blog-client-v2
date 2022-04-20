@@ -51,6 +51,7 @@
     "recovery": {
       "title": "Password recovery",
       "text": "You have requested a password recovery. To reset your password, click on the link sent to the address associated with your account.",
+      "desc": "Please enter your new password",
       "action": "Send"
     }
   },

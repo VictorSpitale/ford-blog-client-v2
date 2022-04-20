@@ -7,3 +7,8 @@ export const isValidUrl = (url: string): boolean => {
     const urlPattern = new RegExp('^(http[s]?:\\/\\/(www\\.)?|\\/\\/(www\\.)?|www\\.)([0-9A-Za-z-.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(\\/(.)*)?(\\?(.)*)?$');
     return urlPattern.exec(url) !== null;
 }
+
+export const isUuid = (uuid: string): boolean => {
+    const uuidRegex = new RegExp(/^[\w]{8}(-[\w]{4}){3}-[\w]{12}$/gm)
+    return uuidRegex.exec(uuid) !== null;
+}
