@@ -2,13 +2,9 @@
     display   : flex;
     height    : fit-content;
     left      : 0;
-    margin    : auto;
+    margin    : 50px auto auto;
     max-width : 1000px;
-    /*min-width : 600px;*/
-    position  : absolute;
     right     : 0;
-    top       : 50%;
-    transform : translateY(-50%);
 }
 
 .login_container_left {
@@ -71,4 +67,19 @@
 
 .login_form > label {
     margin-top : 15px;
+}
+
+.recovery {
+    display   : block;
+    left      : 50%;
+    margin    : auto;
+    position  : fixed;
+    top       : 50%;
+    transform : translateY(-50%);
+    width     : max-content;
+}
+
+.recovery_content {
+    left     : -50%;
+    position : relative;
 }
