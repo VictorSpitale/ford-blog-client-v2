@@ -1,5 +1,5 @@
 import React, {ForwardedRef, forwardRef, useRef} from 'react';
-import {AnyFunction} from "../../shared/types/props.type";
+import {AnyFunction, Children} from "../../shared/types/props.type";
 import {useOnClickOutside} from "../../shared/hooks";
 import styles from '../../styles/Modal.module.css'
 import {className} from "../../shared/utils/class.utils";
@@ -9,7 +9,7 @@ type PropsType = {
     isShowing: boolean,
     hide: AnyFunction,
     title?: string,
-    children: JSX.Element[] | JSX.Element,
+    children: Children,
     hasPrevious?: boolean,
     previous?: AnyFunction,
     large?: boolean

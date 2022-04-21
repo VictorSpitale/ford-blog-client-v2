@@ -2,13 +2,9 @@
     display   : flex;
     height    : max-content;
     left      : 0;
-    margin    : auto;
+    margin    : 50px auto auto;
     max-width : 1000px;
-    /*min-width : 600px;*/
-    position  : absolute;
     right     : 0;
-    top       : 50%;
-    transform : translateY(-50%);
 }
 
 .register_container_left {

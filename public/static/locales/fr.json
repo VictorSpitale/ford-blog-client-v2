@@ -47,6 +47,12 @@
     "error": {
       "fields": "Veuillez remplir tous les champs",
       "email": "Email non conforme"
+    },
+    "recovery": {
+      "title": "Récupération de mot de passe",
+      "text": "Vous avez fait une demande de récupération de mot de passe. Pour réinitialiser votre mot de passe, cliquez sur le lien qui vous a été envoyé à l'adresse associée à votre compte.",
+      "desc": "Veuillez entrez votre nouveau mot de passe",
+      "action": "Envoyer"
     }
   },
   "register": {

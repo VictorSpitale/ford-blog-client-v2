@@ -1,7 +1,6 @@
 import React from 'react';
 import {useAppSelector} from "../../context/hooks";
 import {wrapper} from "../../context/store";
-import Header from "../../components/shared/Header";
 import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
 import SinglePost from "../../components/posts/SinglePost";
@@ -22,7 +21,6 @@ const PostPage = ({error}: ErrorProps) => {
     }
     return (
         <>
-            <Header />
             <SEO title={post.title} description={getFirstSentence(post.desc)} />
             <SinglePost post={post} />
         </>
