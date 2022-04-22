@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, ReactElement, useEffect, useState} from 'react';
 import {wrapper} from "../../context/store";
 import {useRouter} from "next/router";
 import styles from '../../styles/Login.module.css'
@@ -8,8 +8,10 @@ import {useFetch, useTranslation} from "../../shared/hooks";
 import SEO from "../../components/shared/seo";
 import {IMethods} from "../../shared/types/methods.type";
 import {isUuid} from "../../shared/utils/regex.utils";
+import Layout from "../../components/layouts/Layout";
+import {NextPageWithLayout} from "../../shared/types/page.type";
 
-const Token = ({token}: { token: string }) => {
+const Token: NextPageWithLayout<{ token: string }> = ({token}) => {
 
     const router = useRouter();
 
@@ -62,4 +64,12 @@ Token.getInitialProps = wrapper.getInitialPageProps(
         }
     }
 );
+
+Token.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <Layout>
+            {page}
+        </Layout>
+    )
+}
 

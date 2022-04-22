@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {useAppSelector} from "../../context/hooks";
 import {wrapper} from "../../context/store";
 import SEO from "../../components/shared/seo";
@@ -9,8 +9,10 @@ import Error from "../_error";
 import {ErrorProps} from "../../shared/types/errors.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useTranslation} from "../../shared/hooks";
+import {NextPageWithLayout} from "../../shared/types/page.type";
+import Layout from "../../components/layouts/Layout";
 
-const PostPage = ({error}: ErrorProps) => {
+const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
     const {post} = useAppSelector((state => state.post))
     const t = useTranslation();
     if (error || isEmpty(post)) {
@@ -43,3 +45,17 @@ PostPage.getInitialProps = wrapper.getInitialPageProps(
         }
 );
 
+PostPage.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <Layout>
+            {page}
+        </Layout>
+    )
+}
+PostPage.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <Layout>
+            {page}
+        </Layout>
+    )
+}

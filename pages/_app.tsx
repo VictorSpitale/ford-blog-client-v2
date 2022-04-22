@@ -1,16 +1,16 @@
 import '../styles/globals.css'
-import {AppProps} from "next/app";
 import {wrapper} from "../context/store";
-import Layout from "../components/layouts/Layout";
 import {AppWrapper} from "../context/AppContext";
+import {AppPropsWithLayout} from "../shared/types/page.type";
 
-function MyApp({Component, pageProps}: AppProps) {
-    
-    return (
+
+function MyApp({Component, pageProps}: AppPropsWithLayout) {
+
+    const getLayout = Component.getLayout || ((page) => page)
+
+    return getLayout(
         <AppWrapper>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <Component {...pageProps} />
         </AppWrapper>
     )
 }

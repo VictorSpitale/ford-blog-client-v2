@@ -32,7 +32,7 @@ const SinglePost = ({post}: { post: IPost }) => {
             <DeletePostModal post={post} toggle={toggle} isShowing={isShowing} />
             <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} />
             <div
-                className={"mx-8 md:mx-24 pb-2 mb-36 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
+                className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
                 <div
                     className={"shadow-xl mx-auto w-full h-[315px]" +
                         " lg:h-[450px] relative rounded-t-2xl overflow-hidden"}>

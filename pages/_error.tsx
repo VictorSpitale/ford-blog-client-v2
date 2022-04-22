@@ -7,7 +7,7 @@ import Link from 'next/link'
 import {className} from "../shared/utils/class.utils";
 import styles from "../styles/Error.module.css";
 import {NextApiResponse} from "next";
-import {useTranslation} from "../shared/hooks/useTranslation";
+import {useTranslation} from "../shared/hooks";
 
 function Error({statusCode, customMessage}: { statusCode: number, customMessage?: string }) {
     const t = useTranslation()

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import Login from "./login";
 import {useRouter} from "next/router";
 import {instance} from "../context/instance";
@@ -10,8 +10,10 @@ import {AccountViews} from "../shared/types/accountViews.type";
 import {isEmpty} from "../shared/utils/object.utils";
 import {useTranslation} from "../shared/hooks";
 import {cleanLikedPosts} from "../context/actions/posts.actions";
+import Layout from "../components/layouts/Layout";
+import {NextPageWithLayout} from "../shared/types/page.type";
 
-const Account = () => {
+const Account: NextPageWithLayout = () => {
 
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -59,3 +61,11 @@ const Account = () => {
 };
 
 export default Account;
+
+Account.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <Layout>
+            {page}
+        </Layout>
+    )
+}
