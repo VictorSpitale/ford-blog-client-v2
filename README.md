@@ -1,46 +1,60 @@
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />
-Ce(tte) œuvre est mise à disposition selon les termes de
-la <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licence Creative Commons Attribution - Pas
-d&#39;Utilisation Commerciale - Pas de Modification 4.0 International</a>.
+# Ford Universe V2 (Front)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped
-with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Ce dépôt contient la partie front du blog Ford Universe.  
+L'objectif de cette refonte est de rendre le code plus maintenable et de le rendre Open Source.
 
-## Getting Started
+## Badges
 
-First, run the development server:
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+
+## Installation
+
+Cloner le dépôt avec git
 
 ```bash
-npm run dev
-# or
-yarn dev
+  git clone https://github.com/VictorSpitale/ford-blog-client-v2.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ou Github CLI
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+  gh repo clone VictorSpitale/ford-blog-client-v2
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed
-on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited
-in `pages/api/hello.js`.
+## Configuration
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated
-as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Configurer les variables d'environnement .env
 
-## Learn More
+| Nom                       | exemple                 | Instructions                    |
+|---------------------------|-------------------------|---------------------------------|
+| ***NEXT_PUBLIC_API_URL*** | http://lien_vers_api.fr | Url vers l'api de ford universe |
+| ***NEXT_PUBLIC_ENV***     | production, development | Environnement                   |
 
-To learn more about Next.js, take a look at the following resources:
+## Lancer le projet
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Installer les dépendences
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
+```bash
+  npm install
+```
 
-## Deploy on Vercel
+Lancer le serveur
 
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+```bash
+  npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Stack technique
+
+**Client:** NextJS, React, TailwindCSS, ReduxToolkit, Axios, ReactSelect
+
+**Server:** Node, NestJS, Redis, Nodemailer, Google OAuth
+
+**CI/CD:** Google Cloud Run, Google Cloud Storage, Vercel
+
+## Auteur
+
+- [@VictorSpitale](https://www.github.com/VictorSpitale)
+
+![Logo](https://storage.googleapis.com/fordblog.appspot.com/email/forduniverse.png)
+
