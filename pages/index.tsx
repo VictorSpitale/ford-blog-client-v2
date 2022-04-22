@@ -1,17 +1,19 @@
 import SEO from "../components/shared/seo";
-import {NextPage} from "next";
 import {wrapper} from "../context/store";
 import {getLastPosts} from "../context/actions/posts.actions";
 import {useAppSelector} from "../context/hooks";
 import dynamic from "next/dynamic";
 import {changeStatus} from "../context/actions/firstHydrate.actions";
 import {HydrateStatus} from "../context/reducers/firstHydrate.reducer";
-import {useTranslation} from "../shared/hooks/useTranslation";
+import {useTranslation} from "../shared/hooks";
+import {ReactElement} from "react";
+import Layout from "../components/layouts/Layout";
+import {NextPageWithLayout} from "../shared/types/page.type";
 
 const LoadingScreen = dynamic(() => import("../components/LoadingScreen"))
 const LastPosts = dynamic(() => import("../components/posts/LastPosts"))
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
     const {posts, pending} = useAppSelector((state) => state.lastPosts);
     const {status} = useAppSelector((state) => state.hydrateStatus)
 
@@ -40,4 +42,13 @@ Home.getInitialProps = wrapper.getInitialPageProps(
         }
 );
 
+Home.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <Layout>
+            {page}
+        </Layout>
+    )
+}
+
 export default Home
+

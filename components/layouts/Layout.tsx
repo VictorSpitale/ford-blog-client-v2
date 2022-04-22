@@ -16,7 +16,7 @@ const Layout = ({children}: { children: Children }) => {
                 {!isIndex() && <Header />}
                 <LanguageSwitcher />
             </div>
-            <main className={`${!isIndex() ? 'relative top-28' : ''}`}>{children}</main>
+            <main className={`${!isIndex() ? 'relative mt-32' : ''}`}>{children}</main>
         </>
     );
 };
