@@ -1,30 +1,33 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useEffect} from 'react';
 import {useAppSelector} from "../../context/hooks";
 import {wrapper} from "../../context/store";
 import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
 import SinglePost from "../../components/posts/SinglePost";
 import {getPost} from "../../context/actions/posts.actions";
-import Error from "../_error";
 import {ErrorProps} from "../../shared/types/errors.type";
 import {isEmpty} from "../../shared/utils/object.utils";
-import {useTranslation} from "../../shared/hooks";
 import {NextPageWithLayout} from "../../shared/types/page.type";
 import Layout from "../../components/layouts/Layout";
+import {useRouter} from "next/router";
 
 const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
     const {post} = useAppSelector((state => state.post))
-    const t = useTranslation();
-    if (error || isEmpty(post)) {
-        return (
-            <Error statusCode={error?.statusCode || 404}
-                   customMessage={error?.customMessage || t.posts["404"]} />
-        )
-    }
+    const router = useRouter();
+
+    useEffect(() => {
+        if (error || isEmpty(post)) {
+            router.push('/404')
+        }
+    }, []);
+
     return (
         <>
-            <SEO title={post.title} description={getFirstSentence(post.desc)} />
-            <SinglePost post={post} />
+            {(!error && isEmpty(post)) &&
+				<>
+					<SEO title={post.title} description={getFirstSentence(post.desc)} />
+					<SinglePost post={post} />
+				</>}
         </>
     );
 };
@@ -45,13 +48,6 @@ PostPage.getInitialProps = wrapper.getInitialPageProps(
         }
 );
 
-PostPage.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <Layout>
-            {page}
-        </Layout>
-    )
-}
 PostPage.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
