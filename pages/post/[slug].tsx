@@ -23,7 +23,7 @@ const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
 
     return (
         <>
-            {(!error && isEmpty(post)) &&
+            {(!error && !isEmpty(post)) &&
 				<>
 					<SEO title={post.title} description={getFirstSentence(post.desc)} />
 					<SinglePost post={post} />
