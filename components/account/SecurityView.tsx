@@ -1,5 +1,5 @@
 import React, {FormEvent, useRef, useState} from 'react';
-import BaseView from "./BaseView";
+import BaseView from "../shared/BaseView";
 import InputField from "../shared/InputField";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {deleteAccount, updateLoggedUser} from "../../context/actions/user.actions";

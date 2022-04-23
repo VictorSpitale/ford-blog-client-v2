@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import BaseView from "./BaseView";
+import BaseView from "../shared/BaseView";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {useTranslation} from "../../shared/hooks";
 import {getLikedPost} from "../../context/actions/posts.actions";
