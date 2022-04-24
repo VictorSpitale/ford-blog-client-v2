@@ -13,7 +13,7 @@ export const UPLOAD_PICTURE = "UPLOAD_PICTURE";
 export const REMOVE_PICTURE = "REMOVE_PICTURE";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 
-export const getUser = createAsyncThunk<IUser, AnyFunction, { state: RootState }>(GET_USER, async (callback, {getState}) => {
+export const getUser = createAsyncThunk<IUser, AnyFunction | undefined, { state: RootState }>(GET_USER, async (callback, {getState}) => {
     const {user: userState} = getState().user
     if (!isEmpty(userState)) {
         return userState;
@@ -21,7 +21,7 @@ export const getUser = createAsyncThunk<IUser, AnyFunction, { state: RootState }
     let response: IUser = {} as IUser;
     await instance.get('/auth/jwt').then(res => {
         response = res.data;
-        callback(response._id);
+        if (callback) callback(response._id);
     });
     return response;
 })

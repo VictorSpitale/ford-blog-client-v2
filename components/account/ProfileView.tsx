@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import BaseView from "./BaseView";
+import BaseView from "../shared/BaseView";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import Image from "next/image"
 import {getUserPictureSrc, UpdateUser} from "../../shared/types/user.type";
