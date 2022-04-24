@@ -16,11 +16,11 @@
 import * as fs from "fs";
 import * as http from "http";
 
-let server;
+let server: http.Server;
 /**
  * @type {Cypress.PluginConfig}
  */
-export default (on, config) => {
+export default (on: any, config: any) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
     on('task', {
