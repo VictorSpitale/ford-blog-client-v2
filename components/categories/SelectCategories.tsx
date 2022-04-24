@@ -9,6 +9,7 @@ import {
     removeSelectedCategories,
     setSelectedCategories
 } from "../../context/actions/categories.actions";
+import {clearError} from "../../context/actions/errors.actions";
 
 interface Option {
     readonly label: string;
@@ -21,6 +22,7 @@ const SelectCategories = () => {
     const {categories: defaultCategories} = useAppSelector(state => state.post.post)
     const {categories: selectValues} = useAppSelector(state => state.selectCategories)
     const dispatch = useAppDispatch();
+
     const createOption = (category: ICategory): Option => ({
         label: category.name,
         value: category.name.toLowerCase().replace(/\W/g, ""),
@@ -37,7 +39,7 @@ const SelectCategories = () => {
 
     const getDefaultOptions = () => {
         const defaults: Option[] = []
-        defaultCategories.forEach((cat) => {
+        defaultCategories?.forEach((cat) => {
             getOptions().forEach((opt) => {
                 if (opt.label === cat.name) defaults.push(opt)
             })
@@ -63,15 +65,14 @@ const SelectCategories = () => {
 
     const handleCreate = async (newValue: string) => {
         await dispatch(createCategory(newValue)).then(async (res) => {
+            if (res.meta.requestStatus === "rejected") return;
             await dispatch(addSelectedCategories(res.payload as ICategory))
-        }).catch(() => {
-            return;
-        });
+        })
     }
 
     const getValues = useCallback(() => {
         const values: Option[] = [];
-        selectValues.forEach((cat) => {
+        selectValues?.forEach((cat) => {
             values.push(createOption(cat));
         })
         return values;
@@ -79,10 +80,11 @@ const SelectCategories = () => {
 
     useEffect(() => {
         const setValues = async () => {
-            await dispatch(setSelectedCategories(defaultCategories))
+            await dispatch(setSelectedCategories(defaultCategories || []))
         }
         const clear = async () => {
             await dispatch(setSelectedCategories([]))
+            await dispatch(clearError())
         }
         setValues();
         return () => {
