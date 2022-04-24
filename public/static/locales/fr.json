@@ -73,7 +73,11 @@
   "httpErrors": {
     "1": "Mauvais mail ou mot de passe",
     "3": "Pseudo ou mail déjà utilisé",
-    "6": "Pseudo déjà utilisé"
+    "6": "Pseudo déjà utilisé",
+    "7": "Un article possède déjà le même titre",
+    "8": "L'image dépasse les 500ko",
+    "9": "Le format du ficher n'est pas pris en charge",
+    "10": "Erreur lors de l'enregistrement"
   },
   "posts": {
     "like": {

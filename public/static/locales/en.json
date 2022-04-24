@@ -73,7 +73,11 @@
   "httpErrors": {
     "1": "Wrong email or password",
     "3": "Pseudo or email already used",
-    "6": "Pseudo already used"
+    "6": "Pseudo already used",
+    "7": "A post already has the same title",
+    "8": "The image exceeds 500kB",
+    "9": "The file format is not supported",
+    "10": "Error saving"
   },
   "posts": {
     "like": {
