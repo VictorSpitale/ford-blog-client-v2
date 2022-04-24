@@ -1,3 +1,6 @@
+/// <reference types="cypress" />
+/// <reference types="../../cypress/support" />
+
 Cypress.Commands.add('isInView', subject => {
     const windowInnerWidth = Cypress.config(`viewportWidth`);
     const windowInnerHeight = Cypress.config(`viewportHeight`);
@@ -12,3 +15,5 @@ Cypress.Commands.add('isInView', subject => {
     expect(bounding.right).to.be.lessThan(rightBoundOfWindow);
     expect(bounding.bottom).to.be.lessThan(bottomBoundOfWindow);
 })
+
+export {}
