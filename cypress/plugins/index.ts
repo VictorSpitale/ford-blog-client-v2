@@ -16,7 +16,7 @@
 import * as fs from "fs";
 import * as http from "http";
 
-let server;
+let server: http.Server;
 /**
  * @type {Cypress.PluginConfig}
  */
