@@ -59,7 +59,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                     </div>
                     <div className={"flex justify-between mt-4"}>
                         <LikePostButton post={post} />
-                        {user.role >= IUserRole.POSTER && <div className={"flex"}>
+                        {user.role >= IUserRole.ADMIN && <div className={"flex"}>
 							<Trash callback={toggle} />
 							<Edit callback={toggleUpdate} />
 						</div>}
