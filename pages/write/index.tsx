@@ -23,6 +23,7 @@ const Write = () => {
 
     const {user} = useAppSelector(state => state.user);
     const {categories} = useAppSelector(state => state.selectCategories);
+    const {pending} = useAppSelector(state => state.post);
     const [error, setError] = useState('');
     const dispatch = useAppDispatch();
     const [post, setPost] = useState<ICreatePost>({} as ICreatePost);
@@ -36,12 +37,13 @@ const Write = () => {
 
     const handleSubmit = async () => {
         setError('');
-        getCreatePostKeys().forEach(key => {
-            if (isEmpty(post[key])) return setError(`Le champs ${key} ne doit pas être vide`);
-        })
-        if (isEmpty(categories)) return setError('Veuillez sélectionner au moins une catégories');
-        if (!isValidUrl(post.sourceLink)) return setError("Le lien de la source n'est pas un lien valide");
-        if (!file.file) return setError("Veuillez ajouter une photo");
+        for (const key of getCreatePostKeys()) {
+            console.log(key, isEmpty(post[key]))
+            if (isEmpty(post[key])) return setError(t.posts.create.errors.key.replace('{{key}}', t.posts.create.fields[key as never]));
+        }
+        if (isEmpty(categories)) return setError(t.posts.create.errors.categories);
+        if (!isValidUrl(post.sourceLink)) return setError(t.posts.create.errors.sourceLink);
+        if (!file.file) return setError(t.posts.create.errors.photo);
         const postCategories: string[] = [];
         categories.forEach((cat) => postCategories.push(cat._id));
         await dispatch(createPost({
@@ -52,7 +54,7 @@ const Write = () => {
             if (res.meta.requestStatus === "rejected") {
                 const payload = res.payload as HttpError
                 if (payload.code) return setError(t.httpErrors[payload.code as never]);
-                return setError("Une erreur est survenue");
+                return setError(t.common.errorSub);
             }
             router.push(`/post/${post.slug}`);
         });
@@ -64,10 +66,9 @@ const Write = () => {
                 <SEO title={""} shouldIndex={false} />
                 <div className={"w-3/4 m-auto pt-11"}>
                     <BaseView>
-                        <h1 className={"text-lg md:text-2xl text-center"}>Vous n'avez pas accès à la publication
-                            d'article</h1>
+                        <h1 className={"text-lg md:text-2xl text-center"}>{t.posts.create.cantAccess}</h1>
                         <Link href={"/"} passHref>
-                            <a className={"underline mx-auto block text-center"}>Retourner à l'accueil</a>
+                            <a className={"underline mx-auto block text-center"}>{t.common.backHome}</a>
                         </Link>
                     </BaseView>
                 </div>
@@ -77,17 +78,17 @@ const Write = () => {
 
     return (
         <>
-            <SEO title={"Publier un article"} shouldIndex={false} />
+            <SEO title={t.posts.create.title} shouldIndex={false} />
             <div className={"w-3/4 m-auto pt-11 mb-10"}>
                 <BaseView className={"max-h-fit"}>
-                    <h1 className={"text-2xl text-center"}>Publier un article</h1>
+                    <h1 className={"text-2xl text-center"}>{t.posts.create.title}</h1>
                     <hr className={"my-2"} />
                     {error && <p className={"bg-red-400 rounded text-white px-2 my-2"}>{error}</p>}
                     {file.src && <div className={"flex justify-center rounded-2xl overflow-hidden w-fit mx-auto"}>
 						<Image src={file.src} alt="" width={"600"} height={"300"} objectFit={"cover"} />
 					</div>}
                     <div className={"flex gap-x-5 flex-col md:flex-row"}>
-                        <InputField name={"title"} label={"Titre"} onChange={(e) => {
+                        <InputField name={"title"} label={t.posts.create.fields.title} onChange={(e) => {
                             setPost({
                                 ...post,
                                 title: e.target.value,
@@ -95,17 +96,17 @@ const Write = () => {
                             })
                         }} />
                         <slot className={"hidden md:block w-full"}>
-                            <InputField name={"slug"} label={"Slug"} disabled value={post.slug} />
+                            <InputField name={"slug"} label={t.posts.create.fields.slug} disabled value={post.slug} />
                         </slot>
                     </div>
                     <div className={"flex gap-x-5 flex-col md:flex-row my-0 md:my-3"}>
-                        <InputField name={"sourceName"} label={"Nom de la source"} onChange={(e) => {
+                        <InputField name={"sourceName"} label={t.posts.create.fields.sourceName} onChange={(e) => {
                             setPost({
                                 ...post,
                                 sourceName: e.target.value
                             })
                         }} />
-                        <InputField name={"sourceLink"} label={"Lien de la source"} onChange={(e) => {
+                        <InputField name={"sourceLink"} label={t.posts.create.fields.sourceLink} onChange={(e) => {
                             setPost({
                                 ...post,
                                 sourceLink: e.target.value
@@ -115,7 +116,7 @@ const Write = () => {
                     <hr className={"my-2"} />
                     <SelectCategories />
                     <hr className={"my-2"} />
-                    <TextAreaField name={"desc"} label={"Description"} onChange={(e) => {
+                    <TextAreaField name={"desc"} label={t.posts.create.fields.desc} onChange={(e) => {
                         setPost({
                             ...post,
                             desc: e.target.value
@@ -124,7 +125,7 @@ const Write = () => {
                     <div className={"flex items-center justify-center mt-2 gap-x-3"}>
                         <label
                             className={"w-fit h-full block cursor-pointer leading-[200%] text-center border-0 rounded border py-1 px-4 text-white bg-primary-400 shadow-2xl"}>
-                            Ajouter une photo
+                            {t.posts.create.photo}
                             <input type={"file"} id={"inputFile"} style={{display: "none"}}
                                    accept={'.jpeg, .png, .jpg'} onChange={(e) => setFile({
                                 file: (e.target.files && e.target.files.length > 0) ? e.target.files[0] : undefined,
@@ -133,7 +134,7 @@ const Write = () => {
                         </label>
                         <button
                             className={"md:px-8 hover:bg-green-600 rounded bg-green-500 text-white py-2 px-4 shadow drop-shadow"}
-                            onClick={handleSubmit}>Publier
+                            onClick={handleSubmit}>{pending ? t.common.loading : t.posts.create.action}
                         </button>
                     </div>
                 </BaseView>

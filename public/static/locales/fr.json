@@ -110,6 +110,25 @@
         "link": "Le lien de la source n'est pas correct",
         "failed": "Impossible de mettre à jour l'article"
       }
+    },
+    "create": {
+      "title": "Publier un article",
+      "fields": {
+        "title": "Titre",
+        "slug": "Slug",
+        "sourceName": "Nom de la source",
+        "sourceLink": "Lien de la source",
+        "desc": "Description"
+      },
+      "action": "Publier",
+      "photo": "Ajouter une photo",
+      "cantAccess": "Vous n'avez pas accès à la publication d'article",
+      "errors": {
+        "key": "Le champs {{key}} ne doit pas être vide",
+        "categories": "Veuillez sélectionner au moins une catégorie",
+        "sourceLink": "Le lien de la source n'est pas valide",
+        "photo": "Veuillez ajouter une photo"
+      }
     }
   },
   "account": {

@@ -110,6 +110,25 @@
         "link": "The source link's format is not correct",
         "failed": "Update failed"
       }
+    },
+    "create": {
+      "title": "Publish a post",
+      "fields": {
+        "title": "Title",
+        "slug": "Slug",
+        "sourceName": "Source name",
+        "sourceLink": "Source link",
+        "desc": "Description"
+      },
+      "action": "Publish",
+      "photo": "Add a photo",
+      "cantAccess": "You don't have access to post publishing",
+      "errors": {
+        "key": "The field {{key}} must not be empty",
+        "categories": "Please select at least one category",
+        "sourceLink": "The source link is invalid",
+        "photo": "Please add a photo"
+      }
     }
   },
   "account": {
