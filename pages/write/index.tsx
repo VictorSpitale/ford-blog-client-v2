@@ -80,7 +80,7 @@ const Write = () => {
         <>
             <SEO title={t.posts.create.title} shouldIndex={false} />
             <div className={"w-3/4 m-auto pt-11 mb-10"}>
-                <BaseView className={"max-h-fit"}>
+                <BaseView className={"!max-h-fit"}>
                     <h1 className={"text-2xl text-center"}>{t.posts.create.title}</h1>
                     <hr className={"my-2"} />
                     {error && <p className={"bg-red-400 rounded text-white px-2 my-2"}>{error}</p>}
