@@ -4,7 +4,7 @@ export const validateEmail = (email: string): boolean => {
 }
 
 export const isValidUrl = (url: string): boolean => {
-    const urlPattern = new RegExp('^(http[s]?:\\/\\/(www\\.)?|\\/\\/(www\\.)?|www\\.)([0-9A-Za-z-.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(\\/(.)*)?(\\?(.)*)?$');
+    const urlPattern = new RegExp('^(https:\\/\\/(www\\.)?|\\/\\/(www\\.)?|www\\.)([0-9A-Za-z-.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(\\/(.)*)?(\\?(.)*)?$');
     return urlPattern.exec(url) !== null;
 }
 
