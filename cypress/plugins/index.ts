@@ -24,7 +24,7 @@ export default (on: any, config: any) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
     on('task', {
-        mockServer({interceptUrl, fixture}) {
+        mockServer({interceptUrl, fixture}: any) {
 
             if (server) server.close();       // close any previous instance
 
