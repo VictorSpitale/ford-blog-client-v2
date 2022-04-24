@@ -22,8 +22,13 @@ const initial: UserState = {
 }
 
 export const userReducer = createReducer(initial, (builder => {
-    builder.addCase(getUser.fulfilled, (state, {payload}) => {
+    builder.addCase(getUser.pending, (state) => {
+        state.pending = true;
+    }).addCase(getUser.fulfilled, (state, {payload}) => {
         state.user = payload
+        state.pending = false;
+    }).addCase(getUser.rejected, (state) => {
+        state.pending = false;
     }).addCase(logout.fulfilled, (state) => {
         state.user = {} as IUser;
     }).addCase(login, (state, {payload}) => {

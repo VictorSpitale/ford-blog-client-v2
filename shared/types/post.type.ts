@@ -18,15 +18,20 @@ export type IPost = {
     updatedAt: string
 }
 
+// Use to loop for [key, value] of ICreatePost, [file, categories] omitted because it's checked later
+export const getCreatePostKeys = () => {
+    return ["desc", "slug", "title", "sourceLink", "sourceName"]
+}
+
 export type ICreatePost = {
-    authorId: string,
+    [key: string]: string | string[] | File
     categories: string[],
     desc: string,
     slug: string,
     sourceLink: string,
     sourceName: string,
     title: string,
-    picture?: string
+    file: File
 }
 
 export enum LikeStatus {

@@ -1,5 +1,5 @@
 import {IPost} from "../../shared/types/post.type";
-import {deletePost, getLastPosts, updatePost} from "../actions/posts.actions";
+import {createPost, deletePost, getLastPosts, updatePost} from "../actions/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
 
 export type PostsState = {
@@ -36,6 +36,13 @@ export const lastPostsReducer = createReducer(initial, (builder) => {
                 payload
             ]
         }
+    }).addCase(createPost.fulfilled, (state, {payload}) => {
+        const newPosts = [
+            payload,
+            ...state.posts
+        ]
+        if (newPosts.length > 6) newPosts.pop();
+        state.posts = newPosts;
     })
 })
 export default lastPostsReducer

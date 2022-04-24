@@ -7,7 +7,6 @@ export const isEmpty = (value: object | string) => {
     );
 };
 
-
 export const mergeDeep = (target: any, source: any) => {
     const isObject = (obj: any) => obj && typeof obj === 'object';
 
@@ -29,4 +28,21 @@ export const mergeDeep = (target: any, source: any) => {
     });
 
     return target;
+}
+
+export const toFormData = (object: Record<string, string | Blob | string[]>): FormData => {
+    const formData = new FormData();
+
+    Object.keys(object).forEach(key => {
+        if (typeof object[key] === "string" || object[key] instanceof Blob) {
+            const value = object[key] as string | Blob;
+            formData.append(key, value);
+        } else {
+            const values = object[key] as string[];
+            values.forEach((value) => {
+                formData.append(key, value);
+            })
+        }
+    });
+    return formData;
 }

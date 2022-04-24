@@ -1,7 +1,7 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
-import {isEmpty} from "../../shared/utils/object.utils";
+import {ICreatePost, IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
+import {isEmpty, toFormData} from "../../shared/utils/object.utils";
 import {instance} from "../instance";
 import {NextPageContext} from "next";
 
@@ -14,6 +14,7 @@ export const CLEAN_POST = "CLEAN_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const GET_LIKED_POSTS = "GET_LIKED_POSTS";
 export const CLEAN_LIKED_POSTS = "CLEAN_LIKED_POSTS";
+export const CREATE_POST = "CREATE_POST";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
     const {posts} = getState().lastPosts
@@ -96,4 +97,16 @@ export const getLikedPost = createAsyncThunk<IPost[], string, { state: RootState
     let response: IPost[] = []
     await instance.get(`/posts/liked/${id}`).then((res) => response = res.data);
     return response;
+})
+
+export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootState }>(CREATE_POST, async (post, {rejectWithValue}) => {
+    let response = {} as IPost;
+    return await instance.post('/posts', toFormData(post))
+        .then(res => {
+            response = res.data;
+            return response;
+        })
+        .catch(res => {
+            return rejectWithValue(res.response.data)
+        })
 })
