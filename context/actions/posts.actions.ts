@@ -22,7 +22,7 @@ export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }
         return posts
     }
     let response: IPost[] = []
-    await instance.get('/posts/last').then((res) => response = res.data)
+    await instance.get('/posts/last').then((res) => response = res.data);
     return response
 })
 
