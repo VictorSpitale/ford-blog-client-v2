@@ -9,9 +9,6 @@ context('Home Page', () => {
     beforeEach(() => {
         cy.get('.Navbar_select_language__kefFL').should("be.visible").as('flag');
         cy.get('.Navbar_nav_opener_button__K20mv').should('be.visible').as('menu');
-    })
-
-    before(() => {
         cy.intercept({
             method: "GET",
             url: `${apiUrl}/categories`
@@ -20,6 +17,9 @@ context('Home Page', () => {
             method: "GET",
             url: `${apiUrl}/auth/jwt`
         }, {statusCode: 404}).as('jwt')
+    })
+
+    before(() => {
         cy.fixture('lastPosts').then(res => {
             cy.visit('http://localhost:3000', {
                 onBeforeLoad(win: Cypress.AUTWindow) {
@@ -54,11 +54,30 @@ context('Home Page', () => {
         cy.get(':nth-child(2)').contains('+ 1')
     })
 
+    it('should have post links', () => {
+        cy.fixture('lastPosts.json').then(res => {
+            const lastPosts = res as IPost[];
+            cy.get(`.Loading_content_container__pGjBz > div > div:nth-child(1) a.bg-primary-400`)
+                .as('link').should('have.attr', 'href').should('contain', lastPosts[0].slug)
+        })
+    })
+
     it('should display the languages available', () => {
         cy.get('@flag').children('ul').should('not.be.visible');
         cy.get('.Navbar_select_language__kefFL').realHover();
         cy.get('@flag').children('ul').then(res => {
             cy.isInView(res);
+        })
+    })
+
+    it('should grow the available languages flags', () => {
+        cy.get('.Navbar_select_language__kefFL').realHover();
+        cy.get('.Navbar_select_language__kefFL > ul > li > div').should('be.visible').realHover().as('enF')
+            .should('have.css', 'cursor', 'pointer').then(res => {
+            const w = res[0].getBoundingClientRect().width
+            const h = res[0].getBoundingClientRect().height
+            expect(w.toFixed(2)).to.eq((48 * 1.1).toFixed(2));
+            expect(h.toFixed(2)).to.eq((48 * 1.1).toFixed(2));
         })
     })
 
@@ -89,17 +108,52 @@ context('Home Page', () => {
         })
     })
 
+    it('should open the menu and contains auth required links', () => {
+        cy.fixture('user').then(res => {
+            cy.visit('http://localhost:3000', {
+                onBeforeLoad(win: Cypress.AUTWindow) {
+                    let nextData: any;
+                    Object.defineProperty(win, '__NEXT_DATA__', {
+                        set(o: any) {
+                            o.props.pageProps.initialState.user.user = res;
+                            nextData = o;
+                        },
+                        get() {
+                            return nextData
+                        }
+                    })
+                }
+            })
+        })
+        cy.get('@menu').click();
+        cy.get('.Navbar_nav_content__LgZ4a').as('links')
+        cy.get('@links').then(res => {
+            expect(res).to.contain.text('Poster')
+        })
+    })
+
     it('should close the menu with espace', () => {
         cy.get('@menu').type('{esc}')
         cy.get('.Navbar_nav_content__LgZ4a').as('menuContent').should('not.be.visible')
     })
 
-    it('should have post links', () => {
-        cy.fixture('lastPosts.json').then(res => {
-            const lastPosts = res as IPost[];
-            cy.get(`.Loading_content_container__pGjBz > div > div:nth-child(1) a.bg-primary-400`)
-                .as('link').should('have.attr', 'href').should('contain', lastPosts[0].slug)
+    it('should display a message if any post is available', () => {
+        cy.visit('http://localhost:3000', {
+            onBeforeLoad(win: Cypress.AUTWindow) {
+                let nextData: any;
+                Object.defineProperty(win, '__NEXT_DATA__', {
+                    set(o: any) {
+                        o.props.pageProps.initialState.lastPosts.posts = [];
+                        nextData = o;
+                    },
+                    get() {
+                        return nextData
+                    }
+                })
+            }
         })
+        cy.wait(2000);
+        cy.get('.Loading_content_container_loaded__LgnLS h1');
     })
 
 })
