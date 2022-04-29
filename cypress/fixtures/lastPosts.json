@@ -5,8 +5,28 @@
     "title": "La Ford Mustang la plus chère de tous les temps revient aux enchères",
     "categories": [
       {
+        "_id": "6251eae476983fa1da33233a",
+        "name": "Mustang"
+      },
+      {
         "_id": "6224f160805c8573b9d96095",
         "name": "Sport"
+      },
+      {
+        "_id": "6224f160805c8573b9d96096",
+        "name": "Shelby"
+      },
+      {
+        "_id": "6224f160805c8573b9d96093",
+        "name": "Shelbye"
+      },
+      {
+        "_id": "6224f160805c8573b9d96094",
+        "name": "Shelbys"
+      },
+      {
+        "_id": "6224f160805c8573b9d96095",
+        "name": "Shelbyx"
       }
     ],
     "likes": 1,
