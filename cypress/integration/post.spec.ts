@@ -90,7 +90,7 @@ context('Post Page', () => {
         }, {statusCode: 200, body: 0}).as('unlike')
         cy.get('.LikeBtn_active__lA2IS').should('be.visible')
         cy.get('.LikeBtn_box__wW7Kr').click();
-        cy.wait(1000);
+        cy.wait(2000);
         cy.get('.LikeBtn_box__wW7Kr').as('heart').then(res => {
             expect(res.siblings('p').contents().text()).to.contains('0');
             cy.get('.LikeBtn_heart__Bwsbz')
@@ -139,11 +139,12 @@ context('Post Page', () => {
 
         cy.get('#title').clear().type(newTitle);
         cy.get('.Modal_modal__yDLSi .separate_child button:first-of-type').click();
+        cy.wait(2000);
         cy.get('h1').contains(newTitle)
     })
 
     it('should open the delete modal', () => {
-        cy.get('.mt-4 > :nth-child(2) > :nth-child(1)').click();
+        cy.get('.mt-4 > :nth-child(2) > :nth-child(1)').click({force: true});
         cy.get('.Modal_modal__yDLSi').contains(newTitle);
     })
 
