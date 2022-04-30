@@ -15,6 +15,10 @@ export const PostStub = () => {
             {
                 "_id": "6224f160805c8573b9d96096",
                 "name": "Shelby"
+            },
+            {
+                "_id": "6224f160805c8573b9d96097",
+                "name": "Autre"
             }
         ],
         "likes": 0,
