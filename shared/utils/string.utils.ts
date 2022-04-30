@@ -1,12 +1,15 @@
 export const capitalize = (value: string) => {
+    if (!value) return "";
     return value.charAt(0).toUpperCase() + value.slice(1);
 };
 
 export const getFirstSentence = (value: string): string => {
+    if (!value) return "";
     return value.split('.')[0] + "."
 }
 
 export const slugify = (text: string) => {
+    if (!text) return "";
     return text
         .toString()                                        // Cast to string
         .toLowerCase()                                    // Convert the string to lowercase letters
