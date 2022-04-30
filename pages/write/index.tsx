@@ -38,7 +38,6 @@ const Write = () => {
     const handleSubmit = async () => {
         setError('');
         for (const key of getCreatePostKeys()) {
-            console.log(key, isEmpty(post[key]))
             if (isEmpty(post[key])) return setError(t.posts.create.errors.key.replace('{{key}}', t.posts.create.fields[key as never]));
         }
         if (isEmpty(categories)) return setError(t.posts.create.errors.categories);

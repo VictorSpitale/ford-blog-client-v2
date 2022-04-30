@@ -15,6 +15,7 @@
 .page_container_loaded {
     overflow   : unset;
     overflow-x : hidden;
+    position   : unset;
 }
 
 /*===========================================*/
