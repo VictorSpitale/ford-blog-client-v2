@@ -7,7 +7,7 @@ import CategoryInput from "../categories/CategoryInput";
 import Image from "next/image";
 import {blurImg} from "../../shared/images/blurImg";
 import {getPostCardImg} from "../../shared/images/postCardImg";
-import {useTranslation} from "../../shared/hooks/useTranslation";
+import {useTranslation} from "../../shared/hooks";
 
 const PostCard = ({post}: { post: IPost }) => {
     const t = useTranslation();

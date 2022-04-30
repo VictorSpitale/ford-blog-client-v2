@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from "next/head";
 import {Children} from "../../shared/types/props.type";
-import {useTranslation} from "../../shared/hooks/useTranslation";
+import {useTranslation} from "../../shared/hooks";
 
 type PropsType = {
     description?: string,
