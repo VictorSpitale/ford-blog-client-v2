@@ -10,6 +10,7 @@ const LanguageSwitcher = () => {
 
     const langueOptions = () => {
         return locales?.map((l, index) => {
+            /* istanbul ignore else */
             if (l !== locale) {
                 return <li key={index} onClick={() => handleChange(l)}>
                     <div className={styles[l]} />
@@ -24,7 +25,7 @@ const LanguageSwitcher = () => {
 
     return (
         <div className={className(styles.select_language, "relative top-0 right-[10px]")}>
-            <div className={styles[locale || "fr"]} />
+            <div data-content={"current-language"} className={styles[locale || "fr"]} />
             <ul className={styles.dropdown}>
                 {langueOptions()}
             </ul>

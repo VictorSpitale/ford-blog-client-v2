@@ -22,7 +22,7 @@ export function MockUserRouter(router: Partial<NextRouter>): NextRouter {
         isLocaleDomain: false,
         isReady: true,
         defaultLocale: 'fr',
-        locale: 'fr',
+        locale: undefined,
         domainLocales: [],
         isPreview: false,
         ...router
