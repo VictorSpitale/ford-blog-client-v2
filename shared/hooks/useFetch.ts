@@ -18,6 +18,7 @@ export function useFetch(url: string, method = IMethods.POST, callback?: AnyFunc
             } as AxiosRequestConfig)
                 .then((res) => {
                     setLoading(false);
+                    /* istanbul ignore else */
                     if (callback) callback(res.data);
                 })
                 .catch((e) => {
