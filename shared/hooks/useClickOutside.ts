@@ -5,8 +5,10 @@ export const useOnClickOutside = (ref: RefObject<HTMLElement>, handler: AnyFunct
     useEffect(() => {
         const listener = (e: Event) => {
             const target = e.target as HTMLElement;
+            /* istanbul ignore if */
             if (!target) return;
             if (!ref.current || ref.current.contains(target)) return;
+            /* istanbul ignore else */
             if (handler) handler(e);
         };
         document.addEventListener('mousedown', listener);
