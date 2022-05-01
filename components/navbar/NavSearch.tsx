@@ -3,9 +3,8 @@ import styles from "../../styles/Navbar.module.css";
 import SimplifiedPostCard from "../posts/SimplifiedPostCard";
 import {AnyFunction} from "../../shared/types/props.type";
 import {IPost} from "../../shared/types/post.type";
-import {useFetch} from "../../shared/hooks/useFetch";
+import {useFetch, useTranslation} from "../../shared/hooks";
 import {IMethods} from "../../shared/types/methods.type";
-import {useTranslation} from "../../shared/hooks/useTranslation";
 
 const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
 
@@ -37,10 +36,10 @@ const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
             <div className={styles.search_form}>
                 <input type="search" onChange={onInput} placeholder={t.common.keywords} />
             </div>
-            <div className={styles.search_result_container}>
+            <div data-content={"result-container"} className={styles.search_result_container}>
                 {(posts.length === 0 && query != "") ?
-                    <div className={styles.search_result_item} style={{height: "fit-content", padding: "5px"}}>Aucun
-                        résultat</div> :
+                    <div className={styles.search_result_item} style={{height: "fit-content", padding: "5px"}}>
+                        {t.common.noResult}</div> :
                     posts.map((post, index) => {
                         return <SimplifiedPostCard key={index} post={post} onClick={onClick} />
                     })

@@ -9,7 +9,7 @@ export function MockUserRouter(router: Partial<NextRouter>): NextRouter {
         asPath: "/",
         back: jest.fn(),
         beforePopState: jest.fn(),
-        prefetch: jest.fn(),
+        prefetch: jest.fn().mockResolvedValue(undefined),
         push: jest.fn().mockResolvedValue(true),
         reload: jest.fn(),
         replace: jest.fn(),
