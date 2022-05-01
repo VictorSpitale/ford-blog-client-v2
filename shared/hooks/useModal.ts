@@ -1,7 +1,8 @@
 import {useState} from "react";
 import {isEmpty} from "../utils/object.utils";
+import {UseModalType} from "../types/useModal.type";
 
-export const useModal = () => {
+export const useModal = (): UseModalType => {
     const [isShowing, setIsShowing] = useState(false);
     const [otherModal, setOtherModal] = useState<JSX.Element | undefined>(undefined);
     const [history, setHistory] = useState<JSX.Element[]>([]);
@@ -20,7 +21,6 @@ export const useModal = () => {
     }
 
     const previous = () => {
-        if (isEmpty(history)) return;
         if (!hasPrevious()) return;
         if (history.length === 1) {
             setOtherModal(undefined);
