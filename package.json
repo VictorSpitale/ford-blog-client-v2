@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "cy:open": "cypress open",
-    "test": "jest --config ./jest.config.js"
+    "test": "jest --config ./jest.config.js",
+    "test:cov": "jest --config ./jest.config.js --coverage"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
