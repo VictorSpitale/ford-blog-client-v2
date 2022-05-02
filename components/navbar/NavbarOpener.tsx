@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styles from '../../styles/Navbar.module.css'
 import {className} from "../../shared/utils/class.utils";
 import NavbarContent from "./NavbarContent";
-import {useTranslation} from "../../shared/hooks/useTranslation";
+import {useTranslation} from "../../shared/hooks";
 
 const NavbarOpener = ({showButton = true}: { showButton?: boolean }) => {
 
