@@ -1,17 +1,17 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import '@testing-library/jest-dom'
 import React from 'react'
-import {useTranslation} from "../../../shared/hooks";
-import * as fr from '../../../public/static/locales/fr.json'
-import PostCard from "../../../components/posts/PostCard";
-import {PostStub} from "../../stub/PostStub";
-import {queryByContent} from "../../utils/CustomQueries";
-import {getTimeSinceMsg, timeSince} from "../../../shared/utils/date.utils";
+import {useTranslation} from "../../../../shared/hooks";
+import * as fr from '../../../../public/static/locales/fr.json'
+import PostCard from "../../../../components/posts/PostCard";
+import {PostStub} from "../../../stub/PostStub";
+import {queryByContent} from "../../../utils/CustomQueries";
+import {getTimeSinceMsg, timeSince} from "../../../../shared/utils/date.utils";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../utils/MockUserRouter";
-import {MatchPush} from "../../utils/MatchPush";
+import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MatchPush} from "../../../utils/MatchPush";
 
-jest.mock('../../../shared/hooks');
+jest.mock('../../../../shared/hooks');
 
 describe('Post', () => {
     beforeEach(() => {
@@ -25,6 +25,7 @@ describe('Post', () => {
             render(
                 <PostCard post={post} />
             )
+            expect(queryByContent('post-card')).toBeInTheDocument();
             expect(screen.getByAltText(post.title)).toBeInTheDocument();
             expect(screen.getByText(post.title)).toBeInTheDocument();
             expect(screen.getByText(fr.posts.readMore)).toBeInTheDocument();

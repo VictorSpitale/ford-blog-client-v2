@@ -14,7 +14,7 @@ const PostCard = ({post}: { post: IPost }) => {
     const timeSinceObj = timeSince(post.createdAt)
 
     return (
-        <div className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-80 overflow-hidden"}>
+        <div data-content={"post-card"} className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-80 overflow-hidden"}>
             <Link href={`/post/${post.slug}`}>
                 <a className={"w-full block"}><Image src={getPostCardImg(post)} alt={post.title} width={"500"}
                                                      height={"250"}
