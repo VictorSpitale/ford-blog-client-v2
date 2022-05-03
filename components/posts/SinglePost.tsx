@@ -19,6 +19,7 @@ import UpdatePostModal from "./modals/UpdatePostModal";
 const SinglePost = ({post}: { post: IPost }) => {
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
+    /* istanbul ignore next */
     const {user} = useAppSelector(state => state.user)
     const {toggle, isShowing} = useModal();
     const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
@@ -29,16 +30,16 @@ const SinglePost = ({post}: { post: IPost }) => {
 
     return (
         <>
-            <DeletePostModal post={post} toggle={toggle} isShowing={isShowing} />
-            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} />
-            <div
-                className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
+            <DeletePostModal post={post} toggle={toggle} isShowing={isShowing}/>
+            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing}/>
+            <div data-content={"single-post"}
+                 className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
                 <div
                     className={"shadow-xl mx-auto w-full h-[315px]" +
                         " lg:h-[450px] relative rounded-t-2xl overflow-hidden"}>
                     <Image src={getPostCardImg(post)} layout={"fill"}
                            objectFit={"cover"} priority={true} alt={post.title} placeholder={"blur"}
-                           blurDataURL={blurImg} />
+                           blurDataURL={blurImg}/>
                 </div>
                 <div className={"px-4 pt-8"}>
                     <h1 className={"text-2xl text-justify md:font-semibold"}>{post.title}</h1>
@@ -54,20 +55,20 @@ const SinglePost = ({post}: { post: IPost }) => {
                     </div>
                     <div className={"flex justify-between pt-2"}>
                         {post.categories.map((cat, i) => {
-                            if (i < 3) return <CategoryInput key={i} category={cat} />
+                            if (i < 3) return <CategoryInput key={i} category={cat}/>
                         })}
                     </div>
                     <div className={"flex justify-between mt-4"}>
-                        <LikePostButton post={post} />
+                        <LikePostButton post={post}/>
                         {user.role >= IUserRole.ADMIN && <div className={"flex"}>
-							<Trash callback={toggle} />
-							<Edit callback={toggleUpdate} />
-						</div>}
+                            <Trash callback={toggle}/>
+                            <Edit callback={toggleUpdate}/>
+                        </div>}
                     </div>
                     {post.desc.split(/(?:\r\n|\r|\n)/g).map((s, i) => {
-                        return <p
-                            className={className("text-justify text-lg", i === 0 ? 'pt-3 first-letter:pl-5 first-letter:font-extrabold' : '')}
-                            key={i}>{s} <br /></p>
+                        return <p data-content={`desc-${i}`}
+                                  className={className("text-justify text-lg", i === 0 ? 'pt-3 first-letter:pl-5 first-letter:font-extrabold' : '')}
+                                  key={i}>{s} <br/></p>
                     })}
                 </div>
             </div>

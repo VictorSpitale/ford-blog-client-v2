@@ -31,7 +31,7 @@ const SelectCategories = () => {
 
     const getOptions = () => {
         const options: Option[] = []
-        categories.forEach((cat) => {
+        categories?.forEach((cat) => {
             options.push(createOption(cat))
         })
         return options;
