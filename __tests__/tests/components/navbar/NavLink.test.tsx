@@ -1,13 +1,13 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 import NavLink from "../../../../components/navbar/NavLink";
 
 describe('NavLink', function () {
 
     it('should render a link', () => {
 
-        const router = MockUserRouter({});
+        const router = MockUseRouter({});
 
         render(
             <RouterContext.Provider value={router}>
@@ -22,7 +22,7 @@ describe('NavLink', function () {
 
     it('should navigate on click', () => {
 
-        const router = MockUserRouter({});
+        const router = MockUseRouter({});
 
         render(
             <RouterContext.Provider value={router}>

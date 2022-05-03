@@ -1,14 +1,14 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import LanguageSwitcher from "../../../../components/navbar/LanguageSwitcher";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {queryByContent} from "../../../utils/CustomQueries";
 
 describe('Language Switcher', function () {
 
     it('should render the language switcher', () => {
         render(
-            <RouterContext.Provider value={MockUserRouter({locale: "fr"})}>
+            <RouterContext.Provider value={MockUseRouter({locale: "fr"})}>
                 <LanguageSwitcher />
             </RouterContext.Provider>
         )
@@ -18,7 +18,7 @@ describe('Language Switcher', function () {
 
     it('should render the french flag by default', () => {
         render(
-            <RouterContext.Provider value={MockUserRouter({})}>
+            <RouterContext.Provider value={MockUseRouter({})}>
                 <LanguageSwitcher />
             </RouterContext.Provider>
         )
@@ -28,7 +28,7 @@ describe('Language Switcher', function () {
 
     it('should generate the other languages options', () => {
         render(
-            <RouterContext.Provider value={MockUserRouter({locale: "fr", locales: ["en"]})}>
+            <RouterContext.Provider value={MockUseRouter({locale: "fr", locales: ["en"]})}>
                 <LanguageSwitcher />
             </RouterContext.Provider>
         )
@@ -40,7 +40,7 @@ describe('Language Switcher', function () {
     })
 
     it('should change the language', () => {
-        const mockedRouter = MockUserRouter({locale: "fr", locales: ["en"]});
+        const mockedRouter = MockUseRouter({locale: "fr", locales: ["en"]});
         render(
             <RouterContext.Provider value={mockedRouter}>
                 <LanguageSwitcher />

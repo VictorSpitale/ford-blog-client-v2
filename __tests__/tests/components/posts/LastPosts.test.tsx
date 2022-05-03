@@ -3,7 +3,7 @@ import LastPosts from "../../../../components/posts/LastPosts";
 import {queryAllByContent, queryByContent} from "../../../utils/CustomQueries";
 import {PostStub} from "../../../stub/PostStub";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 
 describe('Last Post', function () {
 
@@ -17,7 +17,7 @@ describe('Last Post', function () {
     it('should render n post card', () => {
         const posts = Array(3).fill(PostStub());
         render(
-            <RouterContext.Provider value={MockUserRouter({})}>
+            <RouterContext.Provider value={MockUseRouter({})}>
                 <LastPosts posts={posts} />
             </RouterContext.Provider>
         )

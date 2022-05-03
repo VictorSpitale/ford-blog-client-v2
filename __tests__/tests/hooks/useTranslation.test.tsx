@@ -1,7 +1,7 @@
 import {render} from "@testing-library/react";
 import {useTranslation} from "../../../shared/hooks";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../utils/MockUserRouter";
+import {MockUseRouter} from "../../utils/MockUseRouter";
 import fr from '../../../public/static/locales/fr.json';
 import en from '../../../public/static/locales/en.json';
 import {Translation} from "../../../shared/hooks/useTranslation";
@@ -15,7 +15,7 @@ describe('UseTranslation', function () {
     })
 
     it('should return the fr translations', () => {
-        const mockRouter = MockUserRouter({locale: "fr"});
+        const mockRouter = MockUseRouter({locale: "fr"});
         render(
             <RouterContext.Provider value={mockRouter}>
                 <TestHook callback={() => {
@@ -28,7 +28,7 @@ describe('UseTranslation', function () {
     })
 
     it('should return the en translations', () => {
-        const mockRouter = MockUserRouter({locale: "en"});
+        const mockRouter = MockUseRouter({locale: "en"});
         render(
             <RouterContext.Provider value={mockRouter}>
                 <TestHook callback={() => {

@@ -8,7 +8,7 @@ import {PostStub} from "../../../stub/PostStub";
 import {queryByContent} from "../../../utils/CustomQueries";
 import {getTimeSinceMsg, timeSince} from "../../../../shared/utils/date.utils";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {MatchPush} from "../../../utils/MatchPush";
 
 jest.mock('../../../../shared/hooks');
@@ -75,7 +75,7 @@ describe('Post', () => {
 
         it('should redirect to the post page', () => {
             const post = PostStub();
-            const router = MockUserRouter({})
+            const router = MockUseRouter({})
             render(
                 <RouterContext.Provider value={router}>
                     <PostCard post={post} />

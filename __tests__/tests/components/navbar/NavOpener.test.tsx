@@ -1,5 +1,5 @@
 import {fireEvent, render, screen} from "@testing-library/react";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import NavbarOpener from "../../../../components/navbar/NavbarOpener";
 import {Provider} from "react-redux";
@@ -11,7 +11,7 @@ describe('Nav Opener', function () {
 
     it('should render the button', () => {
 
-        const router = MockUserRouter({});
+        const router = MockUseRouter({});
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
@@ -26,7 +26,7 @@ describe('Nav Opener', function () {
 
     it('should open the nav content', () => {
 
-        const router = MockUserRouter({});
+        const router = MockUseRouter({});
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
@@ -40,7 +40,7 @@ describe('Nav Opener', function () {
     });
 
     it('should hide the button', () => {
-        const router = MockUserRouter({});
+        const router = MockUseRouter({});
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
@@ -53,7 +53,7 @@ describe('Nav Opener', function () {
     });
 
     it('should close the opened menu by the button on click in link', () => {
-        const router = MockUserRouter({});
+        const router = MockUseRouter({});
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>

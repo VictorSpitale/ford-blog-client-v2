@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 import NavbarContent from "../../../../components/navbar/NavbarContent";
 import * as redux from "../../../../context/hooks";
 import {Provider} from "react-redux";
@@ -16,7 +16,7 @@ describe('Navbar Content', function () {
 
         const fn = jest.fn();
         beforeEach(() => {
-            const router = MockUserRouter({locale: "fr"});
+            const router = MockUseRouter({locale: "fr"});
             render(
                 <Provider store={makeStore()}>
                     <RouterContext.Provider value={router}>
@@ -54,7 +54,7 @@ describe('Navbar Content', function () {
 
     describe('Auth', function () {
         it('should not render specific role required links', () => {
-            const router = MockUserRouter({locale: "fr"});
+            const router = MockUseRouter({locale: "fr"});
             const fn = jest.fn();
 
             const spy = jest.spyOn(redux, 'useAppSelector')
@@ -69,7 +69,7 @@ describe('Navbar Content', function () {
             expect(screen.queryByText(fr.common.navbar["3"])).toBeNull();
         })
         it('should render specific role required links', () => {
-            const router = MockUserRouter({locale: "fr"});
+            const router = MockUseRouter({locale: "fr"});
             const fn = jest.fn();
             const spy = jest.spyOn(redux, 'useAppSelector')
             spy.mockReturnValue({user: UserStub(IUserRole.ADMIN)})

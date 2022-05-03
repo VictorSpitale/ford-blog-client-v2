@@ -9,7 +9,7 @@ import {PostStub} from "../../../stub/PostStub";
 import {IMethods} from "../../../../shared/types/methods.type";
 import {AnyFunction} from "../../../../shared/types/props.type";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {MockUserRouter} from "../../../utils/MockUserRouter";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
 
 jest.mock('../../../../shared/hooks');
 jest.mock('axios');
@@ -109,7 +109,7 @@ describe('NavSearch', function () {
 
         it('should set posts', async () => {
             const fn = jest.fn();
-            const router = MockUserRouter({locale: "fr"});
+            const router = MockUseRouter({locale: "fr"});
             render(
                 <RouterContext.Provider value={router}>
                     <NavSearch onClick={fn} />
