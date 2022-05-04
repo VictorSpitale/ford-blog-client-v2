@@ -2,7 +2,8 @@ import React from 'react';
 
 const Cross = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200px" height="200px">
+        <svg data-content={"cross"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200px"
+             height="200px">
             <circle cx="52" cy="52" r="44" opacity=".35" />
             <circle cx="50" cy="50" r="44" fill="#f2f2f2" />
             <path fill="#f2f2f2" d="M50,91C27.393,91,9,72.607,9,50S27.393,9,50,9s41,18.393,41,41S72.607,91,50,91z" />
