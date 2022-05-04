@@ -9,6 +9,9 @@ module.exports = {
 		'!**/coverage/**',
 		'!**/cypress/**',
 		'!**/*.type.*',
+		'!**/__tests__/stub/**',
+		'!**/__tests__/mocks/**',
+		'!**/__tests__/utils/**'
 	],
 	moduleNameMapper: {
 		// Handle CSS imports (with CSS modules)
