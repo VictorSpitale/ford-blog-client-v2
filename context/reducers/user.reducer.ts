@@ -57,6 +57,9 @@ export const userReducer = createReducer(initial, (builder => {
         state.pending = false
     }).addCase(deleteAccount.fulfilled, (state) => {
         state.user = {} as IUser;
+        state.pending = false;
+    }).addCase(deleteAccount.pending, (state) => {
+        state.pending = true;
     })
 }))
 

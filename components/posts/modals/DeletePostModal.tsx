@@ -10,6 +10,7 @@ import {AnyFunction} from "../../../shared/types/props.type";
 import {useTranslation} from "../../../shared/hooks";
 
 const DeletePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFunction, isShowing: boolean }) => {
+    /* istanbul ignore next */
     const {pending} = useAppSelector(state => state.lastPosts)
     const dispatch = useAppDispatch();
 

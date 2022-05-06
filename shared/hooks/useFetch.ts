@@ -18,11 +18,12 @@ export function useFetch(url: string, method = IMethods.POST, callback?: AnyFunc
             } as AxiosRequestConfig)
                 .then((res) => {
                     setLoading(false);
+                    /* istanbul ignore else */
                     if (callback) callback(res.data);
                 })
                 .catch((e) => {
-                    if (e.response.data.code) setCode(e.response.data.code)
-                    setError(e.response.data.message || "Erreur")
+                    if (e.response?.data.code) setCode(e.response.data.code)
+                    setError(e.response?.data.message || "Erreur")
                     setLoading(false);
                 });
         },

@@ -11,8 +11,8 @@ type PropsType = {
 const Heart = ({isLiked, onClick}: PropsType) => {
     return (
         <>
-            <span className={styles.box} onClick={onClick} />
-            <div className={className(styles.heart, isLiked ? styles.active : '')} />
+            <span data-content={"heart-box"} className={styles.box} onClick={onClick}/>
+            <div data-content={"heart-icon"} className={className(styles.heart, isLiked ? styles.active : '')}/>
         </>
     );
 };

@@ -21,6 +21,7 @@
       "5": "Mon Compte"
     },
     "keywords": "Vos mots clés ...",
+    "noResult": "Aucun résultat",
     "timeSince": {
       "years": "an{{s}}",
       "months": "mois",
