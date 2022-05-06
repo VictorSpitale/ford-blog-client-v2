@@ -9,7 +9,6 @@ import {
     removeSelectedCategories,
     setSelectedCategories
 } from "../../context/actions/categories.actions";
-import {clearError} from "../../context/actions/errors.actions";
 
 interface Option {
     readonly label: string;
@@ -31,7 +30,7 @@ const SelectCategories = () => {
 
     const getOptions = () => {
         const options: Option[] = []
-        categories.forEach((cat) => {
+        categories?.forEach((cat) => {
             options.push(createOption(cat))
         })
         return options;
@@ -84,7 +83,6 @@ const SelectCategories = () => {
         }
         const clear = async () => {
             await dispatch(setSelectedCategories([]))
-            await dispatch(clearError())
         }
         setValues();
         return () => {

@@ -8,6 +8,7 @@ import {isEmpty} from "../../../shared/utils/object.utils";
 
 const LikePostButton = ({post}: { post: IPost }) => {
 
+    /* istanbul ignore next */
     const {user} = useAppSelector(state => state.user)
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const dispatch = useAppDispatch();
@@ -42,7 +43,8 @@ const LikePostButton = ({post}: { post: IPost }) => {
                 :
                 <>
                     <Heart isLiked={isLiked} onClick={isLiked ? unLike : like} />
-                    <p className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
+                    <p data-content={"likes-count"}
+                       className={"hidden md:block ml-20 pl-2 italic text-secondary-600"}>{likeMessage()}</p>
                 </>
             }
         </div>

@@ -5,9 +5,11 @@ export const stringToDate = (num: string | number): Date => {
     if (typeof num === "string") {
         timestamp = Date.parse(num);
     } else {
+        if (num.toString().length < 12) return new Date();
         timestamp = num;
     }
-
+    const returnDate = new Date(timestamp);
+    if (returnDate.toString() === "Invalid Date") return new Date();
     return new Date(timestamp);
 };
 export const timeSince = (date: Date | string) => {
@@ -17,40 +19,41 @@ export const timeSince = (date: Date | string) => {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;
-    if (interval > 1) {
+    if (interval >= 1) {
         return {
             time: Math.floor(interval),
             format: "years"
         }
     }
     interval = seconds / 2592000;
-    if (interval > 1) {
+    if (interval >= 1) {
         return {
             time: Math.floor(interval),
             format: "months"
         }
     }
     interval = seconds / 86400;
-    if (interval > 1) {
+    if (interval >= 1) {
         return {
             time: Math.floor(interval),
             format: "days"
         }
     }
     interval = seconds / 3600;
-    if (interval > 1) {
+    if (interval >= 1) {
         return {
             time: Math.floor(interval),
             format: "hours"
         }
     }
     interval = seconds / 60;
-    if (interval > 1) {
+    if (interval >= 1) {
         return {
             time: Math.floor(interval),
             format: "minutes"
         }
     }
+    interval *= 60;
     return {
         time: Math.floor(interval),
         format: "seconds"

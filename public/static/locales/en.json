@@ -22,6 +22,7 @@
       "5": "My account"
     },
     "keywords": "Your keywords ...",
+    "noResult": "No posts found",
     "timeSince": {
       "years": "year{{s}}",
       "months": "month{{s}}",

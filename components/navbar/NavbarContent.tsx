@@ -11,7 +11,7 @@ import {blurImg} from "../../shared/images/blurImg";
 import {IUserRole} from "../../shared/types/user.type";
 import {useAppSelector} from "../../context/hooks";
 import {isEmpty} from "../../shared/utils/object.utils";
-import {useTranslation} from "../../shared/hooks/useTranslation";
+import {useTranslation} from "../../shared/hooks";
 
 type Link = {
     code: string,
@@ -46,6 +46,7 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
     const t = useTranslation()
 
     const close = useCallback((ev: KeyboardEvent) => {
+        /* istanbul ignore else */
         if (ev.key === "Escape") closeContent()
     }, [closeContent])
 
@@ -63,7 +64,7 @@ const NavbarContent = ({showContent, closeContent}: { showContent: boolean; clos
                 <img src={fu.src} alt="Ford Universe Logo"
                      className={className(styles.car_logo)} />
 
-                <button onClick={closeContent}
+                <button data-content={"close-nav-content"} onClick={closeContent}
                         className={className("shadow drop-shadow-lg bg-red-400 hover:bg-red-500", styles.nav_close_btn)}>
                     <svg style={{width: "36px", height: "36px"}} viewBox="0 0 24 24">
                         <path fill="white"
