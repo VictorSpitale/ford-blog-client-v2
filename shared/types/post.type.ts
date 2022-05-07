@@ -17,6 +17,11 @@ export type IPost = {
     title: string
     updatedAt: string
 }
+export type IPaginatedPosts = {
+    hasMore: boolean;
+    posts: IPost[];
+    page: number;
+}
 
 // Use to loop for [key, value] of ICreatePost, [file, categories] omitted because it's checked later
 export const getCreatePostKeys = () => {
