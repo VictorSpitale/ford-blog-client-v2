@@ -13,7 +13,7 @@ import {className} from "../../shared/utils/class.utils";
 const PostCard = forwardRef(({
                                  post,
                                  large = false
-                             }: { post: IPost; large: boolean }, ref: ForwardedRef<HTMLDivElement>) => {
+                             }: { post: IPost; large?: boolean }, ref: ForwardedRef<HTMLDivElement>) => {
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
 
