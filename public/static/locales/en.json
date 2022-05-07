@@ -130,6 +130,10 @@
         "sourceLink": "The source link is invalid",
         "photo": "Please add a photo"
       }
+    },
+    "news": {
+      "title": "News",
+      "cantAccess": "You should be logged in to access the news"
     }
   },
   "account": {
