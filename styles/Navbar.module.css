@@ -2,7 +2,7 @@
     height     : 28px;
     left       : 10px;
     opacity    : 1;
-    position   : relative;
+    position   : absolute;
     top        : 10px;
     transition : visibility 0.5s, opacity 0.5s linear;
     visibility : visible;
