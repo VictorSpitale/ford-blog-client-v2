@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {ICreatePost, IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
+import {ICreatePost, IPaginatedPosts, IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
 import {isEmpty, toFormData} from "../../shared/utils/object.utils";
 import {instance} from "../instance";
 import {NextPageContext} from "next";
@@ -26,13 +26,13 @@ export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }
     return response
 })
 
-export const getPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_POSTS, async (_, {getState}) => {
-    const {posts} = getState().posts
-    if (!isEmpty(posts)) {
-        return posts
+export const getPosts = createAsyncThunk<IPaginatedPosts, number | undefined, { state: RootState }>(GET_POSTS, async (page = 1, {getState}) => {
+    const {paginatedPosts} = getState().posts
+    if (paginatedPosts.page >= page) {
+        return paginatedPosts;
     }
-    let response: IPost[] = []
-    await instance.get('/posts').then((res) => response = res.data)
+    let response = {} as IPaginatedPosts;
+    await instance.get(`/posts?page=${page}`).then((res) => response = res.data)
     return response
 })
 

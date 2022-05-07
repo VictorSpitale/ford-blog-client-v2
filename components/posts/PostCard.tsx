@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ForwardedRef, forwardRef} from 'react';
 import {IPost} from "../../shared/types/post.type";
 import Link from "next/link";
 import {capitalize} from "../../shared/utils/string.utils";
@@ -8,16 +8,22 @@ import Image from "next/image";
 import {blurImg} from "../../shared/images/blurImg";
 import {getPostCardImg} from "../../shared/images/postCardImg";
 import {useTranslation} from "../../shared/hooks";
+import {className} from "../../shared/utils/class.utils";
 
-const PostCard = ({post}: { post: IPost }) => {
+const PostCard = forwardRef(({
+                                 post,
+                                 large = false
+                             }: { post: IPost; large?: boolean }, ref: ForwardedRef<HTMLDivElement>) => {
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
 
     return (
-        <div data-content={"post-card"} className={"bg-gray-50 shadow-xl rounded-lg mb-6 w-60 md:w-80 overflow-hidden"}>
+        <div ref={ref} data-content={"post-card"}
+             className={className(large ? "w-[300px] md:w-[600px]" : "w-60 md:w-80", "bg-gray-50 shadow-xl rounded-lg mb-6 overflow-hidden")}>
             <Link href={`/post/${post.slug}`}>
-                <a className={"w-full block"}><Image src={getPostCardImg(post)} alt={post.title} width={"500"}
-                                                     height={"250"}
+                <a className={"w-full block"}><Image src={getPostCardImg(post)} alt={post.title}
+                                                     width={large ? "700" : "500"}
+                                                     height={large ? "300" : "250"}
                                                      objectFit={"cover"} placeholder={"blur"}
                                                      blurDataURL={blurImg} /></a>
             </Link>
@@ -51,6 +57,8 @@ const PostCard = ({post}: { post: IPost }) => {
             </div>
         </div>
     );
-};
+});
+
+PostCard.displayName = "PostCard";
 
 export default PostCard;

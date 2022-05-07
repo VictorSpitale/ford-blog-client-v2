@@ -130,6 +130,10 @@
         "sourceLink": "Le lien de la source n'est pas valide",
         "photo": "Veuillez ajouter une photo"
       }
+    },
+    "news": {
+      "title": "Actualités",
+      "cantAccess": "Vous devez vous connecter pour accéder aux articles"
     }
   },
   "account": {
