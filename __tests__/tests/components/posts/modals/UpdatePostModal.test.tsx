@@ -116,7 +116,7 @@ describe('Update Post Modal', function () {
         // fireEvent.change(screen.getByDisplayValue(post.title), {target: {value: ""}})
         // fireEvent.click(screen.getByRole('button', {name: fr.posts.update.fields.confirm}))
         await waitFor(() => {
-            screen.debug();
+            // screen.debug();
         })
         // expect(screen.getByText(fr.posts.update.errors.fields)).toBeInTheDocument();
     })
