@@ -2,11 +2,12 @@ import React, {ChangeEvent, useState} from 'react';
 import BaseView from "../shared/BaseView";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import Image from "next/image"
-import {getUserPictureSrc, UpdateUser} from "../../shared/types/user.type";
+import {UpdateUser} from "../../shared/types/user.type";
 import InputField from "../shared/InputField";
 import {useTranslation} from "../../shared/hooks";
 import {removePicture, updateLoggedUser, uploadPicture} from "../../context/actions/user.actions";
 import {HttpError} from "../../shared/types/httpError.type";
+import {getUserPictureSrc} from "../../shared/images/ProfilePicture";
 
 const ProfileView = () => {
     const {user, pending} = useAppSelector(state => state.user);

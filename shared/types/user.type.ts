@@ -19,9 +19,4 @@ export enum IUserRole {
     ADMIN = '2',
 }
 
-import defaultSrc from '../../public/static/img/default-profile.png'
 
-export const getUserPictureSrc = (user: IUser) => {
-    if (user.picture) return {src: user.picture, default: false}
-    return {src: defaultSrc.src, default: true};
-}
