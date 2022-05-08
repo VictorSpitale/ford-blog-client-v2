@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosResponse, Method} from "axios";
 import {
     FailureResponse,
     FetchOptions,
@@ -40,16 +40,16 @@ export function objToQueryParams<O extends Record<string, string>>(
 }
 
 export async function fetchApi<Path extends keyof paths,
-    Method extends keyof paths[Path]>(
+    TMethod extends keyof paths[Path]>(
     path: Path,
-    options: FetchOptions<Method,
-        QueryParameters<paths[Path][Method]>,
-        PathParameters<paths[Path][Method]>,
-        RequestBody<paths[Path][Method]>>
-): Promise<AxiosResponse<SuccessResponse<paths[Path][Method]>>> {
+    options: FetchOptions<TMethod,
+        QueryParameters<paths[Path][TMethod]>,
+        PathParameters<paths[Path][TMethod]>,
+        RequestBody<paths[Path][TMethod]>>
+): Promise<AxiosResponse<SuccessResponse<paths[Path][TMethod]>>> {
     const opt = {...options};
-
-    const url = new URL(process.env.NEXT_PUBLIC_API_URL!);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const url = new URL(apiUrl!.replace('/api', ''));
     url.pathname = (url.pathname === "/" ? "" : url.pathname) + path;
 
     if ("json" in opt) {
@@ -67,11 +67,17 @@ export async function fetchApi<Path extends keyof paths,
             (key) => (url.pathname = url.pathname.replace(`%7B${key}%7D`, opt["params"][key]))
         );
     }
+    const method = opt.method as Method;
 
     return instance({
         baseURL: url.origin,
         url: url.pathname,
+        method,
+        headers: {
+            ...opt.headers,
+            "Content-Type": "application/json"
+        },
         params: ("query" in opt) ? opt["query"] : undefined,
-        data: ("json" in opt) ? opt["json"] : undefined
+        data: ("json" in opt) ? opt["json"] : opt.data
     });
 }

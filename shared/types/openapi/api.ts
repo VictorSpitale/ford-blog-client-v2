@@ -1,8 +1,12 @@
+import {AxiosRequestConfig} from "axios";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 type PickDefined<TObject> = Pick<TObject, { [Key in keyof TObject]: TObject[Key] extends undefined ? undefined : Key; }[keyof TObject]>;
 
 export type FetchOptions<Method, Query, Params, Json> =
+    Pick<AxiosRequestConfig, "headers"> &
+    Pick<AxiosRequestConfig, "data">
     & { method: Method }
     & PickDefined<{ query: Query; params: Params; json: Json }>;
 

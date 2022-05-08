@@ -2,7 +2,7 @@ import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {IUser, UpdateUser} from "../../shared/types/user.type";
 import {RootState} from "../store";
 import {isEmpty} from "../../shared/utils/object.utils";
-import {instance} from "../instance";
+import {fetchApi} from "../instance";
 import {AnyFunction} from "../../shared/types/props.type";
 
 export const GET_USER = "GET_USER";
@@ -19,41 +19,45 @@ export const getUser = createAsyncThunk<IUser, AnyFunction | undefined, { state:
         return userState;
     }
     let response: IUser = {} as IUser;
-    await instance.get('/auth/jwt').then(res => {
-        response = res.data;
-        if (callback) callback(response._id);
-    });
+    await fetchApi("/api/auth/jwt", {method: "get"}).then((res) => {
+        response = res.data as IUser
+        if (callback) callback(response._id)
+    })
     return response;
 })
 
 export const logout = createAsyncThunk<void, void, { state: RootState }>(LOGOUT, async () => {
-    await instance.get("/auth/logout");
+    await fetchApi("/api/auth/logout", {method: "get"});
 });
 
 export const login = createAction<IUser>(LOGIN)
 
 export const updateLoggedUser = createAsyncThunk<IUser, UpdateUser & { _id: string }, { state: RootState }>(UPDATE_LOGGED_USER, async (user, {rejectWithValue}) => {
     let response = {} as IUser;
-    return await instance.patch(`/users/${user._id}`, user).then((res) => {
-        response = res.data;
+    return await fetchApi('/api/users/{id}', {
+        method: "patch",
+        params: {id: user._id},
+        json: {password: user.password, pseudo: user.pseudo}
+    }).then((res) => {
+        response = res.data as IUser;
         return response;
     }).catch((res) => {
         return rejectWithValue(res);
-    });
+    })
 })
 
 export const uploadPicture = createAsyncThunk<string, { _id: string; data: FormData }, { state: RootState }>(UPLOAD_PICTURE, async (data) => {
     let response = "";
-    await instance.patch(`/users/upload/${data._id}`, data.data).then((res) => {
-        response = res.data.picture;
+    await fetchApi("/api/users/upload/{id}", {method: "patch", params: {id: data._id}, data: data.data}).then((res) => {
+        response = res.data.picture
     })
     return response;
 })
 
 export const removePicture = createAsyncThunk<void, string, { state: RootState }>(REMOVE_PICTURE, async (id) => {
-    await instance.delete(`/users/upload/${id}`);
+    await fetchApi("/api/users/upload/{id}", {method: "delete", params: {id}});
 })
 
 export const deleteAccount = createAsyncThunk<void, string, { state: RootState }>(DELETE_ACCOUNT, async (id) => {
-    await instance.delete(`/users/${id}`);
+    await fetchApi("/api/users/{id}", {method: "delete", params: {id}});
 })

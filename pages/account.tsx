@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect} from 'react';
 import Login from "./login";
 import {useRouter} from "next/router";
-import {instance} from "../context/instance";
+import {fetchApi} from "../context/instance";
 import SEO from "../components/shared/seo";
 import AccountView from "../components/account/AccountView";
 import {useAppDispatch, useAppSelector} from "../context/hooks";
@@ -20,7 +20,7 @@ const Account: NextPageWithLayout = () => {
 
     useEffect(() => {
         const fetch = async (token: string) => {
-            await instance.get(`/auth/g-jwt/${token}`).then(() => {
+            await fetchApi("/api/auth/g-jwt/{token}", {method: "get", params: {token}}).then(() => {
                 location.href = "/account"
             }).catch(() => {
                 location.href = "/login?status=failed"

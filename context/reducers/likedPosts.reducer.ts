@@ -1,9 +1,9 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {IPost} from "../../shared/types/post.type";
+import {IBasicPost} from "../../shared/types/post.type";
 import {cleanLikedPosts, getLikedPost} from "../actions/posts.actions";
 
 export type LikedPostsState = {
-    posts: IPost[];
+    posts: IBasicPost[];
     pending: boolean;
     error: boolean;
 }

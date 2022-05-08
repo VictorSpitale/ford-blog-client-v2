@@ -23,6 +23,13 @@ export type IPaginatedPosts = {
     page: number;
 }
 
+export type IBasicPost = {
+    picture: string,
+    slug: string,
+    desc: string,
+    title: string
+}
+
 // Use to loop for [key, value] of ICreatePost, [file, categories] omitted because it's checked later
 export const getCreatePostKeys = () => {
     return ["desc", "slug", "title", "sourceLink", "sourceName"]

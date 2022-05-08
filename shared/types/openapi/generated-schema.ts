@@ -81,12 +81,9 @@ export interface components {
        * @description User's email
        * @example John@Doe.fr
        */
-      email?: string;
-      /**
-       * @description User's hashed password
-       * @example password
-       */
-      password?: string;
+      email: string;
+      /** @description User's hashed password */
+      password: string;
     };
     HttpErrorDto: {
       /**
@@ -110,17 +107,12 @@ export interface components {
        * @description User's pseudo
        * @example John Doe
        */
-      pseudo?: string;
+      pseudo: string;
       /**
        * @description User's email
        * @example John@Doe.fr
        */
-      email?: string;
-      /**
-       * @description User's hashed password
-       * @example password
-       */
-      password?: string;
+      email: string;
       /**
        * @description User's id
        * @example 61f59acf09f089c9df951c37
@@ -132,6 +124,8 @@ export interface components {
        * @enum {string}
        */
       role: "0" | "1" | "2";
+      /** @description User's hashed password */
+      password: string;
       /**
        * @description Url to the picture
        * @example https://storage.googleapis.com/name
@@ -199,7 +193,7 @@ export interface components {
        * @description User's email
        * @example John@Doe.fr
        */
-      email?: string;
+      email: string;
       /** @description User's locale */
       locale: string;
     };
@@ -252,7 +246,7 @@ export interface components {
        * @description Category's name
        * @example Sport
        */
-      name?: string;
+      name: string;
       /**
        * @description Category's id
        * @example 61f59acf09f089c9df951c37
@@ -388,6 +382,11 @@ export interface components {
       hasMore: boolean;
       /** @description Posts */
       posts: components["schemas"]["PostDto"][];
+      /**
+       * @description Page number
+       * @example 1
+       */
+      page: number;
     };
     BasicPostDto: {
       /**
@@ -692,7 +691,7 @@ export interface operations {
              * @description url to the profile picture
              * @example https://storage.googleapis.com/path
              */
-            picture?: string;
+            picture: string;
           };
         };
       };
@@ -886,7 +885,12 @@ export interface operations {
     };
   };
   PostsController_deletePost: {
-    parameters: {};
+    parameters: {
+      path: {
+        /** Post slug */
+        slug: string;
+      };
+    };
     responses: {
       /** The post has been deleted */
       200: unknown;
@@ -972,7 +976,12 @@ export interface operations {
     };
   };
   PostsController_unlikePost: {
-    parameters: {};
+    parameters: {
+      path: {
+        /** Post slug */
+        slug: string;
+      };
+    };
     responses: {
       /** The post has been unliked, return the number of likes */
       200: {

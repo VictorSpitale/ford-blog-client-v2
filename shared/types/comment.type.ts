@@ -1,6 +1,10 @@
 export type IComment = {
-    comment: string,
-    commenterId: string,
-    timestamp: number,
-    _id: string,
+    _id: string;
+    commenter: {
+        pseudo: string;
+        picture: string;
+    };
+    comment: string;
+    createdAt: string;
+    updatedAt: string;
 };
