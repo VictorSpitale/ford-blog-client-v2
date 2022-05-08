@@ -10,7 +10,7 @@ import {queryByContent} from "../../../../utils/CustomQueries";
 import {UserStub} from "../../../../stub/UserStub";
 import fr from '../../../../../public/static/locales/fr.json'
 import {IPost, LikeStatus} from "../../../../../shared/types/post.type";
-import {instance} from "../../../../../context/instance";
+import * as fetch from "../../../../../context/instance";
 
 describe('Like Post Button', function () {
 
@@ -65,7 +65,7 @@ describe('Like Post Button', function () {
             jest.spyOn(hooks, "useAppSelector").mockReturnValue({
                 user: UserStub()
             })
-            const spy = jest.spyOn(instance, "patch").mockResolvedValue({
+            const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: 4
             })
             const router = MockUseRouter({locale: "fr"});
@@ -96,7 +96,7 @@ describe('Like Post Button', function () {
             jest.spyOn(hooks, "useAppSelector").mockReturnValue({
                 user: UserStub()
             })
-            const spy = jest.spyOn(instance, "patch").mockResolvedValue({
+            const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: 2
             })
             const router = MockUseRouter({locale: "fr"});

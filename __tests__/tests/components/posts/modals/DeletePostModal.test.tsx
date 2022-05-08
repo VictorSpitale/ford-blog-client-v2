@@ -10,7 +10,7 @@ import DeletePostModal from "../../../../../components/posts/modals/DeletePostMo
 import {PostStub} from "../../../../stub/PostStub";
 import {queryByContent} from "../../../../utils/CustomQueries";
 import {capitalize} from "../../../../../shared/utils/string.utils";
-import {instance} from "../../../../../context/instance";
+import * as fetch from "../../../../../context/instance";
 
 jest.mock('../../../../../shared/hooks');
 
@@ -85,7 +85,7 @@ describe('Delete Post Modal', function () {
         (useTranslation as jest.Mock).mockReturnValueOnce(fr)
         const store = makeStore();
         const post = PostStub();
-        const spy = jest.spyOn(instance, "delete").mockResolvedValue({});
+        const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({});
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
@@ -94,7 +94,7 @@ describe('Delete Post Modal', function () {
             </Provider>
         )
         fireEvent.click(screen.getByRole('button', {name: capitalize(fr.posts.delete.deleteAction)}));
-        expect(spy).toHaveBeenCalledWith(`/posts/${post.slug}`);
+        expect(spy).toHaveBeenCalledWith("/api/posts/{slug}", {method: "delete", params: {slug: post.slug}});
         expect(dispatch).toHaveBeenCalled();
         // mock calls inside dispatch......
     })
