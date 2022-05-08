@@ -38,7 +38,7 @@ export const updateLoggedUser = createAsyncThunk<IUser, UpdateUser & { _id: stri
         response = res.data;
         return response;
     }).catch((res) => {
-        return rejectWithValue(res.response.data);
+        return rejectWithValue(res);
     });
 })
 

@@ -107,6 +107,6 @@ export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootStat
             return response;
         })
         .catch(res => {
-            return rejectWithValue(res.response.data)
+            return rejectWithValue(res)
         })
 })
