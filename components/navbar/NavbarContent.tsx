@@ -8,40 +8,14 @@ import Image from 'next/image'
 import searchBackground from '../../public/static/img/search_background-3.jpg'
 import NavSearch from "./NavSearch";
 import {blurImg} from "../../shared/images/blurImg";
-import {IUserRole} from "../../shared/types/user.type";
 import {useAppSelector} from "../../context/hooks";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useTranslation} from "../../shared/hooks";
+import {links} from "./Links";
 
-type Link = {
-    code: string,
-    href: string,
-    role?: IUserRole
-}
 const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
 
     const {user} = useAppSelector(state => state.user)
-
-    const links: Link[] = [{
-        code: "0",
-        href: "/"
-    }, {
-        code: "1",
-        href: "/news"
-    }, {
-        code: "2",
-        href: "/categories"
-    }, {
-        code: "3",
-        href: "/write",
-        role: IUserRole.POSTER
-    }, {
-        code: "4",
-        href: "/contact"
-    }, {
-        code: "5",
-        href: "/account"
-    }]
 
     const t = useTranslation()
 

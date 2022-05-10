@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {memo, useRef, useState} from 'react';
 import {IPost, UpdatePost} from "../../../shared/types/post.type";
 import {AnyFunction} from "../../../shared/types/props.type";
 import Modal from "../../modal/Modal";
@@ -104,4 +104,4 @@ const UpdatePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFu
     );
 };
 
-export default UpdatePostModal;
+export default memo(UpdatePostModal);

@@ -1,4 +1,4 @@
-import React, {ForwardedRef, forwardRef} from 'react';
+import React, {ForwardedRef, forwardRef, memo} from 'react';
 import {IPost} from "../../shared/types/post.type";
 import Link from "next/link";
 import {capitalize} from "../../shared/utils/string.utils";
@@ -57,5 +57,4 @@ const PostCard = forwardRef(({
 });
 
 PostCard.displayName = "PostCard";
-
-export default PostCard;
+export default memo(PostCard);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {AnyFunction} from "../../shared/types/props.type";
 import {className} from "../../shared/utils/class.utils";
 import Link from "next/link";
@@ -33,5 +33,4 @@ const Button = ({element, onClick, text, classes, type}: PropsType) => {
         </>
     )
 };
-
-export default Button;
+export default memo(Button);

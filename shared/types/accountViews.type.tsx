@@ -38,5 +38,7 @@ export const getAccountView = (view: AccountViews | string) => {
         case AccountViews.SECURITY:
         case AccountViews.SECURITY.toString():
             return <SecurityView />
+        default:
+            return <ProfileView />
     }
 }

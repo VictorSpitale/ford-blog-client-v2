@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import AccountViewSwitcher from "./AccountViewSwitcher";
 import {useAppSelector} from "../../context/hooks";
 import {getAccountView} from "../../shared/types/accountViews.type";
@@ -18,4 +18,4 @@ const AccountView = () => {
     );
 };
 
-export default AccountView;
+export default memo(AccountView);

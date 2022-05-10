@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {IBasicPost} from "../../shared/types/post.type";
 import styles from "../../styles/Navbar.module.css";
 import Image from 'next/image'
@@ -25,5 +25,4 @@ const SimplifiedPostCard = ({post, onClick}: { post: IBasicPost; onClick?: AnyFu
         </Link>
     );
 };
-
-export default SimplifiedPostCard;
+export default memo(SimplifiedPostCard);
