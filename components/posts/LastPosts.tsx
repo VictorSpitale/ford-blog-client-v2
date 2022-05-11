@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {IPost} from "../../shared/types/post.type";
 import PostCard from "./PostCard";
 
@@ -12,4 +12,4 @@ const LastPosts = ({posts}: { posts: IPost[] }) => {
     );
 };
 
-export default LastPosts;
+export default memo(LastPosts);

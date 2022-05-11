@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ForwardedRef, forwardRef, HTMLInputTypeAttribute} from 'react';
+import React, {ChangeEvent, ForwardedRef, forwardRef, HTMLInputTypeAttribute, memo} from 'react';
 
 type PropsType = {
     name: string;
@@ -34,4 +34,4 @@ const TextAreaField = forwardRef(({
     );
 });
 TextAreaField.displayName = "TextAreaField"
-export default TextAreaField;
+export default memo(TextAreaField);

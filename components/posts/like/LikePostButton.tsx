@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import Heart from "./Heart";
 import {IPost, LikeStatus} from "../../../shared/types/post.type";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
@@ -51,4 +51,4 @@ const LikePostButton = ({post}: { post: IPost }) => {
     );
 };
 
-export default LikePostButton;
+export default memo(LikePostButton);

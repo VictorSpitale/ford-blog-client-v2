@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ForwardedRef, forwardRef, HTMLInputTypeAttribute} from 'react';
+import React, {ChangeEvent, ForwardedRef, forwardRef, HTMLInputTypeAttribute, memo} from 'react';
 import {className} from "../../shared/utils/class.utils";
 
 type PropsType = {
@@ -38,4 +38,4 @@ const InputField = forwardRef(({
     );
 });
 InputField.displayName = "InputField"
-export default InputField;
+export default memo(InputField);
