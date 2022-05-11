@@ -15,6 +15,7 @@ import {useModal, useTranslation} from "../../shared/hooks";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 import DeletePostModal from "./modals/DeletePostModal";
 import UpdatePostModal from "./modals/UpdatePostModal";
+import Comments from "../../__tests__/tests/components/posts/comments/Comments";
 
 const SinglePost = ({post}: { post: IPost }) => {
     const t = useTranslation();
@@ -70,6 +71,10 @@ const SinglePost = ({post}: { post: IPost }) => {
                                   className={className("text-justify text-lg", i === 0 ? 'pt-3 first-letter:pl-5 first-letter:font-extrabold' : '')}
                                   key={i}>{s} <br/></p>
                     })}
+                </div>
+                <hr className={"my-4"}/>
+                <div className={"px-4"}>
+                    <Comments post={post}/>
                 </div>
             </div>
         </>

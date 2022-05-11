@@ -2,7 +2,7 @@ export type IComment = {
     _id: string;
     commenter: {
         pseudo: string;
-        picture: string;
+        picture?: string;
     };
     comment: string;
     createdAt: string;
