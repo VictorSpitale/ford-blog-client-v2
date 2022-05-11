@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import BaseView from "../shared/BaseView";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
-import Image from "next/image"
 import {UpdateUser} from "../../shared/types/user.type";
 import InputField from "../shared/InputField";
 import {useTranslation} from "../../shared/hooks";
@@ -9,6 +8,7 @@ import {removePicture, updateLoggedUser, uploadPicture} from "../../context/acti
 import {HttpError} from "../../shared/types/httpError.type";
 import {getUserPictureSrc} from "../../shared/images/ProfilePicture";
 import Button from "../shared/Button";
+import ProfilePicture from "../shared/ProfilePicture";
 
 const ProfileView = () => {
     const {user, pending} = useAppSelector(state => state.user);
@@ -63,9 +63,7 @@ const ProfileView = () => {
             <p className={"mb-4 rounded w-full bg-red-400 text-white px-3 text-justify"}>{error}</p>
             <p className={"font-bold"}>{t.account.profile.avatar}</p>
             <div className={"flex w-full items-center"}>
-                <div className={"rounded-full overflow-hidden w-[50px] h-[50px]"}>
-                    <Image alt={"profile picture"} src={profilePicture.src} width={"50"} height={"50"} />
-                </div>
+                <ProfilePicture src={profilePicture.src}/>
                 <div className={"flex md:flex-row flex-col w-fit ml-4 md:ml-0"}>
                     <div className={"h-fit"}>
                         <label
@@ -73,26 +71,26 @@ const ProfileView = () => {
                                 " px-4 text-white bg-primary-400 shadow-2xl h-[34px] hover:bg-primary-500"}>
                             {t.account.profile.upload}
                             <input type={"file"} id={"inputFile"} style={{display: "none"}}
-                                   accept={'.jpeg, .png, .jpg'} onChange={handleFileUpload} />
+                                   accept={'.jpeg, .png, .jpg'} onChange={handleFileUpload}/>
                         </label>
                     </div>
                     {!profilePicture.default &&
-						<button onClick={handleRemovePicture} className=
+                        <button onClick={handleRemovePicture} className=
                             {"rounded border h-fit px-4 text-white bg-red-400 shadow-2xl h-[34px]"}>{t.account.profile.delete}
-						</button>}
+                        </button>}
                 </div>
             </div>
-            <hr className={"my-3"} />
+            <hr className={"my-3"}/>
             <div className={"flex flex-col md:flex-row"}>
                 <InputField name={"pseudo"} value={user.pseudo} label={t.account.profile.pseudo}
-                            onChange={(e) => setUpdatedUser({pseudo: e.target.value})} />
-                <span className={"my-2 md:my-0 md:mx-4"} />
-                <InputField name={"email"} value={user.email} label={t.account.profile.email} disabled={true} />
+                            onChange={(e) => setUpdatedUser({pseudo: e.target.value})}/>
+                <span className={"my-2 md:my-0 md:mx-4"}/>
+                <InputField name={"email"} value={user.email} label={t.account.profile.email} disabled={true}/>
             </div>
-            <hr className={"my-3"} />
+            <hr className={"my-3"}/>
             <Button text={pending ? t.common.loading : t.common.save} element={"button"}
                     classes={"float-right px-3 py-1 !rounded"}
-                    onClick={handleSave} />
+                    onClick={handleSave}/>
         </BaseView>
     );
 };
