@@ -1,6 +1,15 @@
 import {IPost} from "../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
-import {changeLikeStatus, cleanPost, createPost, getPost, updatePost} from "../actions/posts.actions";
+import {
+    changeLikeStatus,
+    cleanPost,
+    commentPost,
+    createPost,
+    deletePostComment,
+    getPost,
+    updatePost,
+    updatePostComment
+} from "../actions/posts.actions";
 
 export type PostState = {
     post: IPost;
@@ -41,6 +50,27 @@ export const
         }).addCase(createPost.rejected, (state) => {
             state.pending = false;
         }).addCase(createPost.fulfilled, (state, {payload}) => {
+            state.pending = false;
+            state.post = payload;
+        }).addCase(deletePostComment.pending, (state) => {
+            state.pending = true;
+        }).addCase(deletePostComment.rejected, (state) => {
+            state.pending = false;
+        }).addCase(deletePostComment.fulfilled, (state, {payload}) => {
+            state.pending = false;
+            state.post = payload;
+        }).addCase(updatePostComment.pending, (state) => {
+            state.pending = true;
+        }).addCase(updatePostComment.rejected, (state) => {
+            state.pending = false;
+        }).addCase(updatePostComment.fulfilled, (state, {payload}) => {
+            state.pending = false;
+            state.post = payload;
+        }).addCase(commentPost.pending, (state) => {
+            state.pending = true;
+        }).addCase(commentPost.rejected, (state) => {
+            state.pending = false;
+        }).addCase(commentPost.fulfilled, (state, {payload}) => {
             state.pending = false;
             state.post = payload;
         })

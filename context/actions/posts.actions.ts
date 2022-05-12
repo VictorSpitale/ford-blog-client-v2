@@ -1,6 +1,16 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {IBasicPost, ICreatePost, IPaginatedPosts, IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
+import {
+    CreatePostComment,
+    DeletePostComment,
+    IBasicPost,
+    ICreatePost,
+    IPaginatedPosts,
+    IPost,
+    LikeStatus,
+    UpdatePost,
+    UpdatePostComment
+} from "../../shared/types/post.type";
 import {isEmpty, toFormData} from "../../shared/utils/object.utils";
 import {fetchApi, instance} from "../instance";
 import {NextPageContext} from "next";
@@ -15,6 +25,10 @@ export const UPDATE_POST = "UPDATE_POST";
 export const GET_LIKED_POSTS = "GET_LIKED_POSTS";
 export const CLEAN_LIKED_POSTS = "CLEAN_LIKED_POSTS";
 export const CREATE_POST = "CREATE_POST";
+
+export const COMMENT_POST = "COMMENT_POST";
+export const DELETE_POST_COMMENT = "DELETE_POST_COMMENT";
+export const UPDATE_POST_COMMENT = "UPDATE_POST_COMMENT";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
     const {posts} = getState().lastPosts
@@ -117,3 +131,40 @@ export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootStat
             return rejectWithValue(res)
         })
 })
+
+export const deletePostComment = createAsyncThunk<IPost, DeletePostComment, { state: RootState }>(DELETE_POST_COMMENT, async (comment) => {
+    let response = {} as IPost;
+    await fetchApi("/api/posts/comment/{slug}", {
+        method: "delete",
+        params: {slug: comment.slug},
+        json: {_id: comment._id, commenterId: comment.commenterId}
+    }).then((res) => {
+        response = res.data;
+    })
+    return response;
+})
+
+export const updatePostComment = createAsyncThunk<IPost, UpdatePostComment, { state: RootState }>(UPDATE_POST_COMMENT, async (comment) => {
+    let response = {} as IPost;
+    await fetchApi("/api/posts/comment/{slug}", {
+        method: "patch",
+        params: {slug: comment.slug},
+        json: {_id: comment._id, commenterId: comment.commenterId, comment: comment.comment}
+    }).then((res) => {
+        response = res.data;
+    })
+    return response;
+})
+
+export const commentPost = createAsyncThunk<IPost, CreatePostComment, { state: RootState }>(COMMENT_POST, async (comment) => {
+    let response = {} as IPost;
+    await fetchApi("/api/posts/comment/{slug}", {
+        method: "post",
+        params: {slug: comment.slug},
+        json: {comment: comment.comment}
+    }).then((res) => {
+        response = res.data;
+    })
+    return response;
+})
+

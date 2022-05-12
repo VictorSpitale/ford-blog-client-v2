@@ -58,3 +58,13 @@ export type UpdatePost = {
     sourceLink: string;
     categories: string[]
 }
+
+type commenterId = {
+    commenterId: string;
+};
+
+export type DeletePostComment = commenterId & Pick<IPost, "slug"> & Pick<IComment, "_id">;
+
+export type UpdatePostComment = commenterId & Pick<IPost, "slug"> & Pick<IComment, "_id"> & Pick<IComment, "comment">;
+
+export type CreatePostComment = Pick<IPost, "slug"> & Pick<IComment, "comment">;
