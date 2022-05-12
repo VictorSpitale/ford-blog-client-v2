@@ -9,6 +9,7 @@ import categoriesReducer from "./reducers/categories.reducer";
 import selectCategoriesReducer from "./reducers/selectCategories.reducer";
 import accountViewReducer from "./reducers/accountView.reducer";
 import likedPostsReducer from "./reducers/likedPosts.reducer";
+import {currentCommentEditReducer} from "./reducers/currentCommentEdit.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -19,7 +20,8 @@ const combinedReducer = combineReducers({
     categories: categoriesReducer,
     selectCategories: selectCategoriesReducer,
     accountView: accountViewReducer,
-    likedPosts: likedPostsReducer
+    likedPosts: likedPostsReducer,
+    currentComment: currentCommentEditReducer,
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
