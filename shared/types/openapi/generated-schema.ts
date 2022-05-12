@@ -65,6 +65,11 @@ export interface paths {
   "/api/posts/unlike/{slug}": {
     patch: operations["PostsController_unlikePost"];
   };
+  "/api/posts/comment/{slug}": {
+    post: operations["PostsController_commentPost"];
+    delete: operations["PostsController_deletePostComment"];
+    patch: operations["PostsController_editPostComment"];
+  };
   "/api/categories": {
     get: operations["CategoriesController_getCategories"];
     post: operations["CategoriesController_create"];
@@ -255,6 +260,11 @@ export interface components {
     };
     CommenterDto: {
       /**
+       * @description User id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
+      /**
        * @description User's pseudo
        * @example John Doe
        */
@@ -263,7 +273,7 @@ export interface components {
        * @description User's profile picture
        * @example url_to_picture
        */
-      picture: string;
+      picture?: string;
     };
     CommentDto: {
       /**
@@ -274,6 +284,7 @@ export interface components {
       /**
        * @description Commenter's informations
        * @example {
+       *         id: "61f59acf09f089c9df951c37",
        *         pseudo: 'John',
        *         picture: 'url_to_picture'
        *     }
@@ -284,16 +295,10 @@ export interface components {
        * @example What a beautiful car!
        */
       comment: string;
-      /**
-       * Format: YYYY-mm-ddTHH:MM:ssZ
-       * @description Comment's created date
-       */
-      createdAt: string;
-      /**
-       * Format: YYYY-mm-ddTHH:MM:ssZ
-       * @description Comment's last update date
-       */
-      updatedAt: string;
+      /** @description Comment's created date (timestamp) */
+      createdAt: number;
+      /** @description Comment's last update date (timestamp) */
+      updatedAt?: number;
     };
     PostDto: {
       /**
@@ -436,6 +441,42 @@ export interface components {
        * @example [621bd3239a004010c4ba3b06e]
        */
       categories?: string[];
+    };
+    CreateCommentDto: {
+      /**
+       * @description Comment
+       * @example What a beautiful car!
+       */
+      comment: string;
+    };
+    UpdateCommentDto: {
+      /**
+       * @description Comment's id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
+      /**
+       * @description Comment
+       * @example What a beautiful car!
+       */
+      comment: string;
+      /**
+       * @description comment id
+       * @example 61f59acf09f089c9df951c37
+       */
+      commenterId: string;
+    };
+    DeleteCommentDto: {
+      /**
+       * @description Comment's id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
+      /**
+       * @description comment id
+       * @example 61f59acf09f089c9df951c37
+       */
+      commenterId: string;
     };
     CreateCategoryDto: {
       /**
@@ -1000,6 +1041,123 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["HttpErrorDto"];
         };
+      };
+    };
+  };
+  PostsController_commentPost: {
+    parameters: {
+      path: {
+        /** Post slug */
+        slug: string;
+      };
+    };
+    responses: {
+      /** The post has been commented */
+      201: {
+        content: {
+          "application/json": components["schemas"]["PostDto"];
+        };
+      };
+      /** Validations failed */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpValidationError"];
+        };
+      };
+      /** Unauthorized access */
+      401: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** The post doesnt exist */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateCommentDto"];
+      };
+    };
+  };
+  PostsController_deletePostComment: {
+    parameters: {
+      path: {
+        /** Post slug */
+        slug: string;
+      };
+    };
+    responses: {
+      /** The updated post */
+      201: {
+        content: {
+          "application/json": components["schemas"]["PostDto"];
+        };
+      };
+      /** Validations failed */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpValidationError"];
+        };
+      };
+      /** Unauthorized access */
+      401: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** The post doesnt exist */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DeleteCommentDto"];
+      };
+    };
+  };
+  PostsController_editPostComment: {
+    parameters: {
+      path: {
+        /** Post slug */
+        slug: string;
+      };
+    };
+    responses: {
+      /** The updated post */
+      201: {
+        content: {
+          "application/json": components["schemas"]["PostDto"];
+        };
+      };
+      /** Validations failed */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpValidationError"];
+        };
+      };
+      /** Unauthorized access */
+      401: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** The post doesnt exist */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateCommentDto"];
       };
     };
   };
