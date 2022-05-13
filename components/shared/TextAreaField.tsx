@@ -4,11 +4,13 @@ type PropsType = {
     name: string;
     label?: string;
     value?: string | number | readonly string[];
+    defaultValue?: string | number | readonly string[];
     placeholder?: string;
     onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => any;
     required?: boolean;
     type?: HTMLInputTypeAttribute,
     autoComplete?: string;
+    rows?: number;
 }
 
 const TextAreaField = forwardRef(({
@@ -18,7 +20,9 @@ const TextAreaField = forwardRef(({
                                       onChange,
                                       name,
                                       value,
-                                      autoComplete
+                                      defaultValue,
+                                      autoComplete,
+                                      rows = 10
                                   }: PropsType, ref: ForwardedRef<HTMLTextAreaElement>) => {
 
 
@@ -28,7 +32,7 @@ const TextAreaField = forwardRef(({
             <textarea
                 className={"resize-none c-scroll w-full mt-2 pb-1 bg-transparent border-b-2 border-gray-400 outline-0"}
                 ref={ref} placeholder={placeholder} id={name}
-                defaultValue={value} onChange={onChange} rows={10}
+                defaultValue={defaultValue} value={value} onChange={onChange} rows={rows}
                 required={required} autoComplete={autoComplete} />
         </label>
     );
