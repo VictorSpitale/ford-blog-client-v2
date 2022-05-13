@@ -1,8 +1,8 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../store";
-import {ICreatePost, IPaginatedPosts, IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
+import {IBasicPost, ICreatePost, IPaginatedPosts, IPost, LikeStatus, UpdatePost} from "../../shared/types/post.type";
 import {isEmpty, toFormData} from "../../shared/utils/object.utils";
-import {instance} from "../instance";
+import {fetchApi, instance} from "../instance";
 import {NextPageContext} from "next";
 
 export const GET_POSTS = "GET_POSTS"
@@ -22,7 +22,9 @@ export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }
         return posts
     }
     let response: IPost[] = []
-    await instance.get('/posts/last').then((res) => response = res.data);
+    await fetchApi("/api/posts/last", {method: "get"}).then((res) => {
+        response = res.data
+    })
     return response
 })
 
@@ -32,7 +34,9 @@ export const getPosts = createAsyncThunk<IPaginatedPosts, number | undefined, { 
         return paginatedPosts;
     }
     let response = {} as IPaginatedPosts;
-    await instance.get(`/posts?page=${page}`).then((res) => response = res.data)
+    await fetchApi("/api/posts", {method: "get", query: {page}}).then((res) => {
+        response = res.data
+    })
     return response
 })
 
@@ -40,7 +44,6 @@ interface getPostParams {
     slug: string,
     context: NextPageContext<any>
 }
-
 
 export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr, {getState}) => {
 
@@ -55,12 +58,9 @@ export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState
             Cookie: attr.context.req.headers.cookie,
         }
     }
-    await instance.get('/posts/' + attr.slug,
-        {
-            ...(attr.context.req
-                ? {headers}
-                : {}),
-        }).then((res) => response = res.data)
+    await fetchApi("/api/posts/{slug}", {method: "get", params: {slug: attr.slug}, headers}).then((res) => {
+        response = res.data
+    })
     return response
 })
 
@@ -71,12 +71,15 @@ interface changePostStatusParams {
 
 export const changeLikeStatus = createAsyncThunk<number, changePostStatusParams>(CHANGE_LIKE_STATUS, async (attr) => {
     let response = 0
-    await instance.patch(`/posts/${attr.status}/${attr.slug}`).then((res) => response = res.data);
+    await fetchApi(`/api/posts/${attr.status}/{slug}`, {
+        method: "patch",
+        params: {slug: attr.slug}
+    }).then((res) => response = res.data);
     return response;
 })
 
 export const deletePost = createAsyncThunk<string, string, { state: RootState }>(DELETE_POST, async (slug) => {
-    await instance.delete(`/posts/${slug}`);
+    await fetchApi("/api/posts/{slug}", {method: "delete", params: {slug}});
     return slug;
 })
 
@@ -85,17 +88,21 @@ export const cleanLikedPosts = createAction(CLEAN_LIKED_POSTS);
 
 export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string }, { state: RootState }>(UPDATE_POST, async (update) => {
     let response: IPost = {} as IPost
-    await instance.patch(`/posts/${update.slug}`, update).then((res) => response = res.data);
+    await fetchApi("/api/posts/{slug}", {
+        method: "patch",
+        params: {slug: update.slug},
+        json: update
+    }).then((res) => response = res.data)
     return response;
 })
 
-export const getLikedPost = createAsyncThunk<IPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
+export const getLikedPost = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
     const {posts} = getState().likedPosts;
     if (!isEmpty(posts)) {
         return posts;
     }
-    let response: IPost[] = []
-    await instance.get(`/posts/liked/${id}`).then((res) => response = res.data);
+    let response: IBasicPost[] = []
+    await fetchApi('/api/posts/liked/{id}', {method: "get", params: {id}}).then((res) => response = res.data)
     return response;
 })
 
@@ -107,6 +114,6 @@ export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootStat
             return response;
         })
         .catch(res => {
-            return rejectWithValue(res.response.data)
+            return rejectWithValue(res)
         })
 })

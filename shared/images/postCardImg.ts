@@ -1,8 +1,8 @@
-import {IPost} from "../types/post.type";
+import {IBasicPost, IPost} from "../types/post.type";
 
 import pic from '../../tests/stub/ford-f-100-eluminator-concept.jpg'
 
-export const getPostCardImg = (post: IPost): string => {
+export const getPostCardImg = (post: IPost | IBasicPost): string => {
     if (process.env.NEXT_PUBLIC_ENV !== "development") {
         return post.picture
     }

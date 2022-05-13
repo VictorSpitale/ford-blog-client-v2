@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import CreatableSelect from "react-select/creatable";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {ICategory} from "../../shared/types/category.type";
@@ -104,4 +104,4 @@ const SelectCategories = () => {
     );
 };
 
-export default SelectCategories;
+export default memo(SelectCategories);

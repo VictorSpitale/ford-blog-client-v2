@@ -1,5 +1,5 @@
-import React from 'react';
-import {IPost} from "../../shared/types/post.type";
+import React, {memo} from 'react';
+import {IBasicPost} from "../../shared/types/post.type";
 import styles from "../../styles/Navbar.module.css";
 import Image from 'next/image'
 import {getPostCardImg} from "../../shared/images/postCardImg";
@@ -7,7 +7,7 @@ import Link from 'next/link'
 import {AnyFunction} from "../../shared/types/props.type";
 import {blurImg} from "../../shared/images/blurImg";
 
-const SimplifiedPostCard = ({post, onClick}: { post: IPost; onClick?: AnyFunction }) => {
+const SimplifiedPostCard = ({post, onClick}: { post: IBasicPost; onClick?: AnyFunction }) => {
     return (
         <Link href={"/post/" + post.slug}>
             <a className={styles.search_result_item} onClick={onClick}>
@@ -25,5 +25,4 @@ const SimplifiedPostCard = ({post, onClick}: { post: IPost; onClick?: AnyFunctio
         </Link>
     );
 };
-
-export default SimplifiedPostCard;
+export default memo(SimplifiedPostCard);

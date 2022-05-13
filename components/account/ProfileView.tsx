@@ -2,11 +2,13 @@ import React, {ChangeEvent, useState} from 'react';
 import BaseView from "../shared/BaseView";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import Image from "next/image"
-import {getUserPictureSrc, UpdateUser} from "../../shared/types/user.type";
+import {UpdateUser} from "../../shared/types/user.type";
 import InputField from "../shared/InputField";
 import {useTranslation} from "../../shared/hooks";
 import {removePicture, updateLoggedUser, uploadPicture} from "../../context/actions/user.actions";
 import {HttpError} from "../../shared/types/httpError.type";
+import {getUserPictureSrc} from "../../shared/images/ProfilePicture";
+import Button from "../shared/Button";
 
 const ProfileView = () => {
     const {user, pending} = useAppSelector(state => state.user);
@@ -67,7 +69,8 @@ const ProfileView = () => {
                 <div className={"flex md:flex-row flex-col w-fit ml-4 md:ml-0"}>
                     <div className={"h-fit"}>
                         <label
-                            className={"block cursor-pointer leading-[200%] text-center border-0 md:mx-4 rounded border px-4 text-white bg-primary-400 shadow-2xl h-[34px]"}>
+                            className={"block cursor-pointer leading-[200%] text-center border-0 md:mx-4 rounded border" +
+                                " px-4 text-white bg-primary-400 shadow-2xl h-[34px] hover:bg-primary-500"}>
                             {t.account.profile.upload}
                             <input type={"file"} id={"inputFile"} style={{display: "none"}}
                                    accept={'.jpeg, .png, .jpg'} onChange={handleFileUpload} />
@@ -87,9 +90,9 @@ const ProfileView = () => {
                 <InputField name={"email"} value={user.email} label={t.account.profile.email} disabled={true} />
             </div>
             <hr className={"my-3"} />
-            <button onClick={handleSave}
-                    className={"float-right rounded text-white bg-primary-400 px-3 py-1"}>{pending ? t.common.loading : t.common.save}
-            </button>
+            <Button text={pending ? t.common.loading : t.common.save} element={"button"}
+                    classes={"float-right px-3 py-1 !rounded"}
+                    onClick={handleSave} />
         </BaseView>
     );
 };

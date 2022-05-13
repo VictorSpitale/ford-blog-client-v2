@@ -4,6 +4,7 @@ import InputField from "../shared/InputField";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {deleteAccount, updateLoggedUser} from "../../context/actions/user.actions";
 import {useTranslation} from "../../shared/hooks";
+import Button from "../shared/Button";
 
 const SecurityView = () => {
 
@@ -54,9 +55,8 @@ const SecurityView = () => {
                             autoComplete={"new-password"} ref={ref}
                             onChange={(e) => setPassword(e.target.value)} />
                 <div className={"flex justify-end"}>
-                    <button type={"submit"}
-                            className={"mt-5 rounded text-white bg-primary-400 px-3 py-1"}>{pending ? t.common.loading : t.common.save}
-                    </button>
+                    <Button classes={"mt-5 !rounded px-3 py-1"} text={pending ? t.common.loading : t.common.save}
+                            element={"button"} type={"submit"} />
                 </div>
             </form>
             <hr className={"my-3"} />

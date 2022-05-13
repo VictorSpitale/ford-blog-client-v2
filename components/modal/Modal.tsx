@@ -1,4 +1,4 @@
-import React, {ForwardedRef, forwardRef, useRef} from 'react';
+import React, {ForwardedRef, forwardRef, memo, useRef} from 'react';
 import {AnyFunction, Children} from "../../shared/types/props.type";
 import {useOnClickOutside} from "../../shared/hooks";
 import styles from '../../styles/Modal.module.css'
@@ -55,4 +55,4 @@ const Modal = forwardRef(({
     );
 });
 Modal.displayName = "Modal"
-export default Modal;
+export default memo(Modal);

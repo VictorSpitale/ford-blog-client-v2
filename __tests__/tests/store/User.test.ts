@@ -11,13 +11,17 @@ import {
 } from "../../../context/actions/user.actions";
 import {IUser} from "../../../shared/types/user.type";
 import {UserStub} from "../../stub/UserStub";
-import {instance} from "../../../context/instance";
+import * as fetch from "../../../context/instance";
 import {makeStore} from "../../../context/store";
 
 describe('User Reducer & Actions', function () {
     const initialState: UserState = {
         user: {} as IUser, pending: false, error: false
     }
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    })
 
     it('should return the initial state', () => {
         expect(userReducer(undefined, {} as AnyAction)).toEqual(initialState);
@@ -53,18 +57,18 @@ describe('User Reducer & Actions', function () {
         })
 
         it('should fetch a user if user state is empty', async () => {
-            const getUserSpy = jest.spyOn(instance, "get").mockResolvedValue({
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: UserStub()
             })
             const store = makeStore();
             await store.dispatch(getUser());
-            expect(getUserSpy).toHaveBeenCalledWith("/auth/jwt");
+            expect(getUserSpy).toHaveBeenCalledWith("/api/auth/jwt", {method: "get"});
             expect(store.getState().user.user).toEqual(UserStub());
             getUserSpy.mockClear();
         })
 
         it('should not fetch a user if user is not empty', async () => {
-            const getUserSpy = jest.spyOn(instance, "get").mockResolvedValue({
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: UserStub()
             })
             const store = makeStore();
@@ -75,13 +79,13 @@ describe('User Reducer & Actions', function () {
 
         it('should fetch a user and execute the callback if user state is empty', async () => {
             const user = UserStub();
-            const getUserSpy = jest.spyOn(instance, "get").mockResolvedValue({
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: user
             })
             const store = makeStore();
             const fn = jest.fn();
             await store.dispatch(getUser(fn));
-            expect(getUserSpy).toHaveBeenCalledWith("/auth/jwt");
+            expect(getUserSpy).toHaveBeenCalledWith("/api/auth/jwt", {method: "get"});
             expect(store.getState().user.user).toEqual(user);
             expect(fn).toHaveBeenCalledWith(user._id);
         })
@@ -90,10 +94,10 @@ describe('User Reducer & Actions', function () {
 
     describe('Logout', function () {
         it('should reset the user (action)', async () => {
-            const logoutSpy = jest.spyOn(instance, "get").mockResolvedValue({});
+            const logoutSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({});
             const store = makeStore();
             await store.dispatch(logout());
-            expect(logoutSpy).toHaveBeenCalledWith("/auth/logout");
+            expect(logoutSpy).toHaveBeenCalledWith("/api/auth/logout", {method: "get"});
             expect(store.getState().user.user).toEqual({});
         })
         it('should reset the user (reducer)', async () => {
@@ -153,13 +157,17 @@ describe('User Reducer & Actions', function () {
 
         it('should fetch the updated user', async () => {
             const user = UserStub();
-            const getUserSpy = jest.spyOn(instance, "patch").mockResolvedValue({
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: user
             })
             const store = makeStore();
             const data = {_id: user._id};
             await store.dispatch(updateLoggedUser(data));
-            expect(getUserSpy).toHaveBeenCalledWith(`/users/${user._id}`, data);
+            expect(getUserSpy).toHaveBeenCalledWith(`/api/users/{id}`, {
+                method: "patch",
+                params: {id: user._id},
+                json: {password: undefined, pseudo: undefined}
+            });
             expect(store.getState().user.user).toEqual(UserStub());
         })
         it('should not update the user on failure', async () => {
@@ -169,7 +177,7 @@ describe('User Reducer & Actions', function () {
                 code: 1,
                 status: 400
             }
-            const getUserSpy = jest.spyOn(instance, "patch").mockRejectedValue({
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({
                 response: {
                     data: errorData
                 }
@@ -177,9 +185,24 @@ describe('User Reducer & Actions', function () {
             const store = makeStore();
             const data = {_id: user._id};
             await store.dispatch(updateLoggedUser(data)).then(res => {
-                expect(res.payload).toBe(errorData);
+                // Interceptor not included
+                expect(res.payload).toEqual({
+                    response: {
+                        data: errorData
+                    }
+                });
             });
-            expect(getUserSpy).toHaveBeenCalledWith(`/users/${user._id}`, data);
+            expect(getUserSpy).toHaveBeenCalledWith("/api/users/{id}",
+                {
+                    "json": {
+                        "password": undefined,
+                        "pseudo": undefined,
+                    },
+                    "method": "patch",
+                    "params": {
+                        "id": "625d68b498cce1a4044d887c",
+                    }
+                });
         })
 
     });
@@ -217,7 +240,7 @@ describe('User Reducer & Actions', function () {
 
         it('should upload the profile picture', async () => {
             const user = UserStub();
-            const getUserSpy = jest.spyOn(instance, "patch").mockResolvedValue({
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: {
                     picture: "picture"
                 }
@@ -225,7 +248,11 @@ describe('User Reducer & Actions', function () {
             const store = makeStore();
             const data = {_id: user._id, data: new FormData()};
             await store.dispatch(uploadPicture(data));
-            expect(getUserSpy).toHaveBeenCalledWith(`/users/upload/${data._id}`, data.data);
+            expect(getUserSpy).toHaveBeenCalledWith(`/api/users/upload/{id}`, {
+                data: data.data,
+                method: "patch",
+                params: {id: data._id}
+            });
             expect(store.getState().user.user.picture).toEqual('picture');
         })
     });
@@ -260,11 +287,14 @@ describe('User Reducer & Actions', function () {
 
         it('should remove the profile picture', async () => {
             const user = UserStub();
-            const getUserSpy = jest.spyOn(instance, "delete").mockResolvedValue({})
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({})
             const store = makeStore();
             const data = user._id;
             await store.dispatch(removePicture(data));
-            expect(getUserSpy).toHaveBeenCalledWith(`/users/upload/${user._id}`);
+            expect(getUserSpy).toHaveBeenCalledWith("/api/users/upload/{id}", {
+                method: "delete",
+                params: {id: user._id}
+            });
         })
 
     });
@@ -300,11 +330,14 @@ describe('User Reducer & Actions', function () {
 
         it('should delete the account', async () => {
             const user = UserStub();
-            const getUserSpy = jest.spyOn(instance, "delete").mockResolvedValue({})
+            const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({})
             const store = makeStore();
             const data = user._id;
             await store.dispatch(deleteAccount(data));
-            expect(getUserSpy).toHaveBeenCalledWith(`/users/${user._id}`);
+            expect(getUserSpy).toHaveBeenCalledWith("/api/users/{id}", {
+                "method": "delete",
+                "params": {"id": user._id}
+            });
         })
     });
 

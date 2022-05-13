@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {AnyFunction} from "../../../shared/types/props.type";
 import styles from '/styles/LikeBtn.module.css'
 import {className} from "../../../shared/utils/class.utils";
@@ -11,10 +11,10 @@ type PropsType = {
 const Heart = ({isLiked, onClick}: PropsType) => {
     return (
         <>
-            <span data-content={"heart-box"} className={styles.box} onClick={onClick}/>
-            <div data-content={"heart-icon"} className={className(styles.heart, isLiked ? styles.active : '')}/>
+            <span data-content={"heart-box"} className={styles.box} onClick={onClick} />
+            <div data-content={"heart-icon"} className={className(styles.heart, isLiked ? styles.active : '')} />
         </>
     );
 };
 
-export default Heart;
+export default memo(Heart);

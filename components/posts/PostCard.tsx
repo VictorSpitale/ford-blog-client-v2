@@ -1,4 +1,4 @@
-import React, {ForwardedRef, forwardRef} from 'react';
+import React, {ForwardedRef, forwardRef, memo} from 'react';
 import {IPost} from "../../shared/types/post.type";
 import Link from "next/link";
 import {capitalize} from "../../shared/utils/string.utils";
@@ -9,6 +9,7 @@ import {blurImg} from "../../shared/images/blurImg";
 import {getPostCardImg} from "../../shared/images/postCardImg";
 import {useTranslation} from "../../shared/hooks";
 import {className} from "../../shared/utils/class.utils";
+import Button from "../shared/Button";
 
 const PostCard = forwardRef(({
                                  post,
@@ -27,7 +28,7 @@ const PostCard = forwardRef(({
                                                      objectFit={"cover"} placeholder={"blur"}
                                                      blurDataURL={blurImg} /></a>
             </Link>
-            <div className={"py-2"}>
+            <div className={"py-2 flex flex-col justify-between h-[198px]"}>
                 <div className={"px-4 flex flex-wrap flex-col"}>
                     <div data-content={"categories"} className={"flex justify-between w-full py-1"}>
                         {post.categories.map((cat, i) => {
@@ -47,12 +48,8 @@ const PostCard = forwardRef(({
                         </Link>
                         <p>{getTimeSinceMsg(t, timeSinceObj)}</p>
                     </div>
-                    <Link href={`/post/${post.slug}`}>
-                        <a className={"bg-primary-400 text-white px-2 py-1" +
-                            " md:px-4 md:py-2 rounded-lg shadow-md shadow-primary-300/40" +
-                            " hover:shadow-primary-300/60 text-sm hover:bg-primary-500"}>
-                            {t.posts.readMore}</a>
-                    </Link>
+                    <Button text={t.posts.readMore} element={"link"} onClick={`/post/${post.slug}`}
+                            classes={"px-2 py-1 md:px-4 md:py-2 text-sm"} />
                 </div>
             </div>
         </div>
@@ -60,5 +57,4 @@ const PostCard = forwardRef(({
 });
 
 PostCard.displayName = "PostCard";
-
-export default PostCard;
+export default memo(PostCard);
