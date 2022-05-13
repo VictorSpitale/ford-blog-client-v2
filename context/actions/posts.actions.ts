@@ -11,7 +11,7 @@ import {
     UpdatePost,
     UpdatePostComment
 } from "../../shared/types/post.type";
-import {isEmpty, toFormData} from "../../shared/utils/object.utils";
+import {toFormData} from "../../shared/utils/object.utils";
 import {fetchApi, instance} from "../instance";
 import {NextPageContext} from "next";
 
@@ -30,11 +30,7 @@ export const COMMENT_POST = "COMMENT_POST";
 export const DELETE_POST_COMMENT = "DELETE_POST_COMMENT";
 export const UPDATE_POST_COMMENT = "UPDATE_POST_COMMENT";
 
-export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async (_, {getState}) => {
-    const {posts} = getState().lastPosts
-    if (!isEmpty(posts) && posts.length === 6) {
-        return posts
-    }
+export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async () => {
     let response: IPost[] = []
     await fetchApi("/api/posts/last", {method: "get"}).then((res) => {
         response = res.data
@@ -59,12 +55,7 @@ interface getPostParams {
     context: NextPageContext<any>
 }
 
-export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr, {getState}) => {
-
-    const {post} = getState().post
-    if (post.slug === attr.slug) {
-        return post
-    }
+export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr) => {
     let response: IPost = {} as IPost
     let headers;
     if (attr.context.req?.headers.cookie) {
@@ -110,11 +101,7 @@ export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string },
     return response;
 })
 
-export const getLikedPost = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
-    const {posts} = getState().likedPosts;
-    if (!isEmpty(posts)) {
-        return posts;
-    }
+export const getLikedPost = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id) => {
     let response: IBasicPost[] = []
     await fetchApi('/api/posts/liked/{id}', {method: "get", params: {id}}).then((res) => response = res.data)
     return response;
