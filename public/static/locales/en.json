@@ -8,10 +8,13 @@
     "or": "Or",
     "menu": "Menu",
     "cancel": "Cancel",
+    "confirm": "Confirm",
+    "send": "Send",
     "home": "Home",
     "noPost": "No post available",
     "error": "{{code}} Error",
     "errorSub": "An error has occurred",
+    "tryLater": "An error has occurred, please try later",
     "backHome": "Back to home",
     "navbar": {
       "0": "Home",
@@ -134,6 +137,11 @@
     "news": {
       "title": "News",
       "cantAccess": "You should be logged in to access the news"
+    },
+    "comment": {
+      "title": "{{count}} comment{{s}}",
+      "comment": "Leave a comment :",
+      "shouldLogin": "You must be logged in to leave a comment."
     }
   },
   "account": {
