@@ -141,7 +141,8 @@
     "comment": {
       "title": "{{count}} commentaire{{s}}",
       "comment": "Laisser un commentaire :",
-      "shouldLogin": "Vous devez vous connecter pour laisser un commentaire."
+      "shouldLogin": "Vous devez vous connecter pour laisser un commentaire.",
+      "modified": "modifié"
     }
   },
   "account": {
