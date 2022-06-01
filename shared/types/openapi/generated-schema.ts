@@ -70,6 +70,9 @@ export interface paths {
     delete: operations["PostsController_deletePostComment"];
     patch: operations["PostsController_editPostComment"];
   };
+  "/api/posts/isLiked/{slug}": {
+    get: operations["PostsController_patchLikePost"];
+  };
   "/api/categories": {
     get: operations["CategoriesController_getCategories"];
     post: operations["CategoriesController_create"];
@@ -1158,6 +1161,22 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["UpdateCommentDto"];
+      };
+    };
+  };
+  PostsController_patchLikePost: {
+    parameters: {
+      path: {
+        /** Post slug */
+        slug: string;
+      };
+    };
+    responses: {
+      /** The like status */
+      200: {
+        content: {
+          "application/json": boolean;
+        };
       };
     };
   };
