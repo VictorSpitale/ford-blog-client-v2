@@ -29,6 +29,7 @@ export const CREATE_POST = "CREATE_POST";
 export const COMMENT_POST = "COMMENT_POST";
 export const DELETE_POST_COMMENT = "DELETE_POST_COMMENT";
 export const UPDATE_POST_COMMENT = "UPDATE_POST_COMMENT";
+export const PATCH_LIKE = "PATCH_LIKE";
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async () => {
     let response: IPost[] = []
@@ -155,3 +156,13 @@ export const commentPost = createAsyncThunk<IPost, CreatePostComment, { state: R
     return response;
 })
 
+export const patchLikeStatus = createAsyncThunk<boolean, string, { state: RootState }>(PATCH_LIKE, async (slug) => {
+    let response = false;
+    await fetchApi("/api/posts/isLiked/{slug}", {
+        method: "get",
+        params: {slug}
+    }).then((res) => {
+        response = res.data;
+    })
+    return response;
+})

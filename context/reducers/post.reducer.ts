@@ -7,6 +7,7 @@ import {
     createPost,
     deletePostComment,
     getPost,
+    patchLikeStatus,
     updatePost,
     updatePostComment
 } from "../actions/posts.actions";
@@ -73,6 +74,11 @@ export const
         }).addCase(commentPost.fulfilled, (state, {payload}) => {
             state.pending = false;
             state.post = payload;
+        }).addCase(patchLikeStatus.fulfilled, (state, {payload}) => {
+            state.post = {
+                ...state.post,
+                authUserLiked: payload
+            }
         })
     })
 export default postReducer

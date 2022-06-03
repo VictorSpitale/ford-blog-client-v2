@@ -54,7 +54,8 @@ const Comment = ({comment, onDelete, isEditing, onUpdate}: PropsType) => {
                 <ProfilePicture src={comment.commenter.picture || defaultSrc.src} />
                 <div className={"flex flex-col"}>
                     <h3 className={"font-bold text-lg"}>{comment.commenter.pseudo}</h3>
-                    <p>{createdAt}</p>
+                    <p>{createdAt}{comment.updatedAt ?
+                        <span className={"italic text-xs"}> {t.posts.comment.modified}</span> : ''}</p>
                 </div>
                 {user._id === comment.commenter._id &&
 					<div className={"flex flex-col justify-between"}>
@@ -65,7 +66,7 @@ const Comment = ({comment, onDelete, isEditing, onUpdate}: PropsType) => {
             </div>
             {isEditing ?
                 <div className={"p-2"}>
-                    <TextAreaField name={"comment"} value={comment.comment} ref={editedCommentRef} rows={4} />
+                    <TextAreaField name={"comment"} defaultValue={comment.comment} ref={editedCommentRef} rows={4} />
                     <div className={"flex justify-end gap-x-3"}>
                         <Button element={"button"} text={t.common.confirm} classes={"bg-green-500 hover:!bg-green-600"}
                                 onClick={handleUpdate} />

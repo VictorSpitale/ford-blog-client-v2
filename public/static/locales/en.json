@@ -141,7 +141,8 @@
     "comment": {
       "title": "{{count}} comment{{s}}",
       "comment": "Leave a comment :",
-      "shouldLogin": "You must be logged in to leave a comment."
+      "shouldLogin": "You must be logged in to leave a comment.",
+      "modified": "amended"
     }
   },
   "account": {
