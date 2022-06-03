@@ -5,18 +5,21 @@ import {AnyFunction} from "../../shared/types/props.type";
 import {IPost} from "../../shared/types/post.type";
 import {useFetch, useTranslation} from "../../shared/hooks";
 import {IMethods} from "../../shared/types/methods.type";
+import {useAppDispatch, useAppSelector} from "../../context/hooks";
+import {setQuery} from "../../context/actions/navSearch.actions";
 
 const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
 
     const [posts, setPosts] = useState<IPost[]>([])
-    const [query, setQuery] = useState('')
+    const {query} = useAppSelector(state => state.navSearch);
     const [previousQuery, setPreviousQuery] = useState('')
     const {load} = useFetch('/posts/query?search=' + query, IMethods.GET, (data) => setPosts(data as IPost[]));
     const t = useTranslation()
+    const dispatch = useAppDispatch();
 
     const onInput = async (ev: React.ChangeEvent<HTMLInputElement>) => {
         const search = ev.target.value
-        setQuery(search.trim())
+        dispatch(setQuery({query: search.trim()}));
     }
 
     useEffect(() => {
@@ -34,7 +37,7 @@ const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
 
     return (<>
             <div className={styles.search_form}>
-                <input type="search" onChange={onInput} placeholder={t.common.keywords} />
+                <input type="search" onChange={onInput} placeholder={t.common.keywords} value={query} />
             </div>
             <div data-content={"result-container"} className={styles.search_result_container}>
                 {(posts.length === 0 && query != "") ?
