@@ -11,7 +11,7 @@ import Layout from "../components/layouts/Layout";
 import {NextPageWithLayout} from "../shared/types/page.type";
 
 const LoadingScreen = dynamic(() => import("../components/LoadingScreen"))
-const LastPosts = dynamic(() => import("../components/posts/LastPosts"))
+const PostsList = dynamic(() => import("../components/posts/PostsList"))
 
 const Home: NextPageWithLayout = () => {
     const {posts, pending} = useAppSelector((state) => state.lastPosts);
@@ -26,7 +26,7 @@ const Home: NextPageWithLayout = () => {
                 {posts.length === 0 ?
                     (<h1 className={"text-center text-2xl"}>{t.common.noPost}</h1>) :
                     (<div className={"px-1 mx-auto w-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4"}>
-                        <LastPosts posts={posts} />
+                        <PostsList posts={posts} />
                     </div>)
                 }
             </LoadingScreen>

@@ -1,5 +1,5 @@
 import {render} from "@testing-library/react";
-import LastPosts from "../../../../components/posts/LastPosts";
+import PostsList from "../../../../components/posts/PostsList";
 import {queryAllByContent, queryByContent} from "../../../utils/CustomQueries";
 import {PostStub} from "../../../stub/PostStub";
 import {RouterContext} from "next/dist/shared/lib/router-context";
@@ -9,7 +9,7 @@ describe('Last Post', function () {
 
     it('should render any post', () => {
         render(
-            <LastPosts posts={[]} />
+            <PostsList posts={[]} />
         )
         expect(queryByContent('post-card')).not.toBeDefined();
     })
@@ -18,7 +18,7 @@ describe('Last Post', function () {
         const posts = Array(3).fill(PostStub());
         render(
             <RouterContext.Provider value={MockUseRouter({})}>
-                <LastPosts posts={posts} />
+                <PostsList posts={posts} />
             </RouterContext.Provider>
         )
         expect(queryAllByContent('post-card').length).toBe(3);
