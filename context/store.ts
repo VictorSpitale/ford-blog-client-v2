@@ -12,6 +12,7 @@ import likedPostsReducer from "./reducers/likedPosts.reducer";
 import {currentCommentEditReducer} from "./reducers/currentCommentEdit.reducer";
 import {navSearchReducer} from "./reducers/navSearch.reducer";
 import categorySlideReducer from "./reducers/categorySlide.reducer";
+import {categorizedPostsReducer} from "./reducers/categorizedPosts.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -25,7 +26,8 @@ const combinedReducer = combineReducers({
     likedPosts: likedPostsReducer,
     currentComment: currentCommentEditReducer,
     navSearch: navSearchReducer,
-    categorySlide: categorySlideReducer
+    categorySlide: categorySlideReducer,
+    categorizedPosts: categorizedPostsReducer
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {

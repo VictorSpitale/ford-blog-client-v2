@@ -30,6 +30,7 @@ export const COMMENT_POST = "COMMENT_POST";
 export const DELETE_POST_COMMENT = "DELETE_POST_COMMENT";
 export const UPDATE_POST_COMMENT = "UPDATE_POST_COMMENT";
 export const PATCH_LIKE = "PATCH_LIKE";
+export const CATEGORIZED_POSTS = "CATEGORIZED_POSTS"
 
 export const getLastPosts = createAsyncThunk<IPost[], void, { state: RootState }>(GET_LAST_POSTS, async () => {
     let response: IPost[] = []
@@ -49,6 +50,19 @@ export const getPosts = createAsyncThunk<IPaginatedPosts, number | undefined, { 
         response = res.data
     })
     return response
+})
+
+export const getCategorizedPosts = createAsyncThunk<{ posts: IPost[], category: string }, string, { state: RootState }>(CATEGORIZED_POSTS, async (category, {getState}) => {
+    const {posts} = getState().categorizedPosts
+    const categorizedPosts = posts.find((list) => list.category === category);
+    if (categorizedPosts && categorizedPosts.posts.length > 0) {
+        return categorizedPosts;
+    }
+    const response = {posts: [], category} as { posts: IPost[], category: string };
+    await fetchApi("/api/posts/categorized/{category}", {method: "get", params: {category}}).then((res) => {
+        response.posts = res.data;
+    })
+    return response;
 })
 
 interface getPostParams {
