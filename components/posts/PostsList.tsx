@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {IPost} from "../../shared/types/post.type";
 import PostCard from "./PostCard";
 
-const LastPosts = ({posts}: { posts: IPost[] }) => {
+const PostsList = ({posts}: { posts: IPost[] }) => {
     return (
         <>
             {posts.map((post, i) => {
@@ -12,4 +12,4 @@ const LastPosts = ({posts}: { posts: IPost[] }) => {
     );
 };
 
-export default memo(LastPosts);
+export default memo(PostsList);

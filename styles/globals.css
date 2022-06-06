@@ -58,3 +58,7 @@ img {
     display      : block;
     margin-block : 10px;
 }
+
+.slick-slide {
+    margin-inline : 15px;
+}

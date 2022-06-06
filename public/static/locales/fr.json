@@ -185,5 +185,10 @@
     "likes": {
       "noPosts": "Vous n'avez pas encore aimé d'articles"
     }
+  },
+  "categories": {
+    "title": "Catégories",
+    "noPost": "Aucun article ne correspond à la recherche",
+    "noCat": "Aucune catégorie disponible"
   }
 }
