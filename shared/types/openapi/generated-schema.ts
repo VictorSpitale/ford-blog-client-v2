@@ -73,6 +73,9 @@ export interface paths {
   "/api/posts/isLiked/{slug}": {
     get: operations["PostsController_patchLikePost"];
   };
+  "/api/posts/categorized/{category}": {
+    get: operations["PostsController_getCategorizedPosts"];
+  };
   "/api/categories": {
     get: operations["CategoriesController_getCategories"];
     post: operations["CategoriesController_create"];
@@ -175,7 +178,10 @@ export interface components {
       statusCode: number;
       /**
        * @description Http error messages
-       * @example x must not be empty,x must be a string
+       * @example [
+       *   "x must not be empty",
+       *   "x must be a string"
+       * ]
        */
       message: string;
       /**
@@ -1176,6 +1182,22 @@ export interface operations {
       200: {
         content: {
           "application/json": boolean;
+        };
+      };
+    };
+  };
+  PostsController_getCategorizedPosts: {
+    parameters: {
+      path: {
+        /** The category name */
+        category: string;
+      };
+    };
+    responses: {
+      /** The posts */
+      200: {
+        content: {
+          "application/json": components["schemas"]["PostDto"][];
         };
       };
     };
