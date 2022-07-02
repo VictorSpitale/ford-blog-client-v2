@@ -32,7 +32,7 @@ Configurer les variables d'environnement .env
 
 ## Lancer le projet
 
-Installer les dépendences
+Installer les dépendances
 
 ```bash
   npm install
@@ -46,11 +46,11 @@ Lancer le serveur
 
 ## Stack technique
 
-**Client:** NextJS, React, TailwindCSS, ReduxToolkit, Axios, ReactSelect
+**Client:** NextJS, React, TailwindCSS, ReduxToolkit, Axios, ReactSelect, ReactSlick
 
-**Server:** Node, NestJS, Redis, Nodemailer, Google OAuth
+**Server:** Node, NestJS, Redis, Nodemailer, Google OAuth, Google Cloud Storage
 
-**CI/CD:** Google Cloud Run, Google Cloud Storage, Vercel
+**CI/CD:** Google Cloud Run, Vercel
 
 ## Auteur
 
