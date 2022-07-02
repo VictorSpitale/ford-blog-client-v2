@@ -42,14 +42,14 @@ const Write = () => {
         }
         if (isEmpty(categories)) return setError(t.posts.create.errors.categories);
         if (!isValidUrl(post.sourceLink)) return setError(t.posts.create.errors.sourceLink);
-        if (!file.file) return setError(t.posts.create.errors.photo);
+        // if (!file.file) return setError(t.posts.create.errors.photo);
         const postCategories: string[] = [];
         categories.forEach((cat) => postCategories.push(cat._id));
         await dispatch(createPost({
             ...post,
             categories: postCategories,
             file: file.file
-        })).then(res => {
+        } as ICreatePost)).then(res => {
             if (res.meta.requestStatus === "rejected") {
                 const payload = res.payload as HttpError
                 if (payload.code) return setError(t.httpErrors[payload.code as never]);

@@ -30,13 +30,13 @@ export type IBasicPost = {
     title: string
 }
 
-// Use to loop for [key, value] of ICreatePost, [file, categories] omitted because it's checked later
+// Used to loop for [key, value] of ICreatePost, [file, categories] omitted because it's checked later
 export const getCreatePostKeys = () => {
     return ["desc", "slug", "title", "sourceLink", "sourceName"]
 }
 
 export type ICreatePost = {
-    [key: string]: string | string[] | File
+    [key: string]: string | string[] | File // Used to loop for [key, value]
     categories: string[],
     desc: string,
     slug: string,
