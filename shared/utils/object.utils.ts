@@ -16,9 +16,11 @@ export const toFormData = (object: Record<string, string | Blob | string[]>): Fo
             formData.append(key, value);
         } else {
             const values = object[key] as string[];
-            values.forEach((value) => {
-                formData.append(key, value);
-            })
+            if (values) {
+                values.forEach((value) => {
+                    formData.append(key, value);
+                })
+            }
         }
     });
     return formData;

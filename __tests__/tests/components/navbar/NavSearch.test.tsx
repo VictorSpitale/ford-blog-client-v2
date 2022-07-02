@@ -4,15 +4,16 @@ import {act, fireEvent, render, screen} from "@testing-library/react";
 import NavSearch from "../../../../components/navbar/NavSearch";
 import {queryByContent} from "../../../utils/CustomQueries";
 import React from "react";
-import axios from "axios";
+import mockAxios from "../../../mocks/axios";
 import {PostStub} from "../../../stub/PostStub";
 import {IMethods} from "../../../../shared/types/methods.type";
 import {AnyFunction} from "../../../../shared/types/props.type";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import {MockUseRouter} from "../../../utils/MockUseRouter";
+import {makeStore} from "../../../../context/store";
+import {Provider} from "react-redux";
 
 jest.mock('../../../../shared/hooks');
-jest.mock('axios');
 
 describe('NavSearch', function () {
 
@@ -31,7 +32,9 @@ describe('NavSearch', function () {
         it('should render the nav search and type less then 3 characters', () => {
             const fn = jest.fn();
             render(
-                <NavSearch onClick={fn} />
+                <Provider store={makeStore()}>
+                    <NavSearch onClick={fn} />
+                </Provider>
             )
             const input = screen.getByPlaceholderText(fr.common.keywords);
             expect(input).toBeInTheDocument();
@@ -45,7 +48,9 @@ describe('NavSearch', function () {
         it('should render the nav search and fetch correct type', async () => {
             const fn = jest.fn();
             render(
-                <NavSearch onClick={fn} />
+                <Provider store={makeStore()}>
+                    <NavSearch onClick={fn} />
+                </Provider>
             )
             const input = await screen.findByPlaceholderText(fr.common.keywords);
             await act(async () => {
@@ -56,7 +61,9 @@ describe('NavSearch', function () {
         it('should not re-fetch if query is similar', async () => {
             const fn = jest.fn();
             render(
-                <NavSearch onClick={fn} />
+                <Provider store={makeStore()}>
+                    <NavSearch onClick={fn} />
+                </Provider>
             )
             const input = await screen.findByPlaceholderText(fr.common.keywords);
             await act(async () => {
@@ -84,15 +91,15 @@ describe('NavSearch', function () {
         const posts = [PostStub()];
         const res = {data: posts};
         beforeEach(() => {
-            (axios as unknown as jest.Mock).mockResolvedValue(res);
+            (mockAxios as unknown as jest.Mock).mockResolvedValue(res);
             (useTranslation as jest.Mock).mockReturnValue(fr);
             (useFetch as jest.Mock).mockImplementationOnce(async (url: string, method = IMethods.POST, callback?: AnyFunction) => {
-                await axios({
+                await mockAxios({
                     method,
                     data: undefined,
-                    url: "https://localhost:5000" + url,
+                    url: "https://localhost:8080" + url,
                     withCredentials: true
-                }).then((res) => {
+                }).then((res: any) => {
                     if (callback) {
                         callback(res.data);
                         callbackFn();
@@ -111,9 +118,11 @@ describe('NavSearch', function () {
             const fn = jest.fn();
             const router = MockUseRouter({locale: "fr"});
             render(
-                <RouterContext.Provider value={router}>
-                    <NavSearch onClick={fn} />
-                </RouterContext.Provider>
+                <Provider store={makeStore()}>
+                    <RouterContext.Provider value={router}>
+                        <NavSearch onClick={fn} />
+                    </RouterContext.Provider>
+                </Provider>
             )
             const input = await screen.findByPlaceholderText(fr.common.keywords);
             await act(async () => {

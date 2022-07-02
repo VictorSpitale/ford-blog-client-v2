@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Image from "next/image";
 import {getPostCardImg} from "../../shared/images/postCardImg";
 import {capitalize} from "../../shared/utils/string.utils";
@@ -19,15 +19,21 @@ import Comments from "./comments/Comments";
 
 const SinglePost = ({post}: { post: IPost }) => {
     const t = useTranslation();
-    const timeSinceObj = timeSince(post.createdAt)
     /* istanbul ignore next */
     const {user} = useAppSelector(state => state.user)
     const {toggle, isShowing} = useModal();
     const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
 
-    const timeSinceMsg = () => {
+    const [postedDate, setPostedDate] = useState('');
+
+    const timeSinceMsg = useCallback(() => {
+        const timeSinceObj = timeSince(post.createdAt)
         return getTimeSinceMsg(t, timeSinceObj);
-    }
+    }, [post.createdAt, t]);
+
+    useEffect(() => {
+        setPostedDate(timeSinceMsg());
+    }, [timeSinceMsg]);
 
     return (
         <>
@@ -51,7 +57,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                                rel={"noopener noreferrer"}>{capitalize(post.sourceName)}</a>
                         </div>
                         <div>
-                            <p className={"text-secondary-600 text-right"}>{timeSinceMsg()}</p>
+                            <p className={"text-secondary-600 text-right"}>{postedDate}</p>
                         </div>
                     </div>
                     <div className={"flex justify-between pt-2"}>
@@ -66,7 +72,7 @@ const SinglePost = ({post}: { post: IPost }) => {
 							<Edit callback={toggleUpdate} />
 						</div>}
                     </div>
-                    {post.desc.split(/(?:\r\n|\r|\n)/g).map((s, i) => {
+                    {post.desc.split(/\r\n|\r|\n/g).map((s, i) => {
                         return <p data-content={`desc-${i}`}
                                   className={className("text-justify text-lg", i === 0 ? 'pt-3 first-letter:pl-5 first-letter:font-extrabold' : '')}
                                   key={i}>{s} <br /></p>
