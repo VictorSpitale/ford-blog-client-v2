@@ -72,7 +72,7 @@ const SinglePost = ({post}: { post: IPost }) => {
 							<Edit callback={toggleUpdate} />
 						</div>}
                     </div>
-                    {post.desc.split(/(?:\r\n|\r|\n)/g).map((s, i) => {
+                    {post.desc.split(/\r\n|\r|\n/g).map((s, i) => {
                         return <p data-content={`desc-${i}`}
                                   className={className("text-justify text-lg", i === 0 ? 'pt-3 first-letter:pl-5 first-letter:font-extrabold' : '')}
                                   key={i}>{s} <br /></p>
