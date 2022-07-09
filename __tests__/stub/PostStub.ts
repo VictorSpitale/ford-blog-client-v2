@@ -32,3 +32,10 @@ export const PostStub = () => {
         "updatedAt": "2022-04-22T19:24:43.615Z"
     }
 }
+
+export const BasicPostStub = () => {
+    const {picture, slug, desc, title} = PostStub();
+    return {
+        picture, slug, desc, title
+    }
+}
