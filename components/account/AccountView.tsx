@@ -8,7 +8,9 @@ type PropsType = {
 }
 
 const AccountView = ({view}: PropsType) => {
+
     const t = useTranslation();
+
     return (
         <div className={"mt-16 w-3/4 mx-auto max-w-[800px]"}>
             <h1 className={"text-4xl font-bold mb-6"}>{t.account.title}</h1>
