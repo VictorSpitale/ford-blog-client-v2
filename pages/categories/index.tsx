@@ -11,13 +11,33 @@ import {useTranslation} from "../../shared/hooks";
 import {getCategorizedPosts} from "../../context/actions/posts.actions";
 import PostsList from "../../components/posts/PostsList";
 import {isEmpty} from "../../shared/utils/object.utils";
+import {useRouter} from "next/router";
 
 const Index = () => {
 
     const dispatch = useAppDispatch();
     const {posts, loading} = useAppSelector(state => state.categorizedPosts);
     const {category} = useAppSelector(state => state.categorySlide);
+    const {categories} = useAppSelector(state => state.categories);
+
     const t = useTranslation();
+    const router = useRouter();
+
+    const getPosts = () => {
+        if (!category) {
+            if (!isEmpty(posts)) return posts[0].posts;
+            return [];
+        }
+        const list = posts.find((list) => list.category === category.name);
+        if (!list) return [];
+        return list.posts;
+    }
+
+    const changeActiveCategorySlide = () => {
+        if (router.query.selected !== category?.name) {
+            dispatch(setCategorySlide({category: categories.find((cat) => cat.name === router.query.selected)}));
+        }
+    }
 
     useEffect(() => {
         return () => {
@@ -34,20 +54,11 @@ const Index = () => {
         fetchPosts();
     }, [category, dispatch]);
 
-    const getPosts = () => {
-        if (!category) {
-            if (!isEmpty(posts)) return posts[0].posts;
-            return [];
-        }
-        const list = posts.find((list) => list.category === category.name);
-        if (!list) return [];
-        return list.posts;
-    }
-
     return (
         <>
             <SEO title={t.categories.title} />
-            <CategoriesSlider />
+            <CategoriesSlider categories={categories} category={category}
+                              handleCategoryChange={changeActiveCategorySlide} />
             <div className={"pt-8"}>
                 {loading && <p className={"text-center"}>{t.common.loading}</p>}
                 {(isEmpty(getPosts())) ? <p className={"text-center"}>{t.categories.noPost}</p> :
