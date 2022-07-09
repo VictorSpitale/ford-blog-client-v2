@@ -43,7 +43,7 @@ const ProfileView = ({authUser, profile}: PropsType) => {
 
     return (
         <BaseView>
-            <h1 className={"text-2xl font-semibold mb-4"}>{t.account.profile.title}</h1>
+            <h1 data-content={"view-title"} className={"text-2xl font-semibold mb-4"}>{t.account.profile.title}</h1>
             <p className={"mb-4 rounded w-full bg-red-400 text-white px-3 text-justify"}>{profile.error}</p>
             <p className={"font-bold"}>{t.account.profile.avatar}</p>
             <div className={"flex w-full items-center"}>

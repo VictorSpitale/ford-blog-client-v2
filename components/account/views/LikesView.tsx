@@ -18,7 +18,7 @@ const LikesView = ({likes}: PropsType) => {
 
     return (
         <BaseView>
-            <h1 className={"text-2xl font-semibold mb-4"}>{t.account.viewsName.LIKES}</h1>
+            <h1 data-content={"view-title"} className={"text-2xl font-semibold mb-4"}>{t.account.viewsName.LIKES}</h1>
             <p>{likes.pending && t.common.loading}</p>
             {likes.likedPosts.map((post, index) => {
                 return <SimplifiedPostCard key={index} post={post} />

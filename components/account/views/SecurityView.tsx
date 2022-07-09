@@ -44,7 +44,8 @@ const SecurityView = ({authUser, security}: PropsType) => {
             <DeleteAccountModal handleDelete={handleDelete} toggle={toggle} isShowing={isShowing}
                                 pending={authUser.pending} />
             <BaseView>
-                <h1 className={"text-2xl font-semibold mb-4"}>{t.account.security.title}</h1>
+                <h1 data-content={"view-title"}
+                    className={"text-2xl font-semibold mb-4"}>{t.account.security.title}</h1>
                 <p className={"mb-4 rounded w-full bg-red-400 text-white px-3 text-justify"}>{security.error}</p>
                 <p className={"mb-4 rounded w-full bg-green-400 text-white px-3 text-justify"}>{success}</p>
                 <form onSubmit={handleSubmit}>
