@@ -36,7 +36,10 @@ module.exports = {
 		'<rootDir>/cypress/',
 		'<rootDir>/__tests__/stub/',
 		'<rootDir>/__tests__/mocks/',
-		'<rootDir>/__tests__/utils/'],
+		'<rootDir>/__tests__/utils/',
+		'<rootDir>/__tests__/tests/components/navbar',
+		'<rootDir>/__tests__/tests/components/posts'
+	],
 	testEnvironment: 'jsdom',
 	transform: {
 		// Use babel-jest to transpile tests with the next/babel preset
