@@ -1,4 +1,4 @@
-import React, {ReactElement, useCallback, useEffect} from 'react';
+import React, {ReactElement, RefObject, useCallback, useEffect} from 'react';
 import Login from "./login";
 import {useRouter} from "next/router";
 import {fetchApi} from "../context/instance";
@@ -12,10 +12,11 @@ import {useTranslation} from "../shared/hooks";
 import {cleanLikedPosts, getLikedPost} from "../context/actions/posts.actions";
 import Layout from "../components/layouts/Layout";
 import {NextPageWithLayout} from "../shared/types/page.type";
-import {removePicture, updateLoggedUser, uploadPicture} from "../context/actions/user.actions";
+import {deleteAccount, removePicture, updateLoggedUser, uploadPicture} from "../context/actions/user.actions";
 import {HttpError} from "../shared/types/httpError.type";
 import {setError} from "../context/actions/errors.actions";
 import {IUser, UpdateUser} from "../shared/types/user.type";
+import {AnyFunction} from "../shared/types/props.type";
 
 const Account: NextPageWithLayout = () => {
 
@@ -27,7 +28,7 @@ const Account: NextPageWithLayout = () => {
     const {view} = useAppSelector(state => state.accountView)
     const {posts, pending: pendingLikedPosts} = useAppSelector(state => state.likedPosts);
     const {user, pending: pendingUser} = useAppSelector(state => state.user);
-    const {profileViewError} = useAppSelector(state => state.errors);
+    const {profileViewError, securityViewError} = useAppSelector(state => state.errors);
 
     const fetchPosts = useCallback(async () => {
         await dispatch(getLikedPost(user._id));
@@ -113,6 +114,32 @@ const Account: NextPageWithLayout = () => {
         })
     }
 
+    const handleChangePassword = async (setSuccess: AnyFunction, password: string, setPassword: AnyFunction, ref: RefObject<HTMLInputElement>) => {
+        dispatch(setError({error: "", key: "securityViewError"}))
+        setSuccess('');
+        if (password.trim() === "" || password.length < 6) {
+            return dispatch(setError({error: t.account.security.errors.password, key: "securityViewError"}))
+        }
+        await dispatch(updateLoggedUser({password, _id: user._id})).then((res) => {
+            if (res.meta.requestStatus === "rejected") {
+                return dispatch(setError({error: t.account.security.errors.rejectedPassword, key: "securityViewError"}))
+            }
+            setPassword('');
+            if (ref.current) ref.current.value = '';
+            setSuccess(t.account.security.success)
+        })
+    }
+
+    const handleDeleteAccount = async (setSuccess: AnyFunction) => {
+        dispatch(setError({error: "", key: "securityViewError"}))
+        setSuccess('');
+        await dispatch(deleteAccount(user._id)).then((res) => {
+            if (res.meta.requestStatus === "rejected") {
+                return dispatch(setError({error: t.account.security.errors.deleteAccount, key: "securityViewError"}))
+            }
+        })
+    }
+
     if (isEmpty(user)) {
         return <Login />
     }
@@ -127,6 +154,11 @@ const Account: NextPageWithLayout = () => {
                              error: profileViewError,
                              uploadFile: handleProfilePictureUpload,
                              removeProfilePicture: handleProfilePictureDeletion
+                         }}
+                         security={{
+                             error: securityViewError,
+                             changePassword: handleChangePassword,
+                             deleteAccount: handleDeleteAccount
                          }}
             />
         </>

@@ -3,10 +3,12 @@ import {setError} from "../actions/errors.actions";
 
 export interface ErrorState {
     profileViewError: string;
+    securityViewError: string;
 }
 
 const initial: ErrorState = {
-    profileViewError: ''
+    profileViewError: '',
+    securityViewError: ''
 }
 
 export const errorsReducer = createReducer(initial, (builder => {

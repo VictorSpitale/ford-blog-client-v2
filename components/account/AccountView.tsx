@@ -24,10 +24,15 @@ type PropsType = {
         uploadFile: AnyFunction;
         removeProfilePicture: AnyFunction;
         error: string;
+    },
+    security: {
+        error: string;
+        deleteAccount: AnyFunction;
+        changePassword: AnyFunction;
     }
 }
 
-const AccountView = ({view, authUser, likes, profile}: PropsType) => {
+const AccountView = ({view, authUser, likes, profile, security}: PropsType) => {
 
     const t = useTranslation();
 
@@ -42,7 +47,7 @@ const AccountView = ({view, authUser, likes, profile}: PropsType) => {
                         view === AccountViews.PROFILE ?
                             <ProfileView authUser={authUser} profile={profile} /> :
                             view === AccountViews.SECURITY ?
-                                <SecurityView /> :
+                                <SecurityView security={security} authUser={authUser} /> :
                                 <></>
                 }
             </div>
