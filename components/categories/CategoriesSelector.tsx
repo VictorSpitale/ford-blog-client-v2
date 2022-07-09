@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import CreatableSelect from "react-select/creatable";
-import {useAppDispatch, useAppSelector} from "../../context/hooks";
+import {useAppDispatch} from "../../context/hooks";
 import {ICategory} from "../../shared/types/category.type";
 import {ActionMeta, OnChangeValue} from "react-select";
 import {
@@ -16,10 +16,15 @@ interface Option {
     readonly _id: string;
 }
 
-const SelectCategories = () => {
-    const {categories, pending} = useAppSelector(state => state.categories);
-    const {categories: defaultCategories} = useAppSelector(state => state.post.post)
-    const {categories: selectValues} = useAppSelector(state => state.selectCategories)
+type PropsType = {
+    defaultCategories: ICategory[];
+    selectedCategories: ICategory[];
+    categories: ICategory[];
+    pending: boolean;
+}
+
+const CategoriesSelector = ({categories, pending, defaultCategories, selectedCategories}: PropsType) => {
+
     const dispatch = useAppDispatch();
 
     const createOption = (category: ICategory): Option => ({
@@ -71,11 +76,11 @@ const SelectCategories = () => {
 
     const getValues = useCallback(() => {
         const values: Option[] = [];
-        selectValues?.forEach((cat) => {
+        selectedCategories?.forEach((cat) => {
             values.push(createOption(cat));
         })
         return values;
-    }, [selectValues])
+    }, [selectedCategories])
 
     useEffect(() => {
         const setValues = async () => {
@@ -104,4 +109,4 @@ const SelectCategories = () => {
     );
 };
 
-export default memo(SelectCategories);
+export default memo(CategoriesSelector);

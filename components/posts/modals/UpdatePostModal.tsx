@@ -6,12 +6,12 @@ import InputField from "../../shared/InputField";
 import Image from "next/image"
 import {getPostCardImg} from "../../../shared/images/postCardImg";
 import TextAreaField from "../../shared/TextAreaField";
-import SelectCategories from "../../categories/SelectCategories";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {isValidUrl} from "../../../shared/utils/regex.utils";
 import {updatePost} from "../../../context/actions/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
+import CategoriesSelector from "../../categories/CategoriesSelector";
 
 const toUpdatePost = (post: IPost): UpdatePost => {
     return {
@@ -24,7 +24,10 @@ const toUpdatePost = (post: IPost): UpdatePost => {
 }
 
 const UpdatePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFunction, isShowing: boolean }) => {
+
     const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
+
     const {pending} = useAppSelector(state => state.post);
     const t = useTranslation();
     const [postState, setPostState] = useState<UpdatePost>(toUpdatePost(post));
@@ -73,7 +76,8 @@ const UpdatePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFu
                                     title: e.target.value
                                 })} />
                     <p className={"w-full text-gray-500"}>{t.posts.update.fields.categories}</p>
-                    <SelectCategories />
+                    <CategoriesSelector categories={categories} pending={categoriesPending}
+                                        defaultCategories={post.categories} selectedCategories={updatedCategories} />
                     <InputField name={"sourceName"} value={postState.sourceName} label={t.posts.update.fields.source}
                                 onChange={(e) => setPostState({
                                     ...postState,
