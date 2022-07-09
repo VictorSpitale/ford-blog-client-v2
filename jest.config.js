@@ -11,7 +11,8 @@ module.exports = {
 		'!**/*.type.*',
 		'!**/__tests__/stub/**',
 		'!**/__tests__/mocks/**',
-		'!**/__tests__/utils/**'
+		'!**/__tests__/utils/**',
+		'!**/__tests__/tests/**'
 	],
 	moduleNameMapper: {
 		// Handle CSS imports (with CSS modules)
