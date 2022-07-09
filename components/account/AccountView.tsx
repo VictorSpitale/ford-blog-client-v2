@@ -13,7 +13,7 @@ const AccountView = ({view}: PropsType) => {
         <div className={"mt-16 w-3/4 mx-auto max-w-[800px]"}>
             <h1 className={"text-4xl font-bold mb-6"}>{t.account.title}</h1>
             <div className={"flex flex-col md:flex-row"}>
-                <AccountViewSwitcher />
+                <AccountViewSwitcher activeView={view} />
                 {getAccountView(view)}
             </div>
         </div>
