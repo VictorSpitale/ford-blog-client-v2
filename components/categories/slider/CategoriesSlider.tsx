@@ -42,10 +42,11 @@ const CategoriesSlider = ({category, categories, handleCategoryChange}: PropsTyp
                         }
                     ]}>
                 {categories.map((cat, index) => {
-                    return <Link href={`/categories?selected=${cat.name}`} passHref={true} key={index}>
-                        <div
-                            className={className("w-full h-24 rounded-2xl !flex justify-center items-center cursor-pointer transition",
-                                category?._id === cat._id ? "bg-secondary-300" : "bg-secondary-200", "hover:bg-secondary-300")}>
+                    return <Link href={`/categories?selected=${cat.name}`}
+                                 passHref={true} key={index}>
+                        <div data-content={`category-slide-${cat.name}`}
+                             className={className("w-full h-24 rounded-2xl !flex justify-center items-center cursor-pointer transition",
+                                 category?._id === cat._id ? "bg-secondary-300" : "bg-secondary-200", "hover:bg-secondary-300")}>
                             <p className={className("text-xl text-secondary-800")}>{cat.name}</p>
                         </div>
                     </Link>
