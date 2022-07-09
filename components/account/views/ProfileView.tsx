@@ -1,12 +1,12 @@
 import React, {ChangeEvent, useState} from 'react';
-import BaseView from "../shared/BaseView";
-import {IUser, UpdateUser} from "../../shared/types/user.type";
-import InputField from "../shared/InputField";
-import {useTranslation} from "../../shared/hooks";
-import {getUserPictureSrc} from "../../shared/images/ProfilePicture";
-import Button from "../shared/Button";
-import ProfilePicture from "../shared/ProfilePicture";
-import {AnyFunction} from "../../shared/types/props.type";
+import BaseView from "../../shared/BaseView";
+import {IUser, UpdateUser} from "../../../shared/types/user.type";
+import InputField from "../../shared/InputField";
+import {useTranslation} from "../../../shared/hooks";
+import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
+import Button from "../../shared/Button";
+import ProfilePicture from "../../shared/ProfilePicture";
+import {AnyFunction} from "../../../shared/types/props.type";
 
 type PropsType = {
     authUser: {

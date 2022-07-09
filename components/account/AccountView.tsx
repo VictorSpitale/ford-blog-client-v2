@@ -2,11 +2,11 @@ import React, {memo} from 'react';
 import AccountViewSwitcher from "./AccountViewSwitcher";
 import {AccountViews} from "../../shared/types/accountViews.type";
 import {useTranslation} from "../../shared/hooks";
-import LikesView from "./LikesView";
+import LikesView from "./views/LikesView";
 import {IUser} from "../../shared/types/user.type";
 import {IBasicPost} from "../../shared/types/post.type";
-import ProfileView from "./ProfileView";
-import SecurityView from "./SecurityView";
+import ProfileView from "./views/ProfileView";
+import SecurityView from "./views/SecurityView";
 import {AnyFunction} from "../../shared/types/props.type";
 
 type PropsType = {

@@ -1,9 +1,9 @@
 import React from 'react';
-import BaseView from "../shared/BaseView";
-import {useTranslation} from "../../shared/hooks";
-import SimplifiedPostCard from "../posts/SimplifiedPostCard";
-import {isEmpty} from "../../shared/utils/object.utils";
-import {IBasicPost} from "../../shared/types/post.type";
+import BaseView from "../../shared/BaseView";
+import {useTranslation} from "../../../shared/hooks";
+import SimplifiedPostCard from "../../posts/SimplifiedPostCard";
+import {isEmpty} from "../../../shared/utils/object.utils";
+import {IBasicPost} from "../../../shared/types/post.type";
 
 type PropsType = {
     likes: {

@@ -1,10 +1,10 @@
 import React, {FormEvent, RefObject, useRef, useState} from 'react';
-import BaseView from "../shared/BaseView";
-import InputField from "../shared/InputField";
-import {useTranslation} from "../../shared/hooks";
-import Button from "../shared/Button";
-import {IUser} from "../../shared/types/user.type";
-import {AnyFunction} from "../../shared/types/props.type";
+import BaseView from "../../shared/BaseView";
+import InputField from "../../shared/InputField";
+import {useTranslation} from "../../../shared/hooks";
+import Button from "../../shared/Button";
+import {IUser} from "../../../shared/types/user.type";
+import {AnyFunction} from "../../../shared/types/props.type";
 
 type PropsType = {
     authUser: {
