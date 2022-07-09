@@ -14,7 +14,7 @@ type PropsType = {
     },
     security: {
         error: string;
-        deleteAccount: (setSuccess: AnyFunction) => void;
+        deleteAccount: AnyFunction;
         changePassword: (setSuccess: AnyFunction, password: string, setPassword: AnyFunction, ref: RefObject<HTMLInputElement>) => void;
     }
 }
@@ -32,16 +32,12 @@ const SecurityView = ({authUser, security}: PropsType) => {
         await security.changePassword(setSuccess, password, setPassword, ref);
     }
 
-    const handleDelete = async () => {
-        await security.deleteAccount(setSuccess);
-    }
-
     const {toggle, isShowing} = useModal();
 
     return (
 
         <>
-            <DeleteAccountModal handleDelete={handleDelete} toggle={toggle} isShowing={isShowing}
+            <DeleteAccountModal handleDelete={security.deleteAccount} toggle={toggle} isShowing={isShowing}
                                 pending={authUser.pending} />
             <BaseView>
                 <h1 data-content={"view-title"}

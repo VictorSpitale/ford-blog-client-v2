@@ -130,9 +130,8 @@ const Account: NextPageWithLayout = () => {
         })
     }
 
-    const handleDeleteAccount = async (setSuccess: AnyFunction) => {
+    const handleDeleteAccount = async () => {
         dispatch(setError({error: "", key: "securityViewError"}))
-        setSuccess('');
         await dispatch(deleteAccount(user._id)).then((res) => {
             if (res.meta.requestStatus === "rejected") {
                 return dispatch(setError({error: t.account.security.errors.deleteAccount, key: "securityViewError"}))
