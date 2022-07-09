@@ -7,6 +7,7 @@ import {IUser} from "../../shared/types/user.type";
 import {IBasicPost} from "../../shared/types/post.type";
 import ProfileView from "./ProfileView";
 import SecurityView from "./SecurityView";
+import {AnyFunction} from "../../shared/types/props.type";
 
 type PropsType = {
     view: AccountViews,
@@ -17,10 +18,16 @@ type PropsType = {
     likes: {
         likedPosts: IBasicPost[],
         pending: boolean;
+    },
+    profile: {
+        saveChanges: AnyFunction;
+        uploadFile: AnyFunction;
+        removeProfilePicture: AnyFunction;
+        error: string;
     }
 }
 
-const AccountView = ({view, authUser, likes}: PropsType) => {
+const AccountView = ({view, authUser, likes, profile}: PropsType) => {
 
     const t = useTranslation();
 
@@ -33,7 +40,7 @@ const AccountView = ({view, authUser, likes}: PropsType) => {
                     view === AccountViews.LIKES ?
                         <LikesView likes={likes} /> :
                         view === AccountViews.PROFILE ?
-                            <ProfileView /> :
+                            <ProfileView authUser={authUser} profile={profile} /> :
                             view === AccountViews.SECURITY ?
                                 <SecurityView /> :
                                 <></>
