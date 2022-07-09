@@ -18,6 +18,8 @@ const Account: NextPageWithLayout = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
+    const {view} = useAppSelector(state => state.accountView)
+
     useEffect(() => {
         const fetch = async (token: string) => {
             await fetchApi("/api/auth/g-jwt/{token}", {method: "get", params: {token}}).then(() => {
@@ -55,7 +57,7 @@ const Account: NextPageWithLayout = () => {
     return (
         <>
             <SEO title={t.account.title} shouldIndex={false} />
-            <AccountView />
+            <AccountView view={view} />
         </>
     );
 };

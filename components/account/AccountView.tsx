@@ -1,11 +1,13 @@
 import React, {memo} from 'react';
 import AccountViewSwitcher from "./AccountViewSwitcher";
-import {useAppSelector} from "../../context/hooks";
-import {getAccountView} from "../../shared/types/accountViews.type";
+import {AccountViews, getAccountView} from "../../shared/types/accountViews.type";
 import {useTranslation} from "../../shared/hooks";
 
-const AccountView = () => {
-    const {view} = useAppSelector(state => state.accountView)
+type PropsType = {
+    view: AccountViews
+}
+
+const AccountView = ({view}: PropsType) => {
     const t = useTranslation();
     return (
         <div className={"mt-16 w-3/4 mx-auto max-w-[800px]"}>
