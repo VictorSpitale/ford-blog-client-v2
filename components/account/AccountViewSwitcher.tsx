@@ -32,7 +32,8 @@ const AccountViewSwitcher = ({activeView, handleLogout}: PropsType) => {
                                        : "text-gray-400 bg-transparent hover:bg-blue-100")}>{viewButton.label}
                 </button>
             })}
-            <button className={"px-4 my-1 text-left"} onClick={handleLogout}>{t.account.logout}</button>
+            <button data-content={"button-logout"} className={"px-4 my-1 text-left"}
+                    onClick={handleLogout}>{t.account.logout}</button>
         </div>
     );
 };
