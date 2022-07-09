@@ -27,6 +27,7 @@ describe('AccountView', function () {
                                  authUser={{} as never}
                                  security={{} as never}
                                  likes={{} as never}
+                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -46,6 +47,7 @@ describe('AccountView', function () {
                                  authUser={{} as never}
                                  security={{} as never}
                                  likes={{likedPosts: []} as never}
+                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -65,6 +67,7 @@ describe('AccountView', function () {
                                  authUser={{user: UserStub()} as never}
                                  security={{} as never}
                                  likes={{} as never}
+                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -84,6 +87,7 @@ describe('AccountView', function () {
                                  authUser={{user: UserStub()} as never}
                                  security={{} as never}
                                  likes={{} as never}
+                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>

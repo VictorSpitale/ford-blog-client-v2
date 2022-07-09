@@ -12,7 +12,7 @@ import {useTranslation} from "../shared/hooks";
 import {cleanLikedPosts, getLikedPost} from "../context/actions/posts.actions";
 import Layout from "../components/layouts/Layout";
 import {NextPageWithLayout} from "../shared/types/page.type";
-import {deleteAccount, removePicture, updateLoggedUser, uploadPicture} from "../context/actions/user.actions";
+import {deleteAccount, logout, removePicture, updateLoggedUser, uploadPicture} from "../context/actions/user.actions";
 import {HttpError} from "../shared/types/httpError.type";
 import {setError} from "../context/actions/errors.actions";
 import {IUser, UpdateUser} from "../shared/types/user.type";
@@ -140,6 +140,10 @@ const Account: NextPageWithLayout = () => {
         })
     }
 
+    const handleLogout = async () => {
+        await dispatch(logout())
+    }
+
     if (isEmpty(user)) {
         return <Login />
     }
@@ -160,6 +164,7 @@ const Account: NextPageWithLayout = () => {
                              changePassword: handleChangePassword,
                              deleteAccount: handleDeleteAccount
                          }}
+                         handleLogout={handleLogout}
             />
         </>
     );

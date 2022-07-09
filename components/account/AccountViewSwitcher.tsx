@@ -4,14 +4,15 @@ import {useTranslation} from "../../shared/hooks";
 import {useAppDispatch} from "../../context/hooks";
 import {className} from "../../shared/utils/class.utils";
 import {setView} from "../../context/actions/account.actions";
-import {logout} from "../../context/actions/user.actions";
 import {getAccountViewButtons} from "../../shared/utils/account/views.utils";
+import {AnyFunction} from "../../shared/types/props.type";
 
 type PropsType = {
-    activeView: AccountViews
+    activeView: AccountViews;
+    handleLogout: AnyFunction
 }
 
-const AccountViewSwitcher = ({activeView}: PropsType) => {
+const AccountViewSwitcher = ({activeView, handleLogout}: PropsType) => {
 
     const t = useTranslation();
     const dispatch = useAppDispatch();
@@ -21,14 +22,11 @@ const AccountViewSwitcher = ({activeView}: PropsType) => {
         await dispatch(setView(view));
     }
 
-    const handleLogout = async () => {
-        await dispatch(logout())
-    }
-
     return (
-        <div className={"flex flex-row md:flex-col flex-wrap md:mr-6"}>
+        <div data-content={"buttons"} className={"flex flex-row md:flex-col flex-wrap md:mr-6"}>
             {getAccountViewButtons(activeView, t).map((viewButton, index) => {
-                return <button key={index} onClick={() => changeView(viewButton.view)}
+                return <button data-content={`button-${viewButton.view}`} key={index}
+                               onClick={() => changeView(viewButton.view)}
                                className={className("w-36 rounded-2xl my-1 px-4 text-left",
                                    viewButton.isActive ? "bg-primary-100 text-dark-500"
                                        : "text-gray-400 bg-transparent hover:bg-blue-100")}>{viewButton.label}

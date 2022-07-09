@@ -29,10 +29,11 @@ type PropsType = {
         error: string;
         deleteAccount: AnyFunction;
         changePassword: AnyFunction;
-    }
+    },
+    handleLogout: AnyFunction;
 }
 
-const AccountView = ({view, authUser, likes, profile, security}: PropsType) => {
+const AccountView = ({view, authUser, likes, profile, security, handleLogout}: PropsType) => {
 
     const t = useTranslation();
 
@@ -40,7 +41,7 @@ const AccountView = ({view, authUser, likes, profile, security}: PropsType) => {
         <div className={"mt-16 w-3/4 mx-auto max-w-[800px]"}>
             <h1 className={"text-4xl font-bold mb-6"}>{t.account.title}</h1>
             <div className={"flex flex-col md:flex-row"}>
-                <AccountViewSwitcher activeView={view} />
+                <AccountViewSwitcher activeView={view} handleLogout={handleLogout} />
                 {
                     view === AccountViews.LIKES ?
                         <LikesView likes={likes} /> :
