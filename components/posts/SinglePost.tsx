@@ -9,18 +9,21 @@ import {IPost} from "../../shared/types/post.type";
 import {blurImg} from "../../shared/images/blurImg";
 import Trash from "../shared/icons/Trash";
 import Edit from "../shared/icons/Edit";
-import {useAppSelector} from "../../context/hooks";
+import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {IUserRole} from "../../shared/types/user.type";
 import {useModal, useTranslation} from "../../shared/hooks";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 import DeletePostModal from "./modals/DeletePostModal";
 import UpdatePostModal from "./modals/UpdatePostModal";
 import Comments from "./comments/Comments";
+import {cleanPost, deletePost} from "../../context/actions/posts.actions";
+import {useRouter} from "next/router";
 
 const SinglePost = ({post}: { post: IPost }) => {
     const t = useTranslation();
     /* istanbul ignore next */
     const {user} = useAppSelector(state => state.user)
+    const {pending} = useAppSelector(state => state.lastPosts)
     const {toggle, isShowing} = useModal();
     const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
 
@@ -31,13 +34,24 @@ const SinglePost = ({post}: { post: IPost }) => {
         return getTimeSinceMsg(t, timeSinceObj);
     }, [post.createdAt, t]);
 
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const handleDelete = async () => {
+        await dispatch(deletePost(post.slug)).then(async () => {
+            await router.push("/");
+            await dispatch(cleanPost());
+        })
+    }
+
     useEffect(() => {
         setPostedDate(timeSinceMsg());
     }, [timeSinceMsg]);
 
     return (
         <>
-            <DeletePostModal post={post} toggle={toggle} isShowing={isShowing} />
+            <DeletePostModal toggle={toggle} isShowing={isShowing} pending={pending} handleDelete={handleDelete}
+                             post={post} />
             <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} />
             <div data-content={"single-post"}
                  className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>

@@ -36,7 +36,9 @@
     "home": "Accueil",
     "title": "Bienvenue sur {{title}}",
     "desc": "Découvre cette emblématique marque américaine à travers une communauté de passionnés",
-    "warning": "ATTENTION"
+    "warning": "ATTENTION",
+    "delete": "Supprimer",
+    "deleting": "Suppression..."
   },
   "login": {
     "title": "Connexion",
@@ -94,8 +96,6 @@
     "404": "Aucun article trouvé",
     "delete": {
       "before": "Vous êtes sur le point de ",
-      "deleteAction": "supprimer",
-      "deleteLoading": "Suppression...",
       "after": " l'article : "
     },
     "update": {

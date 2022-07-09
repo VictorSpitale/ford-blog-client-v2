@@ -36,7 +36,9 @@
     },
     "title": "Welcome on {{title}}",
     "desc": "Discover this iconic American brand through a community of enthusiasts",
-    "warning": "WARNING"
+    "warning": "WARNING",
+    "delete": "delete",
+    "deleting": "Deleting..."
   },
   "login": {
     "title": "Sign in",
@@ -94,8 +96,6 @@
     "404": "No post found",
     "delete": {
       "before": "You are about to ",
-      "deleteAction": "delete",
-      "deleteLoading": "Deleting...",
       "after": " the post : "
     },
     "update": {
