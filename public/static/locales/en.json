@@ -178,7 +178,7 @@
       "password": "Password",
       "delete": {
         "title": "Account deletion",
-        "warning": "Warning : You cannot go back. All your data will be deleted instantly.",
+        "warning": "Warning : You cannot go back. All your data will be deleted instantly ; personal data, profile picture, likes on posts, comments.",
         "action": "Delete my account"
       }
     },

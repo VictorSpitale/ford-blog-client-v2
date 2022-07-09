@@ -178,7 +178,7 @@
       "password": "Mot de passe",
       "delete": {
         "title": "Suppression de compte",
-        "warning": "Attention : Vous ne pourrez pas revenir en arrière. Toutes vos données seront supprimées instantanément.",
+        "warning": "Attention : Vous ne pourrez pas revenir en arrière. Toutes vos données seront supprimées instantanément ; données personnelles, photo de profil, j'aimes sur les articles, commentaires.",
         "action": "Supprimer mon compte"
       }
     },
