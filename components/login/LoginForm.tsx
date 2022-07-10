@@ -24,9 +24,11 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+
     const router = useRouter();
     const t = useTranslation();
     const dispatch = useAppDispatch();
+
     const handleRequest = async (data: IUser) => {
         await dispatch(login(data));
         await router.push("/account");
@@ -34,18 +36,9 @@ const LoginForm = () => {
 
     const {load, loading, error: fetchError, code} = useFetch('/auth/login', IMethods.POST, handleRequest);
 
-    useEffect(() => {
-        if (router.query.status && router.query.status === "failed") {
-            setError(t.login.failed)
-        } else if (router.query.register && router.query.register === "success") {
-            setSuccessMessage(t.login.success)
-        }
-    }, [router])
-
     const canSubmit = (): boolean => {
         return (email !== "" && password !== "" && password.length >= 6);
     }
-
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -63,6 +56,14 @@ const LoginForm = () => {
     }
 
     const {isShowing, toggle} = useModal();
+
+    useEffect(() => {
+        if (router.query.status && router.query.status === "failed") {
+            setError(t.login.failed)
+        } else if (router.query.register && router.query.register === "success") {
+            setSuccessMessage(t.login.success)
+        }
+    }, [router, t.login.failed, t.login.success])
 
     return (<>
             <PasswordRecoveryModal isShowing={isShowing} toggle={toggle} />
@@ -87,7 +88,7 @@ const LoginForm = () => {
                     {(code || error || fetchError) &&
 						<p className={"text-center text-red-500 text-sm"}>{code ? t.httpErrors[code] : error || fetchError}</p>}
                     {(successMessage) && <p className={"text-center text-green-500 text-sm"}>{successMessage}</p>}
-                    <form className={className("px-2 md:px-[30px]", styles.login_form)}
+                    <form data-content={"login-form"} className={className("px-2 md:px-[30px]", styles.login_form)}
                           onSubmit={handleSubmit}>
                         <InputField name={"email"} label={t.login.email} required={true}
                                     autoComplete={"email"} onChange={(e) => setEmail(e.target.value)} />
