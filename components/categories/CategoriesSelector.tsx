@@ -9,6 +9,7 @@ import {
     removeSelectedCategories,
     setSelectedCategories
 } from "../../context/actions/categories.actions";
+import {useTranslation} from "../../shared/hooks";
 
 interface Option {
     readonly label: string;
@@ -26,6 +27,7 @@ type PropsType = {
 const CategoriesSelector = ({categories, pending, defaultCategories, selectedCategories}: PropsType) => {
 
     const dispatch = useAppDispatch();
+    const t = useTranslation();
 
     const createOption = (category: ICategory): Option => ({
         label: category.name,
@@ -61,6 +63,7 @@ const CategoriesSelector = ({categories, pending, defaultCategories, selectedCat
             await dispatch(addSelectedCategories(category))
             return;
         }
+        /* istanbul ignore else */
         if (actionMeta.action === "remove-value" && catToDel) {
             await dispatch(removeSelectedCategories(catToDel))
             return;
@@ -84,7 +87,7 @@ const CategoriesSelector = ({categories, pending, defaultCategories, selectedCat
 
     useEffect(() => {
         const setValues = async () => {
-            await dispatch(setSelectedCategories(defaultCategories || []))
+            await dispatch(setSelectedCategories(defaultCategories))
         }
         const clear = async () => {
             await dispatch(setSelectedCategories([]))
@@ -96,16 +99,24 @@ const CategoriesSelector = ({categories, pending, defaultCategories, selectedCat
     }, [])
 
     return (
-        <CreatableSelect
-            isMulti
-            isClearable={false}
-            options={getOptions()}
-            defaultValue={getDefaultOptions()}
-            onChange={handleChange}
-            onCreateOption={handleCreate}
-            isDisabled={pending}
-            value={getValues()}
-        />
+        <>
+            <form data-content={"categories-selector"}>
+                <label htmlFor="categories-selector" hidden={true}>categories-selector</label>
+                <CreatableSelect
+                    isMulti
+                    isClearable={false}
+                    options={getOptions()}
+                    defaultValue={getDefaultOptions()}
+                    onChange={handleChange}
+                    onCreateOption={handleCreate}
+                    isDisabled={pending}
+                    value={getValues()}
+                    placeholder={t.categories.selectorPlaceholder}
+                    inputId={"categories-selector"}
+                    name={"categories-selector"}
+                />
+            </form>
+        </>
     );
 };
 

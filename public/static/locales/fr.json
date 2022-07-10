@@ -189,6 +189,7 @@
   "categories": {
     "title": "Catégories",
     "noPost": "Aucun article ne correspond à la recherche",
-    "noCat": "Aucune catégorie disponible"
+    "noCat": "Aucune catégorie disponible",
+    "selectorPlaceholder": "Sélectionner des catégories"
   }
 }

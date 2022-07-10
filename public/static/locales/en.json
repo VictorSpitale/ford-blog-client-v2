@@ -189,6 +189,7 @@
   "categories": {
     "title": "Categories",
     "noPost": "No post matches the search",
-    "noCat": "No category available"
+    "noCat": "No category available",
+    "selectorPlaceholder": "Select categories"
   }
 }
