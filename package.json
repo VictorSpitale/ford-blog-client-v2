@@ -11,7 +11,8 @@
     "lint": "next lint",
     "cy:open": "cypress open",
     "test": "jest --config ./jest.config.js",
-    "test:cov": "jest --config ./jest.config.js --coverage"
+    "test:cov": "jest --config ./jest.config.js --coverage",
+    "test:o": "jest --config ./jest.config.js --coverage -o"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
