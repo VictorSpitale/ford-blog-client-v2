@@ -1,31 +1,32 @@
 import React, {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {className} from "../../../shared/utils/class.utils";
-import {setCategorySlide} from "../../../context/actions/categories.actions";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {useTranslation} from "../../../shared/hooks";
+import {ICategory} from "../../../shared/types/category.type";
+import {AnyFunction} from "../../../shared/types/props.type";
 
-const CategoriesSlider = () => {
+type PropsType = {
+    categories: ICategory[];
+    category: ICategory | undefined;
+    handleCategoryChange: AnyFunction;
+}
 
-    const {categories} = useAppSelector(state => state.categories);
-    const {category} = useAppSelector(state => state.categorySlide);
-    const dispatch = useAppDispatch();
+const CategoriesSlider = ({category, categories, handleCategoryChange}: PropsType) => {
+
     const router = useRouter();
     const t = useTranslation();
 
     useEffect(() => {
         if (router.query.selected && !isEmpty(categories)) {
-            if (router.query.selected !== category?.name) {
-                dispatch(setCategorySlide({category: categories.find((cat) => cat.name === router.query.selected)}));
-            }
+            handleCategoryChange();
         }
-    }, [router.query, categories]);
+    }, [router.query, categories, handleCategoryChange]);
 
     return (
         <>
@@ -41,10 +42,11 @@ const CategoriesSlider = () => {
                         }
                     ]}>
                 {categories.map((cat, index) => {
-                    return <Link href={`/categories?selected=${cat.name}`} passHref={true} key={index}>
-                        <div
-                            className={className("w-full h-24 rounded-2xl !flex justify-center items-center cursor-pointer transition",
-                                category?._id === cat._id ? "bg-secondary-300" : "bg-secondary-200", "hover:bg-secondary-300")}>
+                    return <Link href={`/categories?selected=${cat.name}`}
+                                 passHref={true} key={index}>
+                        <div data-content={`category-slide-${cat.name}`}
+                             className={className("w-full h-24 rounded-2xl !flex justify-center items-center cursor-pointer transition",
+                                 category?._id === cat._id ? "bg-secondary-300" : "bg-secondary-200", "hover:bg-secondary-300")}>
                             <p className={className("text-xl text-secondary-800")}>{cat.name}</p>
                         </div>
                     </Link>

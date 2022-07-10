@@ -15,8 +15,8 @@ export const stringToDate = (num: string | number): Date => {
 export const timeSince = (date: Date | string) => {
 
     if (typeof date === "string") date = stringToDate(date)
-
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    console.log(new Date().getTimezoneOffset())
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;
     if (interval >= 1) {

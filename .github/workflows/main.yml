@@ -1,0 +1,23 @@
+name: Tests
+
+on: [ "push", "pull_request" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Paris"
+          timezoneMacos: "Europe/Paris"
+          timezoneWindows: "Romance Standard Time"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm ci
+      - run: npm run test:cov
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

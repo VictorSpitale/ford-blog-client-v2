@@ -5,7 +5,7 @@ L'objectif de cette refonte est de rendre le code plus maintenable et de le rend
 
 ## Badges
 
-[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/) [![Coverage Status](https://coveralls.io/repos/github/VictorSpitale/ford-blog-client-v2/badge.svg?branch=main)](https://coveralls.io/github/VictorSpitale/ford-blog-client-v2?branch=main)
 
 ## Installation
 

@@ -31,14 +31,16 @@ describe('Date Utils', function () {
 
     describe('Time Since', function () {
 
-        const mockMillis = 1651395474952; // 01/05/2022  10:57:54
-        beforeAll(() => {
-            jest.useFakeTimers();
-            jest.setSystemTime(mockMillis);
-        })
-        afterAll(() => {
-            jest.useRealTimers();
-        })
+        // const mockMillis = 1651395474952; // 01/05/2022  10:57:54
+        jest.spyOn(Date, 'now').mockImplementation(() => 1651395474952)
+        // beforeAll(() => {
+        //     jest.useFakeTimers();
+        //     jest.setSystemTime(mockMillis);
+        // })
+        // afterAll(() => {
+        //     jest.setSystemTime(jest.getRealSystemTime());
+        //     jest.useRealTimers();
+        // })
 
         it('should return 1 year', () => {
             expect(timeSince(new Date(2021, 4, 1))).toMatchObject({
@@ -84,14 +86,17 @@ describe('Date Utils', function () {
     });
 
     describe('Time Since Message', function () {
-        const mockMillis = 1651395474952; // 01/05/2022  10:57:54
-        beforeAll(() => {
-            jest.useFakeTimers();
-            jest.setSystemTime(mockMillis);
-        })
-        afterAll(() => {
-            jest.useRealTimers();
-        })
+        // const mockMillis = 1651395474952; // 01/05/2022  10:57:54
+        jest.spyOn(Date, 'now').mockImplementation(() => 1651395474952)
+
+        // beforeAll(() => {
+        //     jest.useFakeTimers();
+        //     jest.setSystemTime(mockMillis);
+        // })
+        // afterAll(() => {
+        //     jest.setSystemTime(jest.getRealSystemTime());
+        //     jest.useRealTimers();
+        // })
 
         it('should return a singular french formatted message', () => {
             const timeSinceObj = timeSince(new Date(2022, 4, 1, 10, 56, 54));

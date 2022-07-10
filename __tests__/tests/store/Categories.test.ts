@@ -4,6 +4,7 @@ import {createCategory, getCategories} from "../../../context/actions/categories
 import {CategoryStub} from "../../stub/CategoryStub";
 import {makeStore} from "../../../context/store";
 import * as fetch from "../../../context/instance";
+import {capitalize} from "../../../shared/utils/string.utils";
 
 describe('Categories Reducer & Actions', function () {
 
@@ -75,7 +76,7 @@ describe('Categories Reducer & Actions', function () {
             });
             const store = makeStore();
             await store.dispatch(createCategory(name));
-            expect(spy).toHaveBeenCalledWith("/api/categories", {method: "post", json: {name}});
+            expect(spy).toHaveBeenCalledWith("/api/categories", {method: "post", json: {name: capitalize(name)}});
             expect(store.getState().categories.categories).toEqual([CategoryStub(name)]);
             spy.mockClear();
         })
@@ -91,8 +92,11 @@ describe('Categories Reducer & Actions', function () {
             const store = makeStore();
             await store.dispatch(createCategory(name));
             await store.dispatch(createCategory(snName));
-            expect(spy).toHaveBeenNthCalledWith(1, "/api/categories", {method: "post", json: {name}});
-            expect(spy).toHaveBeenNthCalledWith(2, "/api/categories", {method: "post", json: {name: snName}});
+            expect(spy).toHaveBeenNthCalledWith(1, "/api/categories", {method: "post", json: {name: capitalize(name)}});
+            expect(spy).toHaveBeenNthCalledWith(2, "/api/categories", {
+                method: "post",
+                json: {name: capitalize(snName)}
+            });
             expect(store.getState().categories.categories).toEqual([CategoryStub(name), CategoryStub(snName)]);
         })
 

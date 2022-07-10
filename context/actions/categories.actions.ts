@@ -3,6 +3,7 @@ import {RootState} from "../store";
 import {fetchApi} from "../instance";
 import {ICategory} from "../../shared/types/category.type";
 import {CategorySlideState} from "../reducers/categorySlide.reducer";
+import {capitalize} from "../../shared/utils/string.utils";
 
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
@@ -21,6 +22,7 @@ export const getCategories = createAsyncThunk<ICategory[], void, { state: RootSt
 
 export const createCategory = createAsyncThunk<ICategory, string, { state: RootState }>(CREATE_CATEGORY, async (name) => {
     let response: ICategory = {} as ICategory;
+    name = capitalize(name);
     await fetchApi("/api/categories", {method: "post", json: {name}}).then((res) => {
         response = res.data
     })

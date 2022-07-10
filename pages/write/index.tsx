@@ -9,7 +9,6 @@ import Link from 'next/link'
 import InputField from "../../components/shared/InputField";
 import {getCreatePostKeys, ICreatePost} from "../../shared/types/post.type";
 import {slugify} from "../../shared/utils/string.utils";
-import SelectCategories from "../../components/categories/SelectCategories";
 import TextAreaField from "../../components/shared/TextAreaField";
 import {isValidUrl} from "../../shared/utils/regex.utils";
 import {createPost} from "../../context/actions/posts.actions";
@@ -18,11 +17,13 @@ import SEO from "../../components/shared/seo";
 import {useTranslation} from "../../shared/hooks";
 import {HttpError} from "../../shared/types/httpError.type";
 import {useRouter} from "next/router";
+import CategoriesSelector from "../../components/categories/CategoriesSelector";
 
 const Write = () => {
 
     const {user} = useAppSelector(state => state.user);
-    const {categories} = useAppSelector(state => state.selectCategories);
+    const {categories: selectedCategories} = useAppSelector(state => state.selectCategories);
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
     const {pending} = useAppSelector(state => state.post);
     const [error, setError] = useState('');
     const dispatch = useAppDispatch();
@@ -40,11 +41,11 @@ const Write = () => {
         for (const key of getCreatePostKeys()) {
             if (isEmpty(post[key])) return setError(t.posts.create.errors.key.replace('{{key}}', t.posts.create.fields[key as never]));
         }
-        if (isEmpty(categories)) return setError(t.posts.create.errors.categories);
+        if (isEmpty(selectedCategories)) return setError(t.posts.create.errors.categories);
         if (!isValidUrl(post.sourceLink)) return setError(t.posts.create.errors.sourceLink);
         // if (!file.file) return setError(t.posts.create.errors.photo);
         const postCategories: string[] = [];
-        categories.forEach((cat) => postCategories.push(cat._id));
+        selectedCategories.forEach((cat) => postCategories.push(cat._id));
         await dispatch(createPost({
             ...post,
             categories: postCategories,
@@ -113,7 +114,8 @@ const Write = () => {
                         }} />
                     </div>
                     <hr className={"my-2"} />
-                    <SelectCategories />
+                    <CategoriesSelector selectedCategories={selectedCategories} categories={categories}
+                                        defaultCategories={[]} pending={categoriesPending} />
                     <hr className={"my-2"} />
                     <TextAreaField name={"desc"} label={t.posts.create.fields.desc} onChange={(e) => {
                         setPost({

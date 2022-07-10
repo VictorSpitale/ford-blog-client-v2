@@ -11,7 +11,8 @@ module.exports = {
 		'!**/*.type.*',
 		'!**/__tests__/stub/**',
 		'!**/__tests__/mocks/**',
-		'!**/__tests__/utils/**'
+		'!**/__tests__/utils/**',
+		'!**/__tests__/tests/**'
 	],
 	moduleNameMapper: {
 		// Handle CSS imports (with CSS modules)
@@ -36,7 +37,10 @@ module.exports = {
 		'<rootDir>/cypress/',
 		'<rootDir>/__tests__/stub/',
 		'<rootDir>/__tests__/mocks/',
-		'<rootDir>/__tests__/utils/'],
+		'<rootDir>/__tests__/utils/',
+		'<rootDir>/__tests__/tests/components/navbar',
+		'<rootDir>/__tests__/tests/components/posts'
+	],
 	testEnvironment: 'jsdom',
 	transform: {
 		// Use babel-jest to transpile tests with the next/babel preset

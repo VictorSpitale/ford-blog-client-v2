@@ -1,18 +1,56 @@
 import React, {memo} from 'react';
 import AccountViewSwitcher from "./AccountViewSwitcher";
-import {useAppSelector} from "../../context/hooks";
-import {getAccountView} from "../../shared/types/accountViews.type";
+import {AccountViews} from "../../shared/types/accountViews.type";
 import {useTranslation} from "../../shared/hooks";
+import LikesView from "./views/LikesView";
+import {IUser} from "../../shared/types/user.type";
+import {IBasicPost} from "../../shared/types/post.type";
+import ProfileView from "./views/ProfileView";
+import SecurityView from "./views/SecurityView";
+import {AnyFunction} from "../../shared/types/props.type";
 
-const AccountView = () => {
-    const {view} = useAppSelector(state => state.accountView)
+type PropsType = {
+    view: AccountViews,
+    authUser: {
+        user: IUser,
+        pending: boolean
+    },
+    likes: {
+        likedPosts: IBasicPost[],
+        pending: boolean;
+    },
+    profile: {
+        saveChanges: AnyFunction;
+        uploadFile: AnyFunction;
+        removeProfilePicture: AnyFunction;
+        error: string;
+    },
+    security: {
+        error: string;
+        deleteAccount: AnyFunction;
+        changePassword: AnyFunction;
+    },
+    handleLogout: AnyFunction;
+}
+
+const AccountView = ({view, authUser, likes, profile, security, handleLogout}: PropsType) => {
+
     const t = useTranslation();
+
     return (
         <div className={"mt-16 w-3/4 mx-auto max-w-[800px]"}>
             <h1 className={"text-4xl font-bold mb-6"}>{t.account.title}</h1>
             <div className={"flex flex-col md:flex-row"}>
-                <AccountViewSwitcher />
-                {getAccountView(view)}
+                <AccountViewSwitcher activeView={view} handleLogout={handleLogout} />
+                {
+                    view === AccountViews.LIKES ?
+                        <LikesView likes={likes} /> :
+                        view === AccountViews.PROFILE ?
+                            <ProfileView authUser={authUser} profile={profile} /> :
+                            view === AccountViews.SECURITY ?
+                                <SecurityView security={security} authUser={authUser} /> :
+                                <></>
+                }
             </div>
         </div>
     );

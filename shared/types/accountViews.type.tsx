@@ -1,7 +1,3 @@
-import LikesView from "../../components/account/LikesView";
-import ProfileView from "../../components/account/ProfileView";
-import SecurityView from "../../components/account/SecurityView";
-
 export enum AccountViews {
     PROFILE = "profile",
     SECURITY = "security",
@@ -24,21 +20,5 @@ export const getViewType = (view: string) => {
             return AccountViews.SECURITY;
         default:
             return AccountViews.PROFILE;
-    }
-}
-
-export const getAccountView = (view: AccountViews | string) => {
-    switch (view) {
-        case AccountViews.LIKES:
-        case AccountViews.LIKES.toString():
-            return <LikesView />
-        case AccountViews.PROFILE:
-        case AccountViews.PROFILE.toString():
-            return <ProfileView />
-        case AccountViews.SECURITY:
-        case AccountViews.SECURITY.toString():
-            return <SecurityView />
-        default:
-            return <ProfileView />
     }
 }

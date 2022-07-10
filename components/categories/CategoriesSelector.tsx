@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect} from 'react';
 import CreatableSelect from "react-select/creatable";
-import {useAppDispatch, useAppSelector} from "../../context/hooks";
+import {useAppDispatch} from "../../context/hooks";
 import {ICategory} from "../../shared/types/category.type";
 import {ActionMeta, OnChangeValue} from "react-select";
 import {
@@ -9,6 +9,7 @@ import {
     removeSelectedCategories,
     setSelectedCategories
 } from "../../context/actions/categories.actions";
+import {useTranslation} from "../../shared/hooks";
 
 interface Option {
     readonly label: string;
@@ -16,11 +17,17 @@ interface Option {
     readonly _id: string;
 }
 
-const SelectCategories = () => {
-    const {categories, pending} = useAppSelector(state => state.categories);
-    const {categories: defaultCategories} = useAppSelector(state => state.post.post)
-    const {categories: selectValues} = useAppSelector(state => state.selectCategories)
+type PropsType = {
+    defaultCategories: ICategory[];
+    selectedCategories: ICategory[];
+    categories: ICategory[];
+    pending: boolean;
+}
+
+const CategoriesSelector = ({categories, pending, defaultCategories, selectedCategories}: PropsType) => {
+
     const dispatch = useAppDispatch();
+    const t = useTranslation();
 
     const createOption = (category: ICategory): Option => ({
         label: category.name,
@@ -56,6 +63,7 @@ const SelectCategories = () => {
             await dispatch(addSelectedCategories(category))
             return;
         }
+        /* istanbul ignore else */
         if (actionMeta.action === "remove-value" && catToDel) {
             await dispatch(removeSelectedCategories(catToDel))
             return;
@@ -71,15 +79,15 @@ const SelectCategories = () => {
 
     const getValues = useCallback(() => {
         const values: Option[] = [];
-        selectValues?.forEach((cat) => {
+        selectedCategories?.forEach((cat) => {
             values.push(createOption(cat));
         })
         return values;
-    }, [selectValues])
+    }, [selectedCategories])
 
     useEffect(() => {
         const setValues = async () => {
-            await dispatch(setSelectedCategories(defaultCategories || []))
+            await dispatch(setSelectedCategories(defaultCategories))
         }
         const clear = async () => {
             await dispatch(setSelectedCategories([]))
@@ -91,17 +99,25 @@ const SelectCategories = () => {
     }, [])
 
     return (
-        <CreatableSelect
-            isMulti
-            isClearable={false}
-            options={getOptions()}
-            defaultValue={getDefaultOptions()}
-            onChange={handleChange}
-            onCreateOption={handleCreate}
-            isDisabled={pending}
-            value={getValues()}
-        />
+        <>
+            <form data-content={"categories-selector"}>
+                <label htmlFor="categories-selector" hidden={true}>categories-selector</label>
+                <CreatableSelect
+                    isMulti
+                    isClearable={false}
+                    options={getOptions()}
+                    defaultValue={getDefaultOptions()}
+                    onChange={handleChange}
+                    onCreateOption={handleCreate}
+                    isDisabled={pending}
+                    value={getValues()}
+                    placeholder={t.categories.selectorPlaceholder}
+                    inputId={"categories-selector"}
+                    name={"categories-selector"}
+                />
+            </form>
+        </>
     );
 };
 
-export default memo(SelectCategories);
+export default memo(CategoriesSelector);
