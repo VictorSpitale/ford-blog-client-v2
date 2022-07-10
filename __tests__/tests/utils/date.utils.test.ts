@@ -33,10 +33,11 @@ describe('Date Utils', function () {
 
         const mockMillis = 1651395474952; // 01/05/2022  10:57:54
         beforeAll(() => {
-            jest.useFakeTimers();
+            jest.useFakeTimers("modern");
             jest.setSystemTime(mockMillis);
         })
         afterAll(() => {
+            jest.setSystemTime(jest.getRealSystemTime());
             jest.useRealTimers();
         })
 
@@ -86,10 +87,11 @@ describe('Date Utils', function () {
     describe('Time Since Message', function () {
         const mockMillis = 1651395474952; // 01/05/2022  10:57:54
         beforeAll(() => {
-            jest.useFakeTimers();
+            jest.useFakeTimers("modern");
             jest.setSystemTime(mockMillis);
         })
         afterAll(() => {
+            jest.setSystemTime(jest.getRealSystemTime());
             jest.useRealTimers();
         })
 
