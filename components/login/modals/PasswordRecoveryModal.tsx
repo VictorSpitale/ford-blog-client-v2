@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import Modal from "../modal/Modal";
-import {AnyFunction} from "../../shared/types/props.type";
-import InputField from "../shared/InputField";
-import {validateEmail} from "../../shared/utils/regex.utils";
-import {useFetch, useTranslation} from "../../shared/hooks";
-import {IMethods} from "../../shared/types/methods.type";
+import Modal from "../../modal/Modal";
+import {AnyFunction} from "../../../shared/types/props.type";
+import InputField from "../../shared/InputField";
+import {validateEmail} from "../../../shared/utils/regex.utils";
+import {useFetch, useTranslation} from "../../../shared/hooks";
+import {IMethods} from "../../../shared/types/methods.type";
 import {useRouter} from "next/router";
 
 const PasswordRecoveryModal = ({isShowing, toggle}: { isShowing: boolean; toggle: AnyFunction }) => {

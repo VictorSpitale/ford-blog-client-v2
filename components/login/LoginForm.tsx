@@ -16,7 +16,7 @@ import {blurImg} from "../../shared/images/blurImg";
 import {IUser} from "../../shared/types/user.type";
 import {useAppDispatch} from "../../context/hooks";
 import {login} from "../../context/actions/user.actions";
-import PasswordRecoveryModal from "./PasswordRecoveryModal";
+import PasswordRecoveryModal from "./modals/PasswordRecoveryModal";
 
 const LoginForm = () => {
 
