@@ -11,12 +11,12 @@ const Layout = ({children}: { children: Children }) => {
     const isIndex = () => router.pathname === "/"
     return (
         <>
-            <div className={"absolute h-28 flex justify-between w-full z-10 top-0"}>
+            <div data-content={"header"} className={"absolute h-28 flex justify-between w-full z-10 top-0"}>
                 <NavbarOpener />
                 {!isIndex() && <Header />}
                 <LanguageSwitcher />
             </div>
-            <main className={`${!isIndex() ? 'relative mt-32' : ''}`}>{children}</main>
+            <main data-content={"main"} className={`${!isIndex() ? 'relative mt-32' : ''}`}>{children}</main>
         </>
     );
 };
