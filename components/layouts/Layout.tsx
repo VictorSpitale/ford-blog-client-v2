@@ -5,7 +5,11 @@ import LanguageSwitcher from "../navbar/LanguageSwitcher";
 import Header from "../shared/Header";
 import {useRouter} from "next/router";
 
-const Layout = ({children}: { children: Children }) => {
+type PropsType = {
+    children: Children;
+}
+
+const Layout = ({children}: PropsType) => {
 
     const router = useRouter();
     const isIndex = () => router.pathname === "/"
