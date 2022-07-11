@@ -9,8 +9,8 @@ import {IPost} from "../../shared/types/post.type";
 import {blurImg} from "../../shared/images/blurImg";
 import Trash from "../shared/icons/Trash";
 import Edit from "../shared/icons/Edit";
-import {useAppDispatch, useAppSelector} from "../../context/hooks";
-import {IUserRole} from "../../shared/types/user.type";
+import {useAppDispatch} from "../../context/hooks";
+import {IUser, IUserRole} from "../../shared/types/user.type";
 import {useModal, useTranslation} from "../../shared/hooks";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 import DeletePostModal from "./modals/DeletePostModal";
@@ -18,16 +18,29 @@ import UpdatePostModal from "./modals/UpdatePostModal";
 import Comments from "./comments/Comments";
 import {cleanPost, deletePost} from "../../context/actions/posts.actions";
 import {useRouter} from "next/router";
+import {ICategory} from "../../shared/types/category.type";
 
-const SinglePost = ({post}: { post: IPost }) => {
+type PropsType = {
+    post: IPost;
+    lastPostPending: boolean;
+    updatedCategories: ICategory[];
+    categoriesPending: boolean;
+    postPending: boolean;
+    categories: ICategory[];
+    user: IUser;
+}
+
+const SinglePost = ({
+                        post,
+                        lastPostPending,
+                        postPending,
+                        categoriesPending,
+                        categories,
+                        updatedCategories,
+                        user
+                    }: PropsType) => {
+    
     const t = useTranslation();
-    /* istanbul ignore next */
-    const {user} = useAppSelector(state => state.user)
-    const {pending} = useAppSelector(state => state.lastPosts)
-
-    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
-    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
-    const {pending: postPending} = useAppSelector(state => state.post);
 
     const {toggle, isShowing} = useModal();
     const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
@@ -55,7 +68,7 @@ const SinglePost = ({post}: { post: IPost }) => {
 
     return (
         <>
-            <DeletePostModal toggle={toggle} isShowing={isShowing} pending={pending} handleDelete={handleDelete}
+            <DeletePostModal toggle={toggle} isShowing={isShowing} pending={lastPostPending} handleDelete={handleDelete}
                              post={post} />
             <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing}
                              updatedCategories={updatedCategories} categories={categories} pending={postPending}
