@@ -33,7 +33,7 @@ const TextAreaField = forwardRef(({
                 className={"resize-none c-scroll w-full mt-2 pb-1 bg-transparent border-b-2 border-gray-400 outline-0"}
                 ref={ref} placeholder={placeholder} id={name}
                 defaultValue={defaultValue} value={value} onChange={onChange} rows={rows}
-                required={required} autoComplete={autoComplete} />
+                required={required} autoComplete={autoComplete} data-content={name} />
         </label>
     );
 });
