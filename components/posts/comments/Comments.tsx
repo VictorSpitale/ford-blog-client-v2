@@ -46,9 +46,11 @@ const Comments = ({post, user, pending}: PropsType) => {
             slug: post.slug
         })).then((res) => {
             dispatch(changeCurrentEditComment({commentId: undefined}));
+            /* istanbul ignore else */
             if (res.meta.requestStatus === "fulfilled") {
                 const updatedPost = res.payload as IPost;
                 const newComment = updatedPost.comments.find((com) => com._id === comment._id);
+                /* istanbul ignore if */
                 if (!newComment) return;
                 setComments(prevState => prevState.map((com) => com._id === comment._id ? newComment : com));
             }
@@ -79,7 +81,7 @@ const Comments = ({post, user, pending}: PropsType) => {
     }, [dispatch])
 
     return (
-        <div className={pending ? "cursor-wait" : "cursor-default"}>
+        <div data-content={"comments"} className={pending ? "cursor-wait" : "cursor-default"}>
             <h1 className={"font-bold text-2xl pb-2"}>
                 {t.posts.comment.title.replace('{{count}}', comments.length.toString()).replace('{{s}}', comments.length > 1 ? 's' : '')}
             </h1>

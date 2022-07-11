@@ -52,7 +52,7 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
     }, [comment, t]);
 
     return (
-        <div className={"my-2"}>
+        <div data-content={`comment-${comment._id}`} className={"my-2"}>
             <div className={"flex gap-x-3"}>
                 <ProfilePicture src={comment.commenter.picture || defaultSrc.src} />
                 <div className={"flex flex-col"}>
