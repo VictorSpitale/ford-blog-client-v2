@@ -2,7 +2,6 @@ import {fireEvent, render, screen} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import {MockUseRouter} from "../../../utils/MockUseRouter";
 import NavbarContent from "../../../../components/navbar/NavbarContent";
-import * as redux from "../../../../context/hooks";
 import {Provider} from "react-redux";
 import {makeStore} from "../../../../context/store";
 import {queryByContent} from "../../../utils/CustomQueries";
@@ -20,7 +19,7 @@ describe('Navbar Content', function () {
             render(
                 <Provider store={makeStore()}>
                     <RouterContext.Provider value={router}>
-                        <NavbarContent showContent={true} closeContent={fn} />
+                        <NavbarContent showContent={true} closeContent={fn} user={UserStub()} />
                     </RouterContext.Provider>
                 </Provider>
             )
@@ -57,26 +56,24 @@ describe('Navbar Content', function () {
             const router = MockUseRouter({locale: "fr"});
             const fn = jest.fn();
 
-            const spy = jest.spyOn(redux, 'useAppSelector')
-            spy.mockReturnValue({user: UserStub()})
             render(
                 <Provider store={makeStore()}>
                     <RouterContext.Provider value={router}>
-                        <NavbarContent showContent={true} closeContent={fn} />
+                        <NavbarContent showContent={true} closeContent={fn} user={UserStub()} />
                     </RouterContext.Provider>
                 </Provider>
             )
             expect(screen.queryByText(fr.common.navbar["3"])).toBeNull();
         })
+
         it('should render specific role required links', () => {
             const router = MockUseRouter({locale: "fr"});
             const fn = jest.fn();
-            const spy = jest.spyOn(redux, 'useAppSelector')
-            spy.mockReturnValue({user: UserStub(IUserRole.ADMIN)})
+
             render(
                 <Provider store={makeStore()}>
                     <RouterContext.Provider value={router}>
-                        <NavbarContent showContent={true} closeContent={fn} />
+                        <NavbarContent showContent={true} closeContent={fn} user={UserStub(IUserRole.ADMIN)} />
                     </RouterContext.Provider>
                 </Provider>
             )

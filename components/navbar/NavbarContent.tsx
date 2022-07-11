@@ -8,14 +8,18 @@ import Image from 'next/image'
 import searchBackground from '../../public/static/img/search_background-3.jpg'
 import NavSearch from "./NavSearch";
 import {blurImg} from "../../shared/images/blurImg";
-import {useAppSelector} from "../../context/hooks";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useTranslation} from "../../shared/hooks";
 import {links} from "../../shared/utils/navbar/links.utils";
+import {IUser} from "../../shared/types/user.type";
 
-const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
+type PropsType = {
+    showContent: boolean;
+    closeContent: AnyFunction;
+    user: IUser;
+}
 
-    const {user} = useAppSelector(state => state.user)
+const NavbarContent = ({showContent, closeContent, user}: PropsType) => {
 
     const t = useTranslation()
 
