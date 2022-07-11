@@ -70,7 +70,7 @@ const Comments = ({post, user, pending}: PropsType) => {
             }
             setError(t.common.tryLater);
         })
-    }, [commentValue, dispatch, post.slug]);
+    }, [commentValue, dispatch, post.slug, t.common.tryLater]);
 
     useEffect(() => {
         return () => {
@@ -84,7 +84,7 @@ const Comments = ({post, user, pending}: PropsType) => {
                 {t.posts.comment.title.replace('{{count}}', comments.length.toString()).replace('{{s}}', comments.length > 1 ? 's' : '')}
             </h1>
 
-            {isEmpty(user) ? <p className={"pb-3"}>Vous devez vous connecter pour laisser un commentaire.</p> :
+            {isEmpty(user) ? <p className={"pb-3"}>{t.posts.comment.shouldLogin}</p> :
 
                 <div className={"pb-3 md:w-3/5"}>
                     <hr />
