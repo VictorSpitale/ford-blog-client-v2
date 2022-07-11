@@ -25,7 +25,7 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
     const t = useTranslation();
 
     const [createdAt, setCreatedAt] = useState('');
-    
+
     const dispatch = useAppDispatch();
     const editedCommentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -78,7 +78,7 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
                     </div>
                 </div>
                 : <div className={"mt-2"}>{comment.comment.split(/\r\n|\r|\n/g).map((s, i) => {
-                    return <p key={i}>{s}</p>
+                    return <p key={i}>{s} <br /></p>
                 })}</div>}
         </div>
     );
