@@ -11,7 +11,7 @@ import {blurImg} from "../../shared/images/blurImg";
 import {useAppSelector} from "../../context/hooks";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useTranslation} from "../../shared/hooks";
-import {links} from "./Links";
+import {links} from "../../shared/utils/navbar/links.utils";
 
 const NavbarContent = ({showContent, closeContent}: { showContent: boolean; closeContent: AnyFunction }) => {
 
