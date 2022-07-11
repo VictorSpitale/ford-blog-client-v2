@@ -33,6 +33,7 @@ const combinedReducer = combineReducers({
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
+    /* istanbul ignore if */
     if (action.type === HYDRATE) {
         return {
             ...state, // use previous state
