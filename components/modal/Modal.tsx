@@ -30,18 +30,21 @@ const Modal = forwardRef(({
     return (
         <>
             {isShowing &&
-				<div className={styles.modalOverlay}>
+				<div data-content={"overlay"} className={styles.modalOverlay}>
 					<div className={styles.modalWrapper}>
 						<div className={
                             className(large ? "w-3/4" : "w-64 md:w-1/2 lg:w-1/3", "c-scroll",
-                                styles.modal)} ref={mergeRefs(ref, modalRef)}>
-							<div
-								className={className(title ? "border-b border-b-secondary-500 justify-between p-4" : "justify-end pr-[11px]", styles.modalHeader)}>
+                                styles.modal)} ref={mergeRefs(ref, modalRef)} data-content={"modal"}>
+							<div className={className(title ? "border-b border-b-secondary-500 justify-between p-4" :
+                                "justify-end pr-[11px]", styles.modalHeader)} data-content={"modal-header"}>
                                 {title && <h4 className={"text-xl md:text-2xl"}>{hasPrevious && previous &&
-									<button type={"button"} className={styles.modalButton} onClick={() => previous()}>
+									<button
+										className={styles.modalButton} onClick={() => previous()}
+										data-content={"previous-modal"} type={"button"}>
 										<span>&larr;</span>
 									</button>} {title}</h4>}
 								<button
+									data-content={"modal-cross"}
 									type="button"
 									className={className("ml-2", styles.modalButton)}
 									onClick={() => hide()}
