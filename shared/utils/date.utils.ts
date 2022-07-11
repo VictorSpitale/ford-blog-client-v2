@@ -1,7 +1,6 @@
 import {Translation} from "../hooks/useTranslation";
 
 export const stringToDate = (num: string | number): Date => {
-    console.log("aie aie aie")
     let timestamp;
     if (typeof num === "string") {
         timestamp = Date.parse(num);
@@ -13,6 +12,7 @@ export const stringToDate = (num: string | number): Date => {
     if (returnDate.toString() === "Invalid Date") return new Date();
     return new Date(timestamp);
 };
+
 export const timeSince = (date: Date | string) => {
 
     // Covered by other tests
