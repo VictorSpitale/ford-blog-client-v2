@@ -19,3 +19,7 @@ export const mergeRefs = <T>(...refs: React.Ref<T>[]) => {
         }
     };
 };
+
+export const scrollTop = (ref: React.RefObject<HTMLElement>) => {
+    ref.current?.scrollTo({top: 0, behavior: "smooth"});
+}

@@ -14,6 +14,7 @@ import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
 import {toUpdatePost} from "../../../shared/utils/post/post.utils";
 import {ICategory} from "../../../shared/types/category.type";
+import {scrollTop} from "../../../shared/utils/refs.utils";
 
 type PropsType = {
     post: IPost;
@@ -62,13 +63,13 @@ const UpdatePostModal = ({
     }
 
     const abortUpdate = (msg: string) => {
-        ref.current?.scrollTo({top: 0, behavior: "smooth"})
+        scrollTop(ref);
         setError(msg);
     }
 
     return (
         <Modal ref={ref} hide={toggle} isShowing={isShowing} large={true} title={t.posts.update.title}>
-            <div className={"p-4"}>
+            <div data-content={"update-post-modal"} className={"p-4"}>
                 <div className={"flex justify-center"}>
                     <Image src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
                            alt={post.title} />
