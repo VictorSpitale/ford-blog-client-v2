@@ -8,7 +8,11 @@ import {IMethods} from "../../shared/types/methods.type";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {setQuery} from "../../context/actions/navSearch.actions";
 
-const NavSearch = ({onClick}: { onClick: AnyFunction }) => {
+type PropsType = {
+    onClick: AnyFunction;
+}
+
+const NavSearch = ({onClick}: PropsType) => {
 
     const [posts, setPosts] = useState<IPost[]>([])
     const {query} = useAppSelector(state => state.navSearch);
