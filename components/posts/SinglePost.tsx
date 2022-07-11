@@ -24,6 +24,11 @@ const SinglePost = ({post}: { post: IPost }) => {
     /* istanbul ignore next */
     const {user} = useAppSelector(state => state.user)
     const {pending} = useAppSelector(state => state.lastPosts)
+
+    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
+    const {pending: postPending} = useAppSelector(state => state.post);
+
     const {toggle, isShowing} = useModal();
     const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
 
@@ -52,7 +57,9 @@ const SinglePost = ({post}: { post: IPost }) => {
         <>
             <DeletePostModal toggle={toggle} isShowing={isShowing} pending={pending} handleDelete={handleDelete}
                              post={post} />
-            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} />
+            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing}
+                             updatedCategories={updatedCategories} categories={categories} pending={postPending}
+                             categoriesPending={categoriesPending} />
             <div data-content={"single-post"}
                  className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
                 <div
@@ -80,7 +87,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                         })}
                     </div>
                     <div className={"flex justify-between mt-4"}>
-                        <LikePostButton post={post} />
+                        <LikePostButton post={post} user={user} />
                         {user.role >= IUserRole.ADMIN && <div className={"flex"}>
 							<Trash callback={toggle} />
 							<Edit callback={toggleUpdate} />
