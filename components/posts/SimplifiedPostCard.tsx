@@ -7,7 +7,13 @@ import Link from 'next/link'
 import {AnyFunction} from "../../shared/types/props.type";
 import {blurImg} from "../../shared/images/blurImg";
 
-const SimplifiedPostCard = ({post, onClick}: { post: IBasicPost; onClick?: AnyFunction }) => {
+type PropsType = {
+    post: IBasicPost;
+    onClick?: AnyFunction;
+}
+
+const SimplifiedPostCard = ({post, onClick}: PropsType) => {
+
     return (
         <Link href={"/post/" + post.slug}>
             <a className={styles.search_result_item} onClick={onClick}>
