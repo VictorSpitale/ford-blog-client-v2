@@ -12,28 +12,28 @@ import {isValidUrl} from "../../../shared/utils/regex.utils";
 import {updatePost} from "../../../context/actions/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
+import {toUpdatePost} from "../../../shared/utils/post/post.utils";
 
-const toUpdatePost = (post: IPost): UpdatePost => {
-    return {
-        sourceLink: post.sourceLink,
-        desc: post.desc,
-        sourceName: post.sourceName,
-        title: post.title,
-        categories: [],
-    }
+type PropsType = {
+    post: IPost;
+    toggle: AnyFunction;
+    isShowing: boolean;
 }
 
-const UpdatePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFunction, isShowing: boolean }) => {
+const UpdatePostModal = ({post, toggle, isShowing}: PropsType) => {
 
     const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
     const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
-
     const {pending} = useAppSelector(state => state.post);
+
     const t = useTranslation();
+
     const [postState, setPostState] = useState<UpdatePost>(toUpdatePost(post));
     const [error, setError] = useState('');
+
     const ref = useRef<HTMLDivElement>(null)
     const dispatch = useAppDispatch();
+
     const handleUpdate = async () => {
         setError('');
         let k: keyof UpdatePost
