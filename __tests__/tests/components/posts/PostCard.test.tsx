@@ -45,6 +45,20 @@ describe('Post', () => {
             expect(screen.getByText(getTimeSinceMsg(fr, timeSince(post.createdAt)))).toBeInTheDocument();
         })
 
+        it('should render a large post card', function () {
+            const router = MockUseRouter({});
+            const post = PostStub();
+
+            render(
+                <RouterContext.Provider value={router}>
+                    <PostCard post={post} large={true} />
+                </RouterContext.Provider>
+            )
+            expect(queryByContent('post-card')).toBeInTheDocument();
+            expect(queryByContent('post-card')).toHaveClass("w-[300px]");
+        });
+
+
         it('should render a post card with more than 2 categories', () => {
             const post = PostStub();
             const router = MockUseRouter({});
