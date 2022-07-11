@@ -11,10 +11,16 @@ import {useTranslation} from "../../shared/hooks";
 import {className} from "../../shared/utils/class.utils";
 import Button from "../shared/Button";
 
+type PropsType = {
+    post: IPost;
+    large?: boolean
+}
+
 const PostCard = forwardRef(({
                                  post,
                                  large = false
-                             }: { post: IPost; large?: boolean }, ref: ForwardedRef<HTMLDivElement>) => {
+                             }: PropsType, ref: ForwardedRef<HTMLDivElement>) => {
+    
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
 

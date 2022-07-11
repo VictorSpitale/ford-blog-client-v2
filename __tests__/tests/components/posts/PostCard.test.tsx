@@ -1,7 +1,6 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import '@testing-library/jest-dom'
 import React from 'react'
-import {useTranslation} from "../../../../shared/hooks";
 import * as fr from '../../../../public/static/locales/fr.json'
 import PostCard from "../../../../components/posts/PostCard";
 import {PostStub} from "../../../stub/PostStub";
@@ -11,19 +10,25 @@ import {RouterContext} from "next/dist/shared/lib/router-context";
 import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {MatchPush} from "../../../utils/MatchPush";
 
-jest.mock('../../../../shared/hooks');
+// jest.mock('../../../../shared/hooks');
 
 describe('Post', () => {
-    beforeEach(() => {
-        jest.mock('../../tests/stub/ford-f-100-eluminator-concept.jpg');
-        (useTranslation as jest.Mock).mockReturnValue(fr);
-    })
+
+    // beforeEach(() => {
+    //     jest.mock('../../tests/stub/ford-f-100-eluminator-concept.jpg');
+    //     (useTranslation as jest.Mock).mockReturnValue(fr);
+    // })
+
     describe('Post Card', () => {
 
         it('should renders a post card', async () => {
             const post = PostStub();
+            const router = MockUseRouter({});
+
             render(
-                <PostCard post={post} />
+                <RouterContext.Provider value={router}>
+                    <PostCard post={post} />
+                </RouterContext.Provider>
             )
             expect(queryByContent('post-card')).toBeInTheDocument();
             expect(screen.getByAltText(post.title)).toBeInTheDocument();
@@ -37,13 +42,17 @@ describe('Post', () => {
             expect(sourceNameLink).toBeInTheDocument();
             expect(sourceNameLink).toHaveAttribute('href', post.sourceLink);
             expect(sourceNameLink).toHaveAttribute('target', '_blank');
-            expect(screen.getByText(getTimeSinceMsg(useTranslation(), timeSince(post.createdAt)))).toBeInTheDocument();
+            expect(screen.getByText(getTimeSinceMsg(fr, timeSince(post.createdAt)))).toBeInTheDocument();
         })
 
         it('should render a post card with more than 2 categories', () => {
             const post = PostStub();
+            const router = MockUseRouter({});
+
             render(
-                <PostCard post={post} />
+                <RouterContext.Provider value={router}>
+                    <PostCard post={post} />
+                </RouterContext.Provider>
             )
             for (let i = 0; i < post.categories.length; i++) {
                 const category = screen.queryByText(post.categories[i].name);
@@ -58,14 +67,19 @@ describe('Post', () => {
 
         it('should render a post card with less than 2 categories', () => {
             const post = PostStub();
+            const router = MockUseRouter({});
+
             render(
-                <PostCard post={{
-                    ...post,
-                    categories: [
-                        post.categories[0]
-                    ]
-                }} />
+                <RouterContext.Provider value={router}>
+                    <PostCard post={{
+                        ...post,
+                        categories: [
+                            post.categories[0]
+                        ]
+                    }} />
+                </RouterContext.Provider>
             )
+
             const category = screen.queryByText(post.categories[0].name);
             expect(category).toBeInTheDocument();
 
@@ -76,11 +90,13 @@ describe('Post', () => {
         it('should redirect to the post page', () => {
             const post = PostStub();
             const router = MockUseRouter({})
+
             render(
                 <RouterContext.Provider value={router}>
                     <PostCard post={post} />
                 </RouterContext.Provider>
             )
+
             const imageLink = screen.getByAltText(post.title).closest('a') as HTMLAnchorElement;
             expect(imageLink).toHaveAttribute('href', `/post/${post.slug}`);
             const btn = screen.getByText(fr.posts.readMore);
