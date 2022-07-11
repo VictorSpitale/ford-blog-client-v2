@@ -29,7 +29,7 @@ const DeleteModal = ({handleDelete, toggle, isShowing, pending, children}: Props
                 {children}
 
                 <div className={"flex justify-around pt-3"}>
-                    <button onClick={handleDelete}
+                    <button onClick={handleDelete} role={"button"}
                             className={"px-5 py-2 rounded text-white bg-red-500"}>{pending ? t.common.deleting : capitalize(t.common.delete)}
                     </button>
                     <button onClick={toggle}

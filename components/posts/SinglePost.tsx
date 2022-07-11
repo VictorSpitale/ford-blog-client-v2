@@ -39,7 +39,7 @@ const SinglePost = ({
                         updatedCategories,
                         user
                     }: PropsType) => {
-    
+
     const t = useTranslation();
 
     const {toggle, isShowing} = useModal();
@@ -101,7 +101,7 @@ const SinglePost = ({
                     </div>
                     <div className={"flex justify-between mt-4"}>
                         <LikePostButton post={post} user={user} />
-                        {user.role >= IUserRole.ADMIN && <div className={"flex"}>
+                        {user.role >= IUserRole.ADMIN && <div data-content={"admin-actions"} className={"flex"}>
 							<Trash callback={toggle} />
 							<Edit callback={toggleUpdate} />
 						</div>}
