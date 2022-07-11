@@ -9,20 +9,24 @@ import {changeCurrentEditComment} from "../../../context/actions/commentEdit.act
 import TextAreaField from "../../shared/TextAreaField";
 import Button from "../../shared/Button";
 import {useTranslation} from "../../../shared/hooks";
+import {IUser} from "../../../shared/types/user.type";
 
 type PropsType = {
-    post: IPost
+    post: IPost;
+    user: IUser;
+    pending: boolean;
 }
 
-const Comments = ({post}: PropsType) => {
+const Comments = ({post, user, pending}: PropsType) => {
 
     const [comments, setComments] = useState<IComment[]>(post.comments);
-    const {user} = useAppSelector(state => state.user);
-    const {pending} = useAppSelector(state => state.post);
-    const {commentId: currentEditingCommentId} = useAppSelector(state => state.currentComment);
-    const dispatch = useAppDispatch();
     const [error, setError] = useState('');
     const [commentValue, setCommentValue] = useState('');
+
+    const {commentId: currentEditingCommentId} = useAppSelector(state => state.currentComment);
+
+    const dispatch = useAppDispatch();
+
     const t = useTranslation();
 
     const onDelete = useCallback(async (comment: IComment) => {
@@ -100,7 +104,7 @@ const Comments = ({post}: PropsType) => {
                 return (
                     <div key={index}>
                         <Comment comment={comment} onDelete={onDelete} onUpdate={onUpdate}
-                                 isEditing={currentEditingCommentId === comment._id} />
+                                 isEditing={currentEditingCommentId === comment._id} user={user} />
                         {index !== comments.length - 1 && <hr />}
                     </div>
                 )

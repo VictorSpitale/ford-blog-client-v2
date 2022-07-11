@@ -114,7 +114,7 @@ const SinglePost = ({
                 </div>
                 <hr className={"my-4"} />
                 <div className={"px-4"}>
-                    <Comments post={post} />
+                    <Comments post={post} user={user} pending={postPending} />
                 </div>
             </div>
         </>
