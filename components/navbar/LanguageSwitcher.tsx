@@ -19,8 +19,8 @@ const LanguageSwitcher = () => {
         })
     }
 
-    const handleChange = (l: string) => {
-        router.push(router.asPath, router.asPath, {locale: l})
+    const handleChange = async (l: string) => {
+        await router.push(router.asPath, router.asPath, {locale: l})
     }
 
     return (
