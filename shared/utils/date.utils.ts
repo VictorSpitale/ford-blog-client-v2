@@ -1,6 +1,7 @@
 import {Translation} from "../hooks/useTranslation";
 
 export const stringToDate = (num: string | number): Date => {
+    console.log("aie aie aie")
     let timestamp;
     if (typeof num === "string") {
         timestamp = Date.parse(num);
@@ -14,6 +15,8 @@ export const stringToDate = (num: string | number): Date => {
 };
 export const timeSince = (date: Date | string) => {
 
+    // Covered by other tests
+    /* istanbul ignore if */
     if (typeof date === "string") date = stringToDate(date)
 
     const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
