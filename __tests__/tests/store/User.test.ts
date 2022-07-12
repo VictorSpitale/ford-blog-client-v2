@@ -19,7 +19,7 @@ describe('User Reducer & Actions', function () {
         user: {} as IUser, pending: false, error: false
     }
 
-    afterEach(() => {
+    beforeEach(() => {
         jest.clearAllMocks();
     })
 
@@ -93,6 +93,32 @@ describe('User Reducer & Actions', function () {
     });
 
     describe('Logout', function () {
+
+        it('should reset user on logout', function () {
+            const action: AnyAction = {
+                type: logout.fulfilled
+            }
+            const state = userReducer({
+                ...initialState,
+                user: UserStub()
+            }, action);
+            expect(state).toEqual(initialState);
+        });
+
+        it('should not reset user on failed logout', function () {
+            const action: AnyAction = {
+                type: logout.rejected
+            }
+            const state = userReducer({
+                ...initialState,
+                user: UserStub()
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                user: UserStub()
+            });
+        });
+
         it('should reset the user (action)', async () => {
             const logoutSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({});
             const store = makeStore();
@@ -100,17 +126,7 @@ describe('User Reducer & Actions', function () {
             expect(logoutSpy).toHaveBeenCalledWith("/api/auth/logout", {method: "get"});
             expect(store.getState().user.user).toEqual({});
         })
-        it('should reset the user (reducer)', async () => {
-            const action: AnyAction = {type: logout.fulfilled};
-            const state = userReducer({
-                ...initialState,
-                user: UserStub()
-            }, action);
-            expect(state).toEqual({
-                ...initialState,
-                user: {}
-            });
-        })
+
     });
 
     describe('Login', function () {
@@ -139,19 +155,19 @@ describe('User Reducer & Actions', function () {
 
         it('should set pending false and not set error to true (unused error)', () => {
             const action: AnyAction = {type: updateLoggedUser.rejected};
-            const state = userReducer(initialState, action);
+            const state = userReducer({...initialState, pending: true}, action);
             expect(state).toEqual(initialState);
         })
 
         it('should replace the user and pending false', () => {
-            const action: AnyAction = {type: updateLoggedUser.fulfilled, payload: UserStub()};
+            const action: AnyAction = {type: updateLoggedUser.fulfilled, payload: {...UserStub(), pseudo: "nouveau"}};
             const state = userReducer({
-                ...initialState, pending: true
+                ...initialState, pending: true, user: UserStub()
             }, action);
             expect(state).toEqual({
                 ...initialState,
                 pending: false,
-                user: UserStub()
+                user: {...UserStub(), pseudo: "nouveau"}
             });
         })
 
@@ -170,6 +186,7 @@ describe('User Reducer & Actions', function () {
             });
             expect(store.getState().user.user).toEqual(UserStub());
         })
+
         it('should not update the user on failure', async () => {
             const user = UserStub();
             const errorData = {
@@ -208,6 +225,7 @@ describe('User Reducer & Actions', function () {
     });
 
     describe('Upload Picture', function () {
+
         it('should set pending true while updating user\'s picture', () => {
             const action: AnyAction = {type: uploadPicture.pending};
             const state = userReducer(initialState, action);
@@ -219,7 +237,7 @@ describe('User Reducer & Actions', function () {
 
         it('should set pending false and not set error to true (unused error)', () => {
             const action: AnyAction = {type: uploadPicture.rejected};
-            const state = userReducer(initialState, action);
+            const state = userReducer({...initialState, pending: true}, action);
             expect(state).toEqual(initialState);
         })
 
@@ -258,6 +276,7 @@ describe('User Reducer & Actions', function () {
     });
 
     describe('Remove Picture', function () {
+
         it('should set pending true while removing profile picture', () => {
             const action: AnyAction = {type: removePicture.pending};
             const state = userReducer(initialState, action);
@@ -269,7 +288,7 @@ describe('User Reducer & Actions', function () {
 
         it('should set pending false and not set error to true (unused error)', () => {
             const action: AnyAction = {type: removePicture.rejected};
-            const state = userReducer(initialState, action);
+            const state = userReducer({...initialState, pending: true}, action);
             expect(state).toEqual(initialState);
         })
 
@@ -312,7 +331,7 @@ describe('User Reducer & Actions', function () {
 
         it('should set pending false and not set error to true (unused error)', () => {
             const action: AnyAction = {type: deleteAccount.rejected};
-            const state = userReducer(initialState, action);
+            const state = userReducer({...initialState, pending: true}, action);
             expect(state).toEqual(initialState);
         })
 
