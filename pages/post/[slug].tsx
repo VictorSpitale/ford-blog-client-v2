@@ -12,7 +12,15 @@ import Layout from "../../components/layouts/Layout";
 import {useRouter} from "next/router";
 
 const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
+
     const {post} = useAppSelector((state => state.post))
+    const {user} = useAppSelector(state => state.user)
+    const {pending: lastPostPending} = useAppSelector(state => state.lastPosts)
+
+    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
+    const {pending: postPending} = useAppSelector(state => state.post);
+
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -31,7 +39,15 @@ const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
             {(!error && !isEmpty(post)) &&
 				<>
 					<SEO title={post.title} description={getFirstSentence(post.desc)} />
-					<SinglePost post={post} />
+					<SinglePost
+						post={post}
+						user={user}
+						categoriesPending={categoriesPending}
+						lastPostPending={lastPostPending}
+						categories={categories}
+						updatedCategories={updatedCategories}
+						postPending={postPending}
+					/>
 				</>}
         </>
     );

@@ -1,124 +1,164 @@
-import {render, screen, waitFor} from "@testing-library/react";
-import {PostStub} from "../../../../stub/PostStub";
-import {MockUseRouter} from "../../../../utils/MockUseRouter";
-import fr from '../../../../../public/static/locales/fr.json'
 import {makeStore} from "../../../../../context/store";
+import {MockUseRouter} from "../../../../utils/MockUseRouter";
 import {Provider} from "react-redux";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import UpdatePostModal from "../../../../../components/posts/modals/UpdatePostModal";
-import {useTranslation} from "../../../../../shared/hooks";
-import * as hooks from "../../../../../context/hooks";
-import React, {useRef} from "react";
-import {mocked} from "jest-mock";
-import {isEmpty} from '../../../../../shared/utils/object.utils'
+import {IPost} from "../../../../../shared/types/post.type";
+import {ICategory} from "../../../../../shared/types/category.type";
+import {PostStub} from "../../../../stub/PostStub";
+import {CategoryStub} from "../../../../stub/CategoryStub";
+import {queryByContent} from "../../../../utils/CustomQueries";
+import fr from "../../../../../public/static/locales/fr.json";
+import * as actions from "../../../../../context/actions/posts.actions";
+import * as fetch from "../../../../../context/instance";
+import * as refUtils from '../../../../../shared/utils/refs.utils';
 
-jest.mock('../../../../../shared/hooks');
-jest.mock('../../../../../shared/utils/object.utils');
-jest.mock('react', () => {
-    return {
-        ...jest.requireActual('react'),
-        useRef: jest.fn(),
-    };
-});
-jest.mock(
-    "next/image",
-    () =>
-        function Image({src, alt}: { src: string, alt: string }) {
-            // eslint-disable-next-line @next/next/no-img-element
-            return <img src={src} alt={alt} />
-        },
-)
-jest.mock("../../../../../components/categories/SelectCategories", () => function SelectCategories() {
-        return <div />
-    }
-)
-describe('Update Post Modal', function () {
+describe('UpdatePostModalTest', function () {
 
-    it('should render the post modal', () => {
-        const post = PostStub();
-        const router = MockUseRouter({locale: "fr"});
-        const store = makeStore();
-        (useTranslation as jest.Mock).mockReturnValueOnce(fr);
-        jest.spyOn(hooks, "useAppSelector").mockReturnValueOnce({
-            categories: []
-        }).mockReturnValueOnce({
-            pending: false
-        })
-        render(
-            <Provider store={store}>
-                <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} toggle={jest.fn} isShowing={true} />
-                </RouterContext.Provider>
-            </Provider>
-        )
+    let post: IPost;
+    let updatedCategories: ICategory[];
+    let pending: boolean;
+    let categories: ICategory[];
 
-        expect(screen.getByDisplayValue(post.title)).toBeInTheDocument();
-        expect(screen.getByAltText(post.title)).toBeInTheDocument();
-        expect(screen.getByDisplayValue(post.sourceName)).toBeInTheDocument();
-        expect(screen.getByDisplayValue(post.sourceLink)).toBeInTheDocument();
-        expect(screen.getByRole('button', {name: fr.posts.update.fields.confirm})).toBeInTheDocument();
+    beforeEach(() => {
+        post = PostStub();
+        updatedCategories = [];
+        pending = false;
+        categories = [CategoryStub()];
     })
 
-    it('should render the post modal pending', () => {
-        const post = PostStub();
-        const router = MockUseRouter({locale: "fr"});
+    it('should render the update post modal', function () {
         const store = makeStore();
-        (useTranslation as jest.Mock).mockReturnValueOnce(fr);
-        jest.spyOn(hooks, "useAppSelector").mockReturnValueOnce({
-            categories: []
-        }).mockReturnValueOnce({
-            pending: true
+        const router = MockUseRouter({});
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
+                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        expect((queryByContent("title") as HTMLInputElement).value).toBe(post.title);
+        expect((queryByContent("sourceName") as HTMLInputElement).value).toBe(post.sourceName);
+        expect((queryByContent("sourceLink") as HTMLInputElement).value).toBe(post.sourceLink);
+        expect((queryByContent("desc") as HTMLTextAreaElement).value).toBe(post.desc);
+
+    });
+
+    it('should render the update post modal loading', function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        pending = true;
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
+                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        expect(screen.getByText(fr.common.loading)).toBeInTheDocument()
+
+    });
+
+    it('should render the update post modal with errors', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+
+        const updateSpy = jest.spyOn(actions, "updatePost")
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({});
+        jest.spyOn(refUtils, "scrollTop").mockImplementation(() => {
+            return null;
         })
-        render(
+
+        const {rerender} = render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} toggle={jest.fn} isShowing={true} />
+                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
+                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+        const submit = screen.getByText(fr.posts.update.fields.confirm);
+
+        fireEvent.change(queryByContent("title"), {target: {value: "  "}});
+        fireEvent.change(queryByContent("sourceName"), {target: {value: "  "}});
+        fireEvent.change(queryByContent("desc"), {target: {value: "  "}});
+        fireEvent.click(submit);
+        expect(screen.getByText(fr.posts.update.errors.fields)).toBeInTheDocument();
+        expect(updateSpy).not.toHaveBeenCalled();
+        expect(fetchSpy).not.toHaveBeenCalled();
+
+        fireEvent.change(queryByContent("title"), {target: {value: post.title}});
+        fireEvent.change(queryByContent("sourceName"), {target: {value: post.sourceName}});
+        fireEvent.change(queryByContent("desc"), {target: {value: post.desc}});
+        fireEvent.click(submit);
+        expect(screen.getByText(fr.posts.update.errors.categories)).toBeInTheDocument();
+        expect(updateSpy).not.toHaveBeenCalled();
+        expect(fetchSpy).not.toHaveBeenCalled();
+
+        updatedCategories = categories;
+
+        rerender(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
+                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
                 </RouterContext.Provider>
             </Provider>
         )
 
-        expect(screen.getByRole('button', {name: fr.common.loading})).toBeInTheDocument();
-    })
+        fireEvent.change(queryByContent("sourceLink"), {target: {value: "wrong link"}});
+        fireEvent.click(submit);
+        expect(screen.getByText(fr.posts.update.errors.link)).toBeInTheDocument();
+        expect(updateSpy).not.toHaveBeenCalled();
+        expect(fetchSpy).not.toHaveBeenCalled();
 
-    it('should render the post modal with error', async () => {
-        const post = PostStub();
-        const store = makeStore();
-        const router = MockUseRouter({locale: "fr"});
-        (useTranslation as jest.Mock).mockReturnValueOnce(fr);
-        jest.spyOn(hooks, "useAppSelector").mockReturnValueOnce({
-            categories: []
-        }).mockReturnValueOnce({
-            pending: false
-        });
-        (isEmpty as jest.Mock).mockReturnValue(true);
-        const ref = {current: {}};
-        const mScrollBy = jest.fn();
-        Object.defineProperty(ref, 'current', {
-            set(_current) {
-                if (_current) {
-                    _current.scrollTo = mScrollBy;
-                }
-                this._current = _current;
-            },
-            get() {
-                return this._current;
-            },
-        });
-        const useMockRef = mocked(useRef);
-        useMockRef.mockReturnValueOnce(ref);
-        render(
-            <Provider store={store}>
-                <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} toggle={jest.fn} isShowing={true} />
-                </RouterContext.Provider>
-            </Provider>
-        )
-        // fireEvent.change(screen.getByDisplayValue(post.title), {target: {value: ""}})
-        // fireEvent.click(screen.getByRole('button', {name: fr.posts.update.fields.confirm}))
+        fireEvent.change(queryByContent("sourceLink"), {target: {value: post.sourceLink}});
+        fireEvent.click(submit);
+
         await waitFor(() => {
-            // screen.debug();
+            expect(screen.getByText(fr.posts.update.errors.failed)).toBeInTheDocument();
+            expect(updateSpy).toHaveBeenCalled();
+            expect(fetchSpy).toHaveBeenCalled();
         })
-        // expect(screen.getByText(fr.posts.update.errors.fields)).toBeInTheDocument();
-    })
+
+    });
+
+    it('should update the post', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+
+        const updateSpy = jest.spyOn(actions, "updatePost")
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({});
+        const toggle = jest.fn();
+        updatedCategories = categories;
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
+                                     pending={pending} categoriesPending={false} isShowing={true} toggle={toggle} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+        const submit = screen.getByText(fr.posts.update.fields.confirm);
+
+        fireEvent.change(queryByContent("title"), {target: {value: `${post.title} !!`}});
+
+        fireEvent.click(submit);
+
+        await waitFor(() => {
+            expect(updateSpy).toHaveBeenCalled();
+            expect(fetchSpy).toHaveBeenCalled();
+            expect(toggle).toHaveBeenCalled();
+        })
+
+    });
 
 });

@@ -1,4 +1,4 @@
-import {IUserRole} from "../../shared/types/user.type";
+import {IUserRole} from "../../types/user.type";
 
 export type Link = {
     code: string,

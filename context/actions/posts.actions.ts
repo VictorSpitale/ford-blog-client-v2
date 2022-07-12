@@ -12,8 +12,9 @@ import {
     UpdatePostComment
 } from "../../shared/types/post.type";
 import {toFormData} from "../../shared/utils/object.utils";
-import {fetchApi, instance} from "../instance";
+import {fetchApi} from "../instance";
 import {NextPageContext} from "next";
+import {Categorized} from "../reducers/categorizedPosts.reducer";
 
 export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"
@@ -52,13 +53,13 @@ export const getPosts = createAsyncThunk<IPaginatedPosts, number | undefined, { 
     return response
 })
 
-export const getCategorizedPosts = createAsyncThunk<{ posts: IPost[], category: string }, string, { state: RootState }>(CATEGORIZED_POSTS, async (category, {getState}) => {
+export const getCategorizedPosts = createAsyncThunk<Categorized, string, { state: RootState }>(CATEGORIZED_POSTS, async (category, {getState}) => {
     const {posts} = getState().categorizedPosts
     const categorizedPosts = posts.find((list) => list.category === category);
     if (categorizedPosts && categorizedPosts.posts.length > 0) {
         return categorizedPosts;
     }
-    const response = {posts: [], category} as { posts: IPost[], category: string };
+    const response: Categorized = {posts: [], category};
     await fetchApi("/api/posts/categorized/{category}", {method: "get", params: {category}}).then((res) => {
         response.posts = res.data;
     })
@@ -67,12 +68,13 @@ export const getCategorizedPosts = createAsyncThunk<{ posts: IPost[], category: 
 
 interface getPostParams {
     slug: string,
-    context: NextPageContext<any>
+    context: NextPageContext
 }
 
 export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr) => {
     let response: IPost = {} as IPost
     let headers;
+    /* istanbul ignore next */
     if (attr.context.req?.headers.cookie) {
         headers = {
             Cookie: attr.context.req.headers.cookie,
@@ -116,7 +118,7 @@ export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string },
     return response;
 })
 
-export const getLikedPost = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id) => {
+export const getLikedPosts = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id) => {
     let response: IBasicPost[] = []
     await fetchApi('/api/posts/liked/{id}', {method: "get", params: {id}}).then((res) => response = res.data)
     return response;
@@ -124,7 +126,15 @@ export const getLikedPost = createAsyncThunk<IBasicPost[], string, { state: Root
 
 export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootState }>(CREATE_POST, async (post, {rejectWithValue}) => {
     let response = {} as IPost;
-    return await instance.post('/posts', toFormData(post))
+    const json: ICreatePost = {} as ICreatePost;
+    toFormData(post).forEach((value, key) => {
+        json[key] = value;
+    });
+
+    // Ignore file type
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return await fetchApi("/api/posts", {method: "post", json})
         .then(res => {
             response = res.data;
             return response;
@@ -132,6 +142,14 @@ export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootStat
         .catch(res => {
             return rejectWithValue(res)
         })
+    // return await instance.post('/posts', toFormData(post))
+    //     .then(res => {
+    //         response = res.data;
+    //         return response;
+    //     })
+    //     .catch(res => {
+    //         return rejectWithValue(res)
+    //     })
 })
 
 export const deletePostComment = createAsyncThunk<IPost, DeletePostComment, { state: RootState }>(DELETE_POST_COMMENT, async (comment) => {

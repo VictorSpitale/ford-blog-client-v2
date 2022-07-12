@@ -6,10 +6,17 @@ import {useTranslation} from "../../shared/hooks";
 import Button from "../shared/Button";
 import {useAppDispatch} from "../../context/hooks";
 import {setQuery} from "../../context/actions/navSearch.actions";
+import {IUser} from "../../shared/types/user.type";
 
-const NavbarOpener = ({showButton = true}: { showButton?: boolean }) => {
+type PropsType = {
+    showButton?: boolean;
+    user: IUser;
+}
+
+const NavbarOpener = ({showButton = true, user}: PropsType) => {
 
     const [showContent, setShowContent] = useState(false);
+
     const t = useTranslation()
     const dispatch = useAppDispatch();
 
@@ -22,7 +29,7 @@ const NavbarOpener = ({showButton = true}: { showButton?: boolean }) => {
         <>
             <Button text={t.common.menu} element={"button"} onClick={() => setShowContent(true)}
                     classes={className("text-sm", styles.nav_opener_button, (!showButton || showContent) ? styles.hide : '')} />
-            <NavbarContent showContent={showContent} closeContent={() => closeContent()} />
+            <NavbarContent showContent={showContent} closeContent={() => closeContent()} user={user} />
         </>
     );
 };

@@ -12,10 +12,13 @@ export const stringToDate = (num: string | number): Date => {
     if (returnDate.toString() === "Invalid Date") return new Date();
     return new Date(timestamp);
 };
+
 export const timeSince = (date: Date | string) => {
 
+    // Covered by other tests
+    /* istanbul ignore if */
     if (typeof date === "string") date = stringToDate(date)
-    console.log(new Date().getTimezoneOffset())
+
     const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;

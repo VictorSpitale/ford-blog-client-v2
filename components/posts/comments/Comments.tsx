@@ -9,20 +9,24 @@ import {changeCurrentEditComment} from "../../../context/actions/commentEdit.act
 import TextAreaField from "../../shared/TextAreaField";
 import Button from "../../shared/Button";
 import {useTranslation} from "../../../shared/hooks";
+import {IUser} from "../../../shared/types/user.type";
 
 type PropsType = {
-    post: IPost
+    post: IPost;
+    user: IUser;
+    pending: boolean;
 }
 
-const Comments = ({post}: PropsType) => {
+const Comments = ({post, user, pending}: PropsType) => {
 
     const [comments, setComments] = useState<IComment[]>(post.comments);
-    const {user} = useAppSelector(state => state.user);
-    const {pending} = useAppSelector(state => state.post);
-    const {commentId: currentEditingCommentId} = useAppSelector(state => state.currentComment);
-    const dispatch = useAppDispatch();
     const [error, setError] = useState('');
     const [commentValue, setCommentValue] = useState('');
+
+    const {commentId: currentEditingCommentId} = useAppSelector(state => state.currentComment);
+
+    const dispatch = useAppDispatch();
+
     const t = useTranslation();
 
     const onDelete = useCallback(async (comment: IComment) => {
@@ -42,9 +46,11 @@ const Comments = ({post}: PropsType) => {
             slug: post.slug
         })).then((res) => {
             dispatch(changeCurrentEditComment({commentId: undefined}));
+            /* istanbul ignore else */
             if (res.meta.requestStatus === "fulfilled") {
                 const updatedPost = res.payload as IPost;
                 const newComment = updatedPost.comments.find((com) => com._id === comment._id);
+                /* istanbul ignore if */
                 if (!newComment) return;
                 setComments(prevState => prevState.map((com) => com._id === comment._id ? newComment : com));
             }
@@ -66,7 +72,7 @@ const Comments = ({post}: PropsType) => {
             }
             setError(t.common.tryLater);
         })
-    }, [commentValue, dispatch, post.slug]);
+    }, [commentValue, dispatch, post.slug, t.common.tryLater]);
 
     useEffect(() => {
         return () => {
@@ -75,12 +81,12 @@ const Comments = ({post}: PropsType) => {
     }, [dispatch])
 
     return (
-        <div className={pending ? "cursor-wait" : "cursor-default"}>
+        <div data-content={"comments"} className={pending ? "cursor-wait" : "cursor-default"}>
             <h1 className={"font-bold text-2xl pb-2"}>
                 {t.posts.comment.title.replace('{{count}}', comments.length.toString()).replace('{{s}}', comments.length > 1 ? 's' : '')}
             </h1>
 
-            {isEmpty(user) ? <p className={"pb-3"}>Vous devez vous connecter pour laisser un commentaire.</p> :
+            {isEmpty(user) ? <p className={"pb-3"}>{t.posts.comment.shouldLogin}</p> :
 
                 <div className={"pb-3 md:w-3/5"}>
                     <hr />
@@ -100,7 +106,7 @@ const Comments = ({post}: PropsType) => {
                 return (
                     <div key={index}>
                         <Comment comment={comment} onDelete={onDelete} onUpdate={onUpdate}
-                                 isEditing={currentEditingCommentId === comment._id} />
+                                 isEditing={currentEditingCommentId === comment._id} user={user} />
                         {index !== comments.length - 1 && <hr />}
                     </div>
                 )

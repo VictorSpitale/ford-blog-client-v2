@@ -1,4 +1,3 @@
-import * as hooks from "../../../../../context/hooks";
 import {MockUseRouter} from "../../../../utils/MockUseRouter";
 import {makeStore} from "../../../../../context/store";
 import {Provider} from "react-redux";
@@ -11,22 +10,21 @@ import {UserStub} from "../../../../stub/UserStub";
 import fr from '../../../../../public/static/locales/fr.json'
 import {IPost, LikeStatus} from "../../../../../shared/types/post.type";
 import * as fetch from "../../../../../context/instance";
+import {IUser} from "../../../../../shared/types/user.type";
 
 describe('Like Post Button', function () {
 
     describe('UnAuth', function () {
 
         it('should render the unAuth like post button', () => {
-            jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-                user: {}
-            })
+
             const router = MockUseRouter({locale: "fr"});
             const store = makeStore();
             const post = PostStub();
             render(
                 <Provider store={store}>
                     <RouterContext.Provider value={router}>
-                        <LikePostButton post={post} />
+                        <LikePostButton post={post} user={{} as IUser} />
                     </RouterContext.Provider>
                 </Provider>
             )
@@ -34,6 +32,7 @@ describe('Like Post Button', function () {
             expect(queryByContent("heart-icon").className).not.toContain("active");
             expect(screen.getByText(fr.posts.like.needLoggedIn))
             fireEvent.click(queryByContent("heart-box"));
+
         })
 
     });
@@ -41,9 +40,7 @@ describe('Like Post Button', function () {
     describe('Auth', function () {
 
         it('should render the like button with n likes', () => {
-            jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-                user: UserStub()
-            })
+
             const router = MockUseRouter({locale: "fr"});
             const store = makeStore();
             const post: IPost = {
@@ -53,7 +50,7 @@ describe('Like Post Button', function () {
             render(
                 <Provider store={store}>
                     <RouterContext.Provider value={router}>
-                        <LikePostButton post={post} />
+                        <LikePostButton post={post} user={UserStub()} />
                     </RouterContext.Provider>
                 </Provider>
             )
@@ -62,9 +59,6 @@ describe('Like Post Button', function () {
         })
 
         it('should like the post', () => {
-            jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-                user: UserStub()
-            })
             const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: 4
             })
@@ -77,7 +71,7 @@ describe('Like Post Button', function () {
             render(
                 <Provider store={store}>
                     <RouterContext.Provider value={router}>
-                        <LikePostButton post={post} />
+                        <LikePostButton post={post} user={UserStub()} />
                     </RouterContext.Provider>
                 </Provider>
             )
@@ -93,9 +87,6 @@ describe('Like Post Button', function () {
         })
 
         it('should unlike the post', () => {
-            jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-                user: UserStub()
-            })
             const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
                 data: 2
             })
@@ -109,7 +100,7 @@ describe('Like Post Button', function () {
             render(
                 <Provider store={store}>
                     <RouterContext.Provider value={router}>
-                        <LikePostButton post={post} />
+                        <LikePostButton post={post} user={UserStub()} />
                     </RouterContext.Provider>
                 </Provider>
             )

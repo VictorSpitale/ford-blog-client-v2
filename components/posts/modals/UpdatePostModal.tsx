@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {IPost, UpdatePost} from "../../../shared/types/post.type";
 import {AnyFunction} from "../../../shared/types/props.type";
 import Modal from "../../modal/Modal";
@@ -6,34 +6,44 @@ import InputField from "../../shared/InputField";
 import Image from "next/image"
 import {getPostCardImg} from "../../../shared/images/postCardImg";
 import TextAreaField from "../../shared/TextAreaField";
-import {useAppDispatch, useAppSelector} from "../../../context/hooks";
+import {useAppDispatch} from "../../../context/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {isValidUrl} from "../../../shared/utils/regex.utils";
 import {updatePost} from "../../../context/actions/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
+import {toUpdatePost} from "../../../shared/utils/post/post.utils";
+import {ICategory} from "../../../shared/types/category.type";
+import {scrollTop} from "../../../shared/utils/refs.utils";
 
-const toUpdatePost = (post: IPost): UpdatePost => {
-    return {
-        sourceLink: post.sourceLink,
-        desc: post.desc,
-        sourceName: post.sourceName,
-        title: post.title,
-        categories: [],
-    }
+type PropsType = {
+    post: IPost;
+    toggle: AnyFunction;
+    isShowing: boolean;
+    categories: ICategory[];
+    updatedCategories: ICategory[];
+    pending: boolean;
+    categoriesPending: boolean;
 }
 
-const UpdatePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFunction, isShowing: boolean }) => {
+const UpdatePostModal = ({
+                             post,
+                             toggle,
+                             isShowing,
+                             updatedCategories,
+                             pending,
+                             categoriesPending,
+                             categories
+                         }: PropsType) => {
 
-    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
-    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
-
-    const {pending} = useAppSelector(state => state.post);
     const t = useTranslation();
-    const [postState, setPostState] = useState<UpdatePost>(toUpdatePost(post));
+
+    const [postState, setPostState] = useState<UpdatePost>({} as UpdatePost);
     const [error, setError] = useState('');
+
     const ref = useRef<HTMLDivElement>(null)
     const dispatch = useAppDispatch();
+
     const handleUpdate = async () => {
         setError('');
         let k: keyof UpdatePost
@@ -53,17 +63,22 @@ const UpdatePostModal = ({post, toggle, isShowing}: { post: IPost, toggle: AnyFu
     }
 
     const abortUpdate = (msg: string) => {
-        ref.current?.scrollTo({top: 0, behavior: "smooth"})
+        scrollTop(ref);
         setError(msg);
     }
 
+    useEffect(() => {
+        setPostState(toUpdatePost(post));
+    }, [post])
+
     return (
         <Modal ref={ref} hide={toggle} isShowing={isShowing} large={true} title={t.posts.update.title}>
-            <div className={"p-4"}>
-                <div className={"flex justify-center"}>
-                    <Image src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
-                           alt={post.title} />
-                </div>
+            <div data-content={"update-post-modal"} className={"p-4"}>
+                {post.picture && <div className={"flex justify-center"}>
+					<Image
+						src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
+						alt={post.title} />
+				</div>}
                 {error &&
 					<p className={"mt-2 bg-red-400 text-white rounded text-center mx-auto w-fit px-4"}>
                         {error}

@@ -40,15 +40,15 @@ const SEO = ({
             <meta charSet="utf-8" />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <title>{`${title} | ${getSiteTitle()}`}</title>
-            <meta name="description" content={getDesc()} />
+            <meta data-content={"website-description"} name="description" content={getDesc()} />
             <meta property="og:type" content="website" />
             <meta property="og:title" content={title} />
-            <meta property="og:description" content={description} />
-            <meta property="og:site_name" content={getSiteTitle()} />
+            <meta property="og:description" content={getDesc()} />
+            <meta data-content={"website-name"} property="og:site_name" content={getSiteTitle()} />
             <meta property="og:locale" content="fr_FR" />
             <meta property="og:locale:alternate" content="en" />
-            {shouldIndex ? <meta name="robots" content="noimageindex" /> :
-                <meta name="robots" content="noimageindex, noindex, nofollow" />}
+            {shouldIndex ? <meta data-content={"no-index"} name="robots" content="noimageindex" /> :
+                <meta data-content={"index"} name="robots" content="noimageindex, noindex, nofollow" />}
             {children}
         </Head>
     );

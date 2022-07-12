@@ -9,8 +9,8 @@ import {IPost} from "../../shared/types/post.type";
 import {blurImg} from "../../shared/images/blurImg";
 import Trash from "../shared/icons/Trash";
 import Edit from "../shared/icons/Edit";
-import {useAppDispatch, useAppSelector} from "../../context/hooks";
-import {IUserRole} from "../../shared/types/user.type";
+import {useAppDispatch} from "../../context/hooks";
+import {IUser, IUserRole} from "../../shared/types/user.type";
 import {useModal, useTranslation} from "../../shared/hooks";
 import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 import DeletePostModal from "./modals/DeletePostModal";
@@ -18,12 +18,30 @@ import UpdatePostModal from "./modals/UpdatePostModal";
 import Comments from "./comments/Comments";
 import {cleanPost, deletePost} from "../../context/actions/posts.actions";
 import {useRouter} from "next/router";
+import {ICategory} from "../../shared/types/category.type";
 
-const SinglePost = ({post}: { post: IPost }) => {
+type PropsType = {
+    post: IPost;
+    lastPostPending: boolean;
+    updatedCategories: ICategory[];
+    categoriesPending: boolean;
+    postPending: boolean;
+    categories: ICategory[];
+    user: IUser;
+}
+
+const SinglePost = ({
+                        post,
+                        lastPostPending,
+                        postPending,
+                        categoriesPending,
+                        categories,
+                        updatedCategories,
+                        user
+                    }: PropsType) => {
+
     const t = useTranslation();
-    /* istanbul ignore next */
-    const {user} = useAppSelector(state => state.user)
-    const {pending} = useAppSelector(state => state.lastPosts)
+
     const {toggle, isShowing} = useModal();
     const {toggle: toggleUpdate, isShowing: isUpdateShowing} = useModal();
 
@@ -50,18 +68,20 @@ const SinglePost = ({post}: { post: IPost }) => {
 
     return (
         <>
-            <DeletePostModal toggle={toggle} isShowing={isShowing} pending={pending} handleDelete={handleDelete}
+            <DeletePostModal toggle={toggle} isShowing={isShowing} pending={lastPostPending} handleDelete={handleDelete}
                              post={post} />
-            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} />
+            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing}
+                             updatedCategories={updatedCategories} categories={categories} pending={postPending}
+                             categoriesPending={categoriesPending} />
             <div data-content={"single-post"}
                  className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
-                <div
-                    className={"shadow-xl mx-auto w-full h-[315px]" +
+                {post.picture && <div
+					className={"shadow-xl mx-auto w-full h-[315px]" +
                         " lg:h-[450px] relative rounded-t-2xl overflow-hidden"}>
-                    <Image src={getPostCardImg(post)} layout={"fill"}
-                           objectFit={"cover"} priority={true} alt={post.title} placeholder={"blur"}
-                           blurDataURL={blurImg} />
-                </div>
+					<Image
+						src={getPostCardImg(post)} layout={"fill"} objectFit={"cover"} priority={true}
+						alt={post.title} placeholder={"blur"} blurDataURL={blurImg} />
+				</div>}
                 <div className={"px-4 pt-8"}>
                     <h1 className={"text-2xl text-justify md:font-semibold"}>{post.title}</h1>
                     <div className={"flex justify-between"}>
@@ -80,8 +100,8 @@ const SinglePost = ({post}: { post: IPost }) => {
                         })}
                     </div>
                     <div className={"flex justify-between mt-4"}>
-                        <LikePostButton post={post} />
-                        {user.role >= IUserRole.ADMIN && <div className={"flex"}>
+                        <LikePostButton post={post} user={user} />
+                        {user.role >= IUserRole.ADMIN && <div data-content={"admin-actions"} className={"flex"}>
 							<Trash callback={toggle} />
 							<Edit callback={toggleUpdate} />
 						</div>}
@@ -94,7 +114,7 @@ const SinglePost = ({post}: { post: IPost }) => {
                 </div>
                 <hr className={"my-4"} />
                 <div className={"px-4"}>
-                    <Comments post={post} />
+                    <Comments post={post} user={user} pending={postPending} />
                 </div>
             </div>
         </>

@@ -4,6 +4,7 @@ import {RouterContext} from "next/dist/shared/lib/router-context";
 import NavbarOpener from "../../../../components/navbar/NavbarOpener";
 import {Provider} from "react-redux";
 import {makeStore} from "../../../../context/store";
+import {UserStub} from "../../../stub/UserStub";
 
 jest.mock("../../public/static/img/search_background-3.jpg");
 
@@ -15,7 +16,7 @@ describe('Nav Opener', function () {
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
-                    <NavbarOpener/>
+                    <NavbarOpener user={UserStub()} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -30,7 +31,7 @@ describe('Nav Opener', function () {
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
-                    <NavbarOpener/>
+                    <NavbarOpener user={UserStub()} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -44,7 +45,7 @@ describe('Nav Opener', function () {
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
-                    <NavbarOpener showButton={false}/>
+                    <NavbarOpener showButton={false} user={UserStub()} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -57,7 +58,7 @@ describe('Nav Opener', function () {
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
-                    <NavbarOpener/>
+                    <NavbarOpener user={UserStub()} />
                 </RouterContext.Provider>
             </Provider>
         )

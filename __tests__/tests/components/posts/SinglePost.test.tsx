@@ -1,117 +1,93 @@
-import {MockUseRouter} from "../../../utils/MockUseRouter";
-import {useModal, useTranslation} from "../../../../shared/hooks";
-import * as fr from "../../../../public/static/locales/fr.json";
-import {fireEvent, render, screen} from "@testing-library/react";
-import {RouterContext} from "next/dist/shared/lib/router-context";
-import SinglePost from "../../../../components/posts/SinglePost";
-import {PostStub} from "../../../stub/PostStub";
-import * as redux from "../../../../context/hooks";
-import {Provider} from "react-redux";
 import {makeStore} from "../../../../context/store";
-import {queryByContent} from "../../../utils/CustomQueries";
+import {MockUseRouter} from "../../../utils/MockUseRouter";
+import {Provider} from "react-redux";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import {RouterContext} from "next/dist/shared/lib/router-context";
+import {CategoryStub} from "../../../stub/CategoryStub";
 import {UserStub} from "../../../stub/UserStub";
+import {PostStub} from "../../../stub/PostStub";
+import SinglePost from "../../../../components/posts/SinglePost";
+import {queryByContent} from "../../../utils/CustomQueries";
 import {IUserRole} from "../../../../shared/types/user.type";
+import * as fr from '../../../../public/static/locales/fr.json'
+import * as actions from '../../../../context/actions/posts.actions';
+import * as fetch from '../../../../context/instance';
 
-jest.mock('../../../../shared/hooks');
+describe('SinglePostTest', function () {
 
-describe('Single Post', function () {
+    it('should render the single post', function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        const category = CategoryStub();
+        const user = UserStub();
+        const post = PostStub();
 
-    const post = PostStub();
-    let isDeleteShowing = false;
-    let isUpdateShowing = false;
-    const toggleDelete = jest.fn(() => isDeleteShowing = !isDeleteShowing);
-    const toggleUpdate = jest.fn(() => isUpdateShowing = !isUpdateShowing);
-    let spy: jest.SpyInstance;
-    beforeEach(() => {
-        (useTranslation as jest.Mock).mockReturnValue(fr);
-        (useModal as jest.Mock).mockReturnValueOnce(
-            {toggle: toggleDelete, isShowing: isDeleteShowing}
-        ).mockReturnValueOnce({
-            toggle: toggleUpdate, isShowing: isUpdateShowing
-        })
-        spy = jest.spyOn(redux, 'useAppSelector')
-    })
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <SinglePost post={post} lastPostPending={false} updatedCategories={[]} categoriesPending={false}
+                                postPending={false} categories={[category]} user={user} />
+                </RouterContext.Provider>
+            </Provider>
+        )
 
-    describe('SinglePost Component unAuth', function () {
-        beforeEach(() => {
-            spy.mockReturnValue({user: {}})
-            render(
-                <Provider store={makeStore()}>
-                    <RouterContext.Provider value={MockUseRouter({})}>
-                        <SinglePost post={post}/>
-                    </RouterContext.Provider>
-                </Provider>
-            )
-        })
-        it('should render the single post component', () => {
-            expect(queryByContent('single-post')).toBeInTheDocument();
-            expect(screen.getByRole("heading").textContent).toBe(post.title);
-            for (let i = 0; i < post.categories.length; i++) {
-                if (i < 3) {
-                    expect(screen.getByText(post.categories[i].name)).toBeInTheDocument();
-                } else {
-                    expect(screen.queryByText(post.categories[i].name)).toBeNull();
-                }
-            }
-            expect(queryByContent('desc-0').textContent).toContain(post.desc.split(/(?:\r\n|\r|\n)/g)[0]);
-        })
-
-        it('should not contain admin actions', () => {
-            expect(queryByContent('trash')).not.toBeDefined();
-            expect(queryByContent('edit')).not.toBeDefined();
-        })
+        expect(queryByContent("single-post")).toBeInTheDocument();
+        expect(screen.getByText(post.title)).toBeInTheDocument();
+        expect(screen.getByText(post.sourceName)).toBeInTheDocument();
 
     });
-    describe('Auth Admin', function () {
-        beforeEach(() => {
-            spy.mockReturnValue({user: UserStub(IUserRole.ADMIN)})
-            render(
-                <Provider store={makeStore()}>
-                    <RouterContext.Provider value={MockUseRouter({})}>
-                        <SinglePost post={post}/>
-                    </RouterContext.Provider>
-                </Provider>
-            )
-        })
 
-        it('should contain admin actions', () => {
-            expect(queryByContent('trash')).toBeDefined();
-            expect(queryByContent('edit')).toBeDefined();
-        })
+    it('should render the admin single post', function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        const category = CategoryStub();
+        const user = UserStub(IUserRole.ADMIN);
+        const post = PostStub();
 
-        it('should open the delete modal', () => {
-            expect(isDeleteShowing).toBe(false);
-            fireEvent.click(queryByContent('trash'));
-            expect(toggleDelete).toHaveBeenCalled();
-            expect(isDeleteShowing).toBe(true)
-        })
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <SinglePost post={post} lastPostPending={false} updatedCategories={[]} categoriesPending={false}
+                                postPending={false} categories={[category]} user={user} />
+                </RouterContext.Provider>
+            </Provider>
+        )
 
-        it('should open the update modal', () => {
-            expect(isUpdateShowing).toBe(false);
-            fireEvent.click(queryByContent('edit'));
-            expect(toggleUpdate).toHaveBeenCalled();
-            expect(isUpdateShowing).toBe(true)
+        expect(queryByContent("admin-actions")).toBeInTheDocument();
+
+    });
+
+    it('should delete the post', async function () {
+        const store = makeStore();
+
+        const push = jest.fn();
+
+        const router = MockUseRouter({push});
+        const category = CategoryStub();
+        const user = UserStub(IUserRole.ADMIN);
+        const post = PostStub();
+
+        jest.spyOn(fetch, "fetchApi").mockResolvedValue({});
+        const spy = jest.spyOn(actions, "cleanPost");
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <SinglePost post={post} lastPostPending={false} updatedCategories={[]} categoriesPending={false}
+                                postPending={false} categories={[category]} user={user} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        fireEvent.click(queryByContent("trash"));
+        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
+
+        await waitFor(() => {
+            expect(push).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalled();
         })
 
     });
 
-    describe('Auth Not Admin', function () {
-        beforeEach(() => {
-            spy.mockReturnValue({user: UserStub(IUserRole.POSTER)})
-            render(
-                <Provider store={makeStore()}>
-                    <RouterContext.Provider value={MockUseRouter({})}>
-                        <SinglePost post={post}/>
-                    </RouterContext.Provider>
-                </Provider>
-            )
-        })
-
-        it('should not contain admin actions if user is poster', () => {
-            expect(queryByContent('trash')).not.toBeDefined();
-            expect(queryByContent('edit')).not.toBeDefined();
-        })
-
-    });
 
 });

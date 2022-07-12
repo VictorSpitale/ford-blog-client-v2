@@ -22,15 +22,30 @@ describe('Categories Reducer & Actions', function () {
 
     describe("Get Categories", () => {
 
-        it('should fetch the categories', () => {
+        it('should set pending true on fetching', function () {
+            const action: AnyAction = {
+                type: getCategories.pending
+            }
+            const state = categoriesReducer(initialState, action);
+            expect(state).toEqual({
+                ...initialState,
+                pending: true
+            })
+        });
+
+        it('should set pending false on fulfilled fetch the categories', () => {
             const action: AnyAction = {
                 type: getCategories.fulfilled, payload: [CategoryStub()]
             }
-            const state = categoriesReducer(initialState, action);
+            const state = categoriesReducer({
+                ...initialState,
+                pending: true
+            }, action);
             expect(state).toEqual({
                 ...initialState, categories: [CategoryStub()]
             })
         })
+
         it('should fetch the categories (action)', async () => {
             const store = makeStore();
             const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({
@@ -40,6 +55,17 @@ describe('Categories Reducer & Actions', function () {
             expect(spy).toHaveBeenCalledWith('/api/categories', {method: "get"});
             expect(store.getState().categories.categories).toEqual([CategoryStub()]);
         })
+
+        it('should set pending false on rejected', function () {
+            const action: AnyAction = {
+                type: getCategories.rejected
+            }
+            const state = categoriesReducer({...initialState, pending: true}, action);
+            expect(state).toEqual({
+                ...initialState,
+                pending: false
+            })
+        });
 
     })
 
@@ -54,10 +80,10 @@ describe('Categories Reducer & Actions', function () {
         })
 
         it('should set pending false on fulfilled', () => {
-            const action: AnyAction = {type: createCategory.fulfilled};
+            const action: AnyAction = {type: createCategory.fulfilled, payload: CategoryStub()};
             const state = categoriesReducer({...initialState, pending: true}, action);
             expect(state).toEqual({
-                ...initialState, pending: false
+                ...initialState, pending: false, categories: [CategoryStub()]
             })
         })
 

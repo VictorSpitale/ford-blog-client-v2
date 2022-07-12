@@ -16,7 +16,7 @@ import {useRouter} from "next/router";
 const Index = () => {
 
     const dispatch = useAppDispatch();
-    const {posts, loading} = useAppSelector(state => state.categorizedPosts);
+    const {posts, pending} = useAppSelector(state => state.categorizedPosts);
     const {category} = useAppSelector(state => state.categorySlide);
     const {categories} = useAppSelector(state => state.categories);
 
@@ -60,7 +60,7 @@ const Index = () => {
             <CategoriesSlider categories={categories} category={category}
                               handleCategoryChange={changeActiveCategorySlide} />
             <div className={"pt-8"}>
-                {loading && <p className={"text-center"}>{t.common.loading}</p>}
+                {pending && <p className={"text-center"}>{t.common.loading}</p>}
                 {(isEmpty(getPosts())) ? <p className={"text-center"}>{t.categories.noPost}</p> :
                     <div className={"px-1 mx-auto w-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4"}>
                         <PostsList posts={getPosts()} />

@@ -38,8 +38,6 @@ module.exports = {
 		'<rootDir>/__tests__/stub/',
 		'<rootDir>/__tests__/mocks/',
 		'<rootDir>/__tests__/utils/',
-		'<rootDir>/__tests__/tests/components/navbar',
-		'<rootDir>/__tests__/tests/components/posts'
 	],
 	testEnvironment: 'jsdom',
 	transform: {

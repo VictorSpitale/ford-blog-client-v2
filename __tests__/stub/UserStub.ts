@@ -1,8 +1,8 @@
 import {IUser, IUserRole} from "../../shared/types/user.type";
 
-export const UserStub = (role = IUserRole.USER): IUser => {
+export const UserStub = (role = IUserRole.USER, id = "625d68b498cce1a4044d887c"): IUser => {
     return {
-        "_id": "625d68b498cce1a4044d887c",
+        "_id": id,
         "pseudo": "VictorSpitale",
         "email": "vmairets@gmail.com",
         role,

@@ -33,7 +33,7 @@ const InputField = forwardRef(({
                 disabled ? "opacity-50 pl-2 rounded bg-gray-200 text-gray-500 border-b-0 cursor-not-allowed" : "")}
                    ref={ref} type={type} placeholder={placeholder} id={name}
                    defaultValue={value} onChange={onChange} disabled={disabled}
-                   required={required} autoComplete={autoComplete} />
+                   required={required} autoComplete={autoComplete} data-content={name} />
         </label>
     );
 });

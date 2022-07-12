@@ -23,6 +23,7 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
 
     useEffect(() => {
         if (!alreadyLoaded) {
+            /* istanbul ignore next */
             logoRef.current?.addEventListener('animationiteration', () => {
                 if (!isLoading) {
                     logoRef.current?.classList.replace(styles.animate, styles.loaded)
@@ -36,11 +37,11 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
                 }
             }, false)
         }
-    })
+    }, [alreadyLoaded, isLoading]);
 
     return (
         <>
-            <div ref={pageRef}
+            <div ref={pageRef} data-content={"loading-screen"}
                  className={className(alreadyLoaded ? styles.page_container_loaded : '', styles.page_container)}>
                 <div className={styles.container}>
                     <div className={styles.group_container}>
@@ -55,7 +56,7 @@ const LoadingScreen = ({isLoading, children, alreadyLoaded}: PropsType) => {
                     <img ref={logoRef} src={car.src} alt="Ford Universe Logo"
                          className={className(alreadyLoaded ? styles.loaded_2 : styles.animate, styles.car_logo)} />
                 </div>
-                <div ref={contentRef}
+                <div ref={contentRef} data-content={"after-loading-content"}
                      className={className(alreadyLoaded ? styles.content_container_loaded : '', styles.content_container)}>
                     {children}
                 </div>

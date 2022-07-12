@@ -9,11 +9,10 @@ import Delimiter from "../shared/Delimiter";
 import SignWithGoogle, {SignStatus} from "../shared/SignWithGoogle";
 import Link from 'next/link'
 import {validateEmail} from "../../shared/utils/regex.utils";
-import {useFetch} from "../../shared/hooks/useFetch";
+import {useFetch, useTranslation} from "../../shared/hooks";
 import {IMethods} from "../../shared/types/methods.type";
 import {useRouter} from "next/router";
 import {blurImg} from "../../shared/images/blurImg";
-import {useTranslation} from "../../shared/hooks/useTranslation";
 
 const RegisterForm = () => {
 
@@ -22,6 +21,7 @@ const RegisterForm = () => {
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
     const [error, setError] = useState('');
+
     const router = useRouter();
     const t = useTranslation();
 
@@ -31,8 +31,8 @@ const RegisterForm = () => {
             && pseudo.length >= 6 && pseudo.length <= 18);
     }
 
-    const handleRequest = () => {
-        router.push("/login?register=success")
+    const handleRequest = async () => {
+        await router.push("/login?register=success")
     }
 
     const {loading, load, error: fetchError, code} = useFetch("/users", IMethods.POST, handleRequest);
@@ -64,7 +64,7 @@ const RegisterForm = () => {
                 <h1 className={"text-lg text-center"}>{t.common.title.replace('{{title}}', t.common.siteName)}</h1>
                 {(code || error || fetchError) &&
 					<p className={"text-center text-red-500 text-sm"}>{code ? t.httpErrors[code] : error || fetchError}</p>}
-                <form className={className("px-2 md:px-[30px]", styles.register_form)}
+                <form data-content={"register-form"} className={className("px-2 md:px-[30px]", styles.register_form)}
                       onSubmit={handleSubmit}>
                     <InputField name={"pseudo"} label={t.register.pseudo} required={true}
                                 autoComplete={"username"}

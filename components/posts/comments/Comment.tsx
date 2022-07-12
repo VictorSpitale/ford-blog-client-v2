@@ -2,7 +2,7 @@ import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {IComment} from "../../../shared/types/comment.type";
 import defaultSrc from '../../../public/static/img/default-profile.png'
 import ProfilePicture from "../../shared/ProfilePicture";
-import {useAppDispatch, useAppSelector} from "../../../context/hooks";
+import {useAppDispatch} from "../../../context/hooks";
 import Trash from "../../shared/icons/Trash";
 import Edit from "../../shared/icons/Edit";
 import {useTranslation} from "../../../shared/hooks";
@@ -10,19 +10,22 @@ import {getTimeSinceMsg, stringToDate, timeSince} from "../../../shared/utils/da
 import {changeCurrentEditComment} from "../../../context/actions/commentEdit.actions";
 import Button from "../../shared/Button";
 import TextAreaField from "../../shared/TextAreaField";
+import {IUser} from "../../../shared/types/user.type";
 
 type PropsType = {
     comment: IComment;
     onDelete: (comment: IComment) => Promise<void>;
     onUpdate: (comment: IComment, newValue: string) => Promise<void>;
     isEditing: boolean;
+    user: IUser;
 }
 
-const Comment = ({comment, onDelete, isEditing, onUpdate}: PropsType) => {
-    const {user} = useAppSelector(state => state.user);
+const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
+
     const t = useTranslation();
+
     const [createdAt, setCreatedAt] = useState('');
-    const [commentContent, setCommentContent] = useState('');
+
     const dispatch = useAppDispatch();
     const editedCommentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -49,7 +52,7 @@ const Comment = ({comment, onDelete, isEditing, onUpdate}: PropsType) => {
     }, [comment, t]);
 
     return (
-        <div className={"my-2"}>
+        <div data-content={`comment-${comment._id}`} className={"my-2"}>
             <div className={"flex gap-x-3"}>
                 <ProfilePicture src={comment.commenter.picture || defaultSrc.src} />
                 <div className={"flex flex-col"}>
@@ -74,8 +77,8 @@ const Comment = ({comment, onDelete, isEditing, onUpdate}: PropsType) => {
                                 onClick={handleCancel} />
                     </div>
                 </div>
-                : <div className={"mt-2"}>{comment.comment.split(/(?:\r\n|\r|\n)/g).map((s, i) => {
-                    return <p key={i}>{s}</p>
+                : <div className={"mt-2"}>{comment.comment.split(/\r\n|\r|\n/g).map((s, i) => {
+                    return <p key={i}>{s} <br /></p>
                 })}</div>}
         </div>
     );

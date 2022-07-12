@@ -17,29 +17,49 @@ describe('Selected Categories Reducer & Actions', function () {
         expect(selectCategoriesReducer(undefined, {} as AnyAction)).toEqual(initialState);
     })
 
-    it('should set categories', () => {
-        const payload = [CategoryStub(), CategoryStub("mustang")];
-        const action: AnyAction = {
-            type: setSelectedCategories, payload
-        }
-        const state = selectCategoriesReducer(initialState, action);
-        expect(state.categories).toEqual(payload)
-    })
+    describe('setCategory', function () {
 
-    it('should add a category', () => {
-        const action: AnyAction = {
-            type: addSelectedCategories, payload: CategoryStub("mustang")
-        }
-        const state = selectCategoriesReducer({categories: [CategoryStub()]}, action);
-        expect(state.categories).toEqual([CategoryStub(), CategoryStub('mustang')])
-    })
+        it('should set categories', () => {
+            const payload = [CategoryStub(), CategoryStub("mustang")];
+            const action: AnyAction = {
+                type: setSelectedCategories, payload
+            }
+            const state = selectCategoriesReducer(initialState, action);
+            expect(state.categories).toEqual(payload)
+        })
 
-    it('should remove a category', () => {
-        const action: AnyAction = {
-            type: removeSelectedCategories, payload: CategoryStub()
-        }
-        const state = selectCategoriesReducer({categories: [CategoryStub()]}, action);
-        expect(state).toEqual(initialState);
-    })
+    });
+
+    describe('addCategory', function () {
+
+        it('should add a category', () => {
+            const action: AnyAction = {
+                type: addSelectedCategories, payload: CategoryStub("mustang")
+            }
+            const state = selectCategoriesReducer({categories: []}, action);
+            expect(state.categories).toEqual([CategoryStub('mustang')])
+        })
+
+        it('should add a category to the previous ones', function () {
+            const action: AnyAction = {
+                type: addSelectedCategories, payload: CategoryStub("mustang")
+            }
+            const state = selectCategoriesReducer({categories: [CategoryStub()]}, action);
+            expect(state.categories).toEqual([CategoryStub(), CategoryStub('mustang')])
+        });
+
+    });
+
+    describe('removeCategory', function () {
+
+        it('should remove a category', () => {
+            const action: AnyAction = {
+                type: removeSelectedCategories, payload: CategoryStub()
+            }
+            const state = selectCategoriesReducer({categories: [CategoryStub()]}, action);
+            expect(state).toEqual(initialState);
+        })
+
+    });
 
 });

@@ -6,6 +6,11 @@ export interface ErrorState {
     securityViewError: string;
 }
 
+export type ErrorStateType = {
+    key: keyof ErrorState;
+    error: string
+}
+
 const initial: ErrorState = {
     profileViewError: '',
     securityViewError: ''

@@ -1,6 +1,6 @@
-export const PostStub = () => {
+export const PostStub = (id = "61ae1fc5406b7e0020edd21d") => {
     return {
-        "_id": "61ae1fc5406b7e0020edd21d",
+        "_id": id,
         "slug": "1967-shelby-gt500-most-beautiful-muscle-car",
         "title": "The 1967 Ford Mustang Shelby GT500 Is The Most Beautiful Muscle Car Ever Built",
         "categories": [

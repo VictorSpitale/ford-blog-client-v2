@@ -24,11 +24,10 @@ const Button = ({element, onClick, text, classes, type}: PropsType) => {
                 <button className={buttonStyle} onClick={onClick} type={type}>
                     {text}
                 </button>
-                : element === "link" ?
-                    <Link href={onClick}>
-                        <a className={buttonStyle}>{text}</a>
-                    </Link>
-                    : null
+                : element === "link" &&
+				<Link href={onClick}>
+					<a className={buttonStyle}>{text}</a>
+				</Link>
             }
         </>
     )

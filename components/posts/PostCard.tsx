@@ -11,23 +11,30 @@ import {useTranslation} from "../../shared/hooks";
 import {className} from "../../shared/utils/class.utils";
 import Button from "../shared/Button";
 
+type PropsType = {
+    post: IPost;
+    large?: boolean
+}
+
 const PostCard = forwardRef(({
                                  post,
                                  large = false
-                             }: { post: IPost; large?: boolean }, ref: ForwardedRef<HTMLDivElement>) => {
+                             }: PropsType, ref: ForwardedRef<HTMLDivElement>) => {
+
     const t = useTranslation();
     const timeSinceObj = timeSince(post.createdAt)
 
     return (
         <div ref={ref} data-content={"post-card"}
              className={className(large ? "w-[300px] md:w-[600px]" : "w-60 md:w-80", "bg-gray-50 shadow-xl rounded-lg mb-6 overflow-hidden")}>
-            <Link href={`/post/${post.slug}`}>
+            {post.picture ? <Link href={`/post/${post.slug}`}>
                 <a className={"w-full block"}><Image src={getPostCardImg(post)} alt={post.title}
                                                      width={large ? "700" : "500"}
                                                      height={large ? "300" : "250"}
                                                      objectFit={"cover"} placeholder={"blur"}
                                                      blurDataURL={blurImg} /></a>
-            </Link>
+            </Link> : <div data-content={"picture-replacement"}
+                           className={className("block", large ? "" : "w-[320px] h-[160px]")} />}
             <div className={"py-2 flex flex-col justify-between h-[198px]"}>
                 <div className={"px-4 flex flex-wrap flex-col"}>
                     <div data-content={"categories"} className={"flex justify-between w-full py-1"}>
