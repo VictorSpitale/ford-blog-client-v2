@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {IBasicPost} from "../../shared/types/post.type";
-import {cleanLikedPosts, getLikedPost} from "../actions/posts.actions";
+import {cleanLikedPosts, getLikedPosts} from "../actions/posts.actions";
 
 export type LikedPostsState = {
     posts: IBasicPost[];
@@ -14,12 +14,12 @@ const initial: LikedPostsState = {
 }
 
 export const likedPostsReducer = createReducer(initial, (builder => {
-    builder.addCase(getLikedPost.pending, (state) => {
+    builder.addCase(getLikedPosts.pending, (state) => {
         state.pending = true;
-    }).addCase(getLikedPost.fulfilled, (state, {payload}) => {
+    }).addCase(getLikedPosts.fulfilled, (state, {payload}) => {
         state.pending = false;
         state.posts = payload;
-    }).addCase(getLikedPost.rejected, (state) => {
+    }).addCase(getLikedPosts.rejected, (state) => {
         state.pending = false;
     }).addCase(cleanLikedPosts, (state) => {
         state.posts = [];

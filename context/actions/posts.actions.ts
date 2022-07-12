@@ -117,7 +117,7 @@ export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string },
     return response;
 })
 
-export const getLikedPost = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id) => {
+export const getLikedPosts = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id) => {
     let response: IBasicPost[] = []
     await fetchApi('/api/posts/liked/{id}', {method: "get", params: {id}}).then((res) => response = res.data)
     return response;

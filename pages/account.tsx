@@ -9,7 +9,7 @@ import {setView} from "../context/actions/account.actions";
 import {AccountViews} from "../shared/types/accountViews.type";
 import {isEmpty} from "../shared/utils/object.utils";
 import {useTranslation} from "../shared/hooks";
-import {cleanLikedPosts, getLikedPost} from "../context/actions/posts.actions";
+import {cleanLikedPosts, getLikedPosts} from "../context/actions/posts.actions";
 import Layout from "../components/layouts/Layout";
 import {NextPageWithLayout} from "../shared/types/page.type";
 import {deleteAccount, logout, removePicture, updateLoggedUser, uploadPicture} from "../context/actions/user.actions";
@@ -31,7 +31,7 @@ const Account: NextPageWithLayout = () => {
     const {profileViewError, securityViewError} = useAppSelector(state => state.errors);
 
     const fetchPosts = useCallback(async () => {
-        await dispatch(getLikedPost(user._id));
+        await dispatch(getLikedPosts(user._id));
     }, [dispatch, user._id]);
 
 

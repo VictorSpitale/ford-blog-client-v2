@@ -52,7 +52,7 @@ export interface paths {
     get: operations["PostsController_getQueriedPosts"];
   };
   "/api/posts/liked/{id}": {
-    get: operations["PostsController_getLikedPost"];
+    get: operations["PostsController_getLikedPosts"];
   };
   "/api/posts/{slug}": {
     get: operations["PostsController_getPost"];
@@ -82,6 +82,7 @@ export interface paths {
   };
   "/api/categories/{id}": {
     get: operations["CategoriesController_getCategoryById"];
+    delete: operations["CategoriesController_deleteCategory"];
   };
 }
 
@@ -890,7 +891,7 @@ export interface operations {
       };
     };
   };
-  PostsController_getLikedPost: {
+  PostsController_getLikedPosts: {
     parameters: {
       path: {
         /** User id */
@@ -1267,6 +1268,30 @@ export interface operations {
         };
       };
       /** Category not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+  };
+  CategoriesController_deleteCategory: {
+    parameters: {
+      path: {
+        /** Category slug */
+        id: string;
+      };
+    };
+    responses: {
+      /** The category has been deleted */
+      200: unknown;
+      /** Jwt failed | Insufficient permissions */
+      401: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** The category doesnt exist */
       404: {
         content: {
           "application/json": components["schemas"]["HttpErrorDto"];
