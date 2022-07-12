@@ -269,6 +269,29 @@ describe('LastPosts Actions & Reducers', function () {
 
         });
 
+        it('should fail to create post (action)', async function () {
+            const spy = jest.spyOn(fetch, "fetchApi")
+                .mockRejectedValue({})
+            const store = makeStore();
+
+            const post = PostStub();
+            await store.dispatch(createPost({
+                categories: [],
+                desc: post.desc,
+                slug: post.slug,
+                title: post.title,
+                sourceLink: post.sourceLink,
+                sourceName: post.sourceName,
+                file: null
+            } as unknown as ICreatePost));
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(store.getState().lastPosts.posts).toEqual(
+                []
+            );
+
+        });
+
         it('should create post and pop the last one (action)', async function () {
             const spy = jest.spyOn(fetch, "fetchApi")
                 .mockResolvedValueOnce({data: [PostStub("0"), PostStub("1"), PostStub("2"), PostStub("3"), PostStub("4"), PostStub("5")]})
