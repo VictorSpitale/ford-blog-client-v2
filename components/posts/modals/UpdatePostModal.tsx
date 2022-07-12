@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {IPost, UpdatePost} from "../../../shared/types/post.type";
 import {AnyFunction} from "../../../shared/types/props.type";
 import Modal from "../../modal/Modal";
@@ -38,7 +38,7 @@ const UpdatePostModal = ({
 
     const t = useTranslation();
 
-    const [postState, setPostState] = useState<UpdatePost>(toUpdatePost(post));
+    const [postState, setPostState] = useState<UpdatePost>({} as UpdatePost);
     const [error, setError] = useState('');
 
     const ref = useRef<HTMLDivElement>(null)
@@ -66,6 +66,10 @@ const UpdatePostModal = ({
         scrollTop(ref);
         setError(msg);
     }
+
+    useEffect(() => {
+        setPostState(toUpdatePost(post));
+    }, [post])
 
     return (
         <Modal ref={ref} hide={toggle} isShowing={isShowing} large={true} title={t.posts.update.title}>
