@@ -68,12 +68,13 @@ export const getCategorizedPosts = createAsyncThunk<Categorized, string, { state
 
 interface getPostParams {
     slug: string,
-    context: NextPageContext<any>
+    context: NextPageContext
 }
 
 export const getPost = createAsyncThunk<IPost, getPostParams, { state: RootState }>(GET_POST, async (attr) => {
     let response: IPost = {} as IPost
     let headers;
+    /* istanbul ignore next */
     if (attr.context.req?.headers.cookie) {
         headers = {
             Cookie: attr.context.req.headers.cookie,
