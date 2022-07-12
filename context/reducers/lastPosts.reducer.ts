@@ -27,22 +27,35 @@ export const lastPostsReducer = createReducer(initial, (builder) => {
         state.pending = false;
     }).addCase(deletePost.pending, (state) => {
         state.pending = true;
+    }).addCase(deletePost.rejected, (state) => {
+        state.pending = false;
+    }).addCase(updatePost.pending, (state) => {
+        state.pending = true;
+    }).addCase(updatePost.rejected, (state) => {
+        state.pending = false;
     }).addCase(updatePost.fulfilled, (state, {payload}) => {
-        const toUpdate = state.posts.find((post) => post.slug === payload.slug);
+        state.pending = false;
+        const toUpdate = state.posts.find((post) => post._id === payload._id);
+        /* istanbul ignore else */
         if (toUpdate) {
-            state.posts = state.posts.filter((post) => post.slug !== payload.slug)
+            state.posts = state.posts.filter((post) => post._id !== payload._id)
             state.posts = [
                 ...state.posts,
                 payload
             ]
         }
     }).addCase(createPost.fulfilled, (state, {payload}) => {
+        state.pending = false;
         const newPosts = [
             payload,
             ...state.posts
         ]
         if (newPosts.length > 6) newPosts.pop();
         state.posts = newPosts;
+    }).addCase(createPost.pending, (state) => {
+        state.pending = true;
+    }).addCase(createPost.rejected, (state) => {
+        state.pending = false;
     })
 })
 export default lastPostsReducer
