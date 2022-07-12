@@ -15,7 +15,12 @@ const initial: CategoriesState = {
 
 export const categoriesReducer = createReducer(initial, (builder => {
     builder.addCase(getCategories.fulfilled, (state, {payload}) => {
-        state.categories = payload
+        state.categories = payload;
+        state.pending = false;
+    }).addCase(getCategories.pending, (state) => {
+        state.pending = true;
+    }).addCase(getCategories.rejected, (state) => {
+        state.pending = false;
     }).addCase(createCategory.pending, (state) => {
         state.pending = true;
     }).addCase(createCategory.rejected, (state) => {
