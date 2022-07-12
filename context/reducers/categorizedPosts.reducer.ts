@@ -9,22 +9,22 @@ type Categorized = {
 
 export type CategorizedPostsType = {
     posts: Categorized[];
-    loading: boolean;
+    pending: boolean;
     error: boolean;
 }
 
 const initial: CategorizedPostsType = {
     posts: [] as Categorized[],
-    loading: false,
+    pending: false,
     error: false
 }
 
 export const categorizedPostsReducer = createReducer(initial, (builder) => {
     builder.addCase(getCategorizedPosts.pending, (state) => {
-        state.loading = true;
+        state.pending = true;
     }).addCase(getCategorizedPosts.fulfilled, (state, {payload}) => {
         const list = state.posts.find((list) => list.category === payload.category);
         if (!list) state.posts = [...state.posts, payload];
-        state.loading = false;
+        state.pending = false;
     })
 });
