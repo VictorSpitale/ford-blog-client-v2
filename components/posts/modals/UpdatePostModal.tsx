@@ -70,10 +70,11 @@ const UpdatePostModal = ({
     return (
         <Modal ref={ref} hide={toggle} isShowing={isShowing} large={true} title={t.posts.update.title}>
             <div data-content={"update-post-modal"} className={"p-4"}>
-                <div className={"flex justify-center"}>
-                    <Image src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
-                           alt={post.title} />
-                </div>
+                {post.picture && <div className={"flex justify-center"}>
+					<Image
+						src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
+						alt={post.title} />
+				</div>}
                 {error &&
 					<p className={"mt-2 bg-red-400 text-white rounded text-center mx-auto w-fit px-4"}>
                         {error}

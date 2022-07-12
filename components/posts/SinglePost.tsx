@@ -75,13 +75,13 @@ const SinglePost = ({
                              categoriesPending={categoriesPending} />
             <div data-content={"single-post"}
                  className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
-                <div
-                    className={"shadow-xl mx-auto w-full h-[315px]" +
+                {post.picture && <div
+					className={"shadow-xl mx-auto w-full h-[315px]" +
                         " lg:h-[450px] relative rounded-t-2xl overflow-hidden"}>
-                    <Image src={getPostCardImg(post)} layout={"fill"}
-                           objectFit={"cover"} priority={true} alt={post.title} placeholder={"blur"}
-                           blurDataURL={blurImg} />
-                </div>
+					<Image
+						src={getPostCardImg(post)} layout={"fill"} objectFit={"cover"} priority={true}
+						alt={post.title} placeholder={"blur"} blurDataURL={blurImg} />
+				</div>}
                 <div className={"px-4 pt-8"}>
                     <h1 className={"text-2xl text-justify md:font-semibold"}>{post.title}</h1>
                     <div className={"flex justify-between"}>

@@ -9,6 +9,7 @@ import {getTimeSinceMsg, timeSince} from "../../../../shared/utils/date.utils";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {MatchPush} from "../../../utils/MatchPush";
+import {IPost} from "../../../../shared/types/post.type";
 
 // jest.mock('../../../../shared/hooks');
 
@@ -58,6 +59,36 @@ describe('Post', () => {
             expect(queryByContent('post-card')).toHaveClass("w-[300px]");
         });
 
+        it('should render a large post card without image', function () {
+            const router = MockUseRouter({});
+            const post: IPost = {
+                ...PostStub(),
+                picture: ""
+            };
+
+            render(
+                <RouterContext.Provider value={router}>
+                    <PostCard post={post} large={true} />
+                </RouterContext.Provider>
+            )
+            expect(queryByContent('post-card')).toBeInTheDocument();
+            expect(queryByContent('post-card')).toHaveClass("w-[300px]");
+        });
+
+        it('should render a post card without picture', function () {
+            const router = MockUseRouter({});
+            const post: IPost = {
+                ...PostStub(),
+                picture: ""
+            };
+
+            render(
+                <RouterContext.Provider value={router}>
+                    <PostCard post={post} />
+                </RouterContext.Provider>
+            )
+            expect(queryByContent('picture-replacement')).toBeInTheDocument();
+        });
 
         it('should render a post card with more than 2 categories', () => {
             const post = PostStub();
