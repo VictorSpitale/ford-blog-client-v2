@@ -6,6 +6,8 @@ import {
 import {AnyAction} from "@reduxjs/toolkit";
 import {getCategorizedPosts} from "../../../context/actions/posts.actions";
 import {PostStub} from "../../stub/PostStub";
+import {makeStore} from "../../../context/store";
+import * as fetch from "../../../context/instance";
 
 describe('CategorizedPosts Actions & Reducers', function () {
 
@@ -14,6 +16,10 @@ describe('CategorizedPosts Actions & Reducers', function () {
         error: false,
         pending: false
     }
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    })
 
     it('should return the initial state', function () {
         expect(categorizedPostsReducer(undefined, {} as AnyAction)).toEqual(initialState);
@@ -113,6 +119,41 @@ describe('CategorizedPosts Actions & Reducers', function () {
                 pending: false,
                 posts: [payload]
             })
+        });
+
+        it('should return the cached categorized posts', async function () {
+            const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
+                data: [PostStub()]
+            });
+
+            const store = makeStore();
+            await store.dispatch(getCategorizedPosts("name"));
+            await store.dispatch(getCategorizedPosts("name"));
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(store.getState().categorizedPosts.posts).toEqual([{
+                category: "name",
+                posts: [PostStub()]
+            }])
+        });
+
+        it('should return the cached categorized posts and the new one', async function () {
+            const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({
+                data: [PostStub()]
+            }).mockResolvedValueOnce({
+                data: []
+            });
+
+            const store = makeStore();
+            await store.dispatch(getCategorizedPosts("name"));
+            await store.dispatch(getCategorizedPosts("second"));
+            expect(spy).toHaveBeenCalledTimes(2);
+            expect(store.getState().categorizedPosts.posts).toEqual([{
+                category: "name",
+                posts: [PostStub()]
+            }, {
+                category: "second",
+                posts: []
+            }])
         });
 
     });

@@ -27,7 +27,11 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
         if (!list) {
             state.posts = [...state.posts, payload];
         } else {
-            list.posts = payload.posts
+            const filteredState = state.posts.filter((l) => l.category !== payload.category);
+            state.posts = [
+                ...filteredState,
+                payload
+            ]
         }
         state.pending = false;
     }).addCase(getCategorizedPosts.rejected, (state) => {
