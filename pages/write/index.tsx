@@ -18,6 +18,7 @@ import {useTranslation} from "../../shared/hooks";
 import {HttpError} from "../../shared/types/httpError.type";
 import {useRouter} from "next/router";
 import CategoriesSelector from "../../components/categories/CategoriesSelector";
+import RenderIf from "../../components/shared/RenderIf";
 
 const Write = () => {
 
@@ -25,10 +26,12 @@ const Write = () => {
     const {categories: selectedCategories} = useAppSelector(state => state.selectCategories);
     const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
     const {pending} = useAppSelector(state => state.post);
+
     const [error, setError] = useState('');
-    const dispatch = useAppDispatch();
     const [post, setPost] = useState<ICreatePost>({} as ICreatePost);
     const [file, setFile] = useState({} as { src?: string, file?: File });
+
+    const dispatch = useAppDispatch();
     const t = useTranslation();
     const router = useRouter();
 
@@ -64,7 +67,7 @@ const Write = () => {
         return (
             <>
                 <SEO title={""} shouldIndex={false} />
-                <div className={"w-3/4 m-auto pt-11"}>
+                <div data-content={"un-auth"} className={"w-3/4 m-auto pt-11"}>
                     <BaseView>
                         <h1 className={"text-lg md:text-2xl text-center"}>{t.posts.create.cantAccess}</h1>
                         <Link href={"/"} passHref>
@@ -83,10 +86,14 @@ const Write = () => {
                 <BaseView className={"!max-h-fit"}>
                     <h1 className={"text-2xl text-center"}>{t.posts.create.title}</h1>
                     <hr className={"my-2"} />
-                    {error && <p className={"bg-red-400 rounded text-white px-2 my-2"}>{error}</p>}
-                    {file.src && <div className={"flex justify-center rounded-2xl overflow-hidden w-fit mx-auto"}>
-						<Image src={file.src} alt="" width={"600"} height={"300"} objectFit={"cover"} />
-					</div>}
+                    <RenderIf condition={!isEmpty(error)}>
+                        <p className={"bg-red-400 rounded text-white px-2 my-2"}>{error}</p>
+                    </RenderIf>
+                    <RenderIf condition={!!file.src}>
+                        <div className={"flex justify-center rounded-2xl overflow-hidden w-fit mx-auto"}>
+                            <Image src={file.src as string} alt="" width={"600"} height={"300"} objectFit={"cover"} />
+                        </div>
+                    </RenderIf>
                     <div className={"flex gap-x-5 flex-col md:flex-row"}>
                         <InputField name={"title"} label={t.posts.create.fields.title} onChange={(e) => {
                             setPost({
