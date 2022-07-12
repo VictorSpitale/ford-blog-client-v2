@@ -15,7 +15,6 @@
     "test:o": "jest --config ./jest.config.js --coverage -o"
   },
   "dependencies": {
-    "@heroicons/react": "1.0.6",
     "@reduxjs/toolkit": "1.8.1",
     "@tailwindcss/line-clamp": "0.3.1",
     "axios": "0.26.1",
@@ -41,8 +40,6 @@
     "@typescript-eslint/parser": "5.19.0",
     "autoprefixer": "10.4.4",
     "babel-jest": "28.0.3",
-    "cypress": "9.5.4",
-    "cypress-real-events": "1.7.0",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.0",
     "identity-obj-proxy": "3.0.0",
