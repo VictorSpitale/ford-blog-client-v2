@@ -2,7 +2,7 @@ import {IPost} from "../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {getCategorizedPosts} from "../actions/posts.actions";
 
-type Categorized = {
+export type Categorized = {
     category: string;
     posts: IPost[];
 }
@@ -24,7 +24,13 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
         state.pending = true;
     }).addCase(getCategorizedPosts.fulfilled, (state, {payload}) => {
         const list = state.posts.find((list) => list.category === payload.category);
-        if (!list) state.posts = [...state.posts, payload];
+        if (!list) {
+            state.posts = [...state.posts, payload];
+        } else {
+            list.posts = payload.posts
+        }
         state.pending = false;
+    }).addCase(getCategorizedPosts.rejected, (state) => {
+        state.pending = false
     })
 });

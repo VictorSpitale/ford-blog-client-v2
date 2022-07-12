@@ -14,6 +14,7 @@ import {
 import {toFormData} from "../../shared/utils/object.utils";
 import {fetchApi, instance} from "../instance";
 import {NextPageContext} from "next";
+import {Categorized} from "../reducers/categorizedPosts.reducer";
 
 export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"
@@ -52,13 +53,13 @@ export const getPosts = createAsyncThunk<IPaginatedPosts, number | undefined, { 
     return response
 })
 
-export const getCategorizedPosts = createAsyncThunk<{ posts: IPost[], category: string }, string, { state: RootState }>(CATEGORIZED_POSTS, async (category, {getState}) => {
+export const getCategorizedPosts = createAsyncThunk<Categorized, string, { state: RootState }>(CATEGORIZED_POSTS, async (category, {getState}) => {
     const {posts} = getState().categorizedPosts
     const categorizedPosts = posts.find((list) => list.category === category);
     if (categorizedPosts && categorizedPosts.posts.length > 0) {
         return categorizedPosts;
     }
-    const response = {posts: [], category} as { posts: IPost[], category: string };
+    const response: Categorized = {posts: [], category};
     await fetchApi("/api/posts/categorized/{category}", {method: "get", params: {category}}).then((res) => {
         response.posts = res.data;
     })
