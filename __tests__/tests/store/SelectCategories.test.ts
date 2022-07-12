@@ -36,9 +36,17 @@ describe('Selected Categories Reducer & Actions', function () {
             const action: AnyAction = {
                 type: addSelectedCategories, payload: CategoryStub("mustang")
             }
+            const state = selectCategoriesReducer({categories: []}, action);
+            expect(state.categories).toEqual([CategoryStub('mustang')])
+        })
+
+        it('should add a category to the previous ones', function () {
+            const action: AnyAction = {
+                type: addSelectedCategories, payload: CategoryStub("mustang")
+            }
             const state = selectCategoriesReducer({categories: [CategoryStub()]}, action);
             expect(state.categories).toEqual([CategoryStub(), CategoryStub('mustang')])
-        })
+        });
 
     });
 
@@ -53,5 +61,5 @@ describe('Selected Categories Reducer & Actions', function () {
         })
 
     });
-    
+
 });
