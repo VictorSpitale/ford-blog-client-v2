@@ -90,6 +90,7 @@ describe('CommentsTest', function () {
         }
 
         fireEvent.click(queryByContent("trash"));
+        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
 
         expect(fetchSpy).toHaveBeenCalled();
         expect(deleteSpy).toHaveBeenCalled();

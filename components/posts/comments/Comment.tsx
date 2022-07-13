@@ -5,12 +5,13 @@ import ProfilePicture from "../../shared/ProfilePicture";
 import {useAppDispatch} from "../../../context/hooks";
 import Trash from "../../shared/icons/Trash";
 import Edit from "../../shared/icons/Edit";
-import {useTranslation} from "../../../shared/hooks";
+import {useModal, useTranslation} from "../../../shared/hooks";
 import {getTimeSinceMsg, stringToDate, timeSince} from "../../../shared/utils/date.utils";
 import {changeCurrentEditComment} from "../../../context/actions/commentEdit.actions";
 import Button from "../../shared/Button";
 import TextAreaField from "../../shared/TextAreaField";
-import {IUser} from "../../../shared/types/user.type";
+import {IUser, IUserRole} from "../../../shared/types/user.type";
+import DeleteCommentModal from "../modals/DeleteCommentModal";
 
 type PropsType = {
     comment: IComment;
@@ -28,6 +29,8 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
 
     const dispatch = useAppDispatch();
     const editedCommentRef = useRef<HTMLTextAreaElement>(null);
+
+    const {toggle, isShowing} = useModal();
 
     const handleDelete = useCallback(async () => {
         await onDelete(comment);
@@ -52,35 +55,41 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
     }, [comment, t]);
 
     return (
-        <div data-content={`comment-${comment._id}`} className={"my-2"}>
-            <div className={"flex gap-x-3"}>
-                <ProfilePicture src={comment.commenter.picture || defaultSrc.src} />
-                <div className={"flex flex-col"}>
-                    <h3 className={"font-bold text-lg"}>{comment.commenter.pseudo}</h3>
-                    <p>{createdAt}{comment.updatedAt ?
-                        <span className={"italic text-xs"}> {t.posts.comment.modified}</span> : ''}</p>
-                </div>
-                {user._id === comment.commenter._id &&
-					<div className={"flex flex-col justify-between"}>
-						<Trash large={false} callback={handleDelete} />
-						<Edit large={false} callback={handleEdit} />
-					</div>
-                }
-            </div>
-            {isEditing ?
-                <div className={"p-2"}>
-                    <TextAreaField name={"comment"} defaultValue={comment.comment} ref={editedCommentRef} rows={4} />
-                    <div className={"flex justify-end gap-x-3"}>
-                        <Button element={"button"} text={t.common.confirm} classes={"bg-green-500 hover:!bg-green-600"}
-                                onClick={handleUpdate} />
-                        <Button element={"button"} text={t.common.cancel} classes={"bg-red-500 hover:!bg-red-600"}
-                                onClick={handleCancel} />
+        <>
+            <DeleteCommentModal user={user} comment={comment} isShowing={isShowing} toggle={toggle}
+                                handleDelete={handleDelete} pending={false} />
+            <div data-content={`comment-${comment._id}`} className={"my-2"}>
+                <div className={"flex gap-x-3"}>
+                    <ProfilePicture src={comment.commenter.picture || defaultSrc.src} />
+                    <div className={"flex flex-col"}>
+                        <h3 className={"font-bold text-lg"}>{comment.commenter.pseudo}</h3>
+                        <p>{createdAt}{comment.updatedAt ?
+                            <span className={"italic text-xs"}> {t.posts.comment.modified}</span> : ''}</p>
                     </div>
+                    {(user._id === comment.commenter._id || user.role === IUserRole.ADMIN) &&
+						<div className={"flex flex-col justify-between"}>
+							<Trash large={false} callback={toggle} />
+							<Edit large={false} callback={handleEdit} />
+						</div>
+                    }
                 </div>
-                : <div className={"mt-2"}>{comment.comment.split(/\r\n|\r|\n/g).map((s, i) => {
-                    return <p key={i}>{s} <br /></p>
-                })}</div>}
-        </div>
+                {isEditing ?
+                    <div className={"p-2"}>
+                        <TextAreaField name={"comment"} defaultValue={comment.comment} ref={editedCommentRef}
+                                       rows={4} />
+                        <div className={"flex justify-end gap-x-3"}>
+                            <Button element={"button"} text={t.common.confirm}
+                                    classes={"bg-green-500 hover:!bg-green-600"}
+                                    onClick={handleUpdate} />
+                            <Button element={"button"} text={t.common.cancel} classes={"bg-red-500 hover:!bg-red-600"}
+                                    onClick={handleCancel} />
+                        </div>
+                    </div>
+                    : <div className={"mt-2"}>{comment.comment.split(/\r\n|\r|\n/g).map((s, i) => {
+                        return <p key={i}>{s} <br /></p>
+                    })}</div>}
+            </div>
+        </>
     );
 };
 

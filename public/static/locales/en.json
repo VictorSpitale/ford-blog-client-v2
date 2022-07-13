@@ -96,7 +96,9 @@
     "404": "No post found",
     "delete": {
       "before": "You are about to ",
-      "after": " the post : "
+      "after": " the post : ",
+      "ownComment": " your comment.",
+      "comment": " the comment from {{pseudo}}."
     },
     "update": {
       "title": "Edit the post",

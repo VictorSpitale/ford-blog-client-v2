@@ -96,7 +96,9 @@
     "404": "Aucun article trouvé",
     "delete": {
       "before": "Vous êtes sur le point de ",
-      "after": " l'article : "
+      "after": " l'article : ",
+      "ownComment": " votre commentaire.",
+      "comment": " le commentaire de {{pseudo}}."
     },
     "update": {
       "title": "Modifier l'article",

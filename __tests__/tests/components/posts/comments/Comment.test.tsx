@@ -160,6 +160,7 @@ describe('CommentTest', function () {
         )
 
         fireEvent.click(queryByContent("trash"));
+        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
         expect(deleteFn).toHaveBeenCalledWith(comment);
     });
 
