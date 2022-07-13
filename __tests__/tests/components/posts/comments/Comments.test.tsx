@@ -186,6 +186,42 @@ describe('CommentsTest', function () {
 
     });
 
+    it('should fail to update a comment', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        const comments = [CommentStub(), CommentStub("62cc3af35cb8d215944a7174")]
+        const newCommentMessage = "new comment";
+
+        post = {
+            ...post,
+            comments
+        }
+
+        const updateSpy = jest.spyOn(actions, "updatePostComment");
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({});
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <Comments post={post} user={user} pending={pending} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        fireEvent.click(queryByContent("edit"));
+
+        fireEvent.change(queryByContent("comment"), {target: {value: newCommentMessage}})
+        fireEvent.click(screen.getByText(fr.common.confirm));
+
+        expect(fetchSpy).toHaveBeenCalled();
+        expect(updateSpy).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(screen.getByText(fr.common.tryLater)).toBeInTheDocument();
+        })
+
+    });
+
     it('should fail to post a new comment', async function () {
         const store = makeStore();
         const router = MockUseRouter({});

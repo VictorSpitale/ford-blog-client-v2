@@ -56,10 +56,11 @@ const Comments = ({post, user, pending}: PropsType) => {
                 const newComment = updatedPost.comments.find((com) => com._id === comment._id);
                 /* istanbul ignore if */
                 if (!newComment) return;
-                setComments(prevState => prevState.map((com) => com._id === comment._id ? newComment : com));
+                return setComments(prevState => prevState.map((com) => com._id === comment._id ? newComment : com));
             }
+            return setError(t.common.tryLater);
         })
-    }, [dispatch, post.slug]);
+    }, [dispatch, post.slug, t.common.tryLater]);
 
     const handleSubmit = useCallback(async () => {
         if (isEmpty(commentValue.trim())) return;
@@ -74,7 +75,7 @@ const Comments = ({post, user, pending}: PropsType) => {
                 setComments(post.comments);
                 return;
             }
-            setError(t.common.tryLater);
+            return setError(t.common.tryLater);
         })
     }, [commentValue, dispatch, post.slug, t.common.tryLater]);
 
