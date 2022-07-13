@@ -18,10 +18,11 @@ type PropsType = {
     onDelete: (comment: IComment) => Promise<void>;
     onUpdate: (comment: IComment, newValue: string) => Promise<void>;
     isEditing: boolean;
+    pending: boolean;
     user: IUser;
 }
 
-const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
+const Comment = ({comment, onDelete, isEditing, onUpdate, user, pending}: PropsType) => {
 
     const t = useTranslation();
 
@@ -34,7 +35,8 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
 
     const handleDelete = useCallback(async () => {
         await onDelete(comment);
-    }, [comment, onDelete]);
+        toggle();
+    }, [comment, onDelete, toggle]);
 
     const handleEdit = useCallback(() => {
         dispatch(changeCurrentEditComment({commentId: comment._id}));
@@ -57,7 +59,7 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user}: PropsType) => {
     return (
         <>
             <DeleteCommentModal user={user} comment={comment} isShowing={isShowing} toggle={toggle}
-                                handleDelete={handleDelete} pending={false} />
+                                handleDelete={handleDelete} pending={pending} />
             <div data-content={`comment-${comment._id}`} className={"my-2"}>
                 <div className={"flex gap-x-3"}>
                     <ProfilePicture src={comment.commenter.picture || defaultSrc.src} />

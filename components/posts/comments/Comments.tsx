@@ -34,9 +34,13 @@ const Comments = ({post, user, pending}: PropsType) => {
             slug: post.slug,
             _id: comment._id,
             commenterId: comment.commenter._id
-        }))
-        setComments((prevState) => prevState.filter((com) => com._id !== comment._id));
-    }, [dispatch, post.slug]);
+        })).then((res) => {
+            if (res.meta.requestStatus === "rejected") {
+                return setError(t.common.tryLater);
+            }
+            setComments((prevState) => prevState.filter((com) => com._id !== comment._id));
+        })
+    }, [dispatch, post.slug, t.common.tryLater]);
 
     const onUpdate = useCallback(async (comment: IComment, newValue: string) => {
         await dispatch(updatePostComment({
@@ -106,7 +110,7 @@ const Comments = ({post, user, pending}: PropsType) => {
                 return (
                     <div key={index}>
                         <Comment comment={comment} onDelete={onDelete} onUpdate={onUpdate}
-                                 isEditing={currentEditingCommentId === comment._id} user={user} />
+                                 isEditing={currentEditingCommentId === comment._id} user={user} pending={pending} />
                         {index !== comments.length - 1 && <hr />}
                     </div>
                 )

@@ -1,7 +1,7 @@
 import {makeStore} from "../../../../../context/store";
 import {MockUseRouter} from "../../../../utils/MockUseRouter";
 import {Provider} from "react-redux";
-import {fireEvent, render, screen} from "@testing-library/react";
+import {act, fireEvent, render, screen} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import Comment from "../../../../../components/posts/comments/Comment";
 import {CommentStub} from "../../../../stub/CommentStub";
@@ -19,6 +19,7 @@ describe('CommentTest', function () {
     let comment: IComment;
     let user: IUser;
     let isEditing: boolean;
+    let pending: boolean;
 
     beforeEach(() => {
         updateFn = jest.fn();
@@ -26,6 +27,7 @@ describe('CommentTest', function () {
         comment = CommentStub();
         user = UserStub();
         isEditing = false;
+        pending = false;
     })
 
     it('should render a comment', function () {
@@ -37,7 +39,7 @@ describe('CommentTest', function () {
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} user={user} isEditing={isEditing}
-                             onUpdate={updateFn} />
+                             onUpdate={updateFn} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -61,7 +63,7 @@ describe('CommentTest', function () {
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} user={user} isEditing={isEditing}
-                             onUpdate={updateFn} />
+                             onUpdate={updateFn} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -85,7 +87,7 @@ describe('CommentTest', function () {
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} user={user} isEditing={isEditing}
-                             onUpdate={updateFn} />
+                             onUpdate={updateFn} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -109,19 +111,21 @@ describe('CommentTest', function () {
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} onUpdate={updateFn} isEditing={isEditing}
-                             user={user} />
+                             user={user} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
 
-        fireEvent.click(queryByContent("edit"));
+        act(() => {
+            fireEvent.click(queryByContent("edit"));
+        })
         expect(changeCurrentComment).toHaveBeenNthCalledWith(1, {commentId: comment._id})
 
         rerender(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} onUpdate={updateFn} isEditing={isEditing}
-                             user={user} />
+                             user={user} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -129,15 +133,16 @@ describe('CommentTest', function () {
         expect(screen.getByText(fr.common.confirm)).toBeInTheDocument();
         expect(screen.getByText(fr.common.cancel)).toBeInTheDocument();
 
-
-        fireEvent.click(screen.getByText(fr.common.cancel));
+        act(() => {
+            fireEvent.click(screen.getByText(fr.common.cancel));
+        })
         expect(changeCurrentComment).toHaveBeenNthCalledWith(2, {commentId: undefined})
 
         rerender(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} onUpdate={updateFn} isEditing={isEditing}
-                             user={user} />
+                             user={user} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -154,13 +159,18 @@ describe('CommentTest', function () {
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} onUpdate={updateFn} isEditing={isEditing}
-                             user={user} />
+                             user={user} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
 
-        fireEvent.click(queryByContent("trash"));
-        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
+        act(() => {
+            fireEvent.click(queryByContent("trash"));
+        })
+        act(() => {
+            fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
+        })
+
         expect(deleteFn).toHaveBeenCalledWith(comment);
     });
 
@@ -184,37 +194,44 @@ describe('CommentTest', function () {
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} onUpdate={updateFn} isEditing={isEditing}
-                             user={user} />
+                             user={user} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
 
         const newComment = "nouveau!!"
 
-        fireEvent.click(queryByContent("edit"));
+        act(() => {
+            fireEvent.click(queryByContent("edit"));
+        })
 
         rerender(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <Comment comment={comment} onDelete={deleteFn} onUpdate={updateFn} isEditing={isEditing}
-                             user={user} />
+                             user={user} pending={pending} />
                 </RouterContext.Provider>
             </Provider>
         )
 
-        fireEvent.change(screen.getByText(comment.comment), {target: {value: ""}});
-        fireEvent.click(screen.getByText(fr.common.confirm));
+        act(() => {
+            fireEvent.change(screen.getByText(comment.comment), {target: {value: ""}});
+            fireEvent.click(screen.getByText(fr.common.confirm));
+        })
 
         expect(updateFn).not.toHaveBeenCalled();
 
-        fireEvent.change(screen.getByText(comment.comment), {target: {value: comment.comment}});
-        fireEvent.click(screen.getByText(fr.common.confirm));
+        act(() => {
+            fireEvent.change(screen.getByText(comment.comment), {target: {value: comment.comment}});
+            fireEvent.click(screen.getByText(fr.common.confirm));
+        })
 
         expect(updateFn).not.toHaveBeenCalled();
 
-        fireEvent.change(screen.getByText(comment.comment), {target: {value: newComment}});
-        fireEvent.click(screen.getByText(fr.common.confirm));
-
+        act(() => {
+            fireEvent.change(screen.getByText(comment.comment), {target: {value: newComment}});
+            fireEvent.click(screen.getByText(fr.common.confirm));
+        })
         expect(updateFn).toHaveBeenCalledWith(oldComment, newComment);
     });
 

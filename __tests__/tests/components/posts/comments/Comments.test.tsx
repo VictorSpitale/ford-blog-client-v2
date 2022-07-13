@@ -101,6 +101,38 @@ describe('CommentsTest', function () {
 
     });
 
+    it('should fail to delete a comment', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        const comments = [CommentStub(), CommentStub("62cc3af35cb8d215944a7174")]
+        post = {
+            ...post,
+            comments
+        }
+
+        const deleteSpy = jest.spyOn(actions, "deletePostComment")
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({});
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <Comments post={post} user={user} pending={pending} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        fireEvent.click(queryByContent("trash"));
+        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
+
+        expect(fetchSpy).toHaveBeenCalled();
+        expect(deleteSpy).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(screen.getByText(fr.common.tryLater)).toBeInTheDocument();
+        })
+
+    });
+
     it('should update a comment', async function () {
         const store = makeStore();
         const router = MockUseRouter({});
