@@ -83,7 +83,8 @@
     "7": "A post already has the same title",
     "8": "The image exceeds 500kB",
     "9": "The file format is not supported",
-    "10": "Error saving"
+    "10": "Error saving",
+    "17": "Your current password is wrong"
   },
   "posts": {
     "like": {
@@ -172,12 +173,14 @@
     "security": {
       "errors": {
         "password": "Password must contain at least 6 characters",
+        "currentPassword": "You must enter your current password",
         "rejectedPassword": "Error changing password",
         "deleteAccount": "Error deleting account"
       },
       "success": "Your password has been changed",
       "title": "Security",
       "password": "Password",
+      "currentPassword": "Current password",
       "delete": {
         "title": "Account deletion",
         "warning": "Warning : You cannot go back. All your data will be deleted instantly ; personal data, profile picture, likes on posts, comments.",

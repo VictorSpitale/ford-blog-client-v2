@@ -70,6 +70,7 @@ const Account: NextPageWithLayout = () => {
 
     useEffect(() => {
         dispatch(setError({error: "", key: "profileViewError"}));
+        dispatch(setError({error: "", key: "securityViewError"}));
     }, [dispatch, view]);
 
     const handleSaveProfile = async (updatedUser: UpdateUser, authUser: IUser) => {
@@ -114,18 +115,29 @@ const Account: NextPageWithLayout = () => {
         })
     }
 
-    const handleChangePassword = async (setSuccess: AnyFunction, password: string, setPassword: AnyFunction, ref: RefObject<HTMLInputElement>) => {
+    const handleChangePassword = async (setSuccess: AnyFunction, currentPasswordRef: RefObject<HTMLInputElement>, passwordRef: RefObject<HTMLInputElement>) => {
+        if (!passwordRef.current || !currentPasswordRef.current) return;
+        const password = passwordRef.current.value;
+        const currentPassword = currentPasswordRef.current.value;
         dispatch(setError({error: "", key: "securityViewError"}))
         setSuccess('');
         if (password.trim() === "" || password.length < 6) {
             return dispatch(setError({error: t.account.security.errors.password, key: "securityViewError"}))
         }
-        await dispatch(updateLoggedUser({password, _id: user._id})).then((res) => {
+        if (currentPassword.trim() === "" || currentPassword.length < 6) {
+            return dispatch(setError({error: t.account.security.errors.currentPassword, key: "securityViewError"}))
+        }
+        await dispatch(updateLoggedUser({password, _id: user._id, currentPassword})).then((res) => {
+            if (!passwordRef.current || !currentPasswordRef.current) return;
             if (res.meta.requestStatus === "rejected") {
+                const payload = res.payload as HttpError;
+                if (payload.code && payload.code === 17) {
+                    return dispatch(setError({error: t.httpErrors["17"], key: "securityViewError"}))
+                }
                 return dispatch(setError({error: t.account.security.errors.rejectedPassword, key: "securityViewError"}))
             }
-            setPassword('');
-            if (ref.current) ref.current.value = '';
+            passwordRef.current.value = '';
+            currentPasswordRef.current.value = '';
             setSuccess(t.account.security.success)
         })
     }

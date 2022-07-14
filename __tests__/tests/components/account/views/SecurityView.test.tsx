@@ -56,18 +56,22 @@ describe('Security View', function () {
                 </RouterContext.Provider>
             </Provider>
         )
-        const input = screen.getByLabelText(fr.account.security.password) as HTMLInputElement;
+        const passInput = screen.getByLabelText(fr.account.security.password) as HTMLInputElement;
+        const cPassInput = screen.getByLabelText(fr.account.security.currentPassword) as HTMLInputElement;
         const submit = screen.getByText(fr.common.save);
-        expect(input).toBeInTheDocument();
+        expect(passInput).toBeInTheDocument();
         expect(submit).toBeInTheDocument();
         const password = "new_password";
+        const currentPassword = "current_password"
         act(() => {
-            fireEvent.change(input, {target: {value: password}});
+            fireEvent.change(passInput, {target: {value: password}});
+            fireEvent.change(cPassInput, {target: {value: currentPassword}});
         })
-        expect(input.value).toBe(password);
+        expect(passInput.value).toBe(password);
+        expect(cPassInput.value).toBe(currentPassword);
         act(() => {
             fireEvent.click(submit);
-            expect(update).toHaveBeenCalledWith(expect.any(Function), password, expect.any(Function), expect.any(Object));
+            expect(update).toHaveBeenCalledWith(expect.any(Function), {current: cPassInput}, {current: passInput});
         })
     });
 

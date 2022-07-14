@@ -15,21 +15,21 @@ type PropsType = {
     security: {
         error: string;
         deleteAccount: AnyFunction;
-        changePassword: (setSuccess: AnyFunction, password: string, setPassword: AnyFunction, ref: RefObject<HTMLInputElement>) => void;
+        changePassword: (setSuccess: AnyFunction, currentPasswordRef: RefObject<HTMLInputElement>, passwordRef: RefObject<HTMLInputElement>) => void;
     }
 }
 
 const SecurityView = ({authUser, security}: PropsType) => {
 
     const [success, setSuccess] = useState('');
-    const [password, setPassword] = useState('');
 
     const t = useTranslation();
-    const ref = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const currentPasswordRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await security.changePassword(setSuccess, password, setPassword, ref);
+        await security.changePassword(setSuccess, currentPasswordRef, passwordRef);
     }
 
     const {toggle, isShowing} = useModal();
@@ -47,10 +47,13 @@ const SecurityView = ({authUser, security}: PropsType) => {
                 <form onSubmit={handleSubmit}>
                     <div className={"hidden"}>
                         <input autoComplete={"email"} value={authUser.user.email} readOnly={true} />
+                        <input autoComplete={"username"} value={authUser.user.pseudo} readOnly={true} />
                     </div>
+                    <InputField name={"current-password"} label={t.account.security.currentPassword} type={"password"}
+                                autoComplete={"current-password"} ref={currentPasswordRef} />
+                    <span className={"my-4 block"} />
                     <InputField name={"password"} label={t.account.security.password} type={"password"}
-                                autoComplete={"new-password"} ref={ref}
-                                onChange={(e) => setPassword(e.target.value)} />
+                                autoComplete={"new-password"} ref={passwordRef} />
                     <div className={"flex justify-end"}>
                         <Button classes={"mt-5 !rounded px-3 py-1"}
                                 text={authUser.pending ? t.common.loading : t.common.save}
