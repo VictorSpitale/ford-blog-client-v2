@@ -37,7 +37,7 @@ export const updateLoggedUser = createAsyncThunk<IUser, UpdateUser & { _id: stri
     return await fetchApi('/api/users/{id}', {
         method: "patch",
         params: {id: user._id},
-        json: {password: user.password, pseudo: user.pseudo}
+        json: {password: user.password, pseudo: user.pseudo, currentPassword: user.currentPassword}
     }).then((res) => {
         response = res.data as IUser;
         return response;

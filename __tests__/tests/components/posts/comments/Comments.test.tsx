@@ -90,12 +90,45 @@ describe('CommentsTest', function () {
         }
 
         fireEvent.click(queryByContent("trash"));
+        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
 
         expect(fetchSpy).toHaveBeenCalled();
         expect(deleteSpy).toHaveBeenCalled();
 
         await waitFor(() => {
             expect(queryByContent(`comment-${comments[0]._id}`)).not.toBeDefined();
+        })
+
+    });
+
+    it('should fail to delete a comment', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        const comments = [CommentStub(), CommentStub("62cc3af35cb8d215944a7174")]
+        post = {
+            ...post,
+            comments
+        }
+
+        const deleteSpy = jest.spyOn(actions, "deletePostComment")
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({});
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <Comments post={post} user={user} pending={pending} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        fireEvent.click(queryByContent("trash"));
+        fireEvent.click(screen.getByRole("button", {name: fr.common.delete}));
+
+        expect(fetchSpy).toHaveBeenCalled();
+        expect(deleteSpy).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(screen.getByText(fr.common.tryLater)).toBeInTheDocument();
         })
 
     });
@@ -149,6 +182,42 @@ describe('CommentsTest', function () {
             expect(screen.getByText(newCommentMessage)).toBeInTheDocument();
             expect(screen.getByText(fr.posts.comment.modified)).toBeInTheDocument();
             expect(queryByContent("comment")).not.toBeDefined();
+        })
+
+    });
+
+    it('should fail to update a comment', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+        const comments = [CommentStub(), CommentStub("62cc3af35cb8d215944a7174")]
+        const newCommentMessage = "new comment";
+
+        post = {
+            ...post,
+            comments
+        }
+
+        const updateSpy = jest.spyOn(actions, "updatePostComment");
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({});
+
+        render(
+            <Provider store={store}>
+                <RouterContext.Provider value={router}>
+                    <Comments post={post} user={user} pending={pending} />
+                </RouterContext.Provider>
+            </Provider>
+        )
+
+        fireEvent.click(queryByContent("edit"));
+
+        fireEvent.change(queryByContent("comment"), {target: {value: newCommentMessage}})
+        fireEvent.click(screen.getByText(fr.common.confirm));
+
+        expect(fetchSpy).toHaveBeenCalled();
+        expect(updateSpy).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(screen.getByText(fr.common.tryLater)).toBeInTheDocument();
         })
 
     });

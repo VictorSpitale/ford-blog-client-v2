@@ -34,9 +34,13 @@ const Comments = ({post, user, pending}: PropsType) => {
             slug: post.slug,
             _id: comment._id,
             commenterId: comment.commenter._id
-        }))
-        setComments((prevState) => prevState.filter((com) => com._id !== comment._id));
-    }, [dispatch, post.slug]);
+        })).then((res) => {
+            if (res.meta.requestStatus === "rejected") {
+                return setError(t.common.tryLater);
+            }
+            setComments((prevState) => prevState.filter((com) => com._id !== comment._id));
+        })
+    }, [dispatch, post.slug, t.common.tryLater]);
 
     const onUpdate = useCallback(async (comment: IComment, newValue: string) => {
         await dispatch(updatePostComment({
@@ -52,10 +56,11 @@ const Comments = ({post, user, pending}: PropsType) => {
                 const newComment = updatedPost.comments.find((com) => com._id === comment._id);
                 /* istanbul ignore if */
                 if (!newComment) return;
-                setComments(prevState => prevState.map((com) => com._id === comment._id ? newComment : com));
+                return setComments(prevState => prevState.map((com) => com._id === comment._id ? newComment : com));
             }
+            return setError(t.common.tryLater);
         })
-    }, [dispatch, post.slug]);
+    }, [dispatch, post.slug, t.common.tryLater]);
 
     const handleSubmit = useCallback(async () => {
         if (isEmpty(commentValue.trim())) return;
@@ -70,7 +75,7 @@ const Comments = ({post, user, pending}: PropsType) => {
                 setComments(post.comments);
                 return;
             }
-            setError(t.common.tryLater);
+            return setError(t.common.tryLater);
         })
     }, [commentValue, dispatch, post.slug, t.common.tryLater]);
 
@@ -106,7 +111,7 @@ const Comments = ({post, user, pending}: PropsType) => {
                 return (
                     <div key={index}>
                         <Comment comment={comment} onDelete={onDelete} onUpdate={onUpdate}
-                                 isEditing={currentEditingCommentId === comment._id} user={user} />
+                                 isEditing={currentEditingCommentId === comment._id} user={user} pending={pending} />
                         {index !== comments.length - 1 && <hr />}
                     </div>
                 )

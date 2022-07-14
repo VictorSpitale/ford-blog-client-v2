@@ -202,6 +202,11 @@ export interface components {
        * @example password
        */
       password?: string;
+      /**
+       * @description User's current password
+       * @example password
+       */
+      currentPassword?: string;
     };
     PasswordPreRecoveryDto: {
       /**
