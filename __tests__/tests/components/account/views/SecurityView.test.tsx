@@ -75,11 +75,11 @@ describe('Security View', function () {
         })
     });
 
-    it('should delete user account', function () {
+    it('should delete user account', async function () {
         const store = makeStore();
         const router = MockUseRouter({});
         const user = UserStub();
-        const update = jest.fn();
+        const update = jest.fn().mockResolvedValue({});
 
         render(
             <Provider store={store}>
@@ -93,13 +93,17 @@ describe('Security View', function () {
         act(() => {
             fireEvent.click(deleteButton);
         })
-        waitFor(() => {
-            const confirm = screen.getByLabelText(fr.common.delete);
+        await waitFor(() => {
+            const confirm = screen.getByText(fr.common.delete);
             expect(confirm).toBeInTheDocument();
+
             act(() => {
                 fireEvent.click(confirm);
-                expect(update).toHaveBeenCalled();
             })
+        })
+        await waitFor(() => {
+            expect(update).toHaveBeenCalled();
+            expect(screen.queryByText(fr.common.delete)).not.toBeInTheDocument();
         })
     });
 
