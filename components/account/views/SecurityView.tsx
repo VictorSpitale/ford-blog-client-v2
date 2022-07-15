@@ -32,12 +32,18 @@ const SecurityView = ({authUser, security}: PropsType) => {
         await security.changePassword(setSuccess, currentPasswordRef, passwordRef);
     }
 
+    const handleDelete = async () => {
+        await security.deleteAccount().then(() => {
+            toggle();
+        })
+    }
+
     const {toggle, isShowing} = useModal();
 
     return (
 
         <>
-            <DeleteAccountModal handleDelete={security.deleteAccount} toggle={toggle} isShowing={isShowing}
+            <DeleteAccountModal handleDelete={handleDelete} toggle={toggle} isShowing={isShowing}
                                 pending={authUser.pending} />
             <BaseView>
                 <h1 data-content={"view-title"}
