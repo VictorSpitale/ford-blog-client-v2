@@ -6,6 +6,7 @@ import {
     login,
     logout,
     removePicture,
+    sendContactMail,
     updateLoggedUser,
     uploadPicture
 } from "../actions/user.actions";
@@ -61,6 +62,12 @@ export const userReducer = createReducer(initial, (builder => {
     }).addCase(deleteAccount.pending, (state) => {
         state.pending = true;
     }).addCase(deleteAccount.rejected, (state) => {
+        state.pending = false;
+    }).addCase(sendContactMail.pending, (state) => {
+        state.pending = true;
+    }).addCase(sendContactMail.fulfilled, (state) => {
+        state.pending = false;
+    }).addCase(sendContactMail.rejected, (state) => {
         state.pending = false;
     })
 }))

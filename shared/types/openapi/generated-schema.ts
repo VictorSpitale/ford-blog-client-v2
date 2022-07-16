@@ -41,6 +41,9 @@ export interface paths {
   "/api/users/password/{token}": {
     post: operations["UsersController_recoverPassword"];
   };
+  "/api/mail/contact": {
+    post: operations["MailController_contactMail"];
+  };
   "/api/posts": {
     get: operations["PostsController_getPosts"];
     post: operations["PostsController_create"];
@@ -223,6 +226,23 @@ export interface components {
        * @example password
        */
       password: string;
+    };
+    ContactDto: {
+      /**
+       * @description Name
+       * @example John Doe
+       */
+      name: string;
+      /**
+       * @description Email
+       * @example John@Doe.fr
+       */
+      email: string;
+      /**
+       * @description Message
+       * @example It is the story about...
+       */
+      message: string;
     };
     CreatePostDto: {
       /**
@@ -805,6 +825,17 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["PasswordRecoveryDto"];
+      };
+    };
+  };
+  MailController_contactMail: {
+    parameters: {};
+    responses: {
+      200: unknown;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ContactDto"];
       };
     };
   };

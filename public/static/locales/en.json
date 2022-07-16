@@ -196,5 +196,18 @@
     "noPost": "No post matches the search",
     "noCat": "No category available",
     "selectorPlaceholder": "Select categories"
+  },
+  "contact": {
+    "title": "Contact",
+    "formTitle": "Contact us",
+    "fields": {
+      "email": "Email",
+      "name": "Name",
+      "message": "Message"
+    },
+    "errors": {
+      "fields": "Please complete all fields"
+    },
+    "sent": "Your message has been sent"
   }
 }
