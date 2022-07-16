@@ -4,6 +4,7 @@ import {RootState} from "../store";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {fetchApi} from "../instance";
 import {AnyFunction} from "../../shared/types/props.type";
+import {ContactType} from "../../shared/types/contact.type";
 
 export const GET_USER = "GET_USER";
 export const LOGOUT = "LOGOUT";
@@ -12,6 +13,7 @@ export const UPDATE_LOGGED_USER = "UPDATE_LOGGED_USER";
 export const UPLOAD_PICTURE = "UPLOAD_PICTURE";
 export const REMOVE_PICTURE = "REMOVE_PICTURE";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
+export const SEND_CONTACT = "SEND_CONTACT";
 
 export const getUser = createAsyncThunk<IUser, AnyFunction | undefined, { state: RootState }>(GET_USER, async (callback, {getState}) => {
     const {user: userState} = getState().user
@@ -61,3 +63,15 @@ export const removePicture = createAsyncThunk<void, string, { state: RootState }
 export const deleteAccount = createAsyncThunk<void, string, { state: RootState }>(DELETE_ACCOUNT, async (id) => {
     await fetchApi("/api/users/{id}", {method: "delete", params: {id}});
 })
+
+export const sendContactMail = createAsyncThunk<unknown, ContactType>(SEND_CONTACT, async ({
+                                                                                               name,
+                                                                                               message,
+                                                                                               email
+                                                                                           }, {rejectWithValue}) => {
+    return await fetchApi("/api/mail/contact", {method: "post", json: {email, message, name}}).then(() => {
+        return null;
+    }).catch((res) => {
+        return rejectWithValue(res)
+    });
+});

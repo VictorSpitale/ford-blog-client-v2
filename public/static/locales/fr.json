@@ -196,5 +196,18 @@
     "noPost": "Aucun article ne correspond à la recherche",
     "noCat": "Aucune catégorie disponible",
     "selectorPlaceholder": "Sélectionner des catégories"
+  },
+  "contact": {
+    "title": "Contact",
+    "formTitle": "Nous contacter",
+    "fields": {
+      "email": "Adresse email",
+      "name": "Nom",
+      "message": "Message"
+    },
+    "errors": {
+      "fields": "Veuillez remplir tous les champs"
+    },
+    "sent": "Votre message a bien été envoyé"
   }
 }
