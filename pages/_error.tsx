@@ -26,6 +26,7 @@ function Error({statusCode, customMessage}: { statusCode: number, customMessage?
     )
 }
 
+/* istanbul ignore next */
 export async function getStaticProps({res, err}: { res: NextApiResponse, err: any }) {
     const statusCode = res ? res.statusCode : err ? err.statusCode : 404
     return {
