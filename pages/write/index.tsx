@@ -1,5 +1,5 @@
-import React from 'react';
-import {useAppSelector} from "../../context/hooks";
+import React, {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import Layout from "../../components/layouts/Layout";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {IUserRole} from "../../shared/types/user.type";
@@ -9,15 +9,28 @@ import Link from 'next/link'
 import SEO from "../../components/shared/seo";
 import WritePost from "../../components/posts/WritePost";
 import {useTranslation} from "../../shared/hooks";
+import {setError} from "../../context/actions/errors.actions";
 
 const Write = () => {
 
     const {user} = useAppSelector(state => state.user);
+
+    const {categories: selectedCategories} = useAppSelector(state => state.selectCategories);
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
+    const {pending} = useAppSelector(state => state.post);
+
     const t = useTranslation();
+    const dispatch = useAppDispatch();
 
     const canAccess = () => {
         return (!isEmpty(user) && user.role >= IUserRole.POSTER);
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(setError({key: "writePageError", error: ""}))
+        }
+    }, [dispatch])
 
     if (!canAccess()) {
         return (
@@ -38,7 +51,8 @@ const Write = () => {
     return (
         <>
             <SEO title={t.posts.create.title} shouldIndex={false} />
-            <WritePost />
+            <WritePost pending={pending} selectedCategories={selectedCategories} categories={categories}
+                       categoriesPending={categoriesPending} />
         </>
     );
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import BaseView from "../shared/BaseView";
 import RenderIf from "../shared/RenderIf";
 import {isEmpty} from "../../shared/utils/object.utils";
@@ -14,14 +14,20 @@ import {HttpError} from "../../shared/types/httpError.type";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {useTranslation} from "../../shared/hooks";
 import {useRouter} from "next/router";
+import {setError} from "../../context/actions/errors.actions";
+import {ICategory} from "../../shared/types/category.type";
 
-const WritePost = () => {
+type PropsType = {
+    selectedCategories: ICategory[];
+    categories: ICategory[];
+    categoriesPending: boolean;
+    pending: boolean;
+}
 
-    const {categories: selectedCategories} = useAppSelector(state => state.selectCategories);
-    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
-    const {pending} = useAppSelector(state => state.post);
+const WritePost = ({selectedCategories, categoriesPending, pending, categories}: PropsType) => {
 
-    const [error, setError] = useState('');
+    const {writePageError: error} = useAppSelector(state => state.errors)
+
     const [post, setPost] = useState<ICreatePost>({} as ICreatePost);
     const [file, setFile] = useState({} as { src?: string, file?: File });
 
@@ -29,13 +35,25 @@ const WritePost = () => {
     const t = useTranslation();
     const router = useRouter();
 
+
     const handleSubmit = async () => {
-        setError('');
+        dispatch(setError({key: "writePageError", error: ''}));
         for (const key of getCreatePostKeys()) {
-            if (isEmpty(post[key])) return setError(t.posts.create.errors.key.replace('{{key}}', t.posts.create.fields[key as never]));
+            if (isEmpty(post[key])) {
+                return dispatch(setError({
+                    key: "writePageError",
+                    error: t.posts.create.errors.key.replace('{{key}}', t.posts.create.fields[key as never])
+                }));
+            }
         }
-        if (isEmpty(selectedCategories)) return setError(t.posts.create.errors.categories);
-        if (!isValidUrl(post.sourceLink)) return setError(t.posts.create.errors.sourceLink);
+        if (isEmpty(selectedCategories)) return dispatch(setError({
+            key: "writePageError",
+            error: t.posts.create.errors.categories
+        }));
+        if (!isValidUrl(post.sourceLink)) return dispatch(setError({
+            key: "writePageError",
+            error: t.posts.create.errors.sourceLink
+        }));
         // if (!file.file) return setError(t.posts.create.errors.photo);
         const postCategories: string[] = [];
         selectedCategories.forEach((cat) => postCategories.push(cat._id));
@@ -46,19 +64,22 @@ const WritePost = () => {
         } as ICreatePost)).then(res => {
             if (res.meta.requestStatus === "rejected") {
                 const payload = res.payload as HttpError
-                if (payload.code) return setError(t.httpErrors[payload.code as never]);
-                return setError(t.common.errorSub);
+                if (payload.code) return dispatch(setError({
+                    key: "writePageError",
+                    error: t.httpErrors[payload.code as never]
+                }));
+                return dispatch(setError({key: "writePageError", error: t.common.errorSub}));
             }
             router.push(`/post/${post.slug}`);
         });
-    }
+    };
 
     return (
         <div data-content={"write-form"} className={"w-3/4 m-auto pt-11 mb-10"}>
             <BaseView className={"!max-h-fit"}>
                 <h1 className={"text-2xl text-center"}>{t.posts.create.title}</h1>
                 <hr className={"my-2"} />
-                <RenderIf condition={!isEmpty(error)}>
+                <RenderIf condition={!!error}>
                     <p className={"bg-red-400 rounded text-white px-2 my-2"}>{error}</p>
                 </RenderIf>
                 <RenderIf condition={!!file.src}>
@@ -122,4 +143,4 @@ const WritePost = () => {
     );
 };
 
-export default WritePost;
+export default memo(WritePost);

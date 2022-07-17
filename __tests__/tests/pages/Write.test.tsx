@@ -56,6 +56,10 @@ describe('WriteTest', function () {
 
         jest.spyOn(hooks, "useAppSelector")
             .mockReturnValueOnce({user: UserStub(IUserRole.ADMIN)})
+            .mockReturnValueOnce({categories: []})
+            .mockReturnValueOnce({categories: [], pending: false})
+            .mockReturnValueOnce({pending: false})
+            .mockReturnValueOnce({writePageError: ""});
 
         render(
             <Provider store={store}>
