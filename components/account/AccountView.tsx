@@ -6,7 +6,6 @@ import LikesView from "./views/LikesView";
 import {IUser} from "../../shared/types/user.type";
 import ProfileView from "./views/ProfileView";
 import SecurityView from "./views/SecurityView";
-import {AnyFunction} from "../../shared/types/props.type";
 
 type PropsType = {
     view: AccountViews,
@@ -14,15 +13,9 @@ type PropsType = {
         user: IUser,
         pending: boolean
     },
-    security: {
-        error: string;
-        deleteAccount: AnyFunction;
-        changePassword: AnyFunction;
-    },
-    handleLogout: AnyFunction;
 }
 
-const AccountView = ({view, authUser, security, handleLogout}: PropsType) => {
+const AccountView = ({view, authUser}: PropsType) => {
 
     const t = useTranslation();
 
@@ -30,14 +23,14 @@ const AccountView = ({view, authUser, security, handleLogout}: PropsType) => {
         <div className={"mt-16 w-3/4 mx-auto max-w-[800px]"}>
             <h1 className={"text-4xl font-bold mb-6"}>{t.account.title}</h1>
             <div className={"flex flex-col md:flex-row"}>
-                <AccountViewSwitcher activeView={view} handleLogout={handleLogout} />
+                <AccountViewSwitcher activeView={view} />
                 {
                     view === AccountViews.LIKES ?
                         <LikesView user={authUser.user} /> :
                         view === AccountViews.PROFILE ?
                             <ProfileView user={authUser.user} pending={authUser.pending} /> :
                             view === AccountViews.SECURITY ?
-                                <SecurityView security={security} authUser={authUser} /> :
+                                <SecurityView user={authUser.user} pending={authUser.pending} /> :
                                 <></>
                 }
             </div>

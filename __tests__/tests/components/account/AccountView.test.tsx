@@ -26,8 +26,6 @@ describe('AccountView', function () {
                 <RouterContext.Provider value={router}>
                     <AccountView view={null as unknown as AccountViews}
                                  authUser={{} as never}
-                                 security={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -52,8 +50,6 @@ describe('AccountView', function () {
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.LIKES}
                                  authUser={{user, pending: false}}
-                                 security={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -70,8 +66,6 @@ describe('AccountView', function () {
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.PROFILE}
                                  authUser={{user: UserStub()} as never}
-                                 security={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -88,8 +82,6 @@ describe('AccountView', function () {
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.SECURITY}
                                  authUser={{user: UserStub()} as never}
-                                 security={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
