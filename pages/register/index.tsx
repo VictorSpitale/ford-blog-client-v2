@@ -27,7 +27,7 @@ const Register: NextPageWithLayout = () => {
 
 export default Register;
 
-
+/* istanbul ignore next */
 Register.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
