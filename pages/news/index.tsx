@@ -9,16 +9,19 @@ import {NextPage} from "next";
 import Layout from "../../components/layouts/Layout";
 import {getPosts} from "../../context/actions/posts.actions";
 import PostCard from "../../components/posts/PostCard";
+import RenderIf from "../../components/shared/RenderIf";
 
 const News = () => {
 
     const {user} = useAppSelector(state => state.user);
     const {paginatedPosts, pending} = useAppSelector(state => state.posts);
-    const t = useTranslation();
-    const [page, setPage] = useState(1);
-    const dispatch = useAppDispatch()
 
+    const t = useTranslation();
+    const dispatch = useAppDispatch();
     const observer = useRef<IntersectionObserver | null>(null)
+
+    const [page, setPage] = useState(1);
+
     const lastPostRef = useCallback((node) => {
         if (pending) return;
         if (observer.current) observer.current.disconnect();
@@ -35,7 +38,7 @@ const News = () => {
             await dispatch(getPosts(page));
         }
         if (!isEmpty(user)) fetchPosts();
-    }, [user, page]);
+    }, [user, page, dispatch]);
 
     if (isEmpty(user)) {
         return (
@@ -69,7 +72,9 @@ const News = () => {
                         return <PostCard key={index} post={post} large={true} />
                     }
                 })}
-                {pending && <div className={"pb-8 text-center"}>{t.common.loading}</div>}
+                <RenderIf condition={pending}>
+                    <div className={"pb-8 text-center"}>{t.common.loading}</div>
+                </RenderIf>
             </div>
         </>
     );
@@ -77,6 +82,7 @@ const News = () => {
 
 export default News;
 
+/* istanbul ignore next */
 News.getLayout = function (page: NextPage) {
     return (
         <Layout>
