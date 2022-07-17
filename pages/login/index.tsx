@@ -13,6 +13,7 @@ const Login: NextPageWithLayout = () => {
     const router = useRouter();
     const {user} = useAppSelector(state => state.user)
     const t = useTranslation();
+
     if (!isEmpty(user)) {
         router.push('/account');
     }
@@ -28,6 +29,7 @@ const Login: NextPageWithLayout = () => {
 
 export default Login;
 
+/* istanbul ignore next */
 Login.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
