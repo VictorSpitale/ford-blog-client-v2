@@ -14,12 +14,6 @@ type PropsType = {
         user: IUser,
         pending: boolean
     },
-    profile: {
-        saveChanges: AnyFunction;
-        uploadFile: AnyFunction;
-        removeProfilePicture: AnyFunction;
-        error: string;
-    },
     security: {
         error: string;
         deleteAccount: AnyFunction;
@@ -28,7 +22,7 @@ type PropsType = {
     handleLogout: AnyFunction;
 }
 
-const AccountView = ({view, authUser, profile, security, handleLogout}: PropsType) => {
+const AccountView = ({view, authUser, security, handleLogout}: PropsType) => {
 
     const t = useTranslation();
 
@@ -41,7 +35,7 @@ const AccountView = ({view, authUser, profile, security, handleLogout}: PropsTyp
                     view === AccountViews.LIKES ?
                         <LikesView user={authUser.user} /> :
                         view === AccountViews.PROFILE ?
-                            <ProfileView authUser={authUser} profile={profile} /> :
+                            <ProfileView user={authUser.user} pending={authUser.pending} /> :
                             view === AccountViews.SECURITY ?
                                 <SecurityView security={security} authUser={authUser} /> :
                                 <></>

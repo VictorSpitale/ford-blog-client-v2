@@ -168,6 +168,11 @@
         "fileSize": "Image weight is too high",
         "fileError": "Error when changing profile picture",
         "removeError": "Error deleting profile picture"
+      },
+      "success": {
+        "profile": "Your profile has been saved",
+        "upload": "Your profile picture has been uploaded",
+        "deletion": "Your profile picture has been deleted"
       }
     },
     "security": {

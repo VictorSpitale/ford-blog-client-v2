@@ -12,16 +12,9 @@ import {useTranslation} from "../../shared/hooks";
 import {cleanLikedPosts} from "../../context/actions/posts.actions";
 import Layout from "../../components/layouts/Layout";
 import {NextPageWithLayout} from "../../shared/types/page.type";
-import {
-    deleteAccount,
-    logout,
-    removePicture,
-    updateLoggedUser,
-    uploadPicture
-} from "../../context/actions/user.actions";
+import {deleteAccount, logout, updateLoggedUser} from "../../context/actions/user.actions";
 import {HttpError} from "../../shared/types/httpError.type";
 import {setError} from "../../context/actions/errors.actions";
-import {IUser, UpdateUser} from "../../shared/types/user.type";
 import {AnyFunction} from "../../shared/types/props.type";
 
 const Account: NextPageWithLayout = () => {
@@ -33,7 +26,7 @@ const Account: NextPageWithLayout = () => {
 
     const {view} = useAppSelector(state => state.accountView)
     const {user, pending: pendingUser} = useAppSelector(state => state.user);
-    const {profileViewError, securityViewError} = useAppSelector(state => state.errors);
+    const {securityViewError} = useAppSelector(state => state.errors);
 
     useEffect(() => {
         const fetch = async (token: string) => {
@@ -66,48 +59,6 @@ const Account: NextPageWithLayout = () => {
         dispatch(setError({error: "", key: "profileViewError"}));
         dispatch(setError({error: "", key: "securityViewError"}));
     }, [dispatch, view]);
-
-    const handleSaveProfile = async (updatedUser: UpdateUser, authUser: IUser) => {
-        dispatch(setError({error: "", key: "profileViewError"}));
-        if (updatedUser.pseudo === authUser.pseudo) return;
-        if (updatedUser.pseudo?.trim() === "" || (updatedUser.pseudo && (updatedUser.pseudo?.length < 6 || updatedUser.pseudo?.length > 18))) {
-            return dispatch(setError({error: t.account.profile.errors.pseudo, key: "profileViewError"}));
-        }
-        await dispatch(updateLoggedUser({...updatedUser, _id: authUser._id})).then((res) => {
-            if (res.meta.requestStatus === "rejected") {
-                const payload = res.payload as HttpError;
-                return dispatch(setError({
-                    error: t.httpErrors[payload.code as never] || t.common.errorSub,
-                    key: "profileViewError"
-                }));
-            }
-        })
-    }
-
-    const handleProfilePictureUpload = async (files: FileList) => {
-        dispatch(setError({error: "", key: "profileViewError"}));
-        if (!files || !files[0]) return;
-        const file = files[0];
-        if (file.size > 100000) {
-            return dispatch(setError({error: t.account.profile.errors.fileSize, key: "profileViewError"}));
-        }
-        const data = new FormData();
-        data.append("file", file);
-        await dispatch(uploadPicture({data, _id: user._id})).then((res) => {
-            if (res.meta.requestStatus === "rejected") {
-                return dispatch(setError({error: t.account.profile.errors.fileError, key: "profileViewError"}));
-            }
-        })
-    }
-
-    const handleProfilePictureDeletion = async () => {
-        dispatch(setError({error: "", key: "profileViewError"}));
-        await dispatch(removePicture(user._id)).then((res) => {
-            if (res.meta.requestStatus === "rejected") {
-                return dispatch(setError({error: t.account.profile.errors.removeError, key: "profileViewError"}));
-            }
-        })
-    }
 
     const handleChangePassword = async (setSuccess: AnyFunction, currentPasswordRef: RefObject<HTMLInputElement>, passwordRef: RefObject<HTMLInputElement>) => {
         if (!passwordRef.current || !currentPasswordRef.current) return;
@@ -157,12 +108,6 @@ const Account: NextPageWithLayout = () => {
         <>
             <SEO title={t.account.title} shouldIndex={false} />
             <AccountView view={view} authUser={{user, pending: pendingUser}}
-                         profile={{
-                             saveChanges: handleSaveProfile,
-                             error: profileViewError,
-                             uploadFile: handleProfilePictureUpload,
-                             removeProfilePicture: handleProfilePictureDeletion
-                         }}
                          security={{
                              error: securityViewError,
                              changePassword: handleChangePassword,

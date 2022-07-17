@@ -168,6 +168,11 @@
         "fileSize": "L'image est trop volumineuse",
         "fileError": "Erreur lors du changement de photo de profile",
         "removeError": "Erreur lors de la suppression de la photo de profile"
+      },
+      "success": {
+        "profile": "Votre profil a bien été enregistré",
+        "upload": "Votre photo de profil a bien été enregistrée",
+        "deletion": "Votre photo de profil a bien été supprimée"
       }
     },
     "security": {
