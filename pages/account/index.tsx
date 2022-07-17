@@ -34,6 +34,7 @@ const Account: NextPageWithLayout = () => {
         }
         if (router.query.token) {
             const {token} = router.query;
+            /* istanbul ignore else */
             if (typeof token === "string") {
                 fetch(token);
             }
@@ -70,6 +71,7 @@ const Account: NextPageWithLayout = () => {
 
 export default Account;
 
+/* istanbul ignore next */
 Account.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
