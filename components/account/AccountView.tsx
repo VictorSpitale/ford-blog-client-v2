@@ -4,7 +4,6 @@ import {AccountViews} from "../../shared/types/accountViews.type";
 import {useTranslation} from "../../shared/hooks";
 import LikesView from "./views/LikesView";
 import {IUser} from "../../shared/types/user.type";
-import {IBasicPost} from "../../shared/types/post.type";
 import ProfileView from "./views/ProfileView";
 import SecurityView from "./views/SecurityView";
 import {AnyFunction} from "../../shared/types/props.type";
@@ -14,10 +13,6 @@ type PropsType = {
     authUser: {
         user: IUser,
         pending: boolean
-    },
-    likes: {
-        likedPosts: IBasicPost[],
-        pending: boolean;
     },
     profile: {
         saveChanges: AnyFunction;
@@ -33,7 +28,7 @@ type PropsType = {
     handleLogout: AnyFunction;
 }
 
-const AccountView = ({view, authUser, likes, profile, security, handleLogout}: PropsType) => {
+const AccountView = ({view, authUser, profile, security, handleLogout}: PropsType) => {
 
     const t = useTranslation();
 
@@ -44,7 +39,7 @@ const AccountView = ({view, authUser, likes, profile, security, handleLogout}: P
                 <AccountViewSwitcher activeView={view} handleLogout={handleLogout} />
                 {
                     view === AccountViews.LIKES ?
-                        <LikesView likes={likes} /> :
+                        <LikesView user={authUser.user} /> :
                         view === AccountViews.PROFILE ?
                             <ProfileView authUser={authUser} profile={profile} /> :
                             view === AccountViews.SECURITY ?

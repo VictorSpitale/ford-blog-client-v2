@@ -1,4 +1,4 @@
-import React, {ReactElement, RefObject, useCallback, useEffect} from 'react';
+import React, {ReactElement, RefObject, useEffect} from 'react';
 import Login from "../login";
 import {useRouter} from "next/router";
 import {fetchApi} from "../../context/instance";
@@ -9,7 +9,7 @@ import {setView} from "../../context/actions/account.actions";
 import {AccountViews} from "../../shared/types/accountViews.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useTranslation} from "../../shared/hooks";
-import {cleanLikedPosts, getLikedPosts} from "../../context/actions/posts.actions";
+import {cleanLikedPosts} from "../../context/actions/posts.actions";
 import Layout from "../../components/layouts/Layout";
 import {NextPageWithLayout} from "../../shared/types/page.type";
 import {
@@ -32,14 +32,8 @@ const Account: NextPageWithLayout = () => {
     const t = useTranslation();
 
     const {view} = useAppSelector(state => state.accountView)
-    const {posts, pending: pendingLikedPosts} = useAppSelector(state => state.likedPosts);
     const {user, pending: pendingUser} = useAppSelector(state => state.user);
     const {profileViewError, securityViewError} = useAppSelector(state => state.errors);
-
-    const fetchPosts = useCallback(async () => {
-        await dispatch(getLikedPosts(user._id));
-    }, [dispatch, user._id]);
-
 
     useEffect(() => {
         const fetch = async (token: string) => {
@@ -56,12 +50,6 @@ const Account: NextPageWithLayout = () => {
             }
         }
     }, [router])
-
-    useEffect(() => {
-        if (!isEmpty(user)) {
-            fetchPosts();
-        }
-    }, [fetchPosts, user]);
 
     useEffect(() => {
         const resetState = async () => {
@@ -169,7 +157,6 @@ const Account: NextPageWithLayout = () => {
         <>
             <SEO title={t.account.title} shouldIndex={false} />
             <AccountView view={view} authUser={{user, pending: pendingUser}}
-                         likes={{likedPosts: posts, pending: pendingLikedPosts}}
                          profile={{
                              saveChanges: handleSaveProfile,
                              error: profileViewError,
