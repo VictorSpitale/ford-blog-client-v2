@@ -57,6 +57,7 @@ const Token: NextPageWithLayout<{ token: string }> = ({token}) => {
 
 export default Token;
 
+/* istanbul ignore next */
 Token.getInitialProps = wrapper.getInitialPageProps(
     () => (context) => {
         return {
@@ -65,6 +66,7 @@ Token.getInitialProps = wrapper.getInitialPageProps(
     }
 );
 
+/* istanbul ignore next */
 Token.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
