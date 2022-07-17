@@ -215,5 +215,16 @@
       "fields": "Please complete all fields"
     },
     "sent": "Your message has been sent"
+  },
+  "admin": {
+    "title": "Administration",
+    "viewsName": {
+      "POSTS": "Posts",
+      "CATEGORIES": "Categories",
+      "USERS": "Users"
+    },
+    "posts": {
+      "title": "Posts list"
+    }
   }
 }

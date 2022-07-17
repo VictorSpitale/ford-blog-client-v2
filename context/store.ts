@@ -14,6 +14,7 @@ import {navSearchReducer} from "./reducers/navSearch.reducer";
 import categorySlideReducer from "./reducers/categorySlide.reducer";
 import {categorizedPostsReducer} from "./reducers/categorizedPosts.reducer";
 import errorsReducer from "./reducers/errors.reducer";
+import adminViewReducer from "./reducers/adminView.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -24,6 +25,7 @@ const combinedReducer = combineReducers({
     categories: categoriesReducer,
     selectCategories: selectCategoriesReducer,
     accountView: accountViewReducer,
+    adminView: adminViewReducer,
     likedPosts: likedPostsReducer,
     currentComment: currentCommentEditReducer,
     navSearch: navSearchReducer,

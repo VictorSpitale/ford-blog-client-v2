@@ -215,5 +215,16 @@
       "fields": "Veuillez remplir tous les champs"
     },
     "sent": "Votre message a bien été envoyé"
+  },
+  "admin": {
+    "title": "Administration",
+    "viewsName": {
+      "POSTS": "Articles",
+      "CATEGORIES": "Catégories",
+      "USERS": "Utilisateurs"
+    },
+    "posts": {
+      "title": "Liste des articles"
+    }
   }
 }
