@@ -4,6 +4,7 @@ import {setError} from "../actions/errors.actions";
 export interface ErrorState {
     profileViewError: string;
     securityViewError: string;
+    writePageError: string;
 }
 
 export type ErrorStateType = {
@@ -13,7 +14,8 @@ export type ErrorStateType = {
 
 const initial: ErrorState = {
     profileViewError: '',
-    securityViewError: ''
+    securityViewError: '',
+    writePageError: ''
 }
 
 export const errorsReducer = createReducer(initial, (builder => {

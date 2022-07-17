@@ -5,14 +5,13 @@ import {useAppDispatch} from "../../context/hooks";
 import {className} from "../../shared/utils/class.utils";
 import {setView} from "../../context/actions/account.actions";
 import {getAccountViewButtons} from "../../shared/utils/account/views.utils";
-import {AnyFunction} from "../../shared/types/props.type";
+import {logout} from "../../context/actions/user.actions";
 
 type PropsType = {
     activeView: AccountViews;
-    handleLogout: AnyFunction
 }
 
-const AccountViewSwitcher = ({activeView, handleLogout}: PropsType) => {
+const AccountViewSwitcher = ({activeView}: PropsType) => {
 
     const t = useTranslation();
     const dispatch = useAppDispatch();
@@ -20,6 +19,10 @@ const AccountViewSwitcher = ({activeView, handleLogout}: PropsType) => {
     const changeView = async (view: AccountViews) => {
         if (view === activeView) return;
         await dispatch(setView(view));
+    }
+
+    const handleLogout = async () => {
+        await dispatch(logout());
     }
 
     return (

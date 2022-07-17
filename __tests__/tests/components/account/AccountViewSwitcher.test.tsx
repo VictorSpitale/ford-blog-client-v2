@@ -1,4 +1,4 @@
-import {act, fireEvent, render} from "@testing-library/react";
+import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
 import AccountViewSwitcher from "../../../../components/account/AccountViewSwitcher";
 import {AccountViews, getViewType} from "../../../../shared/types/accountViews.type";
 import {RouterContext} from "next/dist/shared/lib/router-context";
@@ -6,6 +6,10 @@ import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {Provider} from "react-redux";
 import {makeStore} from "../../../../context/store";
 import {queryByContent} from "../../../utils/CustomQueries";
+import {UserStub} from "../../../stub/UserStub";
+import * as fetch from "../../../../context/instance";
+import {getUser} from "../../../../context/actions/user.actions";
+import * as fr from "../../../../public/static/locales/fr.json";
 
 describe('Account View Switcher', function () {
 
@@ -16,7 +20,7 @@ describe('Account View Switcher', function () {
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
-                    <AccountViewSwitcher activeView={AccountViews.PROFILE} handleLogout={jest.fn()} />
+                    <AccountViewSwitcher activeView={AccountViews.PROFILE} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -35,7 +39,7 @@ describe('Account View Switcher', function () {
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
-                    <AccountViewSwitcher activeView={AccountViews.PROFILE} handleLogout={jest.fn()} />
+                    <AccountViewSwitcher activeView={AccountViews.PROFILE} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -57,7 +61,7 @@ describe('Account View Switcher', function () {
         const {rerender} = render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <AccountViewSwitcher activeView={store.getState().accountView.view} handleLogout={jest.fn()} />
+                    <AccountViewSwitcher activeView={store.getState().accountView.view} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -73,7 +77,7 @@ describe('Account View Switcher', function () {
         rerender(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <AccountViewSwitcher activeView={store.getState().accountView.view} handleLogout={jest.fn()} />
+                    <AccountViewSwitcher activeView={store.getState().accountView.view} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -81,26 +85,30 @@ describe('Account View Switcher', function () {
 
     });
 
-    it('should logout', function () {
-
+    it('should logout', async function () {
+        const store = makeStore();
         const router = MockUseRouter({});
-        const logout = jest.fn();
+
+        jest.spyOn(fetch, "fetchApi")
+            .mockResolvedValueOnce({
+                data: UserStub()
+            }).mockResolvedValueOnce({})
+        await store.dispatch(getUser());
 
         render(
-            <Provider store={makeStore()}>
+            <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <AccountViewSwitcher activeView={AccountViews.PROFILE} handleLogout={logout} />
+                    <AccountViewSwitcher activeView={AccountViews.PROFILE} />
                 </RouterContext.Provider>
             </Provider>
         )
 
-        const logoutButton = queryByContent('button-logout');
+        const btn = screen.getByText(fr.account.logout);
+        fireEvent.click(btn);
 
-        expect(logoutButton).toBeInTheDocument();
-        fireEvent.click(logoutButton);
-        expect(logout).toHaveBeenCalled();
-
+        await waitFor(() => {
+            expect(store.getState().user.user).toEqual({});
+        })
     });
-
 
 });

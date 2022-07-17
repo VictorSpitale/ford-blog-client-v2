@@ -34,6 +34,7 @@ const Home: NextPageWithLayout = () => {
     );
 }
 
+/* istanbul ignore next */
 Home.getInitialProps = wrapper.getInitialPageProps(
     ({dispatch}) =>
         async () => {
@@ -42,6 +43,7 @@ Home.getInitialProps = wrapper.getInitialPageProps(
         }
 );
 
+/* istanbul ignore next */
 Home.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>

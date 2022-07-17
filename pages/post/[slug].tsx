@@ -55,6 +55,7 @@ const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
 
 export default PostPage;
 
+/* istanbul ignore next */
 PostPage.getInitialProps = wrapper.getInitialPageProps(
     ({dispatch, getState}) =>
         async (context) => {
@@ -69,6 +70,7 @@ PostPage.getInitialProps = wrapper.getInitialPageProps(
         }
 );
 
+/* istanbul ignore next */
 PostPage.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>

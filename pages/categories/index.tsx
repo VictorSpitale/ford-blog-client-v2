@@ -12,6 +12,7 @@ import {getCategorizedPosts} from "../../context/actions/posts.actions";
 import PostsList from "../../components/posts/PostsList";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useRouter} from "next/router";
+import RenderIf from "../../components/shared/RenderIf";
 
 const Index = () => {
 
@@ -25,7 +26,6 @@ const Index = () => {
 
     const getPosts = () => {
         if (!category) {
-            if (!isEmpty(posts)) return posts[0].posts;
             return [];
         }
         const list = posts.find((list) => list.category === category.name);
@@ -34,6 +34,7 @@ const Index = () => {
     }
 
     const changeActiveCategorySlide = () => {
+        /* istanbul ignore else */
         if (router.query.selected !== category?.name) {
             dispatch(setCategorySlide({category: categories.find((cat) => cat.name === router.query.selected)}));
         }
@@ -60,7 +61,9 @@ const Index = () => {
             <CategoriesSlider categories={categories} category={category}
                               handleCategoryChange={changeActiveCategorySlide} />
             <div className={"pt-8"}>
-                {pending && <p className={"text-center"}>{t.common.loading}</p>}
+                <RenderIf condition={pending}>
+                    <p className={"text-center"}>{t.common.loading}</p>
+                </RenderIf>
                 {(isEmpty(getPosts())) ? <p className={"text-center"}>{t.categories.noPost}</p> :
                     <div className={"px-1 mx-auto w-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4"}>
                         <PostsList posts={getPosts()} />
@@ -72,6 +75,7 @@ const Index = () => {
 
 export default Index;
 
+/* istanbul ignore next */
 Index.getLayout = function (page: NextPage) {
     return (
         <Layout>
@@ -80,6 +84,7 @@ Index.getLayout = function (page: NextPage) {
     )
 }
 
+/* istanbul ignore next */
 Index.getInitialProps = wrapper.getInitialPageProps(
     ({dispatch}) =>
         async (context) => {

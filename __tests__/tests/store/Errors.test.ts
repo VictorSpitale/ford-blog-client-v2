@@ -6,7 +6,8 @@ describe('Errors Actions & Reducers', function () {
 
     const initialState: ErrorState = {
         securityViewError: "",
-        profileViewError: ""
+        profileViewError: "",
+        writePageError: ""
     }
 
     it('should return the initial state', function () {
@@ -23,7 +24,7 @@ describe('Errors Actions & Reducers', function () {
             }
             const state = errorsReducer(initialState, action);
             expect(state).toEqual({
-                securityViewError: "",
+                ...initialState,
                 profileViewError: "erreur"
             })
 

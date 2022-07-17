@@ -21,6 +21,7 @@ const Contact = () => {
 
 export default Contact;
 
+/* istanbul ignore next */
 Contact.getLayout = (page: NextPage) => {
     return (
         <Layout>

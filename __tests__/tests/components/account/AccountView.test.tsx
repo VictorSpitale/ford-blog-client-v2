@@ -8,6 +8,8 @@ import {Provider} from "react-redux";
 import {makeStore} from "../../../../context/store";
 import {queryByContent} from "../../../utils/CustomQueries";
 import {UserStub} from "../../../stub/UserStub";
+import * as fetch from "../../../../context/instance";
+import * as hooks from "../../../../context/hooks";
 
 describe('AccountView', function () {
 
@@ -23,11 +25,7 @@ describe('AccountView', function () {
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
                     <AccountView view={null as unknown as AccountViews}
-                                 profile={{} as never}
                                  authUser={{} as never}
-                                 security={{} as never}
-                                 likes={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -38,16 +36,20 @@ describe('AccountView', function () {
     it('should render the Account Likes View', function () {
 
         const router = MockUseRouter({});
+        const user = UserStub();
+
+        jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({data: []})
+
+        jest.spyOn(hooks, "useAppSelector").mockReturnValue({
+            posts: [],
+            pending: false
+        });
 
         render(
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.LIKES}
-                                 profile={{} as never}
-                                 authUser={{} as never}
-                                 security={{} as never}
-                                 likes={{likedPosts: []} as never}
-                                 handleLogout={jest.fn()}
+                                 authUser={{user, pending: false}}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -63,11 +65,7 @@ describe('AccountView', function () {
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.PROFILE}
-                                 profile={{} as never}
                                  authUser={{user: UserStub()} as never}
-                                 security={{} as never}
-                                 likes={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -83,11 +81,7 @@ describe('AccountView', function () {
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.SECURITY}
-                                 profile={{} as never}
                                  authUser={{user: UserStub()} as never}
-                                 security={{} as never}
-                                 likes={{} as never}
-                                 handleLogout={jest.fn()}
                     />
                 </RouterContext.Provider>
             </Provider>
