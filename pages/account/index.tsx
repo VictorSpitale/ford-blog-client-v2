@@ -1,22 +1,28 @@
 import React, {ReactElement, RefObject, useCallback, useEffect} from 'react';
-import Login from "./login";
+import Login from "../login";
 import {useRouter} from "next/router";
-import {fetchApi} from "../context/instance";
-import SEO from "../components/shared/seo";
-import AccountView from "../components/account/AccountView";
-import {useAppDispatch, useAppSelector} from "../context/hooks";
-import {setView} from "../context/actions/account.actions";
-import {AccountViews} from "../shared/types/accountViews.type";
-import {isEmpty} from "../shared/utils/object.utils";
-import {useTranslation} from "../shared/hooks";
-import {cleanLikedPosts, getLikedPosts} from "../context/actions/posts.actions";
-import Layout from "../components/layouts/Layout";
-import {NextPageWithLayout} from "../shared/types/page.type";
-import {deleteAccount, logout, removePicture, updateLoggedUser, uploadPicture} from "../context/actions/user.actions";
-import {HttpError} from "../shared/types/httpError.type";
-import {setError} from "../context/actions/errors.actions";
-import {IUser, UpdateUser} from "../shared/types/user.type";
-import {AnyFunction} from "../shared/types/props.type";
+import {fetchApi} from "../../context/instance";
+import SEO from "../../components/shared/seo";
+import AccountView from "../../components/account/AccountView";
+import {useAppDispatch, useAppSelector} from "../../context/hooks";
+import {setView} from "../../context/actions/account.actions";
+import {AccountViews} from "../../shared/types/accountViews.type";
+import {isEmpty} from "../../shared/utils/object.utils";
+import {useTranslation} from "../../shared/hooks";
+import {cleanLikedPosts, getLikedPosts} from "../../context/actions/posts.actions";
+import Layout from "../../components/layouts/Layout";
+import {NextPageWithLayout} from "../../shared/types/page.type";
+import {
+    deleteAccount,
+    logout,
+    removePicture,
+    updateLoggedUser,
+    uploadPicture
+} from "../../context/actions/user.actions";
+import {HttpError} from "../../shared/types/httpError.type";
+import {setError} from "../../context/actions/errors.actions";
+import {IUser, UpdateUser} from "../../shared/types/user.type";
+import {AnyFunction} from "../../shared/types/props.type";
 
 const Account: NextPageWithLayout = () => {
 
