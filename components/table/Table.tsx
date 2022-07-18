@@ -65,29 +65,30 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
     }
 
     return (
-        <table className={"text-lg w-full border-collapse"}>
+        <table className={"text-lg w-full border-collapse table-auto"}>
             <thead>
                 <tr className={"bg-primary-400 select-none"}>
                     {keys.map((k, i) => {
                         return (
                             <th key={i} onClick={sortable ? () => sortData(k) : () => null}
                                 className={className(
-                                    "first:rounded-tl-lg p-3 text-left text-white",
+                                    "first:rounded-tl-lg p-3",
                                     sortable ? "cursor-pointer" : "",
                                     actions ? "" : "last:rounded-tr-lg")}>
                                 {sortable && sortState.key === k.key && sortState.state !== "default" ?
-                                    <div className={"text-white flex gap-x-2 items-center"}>
-                                        {k.label}
+                                    <div className={"flex gap-x-2 items-center"}>
+                                        <p className={"text-white text-left text-sm md:text-lg"}>{k.label}</p>
                                         {<Arrow color={"white"}
                                                 direction={sortState.state === "asc" ? "down" : "up"} />}
                                     </div>
-                                    : <>{k.label}</>
+                                    :
+                                    <p className={"text-white text-left text-sm md:text-lg"}>{k.label}</p>
                                 }
                             </th>
                         )
                     })}
                     <RenderIf condition={!!actions}>
-                        <th className={"rounded-tr-lg p-3 text-left text-white w-0"}>
+                        <th className={"rounded-tr-lg p-3 text-left text-white w-0 text-sm md:text-lg"}>
                             Actions
                         </th>
                     </RenderIf>
@@ -101,7 +102,9 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                             {keys.map((k, j) => {
                                 return (
                                     <td key={j} onClick={onOpen ? () => onOpen(item) : () => null}
-                                        className={"border border-l-0 border-r-0 border-[#d8d8d8] p-3 text-left hover:cursor-pointer"}>
+                                        className={className(
+                                            "first:break-words first:line-clamp-1 leading-[3] w-fit first:w-full",
+                                            "p-3 text-left hover:cursor-pointer")}>
                                         <RenderIf condition={!k.operation}>
                                             {item[k.key]}
                                         </RenderIf>
@@ -117,7 +120,7 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                             {actions &&
 								<td
 									key={i}
-									className={"border border-l-0 border-r-0 border-[#d8d8d8] p-3 text-left"}>
+									className={"p-3 text-left"}>
 									<div className={"flex gap-x-2"}>
                                         {actions.map((action, i) => {
                                             return (
