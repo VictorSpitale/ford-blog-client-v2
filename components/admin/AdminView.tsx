@@ -4,6 +4,8 @@ import {AdminViews} from "../../shared/types/adminViews.type";
 import AdminViewSwitcher from "./AdminViewSwitcher";
 import RenderIf from "../shared/RenderIf";
 import PostsView from "./views/PostsView";
+import CategoriesView from "./views/CategoriesView";
+import UsersView from "./views/UsersView";
 
 type PropsType = {
     view: AdminViews
@@ -20,6 +22,12 @@ const AdminView = ({view}: PropsType) => {
                 <AdminViewSwitcher activeView={view} />
                 <RenderIf condition={view === AdminViews.POSTS}>
                     <PostsView />
+                </RenderIf>
+                <RenderIf condition={view === AdminViews.CATEGORIES}>
+                    <CategoriesView />
+                </RenderIf>
+                <RenderIf condition={view === AdminViews.USERS}>
+                    <UsersView />
                 </RenderIf>
             </div>
         </div>
