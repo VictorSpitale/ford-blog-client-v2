@@ -62,6 +62,9 @@ export interface paths {
     delete: operations["PostsController_deletePost"];
     patch: operations["PostsController_updatePost"];
   };
+  "/api/posts/{slug}/likers": {
+    get: operations["PostsController_getPostLikers"];
+  };
   "/api/posts/like/{slug}": {
     patch: operations["PostsController_likePost"];
   };
@@ -447,6 +450,23 @@ export interface components {
        * @example It is the story about...
        */
       desc: string;
+      /**
+       * @description Url to the picture
+       * @example https://storage.googleapis.com/name
+       */
+      picture: string;
+    };
+    BasicUserDto: {
+      /**
+       * @description User's pseudo
+       * @example John Doe
+       */
+      pseudo: string;
+      /**
+       * @description User's id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
       /**
        * @description Url to the picture
        * @example https://storage.googleapis.com/name
@@ -1051,6 +1071,28 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["UpdatePostDto"];
+      };
+    };
+  };
+  PostsController_getPostLikers: {
+    parameters: {
+      path: {
+        /** Post's slug to query */
+        slug: string;
+      };
+    };
+    responses: {
+      /** The post likers got by its slug */
+      200: {
+        content: {
+          "application/json": components["schemas"]["BasicUserDto"][];
+        };
+      };
+      /** The post doesnt exist */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
       };
     };
   };

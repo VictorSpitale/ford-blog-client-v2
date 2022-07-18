@@ -14,9 +14,10 @@ import {navSearchReducer} from "./reducers/navSearch.reducer";
 import categorySlideReducer from "./reducers/categories/categorySlide.reducer";
 import {categorizedPostsReducer} from "./reducers/categories/categorizedPosts.reducer";
 import errorsReducer from "./reducers/errors.reducer";
-import adminViewReducer from "./reducers/adminView.reducer";
+import adminViewReducer from "./reducers/admin/adminView.reducer";
 import categoriesCountReducer from "./reducers/categories/categoriesCount.reducer";
 import usersReducer from "./reducers/users/users.reducer";
+import adminPostsLikersReducer from "./reducers/admin/adminPostsLikers.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -30,6 +31,7 @@ const combinedReducer = combineReducers({
     selectCategories: selectCategoriesReducer,
     accountView: accountViewReducer,
     adminView: adminViewReducer,
+    adminPostsLikers: adminPostsLikersReducer,
     likedPosts: likedPostsReducer,
     currentComment: currentCommentEditReducer,
     navSearch: navSearchReducer,
