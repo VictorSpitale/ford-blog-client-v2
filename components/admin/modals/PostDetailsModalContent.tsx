@@ -55,11 +55,11 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                 <p>Catégories</p>
                                 <p>
                                     {post.categories.map((cat, i) => {
-                                        return (<>
-                                                <span
-                                                    className={"underline text-blue-400 cursor-pointer"}>{cat.name}</span>
-                                                {i !== post.categories.length - 1 ? ", " : ""}
-                                            </>
+                                        return (
+                                            <span key={i}
+                                                  className={"underline text-blue-400 cursor-pointer"}>
+                                                {cat.name}{i !== post.categories.length - 1 ? ", " : ""}
+                                            </span>
                                         )
                                     })}
                                 </p>
