@@ -8,6 +8,8 @@ export type IUser = {
     createdAt: string;
 }
 
+export type IBasicUser = Pick<IUser, "_id"> & Pick<IUser, "pseudo"> & Pick<IUser, "picture">
+
 export type UpdateUser = {
     pseudo?: string;
     password?: string;
