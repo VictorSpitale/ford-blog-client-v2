@@ -225,6 +225,12 @@
     },
     "posts": {
       "title": "Liste des articles"
+    },
+    "categories": {
+      "title": "Liste des catégories"
+    },
+    "users": {
+      "title": "Liste des utilisateurs"
     }
   }
 }
