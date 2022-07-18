@@ -42,9 +42,9 @@ const Account: NextPageWithLayout = () => {
     }, [router])
 
     useEffect(() => {
-        const resetState = async () => {
-            await dispatch(setView(AccountViews.PROFILE));
-            await dispatch(cleanLikedPosts());
+        const resetState = () => {
+            dispatch(setView(AccountViews.PROFILE));
+            dispatch(cleanLikedPosts());
         }
 
         return () => {

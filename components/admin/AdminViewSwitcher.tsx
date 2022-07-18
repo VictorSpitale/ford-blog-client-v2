@@ -4,7 +4,7 @@ import {useTranslation} from "../../shared/hooks";
 import {getAdminViewButtons} from "../../shared/utils/admin/views.utils";
 import {AdminViews} from "../../shared/types/adminViews.type";
 import {useAppDispatch} from "../../context/hooks";
-import {setView} from "../../context/actions/admin.actions";
+import {setAdminView} from "../../context/actions/admin.actions";
 import Link from "next/link";
 
 type PropsType = {
@@ -18,7 +18,7 @@ const AdminViewSwitcher = ({activeView}: PropsType) => {
 
     const changeView = async (view: AdminViews) => {
         if (view === activeView) return;
-        await dispatch(setView(view));
+        await dispatch(setAdminView(view));
     }
 
     return (

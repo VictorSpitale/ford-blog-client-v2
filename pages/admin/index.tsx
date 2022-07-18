@@ -6,7 +6,7 @@ import {isEmpty} from "../../shared/utils/object.utils";
 import SEO from "../../components/shared/seo";
 import {useTranslation} from "../../shared/hooks";
 import AdminView from "../../components/admin/AdminView";
-import {setView} from "../../context/actions/admin.actions";
+import {setAdminView} from "../../context/actions/admin.actions";
 import {AdminViews, getViewType} from "../../shared/types/adminViews.type";
 import {useRouter} from "next/router";
 
@@ -20,8 +20,8 @@ const Admin = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const resetState = async () => {
-            await dispatch(setView(AdminViews.POSTS));
+        const resetState = () => {
+            dispatch(setAdminView(AdminViews.POSTS));
         }
         return () => {
             resetState();
@@ -30,7 +30,7 @@ const Admin = () => {
 
     useEffect(() => {
         if (router.query.view && typeof router.query.view === "string") {
-            dispatch(setView(getViewType(router.query.view)));
+            dispatch(setAdminView(getViewType(router.query.view)));
         }
     }, [dispatch, router.query])
 
