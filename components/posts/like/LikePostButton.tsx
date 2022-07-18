@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import Heart from "./Heart";
 import {IPost, LikeStatus} from "../../../shared/types/post.type";
 import {useAppDispatch} from "../../../context/hooks";
-import {changeLikeStatus} from "../../../context/actions/posts.actions";
+import {changeLikeStatus} from "../../../context/actions/posts/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {IUser} from "../../../shared/types/user.type";

@@ -1,6 +1,9 @@
-import {currentCommentEditReducer, CurrentCommentEditState} from "../../../context/reducers/currentCommentEdit.reducer";
+import {
+    currentCommentEditReducer,
+    CurrentCommentEditState
+} from "../../../context/reducers/posts/currentCommentEdit.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {changeCurrentEditComment} from "../../../context/actions/commentEdit.actions";
+import {changeCurrentEditComment} from "../../../context/actions/posts/commentEdit.actions";
 
 describe('CommentEdit Actions & Reducers', function () {
 

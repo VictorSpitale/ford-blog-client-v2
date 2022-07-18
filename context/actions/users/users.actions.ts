@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {IUser} from "../../shared/types/user.type";
-import {RootState} from "../store";
-import {isEmpty} from "../../shared/utils/object.utils";
-import {fetchApi} from "../instance";
+import {IUser} from "../../../shared/types/user.type";
+import {RootState} from "../../store";
+import {isEmpty} from "../../../shared/utils/object.utils";
+import {fetchApi} from "../../instance";
 
 export const GET_USERS = "GET_USERS";
 

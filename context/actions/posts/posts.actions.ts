@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {RootState} from "../store";
+import {RootState} from "../../store";
 import {
     CreatePostComment,
     DeletePostComment,
@@ -10,11 +10,11 @@ import {
     LikeStatus,
     UpdatePost,
     UpdatePostComment
-} from "../../shared/types/post.type";
-import {toFormData} from "../../shared/utils/object.utils";
-import {fetchApi} from "../instance";
+} from "../../../shared/types/post.type";
+import {toFormData} from "../../../shared/utils/object.utils";
+import {fetchApi} from "../../instance";
 import {NextPageContext} from "next";
-import {Categorized} from "../reducers/categorizedPosts.reducer";
+import {Categorized} from "../../reducers/categories/categorizedPosts.reducer";
 
 export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"

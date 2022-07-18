@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {useTranslation} from "../../shared/hooks";
 import {NextPage} from "next";
 import Layout from "../../components/layouts/Layout";
-import {getPosts} from "../../context/actions/posts.actions";
+import {getPosts} from "../../context/actions/posts/posts.actions";
 import PostCard from "../../components/posts/PostCard";
 import RenderIf from "../../components/shared/RenderIf";
 

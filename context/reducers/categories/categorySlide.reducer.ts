@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {ICategory} from "../../shared/types/category.type";
-import {setCategorySlide} from "../actions/categories.actions";
+import {ICategory} from "../../../shared/types/category.type";
+import {setCategorySlide} from "../../actions/categories/categories.actions";
 
 export type CategorySlideState = {
     category: ICategory | undefined;

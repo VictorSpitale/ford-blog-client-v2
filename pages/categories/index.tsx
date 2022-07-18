@@ -4,11 +4,11 @@ import {NextPage} from "next";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 
 import CategoriesSlider from "../../components/categories/slider/CategoriesSlider";
-import {getCategories, setCategorySlide} from "../../context/actions/categories.actions";
+import {getCategories, setCategorySlide} from "../../context/actions/categories/categories.actions";
 import SEO from "../../components/shared/seo";
 import {wrapper} from "../../context/store";
 import {useTranslation} from "../../shared/hooks";
-import {getCategorizedPosts} from "../../context/actions/posts.actions";
+import {getCategorizedPosts} from "../../context/actions/posts/posts.actions";
 import PostsList from "../../components/posts/PostsList";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useRouter} from "next/router";

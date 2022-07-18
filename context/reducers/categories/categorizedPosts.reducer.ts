@@ -1,6 +1,6 @@
-import {IPost} from "../../shared/types/post.type";
+import {IPost} from "../../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
-import {getCategorizedPosts} from "../actions/posts.actions";
+import {getCategorizedPosts} from "../../actions/posts/posts.actions";
 
 export type Categorized = {
     category: string;

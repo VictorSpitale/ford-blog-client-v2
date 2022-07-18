@@ -1,6 +1,6 @@
-import {IUser} from "../../shared/types/user.type";
+import {IUser} from "../../../shared/types/user.type";
 import {createReducer} from "@reduxjs/toolkit";
-import {getUsers} from "../actions/users.actions";
+import {getUsers} from "../../actions/users/users.actions";
 
 export type UsersState = {
     users: IUser[];

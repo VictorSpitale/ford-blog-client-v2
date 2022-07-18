@@ -7,7 +7,7 @@ import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
 import Button from "../../shared/Button";
 import ProfilePicture from "../../shared/ProfilePicture";
 import {setError} from "../../../context/actions/errors.actions";
-import {removePicture, updateLoggedUser, uploadPicture} from "../../../context/actions/user.actions";
+import {removePicture, updateLoggedUser, uploadPicture} from "../../../context/actions/users/user.actions";
 import {HttpError} from "../../../shared/types/httpError.type";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import RenderIf from "../../shared/RenderIf";

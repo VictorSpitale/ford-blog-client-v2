@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {ICategoryWithCount} from "../../shared/types/category.type";
-import {getCategoriesWithCount} from "../actions/categories.actions";
+import {ICategoryWithCount} from "../../../shared/types/category.type";
+import {getCategoriesWithCount} from "../../actions/categories/categories.actions";
 
 export type CategoriesWithCountState = {
     categories: ICategoryWithCount[];

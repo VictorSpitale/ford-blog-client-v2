@@ -4,7 +4,7 @@ import {useTranslation} from "../../../shared/hooks";
 import SimplifiedPostCard from "../../posts/SimplifiedPostCard";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
-import {getLikedPosts} from "../../../context/actions/posts.actions";
+import {getLikedPosts} from "../../../context/actions/posts/posts.actions";
 import {IUser} from "../../../shared/types/user.type";
 
 type PropsType = {

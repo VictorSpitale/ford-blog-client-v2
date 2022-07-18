@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import BaseView from "../../shared/BaseView";
 import {useModal, useTranslation} from "../../../shared/hooks";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
-import {deletePost, getPosts} from "../../../context/actions/posts.actions";
+import {deletePost, getPosts} from "../../../context/actions/posts/posts.actions";
 import RenderIf from "../../shared/RenderIf";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import Table from "../../table/Table";

@@ -1,10 +1,10 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {IUser, UpdateUser} from "../../shared/types/user.type";
-import {RootState} from "../store";
-import {isEmpty} from "../../shared/utils/object.utils";
-import {fetchApi} from "../instance";
-import {AnyFunction} from "../../shared/types/props.type";
-import {ContactType} from "../../shared/types/contact.type";
+import {IUser, UpdateUser} from "../../../shared/types/user.type";
+import {RootState} from "../../store";
+import {isEmpty} from "../../../shared/utils/object.utils";
+import {fetchApi} from "../../instance";
+import {AnyFunction} from "../../../shared/types/props.type";
+import {ContactType} from "../../../shared/types/contact.type";
 
 export const GET_USER = "GET_USER";
 export const LOGOUT = "LOGOUT";

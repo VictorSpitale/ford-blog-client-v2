@@ -9,7 +9,7 @@ import {setView} from "../../context/actions/account.actions";
 import {AccountViews} from "../../shared/types/accountViews.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useTranslation} from "../../shared/hooks";
-import {cleanLikedPosts} from "../../context/actions/posts.actions";
+import {cleanLikedPosts} from "../../context/actions/posts/posts.actions";
 import Layout from "../../components/layouts/Layout";
 import {NextPageWithLayout} from "../../shared/types/page.type";
 import {setError} from "../../context/actions/errors.actions";

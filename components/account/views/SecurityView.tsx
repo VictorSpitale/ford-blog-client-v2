@@ -6,7 +6,7 @@ import Button from "../../shared/Button";
 import {IUser} from "../../../shared/types/user.type";
 import DeleteAccountModal from "../modals/DeleteAccountModal";
 import {setError} from "../../../context/actions/errors.actions";
-import {deleteAccount, updateLoggedUser} from "../../../context/actions/user.actions";
+import {deleteAccount, updateLoggedUser} from "../../../context/actions/users/user.actions";
 import {HttpError} from "../../../shared/types/httpError.type";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import RenderIf from "../../shared/RenderIf";

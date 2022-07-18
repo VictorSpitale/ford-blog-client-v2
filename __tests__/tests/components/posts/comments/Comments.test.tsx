@@ -11,7 +11,7 @@ import Comments from "../../../../../components/posts/comments/Comments";
 import fr from "../../../../../public/static/locales/fr.json";
 import {queryByContent} from "../../../../utils/CustomQueries";
 import {CommentStub} from "../../../../stub/CommentStub";
-import * as actions from '../../../../../context/actions/posts.actions'
+import * as actions from '../../../../../context/actions/posts/posts.actions'
 import * as fetch from '../../../../../context/instance'
 
 describe('CommentsTest', function () {

@@ -1,5 +1,5 @@
 import {createAction} from "@reduxjs/toolkit";
-import {CurrentCommentEditState} from "../reducers/currentCommentEdit.reducer";
+import {CurrentCommentEditState} from "../../reducers/posts/currentCommentEdit.reducer";
 
 export const CHANGE_CURRENT_EDIT_COMMENT = "CHANGE_CURRENT_EDIT_COMMENT";
 

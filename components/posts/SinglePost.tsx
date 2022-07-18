@@ -16,7 +16,7 @@ import {getTimeSinceMsg, timeSince} from "../../shared/utils/date.utils";
 import DeletePostModal from "./modals/DeletePostModal";
 import UpdatePostModal from "./modals/UpdatePostModal";
 import Comments from "./comments/Comments";
-import {cleanPost, deletePost} from "../../context/actions/posts.actions";
+import {cleanPost, deletePost} from "../../context/actions/posts/posts.actions";
 import {useRouter} from "next/router";
 
 type PropsType = {

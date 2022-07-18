@@ -10,7 +10,7 @@ import {PostStub} from "../../../../stub/PostStub";
 import {CategoryStub} from "../../../../stub/CategoryStub";
 import {queryByContent} from "../../../../utils/CustomQueries";
 import fr from "../../../../../public/static/locales/fr.json";
-import * as actions from "../../../../../context/actions/posts.actions";
+import * as actions from "../../../../../context/actions/posts/posts.actions";
 import * as fetch from "../../../../../context/instance";
 import * as refUtils from '../../../../../shared/utils/refs.utils';
 

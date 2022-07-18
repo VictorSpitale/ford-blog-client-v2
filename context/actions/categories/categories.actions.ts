@@ -1,10 +1,10 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {RootState} from "../store";
-import {fetchApi} from "../instance";
-import {ICategory, ICategoryWithCount} from "../../shared/types/category.type";
-import {CategorySlideState} from "../reducers/categorySlide.reducer";
-import {capitalize} from "../../shared/utils/string.utils";
-import {isEmpty} from "../../shared/utils/object.utils";
+import {RootState} from "../../store";
+import {fetchApi} from "../../instance";
+import {ICategory, ICategoryWithCount} from "../../../shared/types/category.type";
+import {CategorySlideState} from "../../reducers/categories/categorySlide.reducer";
+import {capitalize} from "../../../shared/utils/string.utils";
+import {isEmpty} from "../../../shared/utils/object.utils";
 
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORIES_WITH_COUNT = "GET_CATEGORIES_WITH_COUNT";

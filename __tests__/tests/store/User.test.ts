@@ -1,4 +1,4 @@
-import userReducer, {UserState} from "../../../context/reducers/user.reducer";
+import userReducer, {UserState} from "../../../context/reducers/users/user.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
 import {
     deleteAccount,
@@ -8,7 +8,7 @@ import {
     removePicture,
     updateLoggedUser,
     uploadPicture
-} from "../../../context/actions/user.actions";
+} from "../../../context/actions/users/user.actions";
 import {IUser} from "../../../shared/types/user.type";
 import {UserStub} from "../../stub/UserStub";
 import * as fetch from "../../../context/instance";

@@ -1,4 +1,4 @@
-import {IUser} from "../../shared/types/user.type";
+import {IUser} from "../../../shared/types/user.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     deleteAccount,
@@ -9,7 +9,7 @@ import {
     sendContactMail,
     updateLoggedUser,
     uploadPicture
-} from "../actions/user.actions";
+} from "../../actions/users/user.actions";
 
 export type UserState = {
     user: IUser;

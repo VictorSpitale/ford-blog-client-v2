@@ -8,7 +8,7 @@ import {IUser} from "../../shared/types/user.type";
 import RenderIf from "../shared/RenderIf";
 import {useTranslation} from "../../shared/hooks";
 import {useAppDispatch} from "../../context/hooks";
-import {sendContactMail} from "../../context/actions/user.actions";
+import {sendContactMail} from "../../context/actions/users/user.actions";
 
 type PropsType = {
     user: IUser;

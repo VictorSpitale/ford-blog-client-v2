@@ -1,6 +1,6 @@
 import SEO from "../components/shared/seo";
 import {wrapper} from "../context/store";
-import {getLastPosts} from "../context/actions/posts.actions";
+import {getLastPosts} from "../context/actions/posts/posts.actions";
 import {useAppSelector} from "../context/hooks";
 import dynamic from "next/dynamic";
 import {changeStatus} from "../context/actions/firstHydrate.actions";

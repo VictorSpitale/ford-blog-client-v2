@@ -1,4 +1,4 @@
-import {IPost} from "../../shared/types/post.type";
+import {IPost} from "../../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     changeLikeStatus,
@@ -10,7 +10,7 @@ import {
     patchLikeStatus,
     updatePost,
     updatePostComment
-} from "../actions/posts.actions";
+} from "../../actions/posts/posts.actions";
 
 export type PostState = {
     post: IPost;

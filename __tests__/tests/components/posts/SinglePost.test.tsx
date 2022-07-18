@@ -10,7 +10,7 @@ import SinglePost from "../../../../components/posts/SinglePost";
 import {queryByContent} from "../../../utils/CustomQueries";
 import {IUserRole} from "../../../../shared/types/user.type";
 import * as fr from '../../../../public/static/locales/fr.json'
-import * as actions from '../../../../context/actions/posts.actions';
+import * as actions from '../../../../context/actions/posts/posts.actions';
 import * as fetch from '../../../../context/instance';
 
 describe('SinglePostTest', function () {

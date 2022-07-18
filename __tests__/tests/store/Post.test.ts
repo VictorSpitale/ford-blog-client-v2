@@ -1,4 +1,4 @@
-import {postReducer, PostState} from "../../../context/reducers/post.reducer";
+import {postReducer, PostState} from "../../../context/reducers/posts/post.reducer";
 import {IPost, LikeStatus} from "../../../shared/types/post.type";
 import {AnyAction} from "@reduxjs/toolkit";
 import {
@@ -10,7 +10,7 @@ import {
     patchLikeStatus,
     updatePost,
     updatePostComment
-} from "../../../context/actions/posts.actions";
+} from "../../../context/actions/posts/posts.actions";
 import {PostStub} from "../../stub/PostStub";
 import * as fetch from "../../../context/instance";
 import {makeStore} from "../../../context/store";

@@ -2,9 +2,9 @@ import {
     Categorized,
     categorizedPostsReducer,
     CategorizedPostsType
-} from "../../../context/reducers/categorizedPosts.reducer";
+} from "../../../context/reducers/categories/categorizedPosts.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {getCategorizedPosts} from "../../../context/actions/posts.actions";
+import {getCategorizedPosts} from "../../../context/actions/posts/posts.actions";
 import {PostStub} from "../../stub/PostStub";
 import {makeStore} from "../../../context/store";
 import * as fetch from "../../../context/instance";

@@ -1,5 +1,5 @@
-import {IPost} from "../../shared/types/post.type";
-import {createPost, deletePost, getLastPosts, updatePost} from "../actions/posts.actions";
+import {IPost} from "../../../shared/types/post.type";
+import {createPost, deletePost, getLastPosts, updatePost} from "../../actions/posts/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
 
 export type PostsState = {

@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {changeCurrentEditComment} from "../actions/commentEdit.actions";
+import {changeCurrentEditComment} from "../../actions/posts/commentEdit.actions";
 
 export type CurrentCommentEditState = {
     commentId: string | undefined;

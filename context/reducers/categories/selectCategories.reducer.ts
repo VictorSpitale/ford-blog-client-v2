@@ -1,6 +1,10 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {ICategory} from "../../shared/types/category.type";
-import {addSelectedCategories, removeSelectedCategories, setSelectedCategories} from "../actions/categories.actions";
+import {ICategory} from "../../../shared/types/category.type";
+import {
+    addSelectedCategories,
+    removeSelectedCategories,
+    setSelectedCategories
+} from "../../actions/categories/categories.actions";
 
 export type SelectCategoriesState = {
     categories: ICategory[];

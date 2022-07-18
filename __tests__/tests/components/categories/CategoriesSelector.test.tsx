@@ -8,7 +8,7 @@ import * as fr from "../../../../public/static/locales/fr.json";
 import {CategoryStub} from "../../../stub/CategoryStub";
 import {queryByContent} from "../../../utils/CustomQueries";
 import selectEvent from "react-select-event";
-import * as action from "../../../../context/actions/categories.actions";
+import * as action from "../../../../context/actions/categories/categories.actions";
 import * as fetch from "../../../../context/instance";
 
 describe('CategoriesSelectorTest', function () {

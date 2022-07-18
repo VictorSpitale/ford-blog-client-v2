@@ -1,8 +1,8 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Children} from "../shared/types/props.type";
 import {useAppDispatch} from "./hooks";
-import {getUser} from "./actions/user.actions";
-import {getCategories} from "./actions/categories.actions";
+import {getUser} from "./actions/users/user.actions";
+import {getCategories} from "./actions/categories/categories.actions";
 
 export const AppContext = createContext('');
 

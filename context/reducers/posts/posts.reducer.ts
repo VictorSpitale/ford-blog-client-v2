@@ -1,5 +1,5 @@
-import {IPaginatedPosts} from "../../shared/types/post.type";
-import {deletePost, getPosts, updatePost} from "../actions/posts.actions";
+import {IPaginatedPosts} from "../../../shared/types/post.type";
+import {deletePost, getPosts, updatePost} from "../../actions/posts/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
 import _ from 'lodash';
 

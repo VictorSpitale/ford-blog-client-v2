@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {ICategory} from "../../shared/types/category.type";
-import {createCategory, getCategories} from "../actions/categories.actions";
+import {ICategory} from "../../../shared/types/category.type";
+import {createCategory, getCategories} from "../../actions/categories/categories.actions";
 
 export type CategoriesState = {
     categories: ICategory[];

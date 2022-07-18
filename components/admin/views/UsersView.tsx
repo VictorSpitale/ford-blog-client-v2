@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import RenderIf from "../../shared/RenderIf";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import Table from "../../table/Table";
-import {getUsers} from "../../../context/actions/users.actions";
+import {getUsers} from "../../../context/actions/users/users.actions";
 import {IUser} from "../../../shared/types/user.type";
 
 const UsersView = () => {

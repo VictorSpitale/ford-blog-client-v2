@@ -7,8 +7,8 @@ import LoginForm from "../../../../components/login/LoginForm";
 import {queryByContent} from "../../../utils/CustomQueries";
 import * as fr from '../../../../public/static/locales/fr.json'
 import * as fetch from "../../../../shared/hooks/useFetch";
-import * as actions from '../../../../context/actions/user.actions'
-import {LOGIN} from '../../../../context/actions/user.actions'
+import * as actions from '../../../../context/actions/users/user.actions'
+import {LOGIN} from '../../../../context/actions/users/user.actions'
 import {UserStub} from "../../../stub/UserStub";
 import {IUser} from "../../../../shared/types/user.type";
 

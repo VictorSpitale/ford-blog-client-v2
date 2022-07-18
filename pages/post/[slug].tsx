@@ -4,7 +4,7 @@ import {wrapper} from "../../context/store";
 import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
 import SinglePost from "../../components/posts/SinglePost";
-import {getPost, patchLikeStatus} from "../../context/actions/posts.actions";
+import {getPost, patchLikeStatus} from "../../context/actions/posts/posts.actions";
 import {ErrorProps} from "../../shared/types/errors.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {NextPageWithLayout} from "../../shared/types/page.type";

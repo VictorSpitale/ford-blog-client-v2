@@ -9,7 +9,7 @@ import TextAreaField from "../../shared/TextAreaField";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {isValidUrl} from "../../../shared/utils/regex.utils";
-import {updatePost} from "../../../context/actions/posts.actions";
+import {updatePost} from "../../../context/actions/posts/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
 import {toUpdatePost} from "../../../shared/utils/post/post.utils";

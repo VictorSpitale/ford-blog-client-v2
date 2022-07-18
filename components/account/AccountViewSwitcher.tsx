@@ -5,7 +5,7 @@ import {useAppDispatch} from "../../context/hooks";
 import {className} from "../../shared/utils/class.utils";
 import {setView} from "../../context/actions/account.actions";
 import {getAccountViewButtons} from "../../shared/utils/account/views.utils";
-import {logout} from "../../context/actions/user.actions";
+import {logout} from "../../context/actions/users/user.actions";
 
 type PropsType = {
     activeView: AccountViews;

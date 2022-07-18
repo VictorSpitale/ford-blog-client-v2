@@ -7,7 +7,7 @@ import News from "../../../pages/news";
 import * as fetch from "../../../context/instance";
 import * as fr from "../../../public/static/locales/fr.json";
 import {UserStub} from "../../stub/UserStub";
-import {getUser} from "../../../context/actions/user.actions";
+import {getUser} from "../../../context/actions/users/user.actions";
 import {PostStub} from "../../stub/PostStub";
 import * as hooks from "../../../context/hooks";
 
