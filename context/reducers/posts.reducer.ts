@@ -28,6 +28,7 @@ export const postsReducer = createReducer(initial, (builder) => {
         state.paginatedPosts = {
             ...payload,
             posts: uniquePosts,
+            page: parseInt(String(payload.page))
         }
     }).addCase(getPosts.rejected, (state) => {
         state.pending = false
