@@ -4,5 +4,5 @@ export type UseModalType = {
     otherModal: JSX.Element | undefined;
     addOtherModal: (el: JSX.Element) => void;
     previous: () => void;
-    hasPrevious: () => boolean;
+    hasPrevious: boolean;
 }
