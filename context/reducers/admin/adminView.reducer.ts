@@ -1,11 +1,11 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {AdminViews} from "../../shared/types/adminViews.type";
-import {setAdminView} from "../actions/admin.actions";
+import {AdminViews} from "../../../shared/types/adminViews.type";
+import {setAdminView} from "../../actions/admin.actions";
 
-export type AdmAdminViews = {
+export type AdminViewsState = {
     view: AdminViews;
 }
-const initial: AdmAdminViews = {
+const initial: AdminViewsState = {
     view: AdminViews.POSTS,
 }
 
