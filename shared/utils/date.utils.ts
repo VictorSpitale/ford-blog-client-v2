@@ -1,5 +1,27 @@
 import {Translation} from "../hooks/useTranslation";
 
+export const formateDate = (num: string | number): string => {
+    const options = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    } as const;
+    let timestamp;
+    if (typeof num === "string") {
+        timestamp = Date.parse(num);
+    } else {
+        timestamp = num;
+    }
+
+    const date = new Date(timestamp).toLocaleDateString('fr-FR', options);
+
+    return date.toString();
+};
+
 export const stringToDate = (num: string | number): Date => {
     let timestamp;
     if (typeof num === "string") {
