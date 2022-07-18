@@ -6,35 +6,31 @@ import InputField from "../../shared/InputField";
 import Image from "next/image"
 import {getPostCardImg} from "../../../shared/images/postCardImg";
 import TextAreaField from "../../shared/TextAreaField";
-import {useAppDispatch} from "../../../context/hooks";
+import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {isValidUrl} from "../../../shared/utils/regex.utils";
 import {updatePost} from "../../../context/actions/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
 import {toUpdatePost} from "../../../shared/utils/post/post.utils";
-import {ICategory} from "../../../shared/types/category.type";
 import {scrollTop} from "../../../shared/utils/refs.utils";
 
 type PropsType = {
     post: IPost;
     toggle: AnyFunction;
     isShowing: boolean;
-    categories: ICategory[];
-    updatedCategories: ICategory[];
     pending: boolean;
-    categoriesPending: boolean;
 }
 
 const UpdatePostModal = ({
                              post,
                              toggle,
                              isShowing,
-                             updatedCategories,
-                             pending,
-                             categoriesPending,
-                             categories
+                             pending
                          }: PropsType) => {
+
+    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
 
     const t = useTranslation();
 

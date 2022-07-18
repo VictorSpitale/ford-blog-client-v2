@@ -18,15 +18,11 @@ import UpdatePostModal from "./modals/UpdatePostModal";
 import Comments from "./comments/Comments";
 import {cleanPost, deletePost} from "../../context/actions/posts.actions";
 import {useRouter} from "next/router";
-import {ICategory} from "../../shared/types/category.type";
 
 type PropsType = {
     post: IPost;
     lastPostPending: boolean;
-    updatedCategories: ICategory[];
-    categoriesPending: boolean;
     postPending: boolean;
-    categories: ICategory[];
     user: IUser;
 }
 
@@ -34,9 +30,6 @@ const SinglePost = ({
                         post,
                         lastPostPending,
                         postPending,
-                        categoriesPending,
-                        categories,
-                        updatedCategories,
                         user
                     }: PropsType) => {
 
@@ -70,9 +63,7 @@ const SinglePost = ({
         <>
             <DeletePostModal toggle={toggle} isShowing={isShowing} pending={lastPostPending} handleDelete={handleDelete}
                              post={post} />
-            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing}
-                             updatedCategories={updatedCategories} categories={categories} pending={postPending}
-                             categoriesPending={categoriesPending} />
+            <UpdatePostModal post={post} toggle={toggleUpdate} isShowing={isUpdateShowing} pending={postPending} />
             <div data-content={"single-post"}
                  className={"mx-8 md:mx-24 pb-2 mb-10 lg:mx-32 xl:mx-60 bg-transparent mt-5 rounded-2xl shadow-2xl"}>
                 {post.picture && <div
