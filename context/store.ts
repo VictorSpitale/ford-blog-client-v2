@@ -16,6 +16,7 @@ import {categorizedPostsReducer} from "./reducers/categorizedPosts.reducer";
 import errorsReducer from "./reducers/errors.reducer";
 import adminViewReducer from "./reducers/adminView.reducer";
 import categoriesCountReducer from "./reducers/categoriesCount.reducer";
+import usersReducer from "./reducers/users.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -23,6 +24,7 @@ const combinedReducer = combineReducers({
     post: postReducer,
     hydrateStatus: firstHydrateReducer,
     user: userReducer,
+    users: usersReducer,
     categories: categoriesReducer,
     categoriesWithCount: categoriesCountReducer,
     selectCategories: selectCategoriesReducer,
