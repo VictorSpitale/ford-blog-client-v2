@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AnyFunction} from "../../../shared/types/props.type";
 import {IPost} from "../../../shared/types/post.type";
 import Image from "next/image";
@@ -9,6 +9,12 @@ import {className} from "../../../shared/utils/class.utils";
 import Tabs from "../../tabs/Tabs";
 import Link from "next/link";
 import {formateDate} from "../../../shared/utils/date.utils";
+import {useAppDispatch, useAppSelector} from "../../../context/hooks";
+import {getPostLikers} from "../../../context/actions/admin/admin.actions";
+import {isEmpty} from "../../../shared/utils/object.utils";
+import {IBasicUser} from "../../../shared/types/user.type";
+import ProfilePicture from "../../shared/ProfilePicture";
+import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
 
 type PropsType = {
     setOtherModal: AnyFunction;
@@ -16,6 +22,25 @@ type PropsType = {
 }
 
 const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
+
+    const {posts, pending} = useAppSelector(state => state.adminPostsLikers);
+
+    const dispatch = useAppDispatch();
+
+    const [likers, setLikers] = useState<IBasicUser[]>([]);
+
+    useEffect(() => {
+        const fetchLikers = async () => {
+            await dispatch(getPostLikers(post.slug));
+        }
+        fetchLikers();
+    }, [dispatch, post.slug]);
+
+    useEffect(() => {
+        const found = posts.find((p) => p.slug === post.slug);
+        if (found) setLikers(found.likers);
+    }, [post.slug, posts]);
+
     return (
         <div className={"px-4 py-2"}>
             <div className={"flex gap-x-4"}>
@@ -30,7 +55,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                         <h1 className={"mt-5 text-center text-lg md:text-2xl text-justify md:font-semibold"}>{post.title}</h1>
                     </div>
                 </div>
-                <div className={"w-1/2"}>
+                <div className={"w-1/2 max-h-[450px] overflow-auto c-scroll"}>
                     <Tabs>
                         <div data-label={'Informations'}
                              className={className("[&>*]:flex [&>*]:justify-between [&>*]:gap-x-3 [&>*]:mb-4",
@@ -42,7 +67,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                             <div>
                                 <p>Slug</p>
                                 <Link href={`/post/${post.slug}`} passHref={true}>
-                                    <p className={"underline text-blue-400"}>{post.slug}</p>
+                                    <p className={"underline text-blue-400 cursor-pointer"}>{post.slug}</p>
                                 </Link>
                             </div>
                             <div>
@@ -81,15 +106,45 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                 <p>{formateDate(post.updatedAt)}</p>
                             </div>
                         </div>
-                        <div data-label={"J'aimes"}>
-                            <div className={"flex justify-between"}>
-
-                            </div>
+                        <div data-label={"J'aimes"}
+                             className={className("[&>*]:mb-4")}>
+                            <RenderIf condition={pending}>
+                                <p className={"italic"}>Chargement...</p>
+                            </RenderIf>
+                            <RenderIf condition={isEmpty(likers)}>
+                                <p>Aucun j'aime pour le moment</p>
+                            </RenderIf>
+                            <RenderIf condition={!isEmpty(likers)}>
+                                {likers.map((user, i) => {
+                                    return (
+                                        <div key={i} className={"flex items-center gap-x-4"}>
+                                            <ProfilePicture src={getUserPictureSrc(user).src} />
+                                            <p className={"text-blue-400 underline cursor-pointer"}>{user.pseudo}</p>
+                                        </div>
+                                    )
+                                })}
+                            </RenderIf>
                         </div>
-                        <div data-label={"Commentaires"}>
-                            <div className={"flex justify-between"}>
-
-                            </div>
+                        <div data-label={"Commentaires"}
+                             className={className("[&>*]:mb-4")}>
+                            <RenderIf condition={isEmpty(post.comments)}>
+                                <p>Aucun commentaire pour le moment</p>
+                            </RenderIf>
+                            <RenderIf condition={!isEmpty(post.comments)}>
+                                {post.comments.map((comment, i) => {
+                                    return (
+                                        <div key={i} className={"flex gap-x-4"}>
+                                            <div>
+                                                <ProfilePicture src={getUserPictureSrc(comment.commenter).src} />
+                                            </div>
+                                            <div>
+                                                <p className={"text-blue-400 underline cursor-pointer"}>{comment.commenter.pseudo}</p>
+                                                <p>{comment.comment}</p>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </RenderIf>
                         </div>
                     </Tabs>
                 </div>

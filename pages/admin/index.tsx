@@ -6,9 +6,9 @@ import {isEmpty} from "../../shared/utils/object.utils";
 import SEO from "../../components/shared/seo";
 import {useTranslation} from "../../shared/hooks";
 import AdminView from "../../components/admin/AdminView";
-import {setAdminView} from "../../context/actions/admin.actions";
 import {AdminViews, getViewType} from "../../shared/types/adminViews.type";
 import {useRouter} from "next/router";
+import {setAdminView} from "../../context/actions/admin/admin.actions";
 
 const Admin = () => {
 

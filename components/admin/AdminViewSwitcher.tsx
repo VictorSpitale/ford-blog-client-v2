@@ -4,7 +4,7 @@ import {useTranslation} from "../../shared/hooks";
 import {getAdminViewButtons} from "../../shared/utils/admin/views.utils";
 import {AdminViews} from "../../shared/types/adminViews.type";
 import {useAppDispatch} from "../../context/hooks";
-import {setAdminView} from "../../context/actions/admin.actions";
+import {setAdminView} from "../../context/actions/admin/admin.actions";
 import Link from "next/link";
 
 type PropsType = {
