@@ -4,6 +4,7 @@ import {fetchApi} from "../instance";
 import {ICategory} from "../../shared/types/category.type";
 import {CategorySlideState} from "../reducers/categorySlide.reducer";
 import {capitalize} from "../../shared/utils/string.utils";
+import {isEmpty} from "../../shared/utils/object.utils";
 
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
@@ -14,7 +15,11 @@ export const REMOVE_SELECT_CATEGORIES = "REMOVE_SELECT_CATEGORIES"
 
 export const CATEGORY_SLIDE = "CATEGORY_SLIDE"
 
-export const getCategories = createAsyncThunk<ICategory[], void, { state: RootState }>(GET_CATEGORIES, async () => {
+export const getCategories = createAsyncThunk<ICategory[], void, { state: RootState }>(GET_CATEGORIES, async (_, {getState}) => {
+    const categories = getState().categories.categories;
+    if (!isEmpty(categories)) {
+        return categories;
+    }
     let response: ICategory[] = [];
     await fetchApi("/api/categories", {method: "get"}).then((res) => response = res.data);
     return response;
