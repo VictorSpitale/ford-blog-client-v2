@@ -83,6 +83,9 @@ export interface paths {
     get: operations["CategoriesController_getCategories"];
     post: operations["CategoriesController_create"];
   };
+  "/api/categories/count": {
+    get: operations["CategoriesController_getCategoriesWithCount"];
+  };
   "/api/categories/{id}": {
     get: operations["CategoriesController_getCategoryById"];
     delete: operations["CategoriesController_deleteCategory"];
@@ -519,6 +522,23 @@ export interface components {
        * @example Sport
        */
       name: string;
+    };
+    CategoryWithCountDto: {
+      /**
+       * @description Category's name
+       * @example Sport
+       */
+      name: string;
+      /**
+       * @description Category's id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
+      /**
+       * @description Number of related posts
+       * @example 12
+       */
+      count: number;
     };
   };
 }
@@ -1281,6 +1301,17 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["CreateCategoryDto"];
+      };
+    };
+  };
+  CategoriesController_getCategoriesWithCount: {
+    parameters: {};
+    responses: {
+      /** List all categories with related posts count */
+      200: {
+        content: {
+          "application/json": components["schemas"]["CategoryWithCountDto"][];
+        };
       };
     };
   };
