@@ -1,5 +1,12 @@
 import {IPaginatedPosts} from "../../../shared/types/post.type";
-import {deletePost, getPosts, updatePost} from "../../actions/posts/posts.actions";
+import {
+    commentPost,
+    deletePost,
+    deletePostComment,
+    getPosts,
+    updatePost,
+    updatePostComment
+} from "../../actions/posts/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
 import _ from 'lodash';
 
@@ -52,6 +59,21 @@ export const postsReducer = createReducer(initial, (builder) => {
     }).addCase(deletePost.fulfilled, (state, {payload}) => {
         state.pending = false;
         state.paginatedPosts.posts = state.paginatedPosts.posts.filter((p) => p.slug !== payload);
+    }).addCase(commentPost.fulfilled, (state, {payload}) => {
+        state.paginatedPosts.posts = state.paginatedPosts.posts.map((p) => {
+            if (p._id === payload._id) return payload;
+            return p;
+        })
+    }).addCase(updatePostComment.fulfilled, (state, {payload}) => {
+        state.paginatedPosts.posts = state.paginatedPosts.posts.map((p) => {
+            if (p._id === payload._id) return payload;
+            return p;
+        })
+    }).addCase(deletePostComment.fulfilled, (state, {payload}) => {
+        state.paginatedPosts.posts = state.paginatedPosts.posts.map((p) => {
+            if (p._id === payload._id) return payload;
+            return p;
+        })
     })
 })
 
