@@ -77,19 +77,19 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                                     actions ? "" : "last:rounded-tr-lg")}>
                                 {sortable && sortState.key === k.key && sortState.state !== "default" ?
                                     <div className={"flex gap-x-2 items-center"}>
-                                        <p className={"text-white text-left text-sm md:text-lg"}>{k.label}</p>
+                                        <h1 className={"text-white text-left text-sm md:text-lg"}>{k.label}</h1>
                                         {<Arrow color={"white"}
                                                 direction={sortState.state === "asc" ? "down" : "up"} />}
                                     </div>
                                     :
-                                    <p className={"text-white text-left text-sm md:text-lg"}>{k.label}</p>
+                                    <h1 className={"text-white text-left text-sm md:text-lg"}>{k.label}</h1>
                                 }
                             </th>
                         )
                     })}
                     <RenderIf condition={!!actions}>
-                        <th className={"rounded-tr-lg p-3 text-left text-white w-0 text-sm md:text-lg"}>
-                            Actions
+                        <th className={"rounded-tr-lg p-3  w-0"}>
+                            <h1 className={"text-left text-white text-sm md:text-lg"}>Actions</h1>
                         </th>
                     </RenderIf>
                 </tr>
