@@ -18,6 +18,7 @@ import adminViewReducer from "./reducers/admin/adminView.reducer";
 import categoriesCountReducer from "./reducers/categories/categoriesCount.reducer";
 import usersReducer from "./reducers/users/users.reducer";
 import adminPostsLikersReducer from "./reducers/admin/adminPostsLikers.reducer";
+import adminCommentedPostsReducer from "./reducers/admin/adminCommentedPosts.reducer";
 
 const combinedReducer = combineReducers({
     posts: postsReducer,
@@ -32,6 +33,7 @@ const combinedReducer = combineReducers({
     accountView: accountViewReducer,
     adminView: adminViewReducer,
     adminPostsLikers: adminPostsLikersReducer,
+    adminCommentedPosts: adminCommentedPostsReducer,
     likedPosts: likedPostsReducer,
     currentComment: currentCommentEditReducer,
     navSearch: navSearchReducer,

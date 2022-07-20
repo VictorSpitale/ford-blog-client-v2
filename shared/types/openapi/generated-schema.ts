@@ -41,6 +41,9 @@ export interface paths {
   "/api/users/password/{token}": {
     post: operations["UsersController_recoverPassword"];
   };
+  "/api/users/{id}/comments": {
+    get: operations["UsersController_getCommentsByUserId"];
+  };
   "/api/mail/contact": {
     post: operations["MailController_contactMail"];
   };
@@ -233,60 +236,6 @@ export interface components {
        */
       password: string;
     };
-    ContactDto: {
-      /**
-       * @description Name
-       * @example John Doe
-       */
-      name: string;
-      /**
-       * @description Email
-       * @example John@Doe.fr
-       */
-      email: string;
-      /**
-       * @description Message
-       * @example It is the story about...
-       */
-      message: string;
-    };
-    CreatePostDto: {
-      /**
-       * @description Post's title
-       * @example The new ford mustang
-       */
-      title: string;
-      /**
-       * @description Post's slug
-       * @example the-new-ford-mustang
-       */
-      slug: string;
-      /**
-       * @description Post's desc
-       * @example It is the story about...
-       */
-      desc: string;
-      /**
-       * @description Source's name
-       * @example auto-moto
-       */
-      sourceName: string;
-      /**
-       * @description Source's link
-       * @example https://auto-moto.fr
-       */
-      sourceLink: string;
-      /**
-       * @description Post's category ids
-       * @example [621bd3239a004010c4ba3b06e]
-       */
-      categories: string[];
-      /**
-       * Format: binary
-       * @description File to upload, converted to picture url
-       */
-      file?: string;
-    };
     CategoryDto: {
       /**
        * @description Category's name
@@ -419,6 +368,60 @@ export interface components {
        * @description Post's last update date
        */
       updatedAt: string;
+    };
+    ContactDto: {
+      /**
+       * @description Name
+       * @example John Doe
+       */
+      name: string;
+      /**
+       * @description Email
+       * @example John@Doe.fr
+       */
+      email: string;
+      /**
+       * @description Message
+       * @example It is the story about...
+       */
+      message: string;
+    };
+    CreatePostDto: {
+      /**
+       * @description Post's title
+       * @example The new ford mustang
+       */
+      title: string;
+      /**
+       * @description Post's slug
+       * @example the-new-ford-mustang
+       */
+      slug: string;
+      /**
+       * @description Post's desc
+       * @example It is the story about...
+       */
+      desc: string;
+      /**
+       * @description Source's name
+       * @example auto-moto
+       */
+      sourceName: string;
+      /**
+       * @description Source's link
+       * @example https://auto-moto.fr
+       */
+      sourceLink: string;
+      /**
+       * @description Post's category ids
+       * @example [621bd3239a004010c4ba3b06e]
+       */
+      categories: string[];
+      /**
+       * Format: binary
+       * @description File to upload, converted to picture url
+       */
+      file?: string;
     };
     PaginatedPostDto: {
       /**
@@ -865,6 +868,34 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["PasswordRecoveryDto"];
+      };
+    };
+  };
+  UsersController_getCommentsByUserId: {
+    parameters: {
+      path: {
+        /** User id */
+        id: string;
+      };
+    };
+    responses: {
+      /** User's commented posts */
+      200: {
+        content: {
+          "application/json": components["schemas"]["PostDto"][];
+        };
+      };
+      /** Id is not a valid id */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** User not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
       };
     };
   };
