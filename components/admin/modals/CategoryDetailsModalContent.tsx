@@ -66,7 +66,7 @@ const CategoryDetailsModalContent = ({category, setOtherModal}: PropsType) => {
                         <p className={"italic"}>{t.common.loading}</p>
                     </RenderIf>
                     <RenderIf condition={isEmpty(posts)}>
-                        <p className={"italic"}>{t.common.noPost}</p>
+                        <p>{t.common.noPost}</p>
                     </RenderIf>
                     <RenderIf condition={!isEmpty(posts)}>
                         {posts.map((post, i) => {
