@@ -4,6 +4,7 @@ import Arrow from "../shared/icons/Arrow";
 import {AnyFunction} from "../../shared/types/props.type";
 import RenderIf from "../shared/RenderIf";
 import Button, {ButtonsProps} from "../shared/Button";
+import {useTranslation} from "../../shared/hooks";
 
 type Key = {
     label: string;
@@ -34,6 +35,8 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
 
     const [sortState, setSortState] = useState<SortType>({} as SortType);
     const [data, setData] = useState<any[]>([]);
+
+    const t = useTranslation();
 
     useEffect(() => {
         setData(defaultData);
@@ -89,7 +92,7 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                     })}
                     <RenderIf condition={!!actions}>
                         <th className={"rounded-tr-lg p-3  w-0"}>
-                            <h1 className={"text-left text-white text-sm md:text-lg"}>Actions</h1>
+                            <h1 className={"text-left text-white text-sm md:text-lg"}>{t.tabs.actions}</h1>
                         </th>
                     </RenderIf>
                 </tr>

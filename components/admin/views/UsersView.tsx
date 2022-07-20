@@ -60,23 +60,23 @@ const UsersView = () => {
                 <div className={"flex items-center mb-4"}>
                     <h1 className={"text-2xl font-semibold"}>{t.admin.users.title}</h1>
                     <RenderIf condition={pending}>
-                        <p className={"italic ml-4"}>Chargement...</p>
+                        <p className={"italic ml-4"}>{t.common.loading}</p>
                     </RenderIf>
                 </div>
                 <RenderIf condition={isEmpty((users))}>
-                    <p>Aucune catégories disponible</p>
+                    <p>{t.common.noUser}</p>
                 </RenderIf>
                 <RenderIf condition={!isEmpty((users))}>
                     <Table keys={[
-                        {key: "pseudo", label: "Nom"},
-                        {key: "email", label: "Email"},
+                        {key: "pseudo", label: t.admin.tabs.pseudo},
+                        {key: "email", label: t.admin.tabs.email},
                     ]} data={users} sortable={true} onOpen={openDetails} actions={[
                         {
-                            label: "Modifier",
+                            label: t.common.update,
                             color: "primary",
                             onClick: openEdit
                         }, {
-                            label: "Supprimer",
+                            label: t.common.delete,
                             onClick: openDelete,
                             color: "danger"
                         }

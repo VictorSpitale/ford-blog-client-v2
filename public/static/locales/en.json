@@ -12,6 +12,8 @@
     "send": "Send",
     "home": "Home",
     "noPost": "No post available",
+    "noUser": "No user available",
+    "noCategory": "No category available",
     "error": "{{code}} Error",
     "errorSub": "An error has occurred",
     "tryLater": "An error has occurred, please try later",
@@ -231,6 +233,16 @@
     "sent": "Your message has been sent"
   },
   "admin": {
+    "tabs": {
+      "title": "Title",
+      "likes": "Likes",
+      "comments": "Comments",
+      "date": "Date",
+      "name": "Name",
+      "relatedPosts": "Related posts",
+      "pseudo": "Name",
+      "email": "Email"
+    },
     "title": "Administration",
     "viewsName": {
       "POSTS": "Posts",
@@ -271,7 +283,7 @@
       }
     }
   },
-  "users": {
-    "noFound": "No user found"
+  "tabs": {
+    "actions": "Actions"
   }
 }

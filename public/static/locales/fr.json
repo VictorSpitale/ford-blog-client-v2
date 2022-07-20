@@ -11,6 +11,8 @@
     "confirm": "Valider",
     "send": "Envoyer",
     "noPost": "Aucun article disponible",
+    "noUser": "Aucun utilisateur disponible",
+    "noCategory": "Aucune catégorie disponible",
     "error": "Erreur {{code}}",
     "errorSub": "Une erreur s'est produite",
     "tryLater": "Une erreur s'est produite, réessayez plus tard",
@@ -232,6 +234,16 @@
     "sent": "Votre message a bien été envoyé"
   },
   "admin": {
+    "tabs": {
+      "title": "Titre",
+      "likes": "J'aimes",
+      "comments": "Commentaires",
+      "date": "Date",
+      "name": "Nom",
+      "relatedPosts": "Articles liés",
+      "pseudo": "Nom",
+      "email": "Email"
+    },
     "title": "Administration",
     "viewsName": {
       "POSTS": "Articles",
@@ -272,7 +284,7 @@
       }
     }
   },
-  "users": {
-    "noFound": "Aucun utilisateur trouvé"
+  "tabs": {
+    "actions": "Actions"
   }
 }

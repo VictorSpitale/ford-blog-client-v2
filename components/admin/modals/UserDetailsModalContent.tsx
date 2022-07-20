@@ -104,7 +104,7 @@ const UserDetailsModalContent = (props: PropsType) => {
                 <p className={"italic"}>{t.common.loading}</p>
             </RenderIf>
             <RenderIf condition={isEmpty(user)}>
-                <p>{t.users.noFound}</p>
+                <p>{t.common.noUser}</p>
             </RenderIf>
             <RenderIf condition={!isEmpty(user)}>
                 <div className={"flex gap-x-4"}>
