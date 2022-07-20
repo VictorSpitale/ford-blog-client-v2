@@ -9,7 +9,7 @@ import Table from "../../table/Table";
 import {IPost} from "../../../shared/types/post.type";
 import UpdatePostModal from "../../posts/modals/UpdatePostModal";
 import DeletePostModal from "../../posts/modals/DeletePostModal";
-import DetailsModal from "../modals/DetailsModal";
+import DetailsModal from "../modals/details/DetailsModal";
 import Button from "../../shared/Button";
 
 const PostsView = () => {

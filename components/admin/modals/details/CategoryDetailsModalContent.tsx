@@ -1,16 +1,16 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {AnyFunction} from "../../../shared/types/props.type";
-import {ICategory} from "../../../shared/types/category.type";
-import Tabs from "../../tabs/Tabs";
-import {useTranslation} from "../../../shared/hooks";
-import {useAppDispatch, useAppSelector} from "../../../context/hooks";
-import {getCategorizedPosts} from "../../../context/actions/posts/posts.actions";
-import RenderIf from "../../shared/RenderIf";
-import {IPost} from "../../../shared/types/post.type";
-import {isEmpty} from "../../../shared/utils/object.utils";
-import {className} from "../../../shared/utils/class.utils";
+import {AnyFunction} from "../../../../shared/types/props.type";
+import {ICategory} from "../../../../shared/types/category.type";
+import Tabs from "../../../tabs/Tabs";
+import {useTranslation} from "../../../../shared/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../context/hooks";
+import {getCategorizedPosts} from "../../../../context/actions/posts/posts.actions";
+import RenderIf from "../../../shared/RenderIf";
+import {IPost} from "../../../../shared/types/post.type";
+import {isEmpty} from "../../../../shared/utils/object.utils";
+import {className} from "../../../../shared/utils/class.utils";
 import Image from "next/image";
-import {getPostCardImg} from "../../../shared/images/postCardImg";
+import {getPostCardImg} from "../../../../shared/images/postCardImg";
 import PostDetailsModalContent from "./PostDetailsModalContent";
 
 type PropsType = {

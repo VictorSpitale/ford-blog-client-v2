@@ -1,20 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {displayRole, IUser} from "../../../shared/types/user.type";
-import {AnyFunction} from "../../../shared/types/props.type";
-import {useAppDispatch, useAppSelector} from "../../../context/hooks";
-import {getFilteredCommentedPostByUserId, getUserById} from "../../../context/actions/admin/admin.actions";
-import RenderIf from "../../shared/RenderIf";
-import {useTranslation} from "../../../shared/hooks";
-import {isEmpty} from "../../../shared/utils/object.utils";
+import {displayRole, IUser} from "../../../../shared/types/user.type";
+import {AnyFunction} from "../../../../shared/types/props.type";
+import {useAppDispatch, useAppSelector} from "../../../../context/hooks";
+import {getFilteredCommentedPostByUserId, getUserById} from "../../../../context/actions/admin/admin.actions";
+import RenderIf from "../../../shared/RenderIf";
+import {useTranslation} from "../../../../shared/hooks";
+import {isEmpty} from "../../../../shared/utils/object.utils";
 import Image from "next/image";
-import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
-import {getLikedPosts} from "../../../context/actions/posts/posts.actions";
-import Tabs from "../../tabs/Tabs";
-import {className} from "../../../shared/utils/class.utils";
-import {formateDate} from "../../../shared/utils/date.utils";
+import {getUserPictureSrc} from "../../../../shared/images/ProfilePicture";
+import {getLikedPosts} from "../../../../context/actions/posts/posts.actions";
+import Tabs from "../../../tabs/Tabs";
+import {className} from "../../../../shared/utils/class.utils";
+import {formateDate} from "../../../../shared/utils/date.utils";
 import {useRouter} from "next/router";
-import {IPost} from "../../../shared/types/post.type";
-import {getPostCardImg} from "../../../shared/images/postCardImg";
+import {IPost} from "../../../../shared/types/post.type";
+import {getPostCardImg} from "../../../../shared/images/postCardImg";
 import PostDetailsModalContent from "./PostDetailsModalContent";
 
 type PropsType = { setOtherModal: AnyFunction; } & (

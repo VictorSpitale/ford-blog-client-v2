@@ -7,7 +7,7 @@ import {isEmpty} from "../../../shared/utils/object.utils";
 import Table from "../../table/Table";
 import {getUsers} from "../../../context/actions/users/users.actions";
 import {IUser} from "../../../shared/types/user.type";
-import DetailsModal from "../modals/DetailsModal";
+import DetailsModal from "../modals/details/DetailsModal";
 
 const UsersView = () => {
 

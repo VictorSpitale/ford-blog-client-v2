@@ -7,7 +7,7 @@ import {isEmpty} from "../../../shared/utils/object.utils";
 import Table from "../../table/Table";
 import {getCategoriesWithCount} from "../../../context/actions/categories/categories.actions";
 import {ICategory} from "../../../shared/types/category.type";
-import DetailsModal from "../modals/DetailsModal";
+import DetailsModal from "../modals/details/DetailsModal";
 
 const CategoriesView = () => {
 
