@@ -36,7 +36,7 @@ const DetailsModal = ({
     const t = useTranslation();
 
     const isLarge = () => {
-        if (otherModal && otherModal.type.name === CategoryDetailsModalContent.name) return false;
+        if (otherModal) return otherModal.type.name !== CategoryDetailsModalContent.name;
         return content.type !== "categories";
     }
 
