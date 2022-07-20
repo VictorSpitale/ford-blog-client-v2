@@ -8,6 +8,7 @@ import RenderIf from "../../shared/RenderIf";
 import PostDetailsModalContent from "./PostDetailsModalContent";
 import {useTranslation} from "../../../shared/hooks";
 import UserDetailsModalContent from "./UserDetailsModalContent";
+import CategoryDetailsModalContent from "./CategoryDetailsModalContent";
 
 type PropsType = {
     isShowing: boolean;
@@ -34,8 +35,14 @@ const DetailsModal = ({
 
     const t = useTranslation();
 
+    const isLarge = () => {
+        if (otherModal && otherModal.type.name === CategoryDetailsModalContent.name) return false;
+        return content.type !== "categories";
+    }
+
     return (
-        <Modal isShowing={isShowing} large={true} title={t.admin.details} previous={previous} hide={toggle}
+        <Modal isShowing={isShowing} large={isLarge()} title={t.admin.details} previous={previous}
+               hide={toggle}
                hasPrevious={hasPrevious}>
             <RenderIf condition={!!otherModal}>
                 {otherModal}
@@ -47,6 +54,9 @@ const DetailsModal = ({
                 <RenderIf condition={content.type === "users"}>
                     <UserDetailsModalContent setOtherModal={setOtherModal} user={content.data as IUser}
                                              needFetch={false} />
+                </RenderIf>
+                <RenderIf condition={content.type === "categories"}>
+                    <CategoryDetailsModalContent setOtherModal={setOtherModal} category={content.data as ICategory} />
                 </RenderIf>
             </RenderIf>
         </Modal>
