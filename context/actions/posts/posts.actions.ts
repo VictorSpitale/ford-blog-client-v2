@@ -3,7 +3,6 @@ import {RootState} from "../../store";
 import {
     CreatePostComment,
     DeletePostComment,
-    IBasicPost,
     ICreatePost,
     IPaginatedPosts,
     IPost,
@@ -118,13 +117,13 @@ export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string },
     return response;
 })
 
-export const getLikedPosts = createAsyncThunk<{ posts: IBasicPost[], userId: string }, string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
+export const getLikedPosts = createAsyncThunk<{ posts: IPost[], userId: string }, string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
     const {users} = getState().likedPosts;
     const found = users.find((u) => u.userId === id);
     if (found) {
         return found;
     }
-    let response: IBasicPost[] = []
+    let response: IPost[] = []
     await fetchApi('/api/posts/liked/{id}', {method: "get", params: {id}}).then((res) => response = res.data)
     return {
         posts: response,

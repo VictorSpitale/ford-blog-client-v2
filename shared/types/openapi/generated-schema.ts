@@ -437,28 +437,6 @@ export interface components {
        */
       page: number;
     };
-    BasicPostDto: {
-      /**
-       * @description Post's title
-       * @example The new ford mustang
-       */
-      title: string;
-      /**
-       * @description Post's slug
-       * @example the-new-ford-mustang
-       */
-      slug: string;
-      /**
-       * @description Post's desc
-       * @example It is the story about...
-       */
-      desc: string;
-      /**
-       * @description Url to the picture
-       * @example https://storage.googleapis.com/name
-       */
-      picture: string;
-    };
     BasicUserDto: {
       /**
        * @description User's pseudo
@@ -1009,7 +987,7 @@ export interface operations {
       /** Posts list */
       200: {
         content: {
-          "application/json": components["schemas"]["BasicPostDto"][];
+          "application/json": components["schemas"]["PostDto"][];
         };
       };
       /** Jwt failed | Insufficient permissions */

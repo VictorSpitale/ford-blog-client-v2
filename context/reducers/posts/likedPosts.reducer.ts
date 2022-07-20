@@ -1,10 +1,10 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {IBasicPost} from "../../../shared/types/post.type";
+import {IPost} from "../../../shared/types/post.type";
 import {cleanLikedPosts, getLikedPosts} from "../../actions/posts/posts.actions";
 
 export type LikedPostsState = {
     users: {
-        posts: IBasicPost[];
+        posts: IPost[];
         userId: string
     }[]
     pending: boolean;
