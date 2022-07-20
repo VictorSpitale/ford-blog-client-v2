@@ -41,7 +41,12 @@
     "delete": "Delete",
     "deleting": "Deleting...",
     "update": "Update",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "roles": {
+      "user": "User",
+      "poster": "Poster",
+      "admin": "Administrator"
+    }
   },
   "login": {
     "title": "Sign in",

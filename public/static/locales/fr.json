@@ -41,7 +41,12 @@
     "delete": "Supprimer",
     "deleting": "Suppression...",
     "update": "Modifier",
-    "loadMore": "Charger plus"
+    "loadMore": "Charger plus",
+    "roles": {
+      "user": "Utilisateur",
+      "poster": "Rédacteur",
+      "admin": "Administrateur"
+    }
   },
   "login": {
     "title": "Connexion",
