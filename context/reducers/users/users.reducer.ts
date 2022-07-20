@@ -1,6 +1,7 @@
 import {IUser} from "../../../shared/types/user.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {getUsers} from "../../actions/users/users.actions";
+import {getUserById} from "../../actions/admin/admin.actions";
 
 export type UsersState = {
     users: IUser[];
@@ -20,6 +21,24 @@ export const usersReducer = createReducer(initial, (builder => {
         state.users = payload
         state.pending = false;
     }).addCase(getUsers.rejected, (state) => {
+        state.pending = false;
+    }).addCase(getUserById.pending, (state) => {
+        state.pending = true;
+    }).addCase(getUserById.fulfilled, (state, {payload}) => {
+        state.pending = false;
+        const found = state.users.find((u) => u._id === payload._id);
+        if (found) {
+            state.users.map((u) => {
+                if (u._id === payload._id) return payload;
+                return u;
+            })
+        } else {
+            state.users = [
+                ...state.users,
+                payload
+            ]
+        }
+    }).addCase(getUserById.rejected, (state) => {
         state.pending = false;
     })
 }))
