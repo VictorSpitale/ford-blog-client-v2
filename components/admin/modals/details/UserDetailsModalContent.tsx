@@ -152,7 +152,7 @@ const UserDetailsModalContent = (props: PropsType) => {
                                     {likedPosts.map((p, i) => {
                                         return (
                                             <div key={i}>
-                                                <div className={"flex items-center gap-x-4"}>
+                                                <div className={"flex items-center gap-x-4 justify-between"}>
                                                     <div
                                                         className={"relative min-w-[50px] h-[50px] rounded-lg  overflow-hidden"}>
                                                         <Image src={getPostCardImg(p)} layout={"fill"}
@@ -182,7 +182,7 @@ const UserDetailsModalContent = (props: PropsType) => {
                                         return (
                                             <div key={i}>
                                                 <div>
-                                                    <div className={"flex items-center gap-x-4"}>
+                                                    <div className={"flex items-center gap-x-4 justify-between"}>
                                                         <div
                                                             className={"relative min-w-[50px] h-[50px] rounded-lg  overflow-hidden"}>
                                                             <Image src={getPostCardImg(post)} layout={"fill"}

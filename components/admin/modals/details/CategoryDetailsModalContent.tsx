@@ -72,7 +72,7 @@ const CategoryDetailsModalContent = ({category, setOtherModal}: PropsType) => {
                         {posts.map((post, i) => {
                             return (
                                 <div key={i}>
-                                    <div className={"flex items-center gap-x-4"}>
+                                    <div className={"flex items-center gap-x-4 justify-between"}>
                                         <div
                                             className={"relative min-w-[50px] h-[50px] rounded-lg  overflow-hidden"}>
                                             <Image src={getPostCardImg(post)} layout={"fill"}
