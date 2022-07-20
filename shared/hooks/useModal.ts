@@ -8,11 +8,11 @@ export const useModal = (): UseModalType => {
     const [history, setHistory] = useState<JSX.Element[]>([]);
 
     const toggle = () => {
+        setIsShowing(!isShowing);
         if (isShowing) {
             setOtherModal(undefined);
             setHistory([]);
         }
-        setIsShowing(!isShowing);
     }
 
     const addOtherModal = (element: JSX.Element) => {
