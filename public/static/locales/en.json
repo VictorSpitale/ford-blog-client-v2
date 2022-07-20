@@ -39,7 +39,9 @@
     "desc": "Discover this iconic American brand through a community of enthusiasts",
     "warning": "WARNING",
     "delete": "delete",
-    "deleting": "Deleting..."
+    "deleting": "Deleting...",
+    "update": "Update",
+    "loadMore": "Load more"
   },
   "login": {
     "title": "Sign in",
@@ -88,6 +90,8 @@
     "17": "Your current password is wrong"
   },
   "posts": {
+    "noLike": "No likes at the moment",
+    "noComment": "No comments at the moment",
     "like": {
       "needLoggedIn": "Log in to like this post",
       "count": "{{count}} like{{s}}"
@@ -223,8 +227,27 @@
       "CATEGORIES": "Categories",
       "USERS": "Users"
     },
+    "details": "Details",
     "posts": {
-      "title": "Posts list"
+      "title": "Posts list",
+      "fields": {
+        "title": "Title",
+        "likes": "Likes",
+        "comments": "Comments",
+        "date": "Date",
+        "slug": "Slug",
+        "source": "Source",
+        "categories": "Categories",
+        "likeCount": "Likes count",
+        "commentCount": "Comments count",
+        "createdAt": "Published on",
+        "updatedAt": "Updated on"
+      },
+      "tabs": {
+        "informations": "Informations",
+        "likes": "Likes",
+        "comments": "Comments"
+      }
     },
     "categories": {
       "title": "Categories list"

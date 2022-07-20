@@ -39,7 +39,9 @@
     "desc": "Découvre cette emblématique marque américaine à travers une communauté de passionnés",
     "warning": "ATTENTION",
     "delete": "Supprimer",
-    "deleting": "Suppression..."
+    "deleting": "Suppression...",
+    "update": "Modifier",
+    "loadMore": "Charger plus"
   },
   "login": {
     "title": "Connexion",
@@ -88,6 +90,8 @@
     "17": "Votre mot de passe actuel n'est pas correct"
   },
   "posts": {
+    "noLike": "Aucun j'aime pour le moment",
+    "noComment": "Aucun commentaire pour le moment",
     "like": {
       "needLoggedIn": "Connectez-vous pour aimer cet article",
       "count": "{{count}} mention{{s}} j'aime"
@@ -103,6 +107,7 @@
       "comment": " le commentaire de {{pseudo}}."
     },
     "update": {
+      "action": "Modifier",
       "title": "Modifier l'article",
       "fields": {
         "categories": "Catégories",
@@ -223,8 +228,27 @@
       "CATEGORIES": "Catégories",
       "USERS": "Utilisateurs"
     },
+    "details": "Détails",
     "posts": {
-      "title": "Liste des articles"
+      "title": "Liste des articles",
+      "fields": {
+        "title": "Titre",
+        "likes": "J'aimes",
+        "comments": "Commentaires",
+        "date": "Date",
+        "slug": "Slug",
+        "source": "Source",
+        "categories": "Catégories",
+        "likeCount": "Nombre de j'aimes",
+        "commentCount": "Nombre de commentaires",
+        "createdAt": "Publié le",
+        "updatedAt": "Modifié le"
+      },
+      "tabs": {
+        "informations": "Informations",
+        "likes": "J'aimes",
+        "comments": "Commentaires"
+      }
     },
     "categories": {
       "title": "Liste des catégories"

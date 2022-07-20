@@ -15,6 +15,8 @@ import {isEmpty} from "../../../shared/utils/object.utils";
 import {IBasicUser} from "../../../shared/types/user.type";
 import ProfilePicture from "../../shared/ProfilePicture";
 import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
+import UserDetailsModalContent from "./UserDetailsModalContent";
+import {useTranslation} from "../../../shared/hooks";
 
 type PropsType = {
     setOtherModal: AnyFunction;
@@ -26,8 +28,15 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
     const {posts, pending} = useAppSelector(state => state.adminPostsLikers);
 
     const dispatch = useAppDispatch();
+    const t = useTranslation();
 
     const [likers, setLikers] = useState<IBasicUser[]>([]);
+
+    const navigateToUser = async (id: string) => {
+        setOtherModal(
+            <UserDetailsModalContent setOtherModal={setOtherModal} needFetch={true} userId={id} />
+        )
+    }
 
     useEffect(() => {
         const fetchLikers = async () => {
@@ -57,7 +66,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                 </div>
                 <div className={"w-1/2 max-h-[450px] overflow-auto c-scroll"}>
                     <Tabs>
-                        <div data-label={'Informations'}
+                        <div data-label={t.admin.posts.tabs.informations}
                              className={className("[&>*]:flex [&>*]:justify-between [&>*]:gap-x-3 [&>*]:mb-4",
                                  "[&>*>p:first-child]:font-semibold [&>*>p:last-child]:text-right")}>
                             <div>
@@ -65,19 +74,19 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                 <p>{post._id}</p>
                             </div>
                             <div>
-                                <p>Slug</p>
+                                <p>{t.admin.posts.fields.slug}</p>
                                 <Link href={`/post/${post.slug}`} passHref={true}>
                                     <p className={"underline text-blue-400 cursor-pointer"}>{post.slug}</p>
                                 </Link>
                             </div>
                             <div>
-                                <p>Source</p>
+                                <p>{t.admin.posts.fields.source}</p>
                                 <a href={post.sourceLink}>
                                     <p className={"underline text-blue-400"}>{post.sourceName}</p>
                                 </a>
                             </div>
                             <div>
-                                <p>Catégories</p>
+                                <p>{t.admin.posts.fields.categories}</p>
                                 <p>
                                     {post.categories.map((cat, i) => {
                                         return (
@@ -90,45 +99,46 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                 </p>
                             </div>
                             <div>
-                                <p>Nombre de j'aimes</p>
+                                <p>{t.admin.posts.fields.likeCount}</p>
                                 <p>{post.likes}</p>
                             </div>
                             <div>
-                                <p>Nombre de commentaires</p>
+                                <p>{t.admin.posts.fields.commentCount}</p>
                                 <p>{post.comments.length}</p>
                             </div>
                             <div>
-                                <p>Publié le</p>
+                                <p>{t.admin.posts.fields.createdAt}</p>
                                 <p>{formateDate(post.createdAt)}</p>
                             </div>
                             <div>
-                                <p>Modifié le</p>
+                                <p>{t.admin.posts.fields.updatedAt}</p>
                                 <p>{formateDate(post.updatedAt)}</p>
                             </div>
                         </div>
-                        <div data-label={"J'aimes"}
+                        <div data-label={t.admin.posts.tabs.likes}
                              className={className("[&>*]:mb-4")}>
                             <RenderIf condition={pending}>
-                                <p className={"italic"}>Chargement...</p>
+                                <p className={"italic"}>{t.common.loading}</p>
                             </RenderIf>
                             <RenderIf condition={isEmpty(likers)}>
-                                <p>Aucun j'aime pour le moment</p>
+                                <p>{t.posts.noLike}</p>
                             </RenderIf>
                             <RenderIf condition={!isEmpty(likers)}>
                                 {likers.map((user, i) => {
                                     return (
                                         <div key={i} className={"flex items-center gap-x-4"}>
                                             <ProfilePicture src={getUserPictureSrc(user).src} />
-                                            <p className={"text-blue-400 underline cursor-pointer"}>{user.pseudo}</p>
+                                            <p onClick={() => navigateToUser(user._id)}
+                                               className={"text-blue-400 underline cursor-pointer"}>{user.pseudo}</p>
                                         </div>
                                     )
                                 })}
                             </RenderIf>
                         </div>
-                        <div data-label={"Commentaires"}
+                        <div data-label={t.admin.posts.tabs.comments}
                              className={className("[&>*]:mb-4")}>
                             <RenderIf condition={isEmpty(post.comments)}>
-                                <p>Aucun commentaire pour le moment</p>
+                                <p>{t.posts.noComment}</p>
                             </RenderIf>
                             <RenderIf condition={!isEmpty(post.comments)}>
                                 {post.comments.map((comment, i) => {
@@ -138,7 +148,10 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                                 <ProfilePicture src={getUserPictureSrc(comment.commenter).src} />
                                             </div>
                                             <div>
-                                                <p className={"text-blue-400 underline cursor-pointer"}>{comment.commenter.pseudo}</p>
+                                                <p onClick={() => navigateToUser(comment.commenter._id)}
+                                                   className={"text-blue-400 underline cursor-pointer"}>
+                                                    {comment.commenter.pseudo}
+                                                </p>
                                                 <p>{comment.comment}</p>
                                             </div>
                                         </div>

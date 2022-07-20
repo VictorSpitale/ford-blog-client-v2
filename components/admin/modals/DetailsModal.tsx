@@ -6,6 +6,7 @@ import {IUser} from "../../../shared/types/user.type";
 import Modal from "../../modal/Modal";
 import RenderIf from "../../shared/RenderIf";
 import PostDetailsModalContent from "./PostDetailsModalContent";
+import {useTranslation} from "../../../shared/hooks";
 
 type PropsType = {
     isShowing: boolean;
@@ -29,16 +30,20 @@ const DetailsModal = ({
                           toggle,
                           isShowing,
                       }: PropsType) => {
+
+    const t = useTranslation();
+
     return (
-        <Modal isShowing={isShowing} large={true} title={"Détails"} previous={previous} hide={toggle}
+        <Modal isShowing={isShowing} large={true} title={t.admin.details} previous={previous} hide={toggle}
                hasPrevious={hasPrevious}>
-            {otherModal ? otherModal :
-                <>
-                    <RenderIf condition={content.type === "posts"}>
-                        <PostDetailsModalContent setOtherModal={setOtherModal} post={content.data as IPost} />
-                    </RenderIf>
-                </>
-            }
+            <RenderIf condition={!!otherModal}>
+                {otherModal}
+            </RenderIf>
+            <RenderIf condition={!otherModal}>
+                <RenderIf condition={content.type === "posts"}>
+                    <PostDetailsModalContent setOtherModal={setOtherModal} post={content.data as IPost} />
+                </RenderIf>
+            </RenderIf>
         </Modal>
     );
 };
