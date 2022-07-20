@@ -97,6 +97,8 @@
   "posts": {
     "noLike": "No likes at the moment",
     "noComment": "No comments at the moment",
+    "noLiked": "No liked posts at the moment",
+    "noCommented": "No commented posts at the moment",
     "like": {
       "needLoggedIn": "Log in to like this post",
       "count": "{{count}} like{{s}}"
@@ -173,6 +175,9 @@
       "delete": "Delete",
       "email": "Email",
       "pseudo": "Pseudo",
+      "role": "Role",
+      "firstLogin": "First login",
+      "lastUpdate": "Last update",
       "errors": {
         "pseudo": "The username must be between 6 and 18 characters",
         "fileSize": "Image weight is too high",
@@ -258,7 +263,15 @@
       "title": "Categories list"
     },
     "users": {
-      "title": "Users list"
+      "title": "Users list",
+      "tabs": {
+        "informations": "Informations",
+        "likes": "Liked posts",
+        "comments": "Commented posts"
+      }
     }
+  },
+  "users": {
+    "noFound": "No user found"
   }
 }

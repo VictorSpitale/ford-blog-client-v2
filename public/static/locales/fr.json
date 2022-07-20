@@ -97,6 +97,8 @@
   "posts": {
     "noLike": "Aucun j'aime pour le moment",
     "noComment": "Aucun commentaire pour le moment",
+    "noLiked": "Aucun article aimé pour le moment",
+    "noCommented": "Aucun article commenté pour le moment",
     "like": {
       "needLoggedIn": "Connectez-vous pour aimer cet article",
       "count": "{{count}} mention{{s}} j'aime"
@@ -174,6 +176,9 @@
       "delete": "Supprimer",
       "email": "Email",
       "pseudo": "Pseudo",
+      "role": "Role",
+      "firstLogin": "Première connexion",
+      "lastUpdate": "Dernière mise à jour",
       "errors": {
         "pseudo": "Le pseudo doit comprendre entre 6 et 18 caractères",
         "fileSize": "L'image est trop volumineuse",
@@ -259,7 +264,15 @@
       "title": "Liste des catégories"
     },
     "users": {
-      "title": "Liste des utilisateurs"
+      "title": "Liste des utilisateurs",
+      "tabs": {
+        "informations": "Informations",
+        "likes": "Articles aimés",
+        "comments": "Articles commentés"
+      }
     }
+  },
+  "users": {
+    "noFound": "Aucun utilisateur trouvé"
   }
 }
