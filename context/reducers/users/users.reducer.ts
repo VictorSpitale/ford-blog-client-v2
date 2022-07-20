@@ -5,11 +5,13 @@ import {getUserById} from "../../actions/admin/admin.actions";
 
 export type UsersState = {
     users: IUser[];
+    allFetched: boolean;
     pending: boolean;
     error: boolean
 }
 const initial: UsersState = {
     users: [],
+    allFetched: false,
     pending: false,
     error: false
 }
@@ -19,6 +21,7 @@ export const usersReducer = createReducer(initial, (builder => {
         state.pending = true;
     }).addCase(getUsers.fulfilled, (state, {payload}) => {
         state.users = payload
+        state.allFetched = true;
         state.pending = false;
     }).addCase(getUsers.rejected, (state) => {
         state.pending = false;
