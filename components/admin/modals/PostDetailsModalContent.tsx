@@ -17,6 +17,7 @@ import ProfilePicture from "../../shared/ProfilePicture";
 import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
 import UserDetailsModalContent from "./UserDetailsModalContent";
 import {useTranslation} from "../../../shared/hooks";
+import {useRouter} from "next/router";
 
 type PropsType = {
     setOtherModal: AnyFunction;
@@ -29,6 +30,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
 
     const dispatch = useAppDispatch();
     const t = useTranslation();
+    const router = useRouter();
 
     const [likers, setLikers] = useState<IBasicUser[]>([]);
 
@@ -90,9 +92,12 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                 <p>
                                     {post.categories.map((cat, i) => {
                                         return (
-                                            <span key={i}
-                                                  className={"underline text-blue-400 cursor-pointer"}>
-                                                {cat.name}{i !== post.categories.length - 1 ? ", " : ""}
+                                            <span key={i}>
+                                                <span
+                                                    className={"underline text-blue-400 cursor-pointer"}>
+                                                    {cat.name}
+                                                </span>
+                                                {i !== post.categories.length - 1 ? ", " : ""}
                                             </span>
                                         )
                                     })}
@@ -108,11 +113,11 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                             </div>
                             <div>
                                 <p>{t.admin.posts.fields.createdAt}</p>
-                                <p>{formateDate(post.createdAt)}</p>
+                                <p>{formateDate(post.createdAt, router.locale)}</p>
                             </div>
                             <div>
                                 <p>{t.admin.posts.fields.updatedAt}</p>
-                                <p>{formateDate(post.updatedAt)}</p>
+                                <p>{formateDate(post.updatedAt, router.locale)}</p>
                             </div>
                         </div>
                         <div data-label={t.admin.posts.tabs.likes}
@@ -126,10 +131,15 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                             <RenderIf condition={!isEmpty(likers)}>
                                 {likers.map((user, i) => {
                                     return (
-                                        <div key={i} className={"flex items-center gap-x-4"}>
-                                            <ProfilePicture src={getUserPictureSrc(user).src} />
-                                            <p onClick={() => navigateToUser(user._id)}
-                                               className={"text-blue-400 underline cursor-pointer"}>{user.pseudo}</p>
+                                        <div key={i}>
+                                            <div className={"flex items-center gap-x-4"}>
+                                                <ProfilePicture src={getUserPictureSrc(user).src} />
+                                                <p onClick={() => navigateToUser(user._id)}
+                                                   className={"text-blue-400 underline cursor-pointer"}>{user.pseudo}</p>
+                                            </div>
+                                            <RenderIf condition={i !== likers.length - 1}>
+                                                <hr className={"mt-4"} />
+                                            </RenderIf>
                                         </div>
                                     )
                                 })}
@@ -143,17 +153,22 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                             <RenderIf condition={!isEmpty(post.comments)}>
                                 {post.comments.map((comment, i) => {
                                     return (
-                                        <div key={i} className={"flex gap-x-4"}>
-                                            <div>
-                                                <ProfilePicture src={getUserPictureSrc(comment.commenter).src} />
+                                        <div key={i}>
+                                            <div className={"flex gap-x-4"}>
+                                                <div>
+                                                    <ProfilePicture src={getUserPictureSrc(comment.commenter).src} />
+                                                </div>
+                                                <div>
+                                                    <p onClick={() => navigateToUser(comment.commenter._id)}
+                                                       className={"text-blue-400 underline cursor-pointer"}>
+                                                        {comment.commenter.pseudo}
+                                                    </p>
+                                                    <p>{comment.comment}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p onClick={() => navigateToUser(comment.commenter._id)}
-                                                   className={"text-blue-400 underline cursor-pointer"}>
-                                                    {comment.commenter.pseudo}
-                                                </p>
-                                                <p>{comment.comment}</p>
-                                            </div>
+                                            <RenderIf condition={i !== post.comments.length - 1}>
+                                                <hr className={"mt-4"} />
+                                            </RenderIf>
                                         </div>
                                     )
                                 })}
