@@ -273,7 +273,14 @@
       }
     },
     "categories": {
-      "title": "Liste des catégories"
+      "title": "Liste des catégories",
+      "fields": {
+        "name": "Nom"
+      },
+      "tabs": {
+        "informations": "Informations",
+        "relatedPosts": "Articles liés"
+      }
     },
     "users": {
       "title": "Liste des utilisateurs",

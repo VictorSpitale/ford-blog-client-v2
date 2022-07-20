@@ -18,6 +18,8 @@ import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
 import UserDetailsModalContent from "./UserDetailsModalContent";
 import {useTranslation} from "../../../shared/hooks";
 import {useRouter} from "next/router";
+import {ICategory} from "../../../shared/types/category.type";
+import CategoryDetailsModalContent from "./CategoryDetailsModalContent";
 
 type PropsType = {
     setOtherModal: AnyFunction;
@@ -37,6 +39,12 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
     const navigateToUser = (id: string) => {
         setOtherModal(
             <UserDetailsModalContent setOtherModal={setOtherModal} needFetch={true} userId={id} />
+        )
+    }
+
+    const navigateToCategory = (category: ICategory) => {
+        setOtherModal(
+            <CategoryDetailsModalContent setOtherModal={setOtherModal} category={category} />
         )
     }
 
@@ -93,8 +101,8 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                                     {post.categories.map((cat, i) => {
                                         return (
                                             <span key={i}>
-                                                <span
-                                                    className={"underline text-blue-400 cursor-pointer"}>
+                                                <span onClick={() => navigateToCategory(cat)}
+                                                      className={"underline text-blue-400 cursor-pointer"}>
                                                     {cat.name}
                                                 </span>
                                                 {i !== post.categories.length - 1 ? ", " : ""}

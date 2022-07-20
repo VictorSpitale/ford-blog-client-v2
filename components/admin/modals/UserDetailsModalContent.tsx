@@ -160,7 +160,7 @@ const UserDetailsModalContent = (props: PropsType) => {
                                                                alt={p.title} />
                                                     </div>
                                                     <p onClick={() => navigateToPost(p)}
-                                                       className={"text-blue-400 underline cursor-pointer"}>{p.title}</p>
+                                                       className={"text-right text-blue-400 underline cursor-pointer"}>{p.title}</p>
                                                 </div>
                                                 <RenderIf condition={i !== likedPosts.length - 1}>
                                                     <hr className={"mt-4"} />
@@ -190,7 +190,7 @@ const UserDetailsModalContent = (props: PropsType) => {
                                                                    alt={post.title} />
                                                         </div>
                                                         <p onClick={() => navigateToPost(post)}
-                                                           className={"text-blue-400 underline cursor-pointer"}>{post.title}</p>
+                                                           className={"text-right text-blue-400 underline cursor-pointer"}>{post.title}</p>
                                                     </div>
                                                     {post.comments.filter((com) => com.commenter._id === user._id).map((com, j) => {
                                                         return (
