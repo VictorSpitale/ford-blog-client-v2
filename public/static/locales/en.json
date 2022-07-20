@@ -38,7 +38,7 @@
     "title": "Welcome on {{title}}",
     "desc": "Discover this iconic American brand through a community of enthusiasts",
     "warning": "WARNING",
-    "delete": "delete",
+    "delete": "Delete",
     "deleting": "Deleting...",
     "update": "Update",
     "loadMore": "Load more"
