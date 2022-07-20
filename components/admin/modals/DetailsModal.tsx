@@ -7,6 +7,7 @@ import Modal from "../../modal/Modal";
 import RenderIf from "../../shared/RenderIf";
 import PostDetailsModalContent from "./PostDetailsModalContent";
 import {useTranslation} from "../../../shared/hooks";
+import UserDetailsModalContent from "./UserDetailsModalContent";
 
 type PropsType = {
     isShowing: boolean;
@@ -42,6 +43,10 @@ const DetailsModal = ({
             <RenderIf condition={!otherModal}>
                 <RenderIf condition={content.type === "posts"}>
                     <PostDetailsModalContent setOtherModal={setOtherModal} post={content.data as IPost} />
+                </RenderIf>
+                <RenderIf condition={content.type === "users"}>
+                    <UserDetailsModalContent setOtherModal={setOtherModal} user={content.data as IUser}
+                                             needFetch={false} />
                 </RenderIf>
             </RenderIf>
         </Modal>

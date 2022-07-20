@@ -34,7 +34,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
 
     const [likers, setLikers] = useState<IBasicUser[]>([]);
 
-    const navigateToUser = async (id: string) => {
+    const navigateToUser = (id: string) => {
         setOtherModal(
             <UserDetailsModalContent setOtherModal={setOtherModal} needFetch={true} userId={id} />
         )

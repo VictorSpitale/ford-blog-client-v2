@@ -13,8 +13,9 @@ import Tabs from "../../tabs/Tabs";
 import {className} from "../../../shared/utils/class.utils";
 import {formateDate} from "../../../shared/utils/date.utils";
 import {useRouter} from "next/router";
-import {IBasicPost, IPost} from "../../../shared/types/post.type";
+import {IPost} from "../../../shared/types/post.type";
 import {getPostCardImg} from "../../../shared/images/postCardImg";
+import PostDetailsModalContent from "./PostDetailsModalContent";
 
 type PropsType = { setOtherModal: AnyFunction; } & (
     { needFetch: true; userId: string; }
@@ -23,7 +24,7 @@ type PropsType = { setOtherModal: AnyFunction; } & (
 const UserDetailsModalContent = (props: PropsType) => {
 
     const [user, setUser] = useState({} as IUser);
-    const [likedPosts, setLikedPosts] = useState<IBasicPost[]>([]);
+    const [likedPosts, setLikedPosts] = useState<IPost[]>([]);
     const [commentedPosts, setCommentedPosts] = useState<IPost[]>([]);
 
     const {users, pending} = useAppSelector(state => state.users);
@@ -36,6 +37,12 @@ const UserDetailsModalContent = (props: PropsType) => {
     const dispatch = useAppDispatch();
     const t = useTranslation();
     const router = useRouter();
+
+    const navigateToPost = (post: IPost) => {
+        props.setOtherModal(
+            <PostDetailsModalContent setOtherModal={props.setOtherModal} post={post} />
+        )
+    }
 
     const fetchUser = useCallback(async () => {
         if (props.needFetch) {
@@ -152,7 +159,8 @@ const UserDetailsModalContent = (props: PropsType) => {
                                                                objectFit={"cover"}
                                                                alt={p.title} />
                                                     </div>
-                                                    <p className={"text-blue-400 underline cursor-pointer"}>{p.title}</p>
+                                                    <p onClick={() => navigateToPost(p)}
+                                                       className={"text-blue-400 underline cursor-pointer"}>{p.title}</p>
                                                 </div>
                                                 <RenderIf condition={i !== likedPosts.length - 1}>
                                                     <hr className={"mt-4"} />
@@ -181,9 +189,10 @@ const UserDetailsModalContent = (props: PropsType) => {
                                                                    objectFit={"cover"}
                                                                    alt={post.title} />
                                                         </div>
-                                                        <p className={"text-blue-400 underline cursor-pointer"}>{post.title}</p>
+                                                        <p onClick={() => navigateToPost(post)}
+                                                           className={"text-blue-400 underline cursor-pointer"}>{post.title}</p>
                                                     </div>
-                                                    {post.comments.map((com, j) => {
+                                                    {post.comments.filter((com) => com.commenter._id === user._id).map((com, j) => {
                                                         return (
                                                             <div key={j}>
                                                                 <hr className={"my-2"} />
