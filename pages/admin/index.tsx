@@ -29,7 +29,7 @@ const Admin = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if (router.query.view && typeof router.query.view === "string") {
+        if (router.query.view && typeof router.query.view === "string" && router.query.view !== view) {
             dispatch(setAdminView(getViewType(router.query.view)));
         }
     }, [dispatch, router.query])

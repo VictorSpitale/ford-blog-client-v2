@@ -18,7 +18,7 @@ const AdminViewSwitcher = ({activeView}: PropsType) => {
 
     const changeView = async (view: AdminViews) => {
         if (view === activeView) return;
-        await dispatch(setAdminView(view));
+        dispatch(setAdminView(view));
     }
 
     return (

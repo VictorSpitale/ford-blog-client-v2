@@ -43,7 +43,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
             await dispatch(getPostLikers(post.slug));
         }
         fetchLikers();
-    }, [dispatch, post.slug]);
+    }, []);
 
     useEffect(() => {
         const found = posts.find((p) => p.slug === post.slug);

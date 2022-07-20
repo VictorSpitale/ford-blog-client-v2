@@ -23,10 +23,18 @@ export const adminPostsLikersReducer = createReducer(initial, (builder => {
         state.pending = false;
     }).addCase(getPostLikers.fulfilled, (state, {payload}) => {
         state.pending = false;
-        state.posts = [
-            ...state.posts,
-            payload
-        ]
+        const found = state.posts.find((p) => p.slug === payload.slug);
+        if (found) {
+            state.posts.map((p) => {
+                if (p.slug === payload.slug) return payload;
+                return p;
+            })
+        } else {
+            state.posts = [
+                ...state.posts,
+                payload
+            ]
+        }
     })
 }))
 
