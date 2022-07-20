@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import BaseView from "../../shared/BaseView";
 import {useTranslation} from "../../../shared/hooks";
 import SimplifiedPostCard from "../../posts/SimplifiedPostCard";
@@ -6,6 +6,7 @@ import {isEmpty} from "../../../shared/utils/object.utils";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {getLikedPosts} from "../../../context/actions/posts/posts.actions";
 import {IUser} from "../../../shared/types/user.type";
+import {IBasicPost} from "../../../shared/types/post.type";
 
 type PropsType = {
     user: IUser
@@ -16,7 +17,8 @@ const LikesView = ({user}: PropsType) => {
     const t = useTranslation();
     const dispatch = useAppDispatch();
 
-    const {posts, pending} = useAppSelector(state => state.likedPosts);
+    const {users, pending} = useAppSelector(state => state.likedPosts);
+    const [posts, setPosts] = useState<IBasicPost[]>([]);
 
     const fetchPosts = useCallback(async () => {
         await dispatch(getLikedPosts(user._id));
@@ -24,7 +26,12 @@ const LikesView = ({user}: PropsType) => {
 
     useEffect(() => {
         fetchPosts();
-    }, [fetchPosts, user]);
+    }, [fetchPosts]);
+
+    useEffect(() => {
+        const userAndPosts = users.find((u) => u.userId === user._id);
+        if (userAndPosts) setPosts(userAndPosts.posts);
+    }, [user._id, users]);
 
     return (
         <BaseView>

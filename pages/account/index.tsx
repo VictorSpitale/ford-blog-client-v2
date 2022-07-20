@@ -44,7 +44,7 @@ const Account: NextPageWithLayout = () => {
     useEffect(() => {
         const resetState = () => {
             dispatch(setView(AccountViews.PROFILE));
-            dispatch(cleanLikedPosts());
+            dispatch(cleanLikedPosts(user._id));
         }
 
         return () => {

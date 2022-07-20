@@ -3,12 +3,15 @@ import {IBasicPost} from "../../../shared/types/post.type";
 import {cleanLikedPosts, getLikedPosts} from "../../actions/posts/posts.actions";
 
 export type LikedPostsState = {
-    posts: IBasicPost[];
+    users: {
+        posts: IBasicPost[];
+        userId: string
+    }[]
     pending: boolean;
     error: boolean;
 }
 const initial: LikedPostsState = {
-    posts: [],
+    users: [],
     pending: false,
     error: false
 }
@@ -18,11 +21,22 @@ export const likedPostsReducer = createReducer(initial, (builder => {
         state.pending = true;
     }).addCase(getLikedPosts.fulfilled, (state, {payload}) => {
         state.pending = false;
-        state.posts = payload;
+        const found = state.users.find((u) => u.userId === payload.userId);
+        if (found) {
+            state.users = state.users.map((u) => {
+                if (u.userId === payload.userId) return payload;
+                return u;
+            })
+        } else {
+            state.users = [
+                ...state.users,
+                payload
+            ]
+        }
     }).addCase(getLikedPosts.rejected, (state) => {
         state.pending = false;
-    }).addCase(cleanLikedPosts, (state) => {
-        state.posts = [];
+    }).addCase(cleanLikedPosts, (state, {payload}) => {
+        state.users = state.users.filter((u) => u.userId !== payload);
     })
 }));
 

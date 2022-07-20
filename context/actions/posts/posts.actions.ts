@@ -106,7 +106,7 @@ export const deletePost = createAsyncThunk<string, string, { state: RootState }>
 })
 
 export const cleanPost = createAction(CLEAN_POST);
-export const cleanLikedPosts = createAction(CLEAN_LIKED_POSTS);
+export const cleanLikedPosts = createAction<string>(CLEAN_LIKED_POSTS);
 
 export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string }, { state: RootState }>(UPDATE_POST, async (update) => {
     let response: IPost = {} as IPost
@@ -118,10 +118,18 @@ export const updatePost = createAsyncThunk<IPost, UpdatePost & { slug: string },
     return response;
 })
 
-export const getLikedPosts = createAsyncThunk<IBasicPost[], string, { state: RootState }>(GET_LIKED_POSTS, async (id) => {
+export const getLikedPosts = createAsyncThunk<{ posts: IBasicPost[], userId: string }, string, { state: RootState }>(GET_LIKED_POSTS, async (id, {getState}) => {
+    const {users} = getState().likedPosts;
+    const found = users.find((u) => u.userId === id);
+    if (found) {
+        return found;
+    }
     let response: IBasicPost[] = []
     await fetchApi('/api/posts/liked/{id}', {method: "get", params: {id}}).then((res) => response = res.data)
-    return response;
+    return {
+        posts: response,
+        userId: id
+    };
 })
 
 export const createPost = createAsyncThunk<IPost, ICreatePost, { state: RootState }>(CREATE_POST, async (post, {rejectWithValue}) => {
