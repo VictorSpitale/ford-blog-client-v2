@@ -1,6 +1,6 @@
 import {Translation} from "../hooks/useTranslation";
 
-export const formateDate = (num: string | number): string => {
+export const formateDate = (num: string | number, locale = "fr"): string => {
     const options = {
         hour: '2-digit',
         minute: '2-digit',
@@ -17,7 +17,7 @@ export const formateDate = (num: string | number): string => {
         timestamp = num;
     }
 
-    const date = new Date(timestamp).toLocaleDateString('fr-FR', options);
+    const date = new Date(timestamp).toLocaleDateString(locale, options);
 
     return date.toString();
 };
