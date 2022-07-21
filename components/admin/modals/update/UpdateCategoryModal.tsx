@@ -37,10 +37,10 @@ const UpdateCategoryModal = ({toggle, isShowing, category}: PropsType) => {
             const payload = res.payload as HttpError;
             return setError(payload.code ? t.httpErrors[payload.code as never] : t.common.errorSub);
         });
-    }, []);
+    }, [category, dispatch, t, toggle]);
 
     return (
-        <Modal hide={toggle} isShowing={isShowing}>
+        <Modal hide={toggle} isShowing={isShowing} title={t.admin.categories.updateTitle}>
             <div className={"p-5"}>
                 <ErrorMessage error={error} />
                 <InputField name={"category"} ref={nameRef} value={category.name}

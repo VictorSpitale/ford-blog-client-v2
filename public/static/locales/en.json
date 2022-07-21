@@ -276,6 +276,7 @@
     },
     "categories": {
       "title": "Categories list",
+      "updateTitle": "Update the category",
       "fields": {
         "name": "Name"
       },
