@@ -1,8 +1,23 @@
-import {getTimeSinceMsg, stringToDate, timeSince} from "../../../shared/utils/date.utils";
+import {formateDate, getTimeSinceMsg, stringToDate, timeSince} from "../../../shared/utils/date.utils";
 import * as fr from "../../../public/static/locales/fr.json";
 import * as en from "../../../public/static/locales/en.json";
 
 describe('Date Utils', function () {
+
+    describe('formateDate', function () {
+
+        const millis = 1651394994520;
+        jest.spyOn(Date, 'now').mockImplementation(() => millis)
+
+        it('should return a french date by default with millis', function () {
+            expect(formateDate(millis)).toBe("dimanche 1 mai 2022, 10:49:54");
+        });
+
+        it('should return an english date with string date', function () {
+            expect(formateDate("2021-12-15T08:43:39.489Z", "en")).toBe("Wednesday, Dec 15, 2021, 09:43:39 AM");
+        });
+
+    });
 
     describe('String to Date', function () {
 
