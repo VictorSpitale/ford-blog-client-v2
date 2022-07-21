@@ -9,6 +9,7 @@ import {getCategoriesWithCount} from "../../../context/actions/categories/catego
 import {ICategory} from "../../../shared/types/category.type";
 import DetailsModal from "../modals/details/DetailsModal";
 import UpdateCategoryModal from "../modals/update/UpdateCategoryModal";
+import DeleteCategoryModal from "../modals/update/DeleteCategoryModal";
 
 const CategoriesView = () => {
 
@@ -27,9 +28,9 @@ const CategoriesView = () => {
     } = useModal();
 
     const {toggle: toggleEdit, isShowing: isEditShowing} = useModal();
+    const {toggle: toggleDelete, isShowing: isDeleteShowing} = useModal();
 
-    const [detailsCategory, setDetailsCategory] = useState({} as ICategory);
-    const [editCategory, setEditCategory] = useState({} as ICategory);
+    const [activeCategory, setActiveCategory] = useState({} as ICategory);
 
     const fetchCategories = useCallback(async () => {
         await dispatch(getCategoriesWithCount());
@@ -40,29 +41,33 @@ const CategoriesView = () => {
     }, [fetchCategories]);
 
     const openDetails = useCallback((category: ICategory) => {
-        setDetailsCategory({...category});
+        setActiveCategory({...category});
         toggleDetails();
     }, []);
 
     const openEdit = useCallback((category: ICategory) => {
-        setEditCategory({...category});
+        setActiveCategory({...category});
         toggleEdit();
     }, [])
 
     const openDelete = useCallback((category: ICategory) => {
-        console.log("suppression :", category)
+        setActiveCategory({...category});
+        toggleDelete();
     }, [])
 
     return (
         <>
             <RenderIf condition={isDetailsShowing}>
                 <DetailsModal isShowing={isDetailsShowing} toggle={toggleDetails}
-                              content={{type: "categories", data: detailsCategory}} otherModal={otherModal}
+                              content={{type: "categories", data: activeCategory}} otherModal={otherModal}
                               setOtherModal={addOtherModal}
                               hasPrevious={hasPrevious} previous={previous} />
             </RenderIf>
             <RenderIf condition={isEditShowing}>
-                <UpdateCategoryModal isShowing={isEditShowing} toggle={toggleEdit} category={editCategory} />
+                <UpdateCategoryModal isShowing={isEditShowing} toggle={toggleEdit} category={activeCategory} />
+            </RenderIf>
+            <RenderIf condition={isDeleteShowing}>
+                <DeleteCategoryModal isShowing={isDeleteShowing} toggle={toggleDelete} category={activeCategory} />
             </RenderIf>
             <BaseView>
                 <div className={"flex items-center mb-4"}>

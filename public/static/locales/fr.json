@@ -220,7 +220,8 @@
     "title": "Catégories",
     "noPost": "Aucun article ne correspond à la recherche",
     "noCat": "Aucune catégorie disponible",
-    "selectorPlaceholder": "Sélectionner des catégories"
+    "selectorPlaceholder": "Sélectionner des catégories",
+    "delete": "Vous êtes sur le point de supprimer la catégorie : {{name}}"
   },
   "contact": {
     "title": "Contact",

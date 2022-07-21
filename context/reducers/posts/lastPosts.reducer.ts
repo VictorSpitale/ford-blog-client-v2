@@ -1,7 +1,7 @@
 import {IPost} from "../../../shared/types/post.type";
 import {createPost, deletePost, getLastPosts, updatePost} from "../../actions/posts/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
-import {updateCategory} from "../../actions/categories/categories.actions";
+import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 
 export type PostsState = {
     posts: IPost[];
@@ -65,6 +65,13 @@ export const lastPostsReducer = createReducer(initial, (builder) => {
                     if (cat._id === payload._id) return payload;
                     return cat;
                 })
+            }
+        })
+    }).addCase(deleteCategory.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((p) => {
+            return {
+                ...p,
+                categories: p.categories.filter((cat) => cat._id !== payload._id)
             }
         })
     })

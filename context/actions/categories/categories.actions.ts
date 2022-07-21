@@ -18,6 +18,8 @@ export const CATEGORY_SLIDE = "CATEGORY_SLIDE";
 
 export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 
+export const DELETE_CATEGORY = "DELETE_CATEGORY";
+
 export const getCategories = createAsyncThunk<ICategory[], void, { state: RootState }>(GET_CATEGORIES, async (_, {getState}) => {
     const categories = getState().categories.categories;
     if (!isEmpty(categories)) {
@@ -62,4 +64,9 @@ export const updateCategory = createAsyncThunk<ICategory, { data: UpdateCategory
     }).catch((res) => {
         return rejectWithValue(res);
     })
+})
+
+export const deleteCategory = createAsyncThunk<ICategory, ICategory>(DELETE_CATEGORY, async (category) => {
+    await fetchApi("/api/categories/{id}", {method: "delete", params: {id: category._id}});
+    return category;
 })

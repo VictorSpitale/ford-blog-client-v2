@@ -1,7 +1,7 @@
 import {IPost} from "../../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {deletePost, getCategorizedPosts} from "../../actions/posts/posts.actions";
-import {updateCategory} from "../../actions/categories/categories.actions";
+import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 import {ICategory} from "../../../shared/types/category.type";
 
 export type Categorized = {
@@ -55,6 +55,19 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
                 })
             }
         })
+    }).addCase(deleteCategory.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.filter((categorized) => categorized.category._id !== payload._id)
+            .map((categorized) => {
+                return {
+                    ...categorized,
+                    posts: categorized.posts.map((p) => {
+                        return {
+                            ...p,
+                            categories: p.categories.filter((cat) => cat._id !== payload._id)
+                        }
+                    })
+                }
+            })
     }).addCase(deletePost.fulfilled, (state, {payload}) => {
         state.posts = state.posts.map((categorized) => {
             return {

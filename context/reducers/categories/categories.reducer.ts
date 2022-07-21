@@ -1,6 +1,11 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {ICategory} from "../../../shared/types/category.type";
-import {createCategory, getCategories, updateCategory} from "../../actions/categories/categories.actions";
+import {
+    createCategory,
+    deleteCategory,
+    getCategories,
+    updateCategory
+} from "../../actions/categories/categories.actions";
 
 export type CategoriesState = {
     categories: ICategory[];
@@ -41,6 +46,13 @@ export const categoriesReducer = createReducer(initial, (builder => {
             if (cat._id === payload._id) return payload;
             return cat;
         })
+    }).addCase(deleteCategory.pending, (state) => {
+        state.pending = true;
+    }).addCase(deleteCategory.rejected, (state) => {
+        state.pending = false
+    }).addCase(deleteCategory.fulfilled, (state, {payload}) => {
+        state.pending = false;
+        state.categories = state.categories.filter((cat) => cat._id !== payload._id)
     })
 }))
 
