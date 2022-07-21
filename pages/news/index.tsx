@@ -65,7 +65,6 @@ const News = () => {
                 {/*}*/}
             </SEO>
             <div className={"w-fit flex-col mx-auto"}>
-                {JSON.stringify(paginatedPosts)}
                 {!isEmpty(paginatedPosts) && paginatedPosts.posts.map((post, index) => {
                     if (paginatedPosts.posts.length === index + 1) {
                         return <PostCard ref={lastPostRef} key={index} post={post} large={true} />
