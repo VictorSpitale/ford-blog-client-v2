@@ -10,7 +10,7 @@ describe('LikedPosts Actions & Reducers', function () {
     const initialState: LikedPostsState = {
         pending: false,
         error: false,
-        posts: []
+        users: []
     }
 
     beforeEach(() => {
@@ -48,13 +48,13 @@ describe('LikedPosts Actions & Reducers', function () {
         it('should set pending false and set posts', function () {
             const action: AnyAction = {
                 type: getLikedPosts.fulfilled,
-                payload: [PostStub()]
+                payload: {posts: [PostStub()], userId: "id"}
             }
             const state = likedPostsReducer({...initialState, pending: true}, action);
             expect(state).toEqual({
                 ...initialState,
                 pending: false,
-                posts: [PostStub()]
+                users: [{posts: [PostStub()], userId: "id"}]
             })
         });
 
@@ -64,7 +64,7 @@ describe('LikedPosts Actions & Reducers', function () {
             const store = makeStore();
             await store.dispatch(getLikedPosts("user id"));
             expect(spy).toHaveBeenCalled();
-            expect(store.getState().likedPosts.posts).toEqual([PostStub()]);
+            expect(store.getState().likedPosts.users).toEqual([{posts: [PostStub()], userId: "user id"}]);
         });
 
     });
@@ -73,12 +73,13 @@ describe('LikedPosts Actions & Reducers', function () {
 
         it('should clean the state', function () {
             const action: AnyAction = {
-                type: cleanLikedPosts
+                type: cleanLikedPosts,
+                payload: "id"
             }
-            const state = likedPostsReducer({...initialState, posts: [PostStub()]}, action);
+            const state = likedPostsReducer({...initialState, users: [{posts: [PostStub()], userId: "id"}]}, action);
             expect(state).toEqual({
                 ...initialState,
-                posts: []
+                users: []
             })
         });
 

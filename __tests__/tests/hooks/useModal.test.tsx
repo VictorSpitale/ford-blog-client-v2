@@ -23,8 +23,7 @@ describe('Use Modal', function () {
         expect(modal.otherModal).not.toBeDefined();
         expect(modal.addOtherModal).toBeInstanceOf(Function);
         expect(modal.previous).toBeInstanceOf(Function);
-        expect(modal.hasPrevious).toBeInstanceOf(Function);
-        expect(typeof modal.hasPrevious()).toBe("boolean");
+        expect(typeof modal.hasPrevious).toBe("boolean");
     })
 
     it('should toggle the modal', () => {
@@ -40,7 +39,7 @@ describe('Use Modal', function () {
         act(() => {
             modal.addOtherModal(<></>);
         })
-        expect(modal.hasPrevious()).toBe(true);
+        expect(modal.hasPrevious).toBe(true);
         expect(React.isValidElement(modal.otherModal)).toBe(true);
         act(() => {
             modal.toggle(); // Open
@@ -49,7 +48,7 @@ describe('Use Modal', function () {
             modal.toggle(); // Close
         })
         expect(modal.otherModal).not.toBeDefined();
-        expect(modal.hasPrevious()).toBe(false);
+        expect(modal.hasPrevious).toBe(false);
     })
 
     it('should not navigate through elements if the history is empty', () => {
@@ -64,7 +63,7 @@ describe('Use Modal', function () {
         expect(modal.otherModal).toBe(last);
         act(() => modal.previous());
         expect(modal.otherModal).not.toBeDefined();
-        expect(modal.hasPrevious()).toBe(false);
+        expect(modal.hasPrevious).toBe(false);
     })
 
     it('should navigate through elements', () => {
@@ -73,9 +72,9 @@ describe('Use Modal', function () {
         act(() => modal.addOtherModal(last))
         act(() => modal.addOtherModal(current))
         expect(modal.otherModal).toBe(current);
-        expect(modal.hasPrevious()).toBe(true);
+        expect(modal.hasPrevious).toBe(true);
         act(() => modal.previous());
-        expect(modal.hasPrevious()).toBe(true);
+        expect(modal.hasPrevious).toBe(true);
         expect(modal.otherModal).toBe(last);
     })
 

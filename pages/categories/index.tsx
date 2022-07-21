@@ -27,7 +27,7 @@ const Index = () => {
         if (!category) {
             return [];
         }
-        const list = posts.find((list) => list.category === category);
+        const list = posts.find((list) => list.category._id === category._id);
         if (!list) return [];
         return list.posts;
     }

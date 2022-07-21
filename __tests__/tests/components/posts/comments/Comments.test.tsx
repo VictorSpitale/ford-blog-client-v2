@@ -26,6 +26,10 @@ describe('CommentsTest', function () {
         pending = false;
     })
 
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
 
     it('should render the comments', function () {
         const store = makeStore();

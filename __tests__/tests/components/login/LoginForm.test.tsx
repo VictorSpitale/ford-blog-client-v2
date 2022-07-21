@@ -14,6 +14,12 @@ import {IUser} from "../../../../shared/types/user.type";
 
 describe('LoginFormTest', function () {
 
+
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
+
     it('should render the login form', function () {
         const store = makeStore();
         const router = MockUseRouter({});

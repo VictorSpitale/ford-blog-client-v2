@@ -17,6 +17,10 @@ describe('AccountView', function () {
         jest.mock('../../public/static/img/default-profile.png');
     })
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    })
+
     it('should render the Account View base', function () {
 
         const router = MockUseRouter({});
@@ -41,7 +45,7 @@ describe('AccountView', function () {
         jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({data: []})
 
         jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-            posts: [],
+            users: [],
             pending: false
         });
 
@@ -60,12 +64,13 @@ describe('AccountView', function () {
     it('should render the Account Profile View', function () {
 
         const router = MockUseRouter({});
+        const store = makeStore();
 
         render(
-            <Provider store={makeStore()}>
+            <Provider store={store}>
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.PROFILE}
-                                 authUser={{user: UserStub()} as never}
+                                 authUser={{user: UserStub(), pending: false}}
                     />
                 </RouterContext.Provider>
             </Provider>
@@ -81,7 +86,7 @@ describe('AccountView', function () {
             <Provider store={makeStore()}>
                 <RouterContext.Provider value={router}>
                     <AccountView view={AccountViews.SECURITY}
-                                 authUser={{user: UserStub()} as never}
+                                 authUser={{user: UserStub(), pending: false}}
                     />
                 </RouterContext.Provider>
             </Provider>

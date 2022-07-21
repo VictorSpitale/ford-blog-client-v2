@@ -13,7 +13,7 @@ describe('IndexTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should render the index page', async function () {

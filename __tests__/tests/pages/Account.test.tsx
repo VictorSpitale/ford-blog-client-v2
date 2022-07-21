@@ -13,8 +13,10 @@ import {AccountViews} from "../../../shared/types/accountViews.type";
 
 describe('AccountTest', function () {
 
+
     afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should render the account page', async function () {

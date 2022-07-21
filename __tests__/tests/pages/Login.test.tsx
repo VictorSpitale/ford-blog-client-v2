@@ -12,7 +12,7 @@ describe('LoginTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should render the login page', async function () {

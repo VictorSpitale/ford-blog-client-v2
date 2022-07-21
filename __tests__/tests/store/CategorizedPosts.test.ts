@@ -8,6 +8,7 @@ import {getCategorizedPosts} from "../../../context/actions/posts/posts.actions"
 import {PostStub} from "../../stub/PostStub";
 import {makeStore} from "../../../context/store";
 import * as fetch from "../../../context/instance";
+import {CategoryStub} from "../../stub/CategoryStub";
 
 describe('CategorizedPosts Actions & Reducers', function () {
 
@@ -19,6 +20,7 @@ describe('CategorizedPosts Actions & Reducers', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should return the initial state', function () {
@@ -50,7 +52,7 @@ describe('CategorizedPosts Actions & Reducers', function () {
         it('should set pending false and set posts on fulfilled', function () {
             const posts = [PostStub()];
             const payload: Categorized = {
-                category: "name",
+                category: CategoryStub(),
                 posts
             }
             const action: AnyAction = {
@@ -71,11 +73,11 @@ describe('CategorizedPosts Actions & Reducers', function () {
         it('should set pending false and cached posts on fulfilled', function () {
             const posts = [PostStub()];
             const initialPosts: Categorized = {
-                category: "name",
+                category: CategoryStub("sport", "01"),
                 posts
             }
             const payload: Categorized = {
-                category: "second",
+                category: CategoryStub("suv", "02"),
                 posts
             }
             const action: AnyAction = {
@@ -98,11 +100,11 @@ describe('CategorizedPosts Actions & Reducers', function () {
             const posts = [PostStub()];
             const payloadPosts = [PostStub(), PostStub()];
             const initialPosts: Categorized = {
-                category: "name",
+                category: CategoryStub(),
                 posts
             }
             const payload: Categorized = {
-                category: "name",
+                category: CategoryStub(),
                 posts: payloadPosts
             }
             const action: AnyAction = {
@@ -127,11 +129,11 @@ describe('CategorizedPosts Actions & Reducers', function () {
             });
 
             const store = makeStore();
-            await store.dispatch(getCategorizedPosts("name"));
-            await store.dispatch(getCategorizedPosts("name"));
+            await store.dispatch(getCategorizedPosts(CategoryStub()));
+            await store.dispatch(getCategorizedPosts(CategoryStub()));
             expect(spy).toHaveBeenCalledTimes(1);
             expect(store.getState().categorizedPosts.posts).toEqual([{
-                category: "name",
+                category: CategoryStub(),
                 posts: [PostStub()]
             }])
         });
@@ -144,14 +146,14 @@ describe('CategorizedPosts Actions & Reducers', function () {
             });
 
             const store = makeStore();
-            await store.dispatch(getCategorizedPosts("name"));
-            await store.dispatch(getCategorizedPosts("second"));
+            await store.dispatch(getCategorizedPosts(CategoryStub("sport", "01")));
+            await store.dispatch(getCategorizedPosts(CategoryStub("suv", "02")));
             expect(spy).toHaveBeenCalledTimes(2);
             expect(store.getState().categorizedPosts.posts).toEqual([{
-                category: "name",
+                category: CategoryStub("sport", "01"),
                 posts: [PostStub()]
             }, {
-                category: "second",
+                category: CategoryStub("suv", "02"),
                 posts: []
             }])
         });

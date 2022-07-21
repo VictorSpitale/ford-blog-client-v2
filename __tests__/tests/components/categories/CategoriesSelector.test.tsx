@@ -13,6 +13,12 @@ import * as fetch from "../../../../context/instance";
 
 describe('CategoriesSelectorTest', function () {
 
+
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
+
     it('should render the selector', function () {
         const store = makeStore();
         const router = MockUseRouter({});

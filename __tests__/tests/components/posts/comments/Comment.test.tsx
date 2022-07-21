@@ -30,6 +30,11 @@ describe('CommentTest', function () {
         pending = false;
     })
 
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
+
     it('should render a comment', function () {
         const store = makeStore();
         const router = MockUseRouter({});

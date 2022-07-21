@@ -12,8 +12,10 @@ describe('Categories Reducer & Actions', function () {
         categories: [], pending: false, error: false
     }
 
+
     afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should return the initialState', () => {

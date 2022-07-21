@@ -25,11 +25,11 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
     builder.addCase(getCategorizedPosts.pending, (state) => {
         state.pending = true;
     }).addCase(getCategorizedPosts.fulfilled, (state, {payload}) => {
-        const list = state.posts.find((list) => list.category === payload.category);
+        const list = state.posts.find((list) => list.category._id === payload.category._id);
         if (!list) {
             state.posts = [...state.posts, payload];
         } else {
-            const filteredState = state.posts.filter((l) => l.category !== payload.category);
+            const filteredState = state.posts.filter((l) => l.category._id !== payload.category._id);
             state.posts = [
                 ...filteredState,
                 payload

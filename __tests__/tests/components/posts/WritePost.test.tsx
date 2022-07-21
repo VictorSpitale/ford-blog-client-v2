@@ -20,7 +20,7 @@ describe('WritePostTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     beforeEach(() => {

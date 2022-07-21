@@ -3,7 +3,6 @@ import {MockUseRouter} from "../../../utils/MockUseRouter";
 import {Provider} from "react-redux";
 import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
-import {CategoryStub} from "../../../stub/CategoryStub";
 import {UserStub} from "../../../stub/UserStub";
 import {PostStub} from "../../../stub/PostStub";
 import SinglePost from "../../../../components/posts/SinglePost";
@@ -15,18 +14,23 @@ import * as fetch from '../../../../context/instance';
 
 describe('SinglePostTest', function () {
 
+
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
+
     it('should render the single post', function () {
         const store = makeStore();
         const router = MockUseRouter({});
-        const category = CategoryStub();
         const user = UserStub();
         const post = PostStub();
 
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <SinglePost post={post} lastPostPending={false} updatedCategories={[]} categoriesPending={false}
-                                postPending={false} categories={[category]} user={user} />
+                    <SinglePost post={post} lastPostPending={false}
+                                postPending={false} user={user} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -40,15 +44,14 @@ describe('SinglePostTest', function () {
     it('should render the admin single post', function () {
         const store = makeStore();
         const router = MockUseRouter({});
-        const category = CategoryStub();
         const user = UserStub(IUserRole.ADMIN);
         const post = PostStub();
 
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <SinglePost post={post} lastPostPending={false} updatedCategories={[]} categoriesPending={false}
-                                postPending={false} categories={[category]} user={user} />
+                    <SinglePost post={post} lastPostPending={false}
+                                postPending={false} user={user} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -63,7 +66,6 @@ describe('SinglePostTest', function () {
         const push = jest.fn();
 
         const router = MockUseRouter({push});
-        const category = CategoryStub();
         const user = UserStub(IUserRole.ADMIN);
         const post = PostStub();
 
@@ -73,8 +75,8 @@ describe('SinglePostTest', function () {
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <SinglePost post={post} lastPostPending={false} updatedCategories={[]} categoriesPending={false}
-                                postPending={false} categories={[category]} user={user} />
+                    <SinglePost post={post} lastPostPending={false}
+                                postPending={false} user={user} />
                 </RouterContext.Provider>
             </Provider>
         )

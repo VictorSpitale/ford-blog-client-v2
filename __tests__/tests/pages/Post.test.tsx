@@ -13,7 +13,7 @@ describe('PostTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should render the error page on not found', function () {

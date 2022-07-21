@@ -13,6 +13,11 @@ import * as fr from "../../../../public/static/locales/fr.json";
 
 describe('Account View Switcher', function () {
 
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    })
+
     it('should render the switcher', function () {
 
         const router = MockUseRouter({});

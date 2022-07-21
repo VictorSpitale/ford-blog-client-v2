@@ -18,8 +18,10 @@ describe('Posts Actions & Reducers', function () {
         }
     }
 
-    beforeEach(() => {
+
+    afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should return the initial state', function () {

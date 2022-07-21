@@ -19,8 +19,9 @@ describe('User Reducer & Actions', function () {
         user: {} as IUser, pending: false, error: false
     }
 
-    beforeEach(() => {
+    afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should return the initial state', () => {
