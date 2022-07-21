@@ -7,7 +7,7 @@ export type ButtonsProps = {
     text: string;
     classes?: string;
     type?: "button" | "submit" | "reset" | undefined;
-    style?: "primary" | "danger"
+    style?: "primary" | "danger" | "gray"
 }
 
 type ElementProps = { element: "button"; onClick?: AnyFunction, type?: string } | { element: "link"; onClick: string }
@@ -19,6 +19,7 @@ const Button = ({element, onClick, text, classes, type, style = "primary"}: Prop
     const buttonStyle = className(
         style === "primary" ? "bg-primary-400 shadow-primary-300/40 hover:shadow-primary-300/60 hover:bg-primary-500" : '',
         style === "danger" ? "bg-red-400 shadow-red-300/40 hover:shadow-red-300/60 hover:bg-red-500" : '',
+        style === "gray" ? "bg-gray-400 shadow-gray-300/40 hover:shadow-gray-300/60 hover:bg-gray-500" : '',
         "text-white px-2 py-1 rounded-lg shadow-md",
         classes || '')
 
