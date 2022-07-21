@@ -34,11 +34,11 @@ const CategoryDetailsModalContent = ({category, setOtherModal}: PropsType) => {
     }
 
     const fetchCategorized = useCallback(async () => {
-        await dispatch(getCategorizedPosts(category.name));
+        await dispatch(getCategorizedPosts(category));
     }, []);
 
     useEffect(() => {
-        const found = categorizedPosts.find((c) => c.category === category.name);
+        const found = categorizedPosts.find((c) => c.category === category);
         if (found) setPosts(found.posts);
     }, [categorizedPosts]);
 

@@ -1,9 +1,11 @@
 import {IPost} from "../../../shared/types/post.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {getCategorizedPosts} from "../../actions/posts/posts.actions";
+import {updateCategory} from "../../actions/categories/categories.actions";
+import {ICategory} from "../../../shared/types/category.type";
 
 export type Categorized = {
-    category: string;
+    category: ICategory;
     posts: IPost[];
 }
 
@@ -36,5 +38,7 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
         state.pending = false;
     }).addCase(getCategorizedPosts.rejected, (state) => {
         state.pending = false
+    }).addCase(updateCategory.fulfilled, (state, {payload}) => {
+        // Need refactoring to have cat id in the state
     })
 });
