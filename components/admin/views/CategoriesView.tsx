@@ -9,7 +9,7 @@ import {getCategoriesWithCount} from "../../../context/actions/categories/catego
 import {ICategory} from "../../../shared/types/category.type";
 import DetailsModal from "../modals/details/DetailsModal";
 import UpdateCategoryModal from "../modals/update/UpdateCategoryModal";
-import DeleteCategoryModal from "../modals/update/DeleteCategoryModal";
+import DeleteCategoryModal from "../modals/delete/DeleteCategoryModal";
 
 const CategoriesView = () => {
 
