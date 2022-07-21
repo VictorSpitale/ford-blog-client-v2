@@ -8,6 +8,7 @@ import Table from "../../table/Table";
 import {getCategoriesWithCount} from "../../../context/actions/categories/categories.actions";
 import {ICategory} from "../../../shared/types/category.type";
 import DetailsModal from "../modals/details/DetailsModal";
+import UpdateCategoryModal from "../modals/update/UpdateCategoryModal";
 
 const CategoriesView = () => {
 
@@ -25,7 +26,10 @@ const CategoriesView = () => {
         hasPrevious
     } = useModal();
 
+    const {toggle: toggleEdit, isShowing: isEditShowing} = useModal();
+
     const [detailsCategory, setDetailsCategory] = useState({} as ICategory);
+    const [editCategory, setEditCategory] = useState({} as ICategory);
 
     const fetchCategories = useCallback(async () => {
         await dispatch(getCategoriesWithCount());
@@ -41,7 +45,8 @@ const CategoriesView = () => {
     }, []);
 
     const openEdit = useCallback((category: ICategory) => {
-        console.log("edition :", category)
+        setEditCategory({...category});
+        toggleEdit();
     }, [])
 
     const openDelete = useCallback((category: ICategory) => {
@@ -55,6 +60,9 @@ const CategoriesView = () => {
                               content={{type: "categories", data: detailsCategory}} otherModal={otherModal}
                               setOtherModal={addOtherModal}
                               hasPrevious={hasPrevious} previous={previous} />
+            </RenderIf>
+            <RenderIf condition={isEditShowing}>
+                <UpdateCategoryModal isShowing={isEditShowing} toggle={toggleEdit} category={editCategory} />
             </RenderIf>
             <BaseView>
                 <div className={"flex items-center mb-4"}>
