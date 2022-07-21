@@ -94,6 +94,8 @@
     "8": "L'image dépasse les 500ko",
     "9": "Le format du ficher n'est pas pris en charge",
     "10": "Erreur lors de l'enregistrement",
+    "11": "Vous n'avez pas les permissions suffisantes",
+    "12": "La catégorie existe déjà",
     "17": "Votre mot de passe actuel n'est pas correct"
   },
   "posts": {

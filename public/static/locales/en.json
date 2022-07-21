@@ -94,6 +94,8 @@
     "8": "The image exceeds 500kB",
     "9": "The file format is not supported",
     "10": "Error saving",
+    "11": "Insufficient permissions",
+    "12": "Category already exist",
     "17": "Your current password is wrong"
   },
   "posts": {
