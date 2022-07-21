@@ -30,9 +30,7 @@ const PostsView = () => {
         hasPrevious
     } = useModal();
 
-    const [editingPost, setEditingPost] = useState({} as IPost);
-    const [deletingPost, setDeletingPost] = useState({} as IPost);
-    const [detailsPost, setDetailsPost] = useState({} as IPost);
+    const [activePost, setActivePost] = useState({} as IPost);
 
     const fetchPosts = useCallback(async () => {
         if (paginatedPosts.hasMore) {
@@ -45,41 +43,41 @@ const PostsView = () => {
     }, []);
 
     const openDetails = useCallback((post: IPost) => {
-        setDetailsPost({...post});
+        setActivePost({...post});
         toggleDetailsPost();
     }, []);
 
     const openEdit = useCallback((post: IPost) => {
-        setEditingPost({...post});
+        setActivePost({...post});
         toggleEditPost();
     }, []);
 
     const openDelete = useCallback((post: IPost) => {
-        setDeletingPost({...post});
+        setActivePost({...post});
         toggleDeletePost();
     }, [])
 
     const handleDeletePost = useCallback(async () => {
-        await dispatch(deletePost(deletingPost.slug)).then(() => {
+        await dispatch(deletePost(activePost.slug)).then(() => {
             toggleDeletePost();
         });
-    }, [deletingPost.slug, dispatch, toggleDeletePost]);
+    }, [activePost.slug, dispatch, toggleDeletePost]);
 
     return (
         <>
             <RenderIf condition={isDetailsPostShowing}>
                 <DetailsModal isShowing={isDetailsPostShowing} toggle={toggleDetailsPost}
-                              content={{type: "posts", data: detailsPost}} otherModal={otherModal}
+                              content={{type: "posts", data: activePost}} otherModal={otherModal}
                               setOtherModal={addOtherModal}
                               hasPrevious={hasPrevious} previous={previous} />
             </RenderIf>
             <RenderIf condition={isDeletePostShowing}>
                 <DeletePostModal toggle={toggleDeletePost} isShowing={isDeletePostShowing} pending={pending}
                                  handleDelete={handleDeletePost}
-                                 post={deletingPost} />
+                                 post={activePost} />
             </RenderIf>
             <RenderIf condition={isEditPostShowing}>
-                <UpdatePostModal post={editingPost} toggle={toggleEditPost} isShowing={isEditPostShowing}
+                <UpdatePostModal post={activePost} toggle={toggleEditPost} isShowing={isEditPostShowing}
                                  pending={pending} />
             </RenderIf>
             <BaseView>

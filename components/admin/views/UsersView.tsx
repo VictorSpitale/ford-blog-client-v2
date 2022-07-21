@@ -16,7 +16,7 @@ const UsersView = () => {
 
     const {users, pending} = useAppSelector(state => state.users);
 
-    const [detailsUser, setDetailsUser] = useState({} as IUser);
+    const [activeUser, setActiveUser] = useState({} as IUser);
 
     const {
         toggle: toggleDetails,
@@ -36,7 +36,7 @@ const UsersView = () => {
     }, [fetchUsers]);
 
     const openDetails = useCallback((user: IUser) => {
-        setDetailsUser({...user});
+        setActiveUser({...user});
         toggleDetails();
     }, []);
 
@@ -52,7 +52,7 @@ const UsersView = () => {
         <>
             <RenderIf condition={isDetailsShowing}>
                 <DetailsModal isShowing={isDetailsShowing} toggle={toggleDetails}
-                              content={{type: "users", data: detailsUser}} otherModal={otherModal}
+                              content={{type: "users", data: activeUser}} otherModal={otherModal}
                               setOtherModal={addOtherModal}
                               hasPrevious={hasPrevious} previous={previous} />
             </RenderIf>
