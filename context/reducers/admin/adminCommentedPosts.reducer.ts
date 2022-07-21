@@ -3,7 +3,7 @@ import {IPost} from "../../../shared/types/post.type";
 import {getFilteredCommentedPostByUserId} from "../../actions/admin/admin.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 import {deletePost} from "../../actions/posts/posts.actions";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type UserCommentedPosts = {
     posts: IPost[],
@@ -119,6 +119,18 @@ export const adminCommentedPostsReducer = createReducer(initial, (builder => {
                             }
                             return com;
                         })
+                    }
+                })
+            }
+        })
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        state.users = state.users.filter((u) => u.userId !== payload._id).map((u) => {
+            return {
+                ...u,
+                posts: u.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.filter((com) => com.commenter._id !== payload._id)
                     }
                 })
             }

@@ -2,7 +2,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {IPost} from "../../../shared/types/post.type";
 import {cleanLikedPosts, deletePost, getLikedPosts} from "../../actions/posts/posts.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type LikedPostsState = {
     users: {
@@ -123,6 +123,18 @@ export const likedPostsReducer = createReducer(initial, (builder => {
                             }
                             return com;
                         })
+                    }
+                })
+            }
+        })
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        state.users = state.users.filter((u) => u.userId !== payload._id).map((u) => {
+            return {
+                ...u,
+                posts: u.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.filter((com) => com.commenter._id !== payload._id)
                     }
                 })
             }

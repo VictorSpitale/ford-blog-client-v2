@@ -3,7 +3,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {deletePost, getCategorizedPosts} from "../../actions/posts/posts.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 import {ICategory} from "../../../shared/types/category.type";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type Categorized = {
     category: ICategory;
@@ -126,6 +126,18 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
                             }
                             return com;
                         })
+                    }
+                })
+            }
+        })
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((categorized) => {
+            return {
+                ...categorized,
+                posts: categorized.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.filter((com) => com.commenter._id !== payload._id)
                     }
                 })
             }

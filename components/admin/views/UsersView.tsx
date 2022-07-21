@@ -9,6 +9,7 @@ import {getUsers} from "../../../context/actions/users/users.actions";
 import {IUser} from "../../../shared/types/user.type";
 import DetailsModal from "../modals/details/DetailsModal";
 import UpdateUserModal from "../modals/update/UpdateUserModal";
+import DeleteUserModal from "../modals/delete/DeleteUserModal";
 
 const UsersView = () => {
 
@@ -29,6 +30,7 @@ const UsersView = () => {
     } = useModal();
 
     const {toggle: toggleEdit, isShowing: isEditShowing} = useModal();
+    const {toggle: toggleDelete, isShowing: isDeleteShowing} = useModal();
 
     const fetchUsers = useCallback(async () => {
         await dispatch(getUsers());
@@ -49,7 +51,8 @@ const UsersView = () => {
     }, [])
 
     const openDelete = useCallback((user: IUser) => {
-        console.log("suppression :", user)
+        setActiveUser({...user});
+        toggleDelete();
     }, [])
 
     return (
@@ -62,6 +65,9 @@ const UsersView = () => {
             </RenderIf>
             <RenderIf condition={isEditShowing}>
                 <UpdateUserModal user={activeUser} toggle={toggleEdit} isShowing={isEditShowing} />
+            </RenderIf>
+            <RenderIf condition={isDeleteShowing}>
+                <DeleteUserModal user={activeUser} toggle={toggleDelete} isShowing={isDeleteShowing} />
             </RenderIf>
             <BaseView>
                 <div className={"flex items-center mb-4"}>

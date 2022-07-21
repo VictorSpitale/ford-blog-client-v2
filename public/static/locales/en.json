@@ -295,7 +295,8 @@
       },
       "deletePicture": "Delete the picture",
       "cantUpdate": "Go to your account to edit your profile",
-      "cantDelete": "Go to your account to delete it"
+      "cantDelete": "Go to your account to delete it",
+      "delete": "Your are about to delete the user : {{name}}"
     }
   },
   "tabs": {

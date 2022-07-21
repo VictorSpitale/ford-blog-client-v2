@@ -2,7 +2,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {IBasicUser} from "../../../shared/types/user.type";
 import {getPostLikers} from "../../actions/admin/admin.actions";
 import {deletePost} from "../../actions/posts/posts.actions";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type PostLikers = {
     likers: IBasicUser[],
@@ -67,6 +67,13 @@ export const adminPostsLikersReducer = createReducer(initial, (builder => {
                     if (u._id === payload._id) return {...u, pseudo: payload.pseudo}
                     return u;
                 })
+            }
+        })
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((lp) => {
+            return {
+                ...lp,
+                likers: lp.likers.filter((u) => u._id !== payload._id)
             }
         })
     })

@@ -65,8 +65,9 @@ export const removePicture = createAsyncThunk<IUser, IUser, { state: RootState }
     return other;
 })
 
-export const deleteAccount = createAsyncThunk<void, string, { state: RootState }>(DELETE_ACCOUNT, async (id) => {
-    await fetchApi("/api/users/{id}", {method: "delete", params: {id}});
+export const deleteAccount = createAsyncThunk<IUser, IUser, { state: RootState }>(DELETE_ACCOUNT, async (user) => {
+    await fetchApi("/api/users/{id}", {method: "delete", params: {id: user._id}});
+    return user;
 })
 
 export const sendContactMail = createAsyncThunk<unknown, ContactType>(SEND_CONTACT, async ({

@@ -62,8 +62,10 @@ export const userReducer = createReducer(initial, (builder => {
         }
     }).addCase(removePicture.rejected, (state) => {
         state.pending = false
-    }).addCase(deleteAccount.fulfilled, (state) => {
-        state.user = {} as IUser;
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        if (state.user._id === payload._id) {
+            state.user = {} as IUser;
+        }
         state.pending = false;
     }).addCase(deleteAccount.pending, (state) => {
         state.pending = true;

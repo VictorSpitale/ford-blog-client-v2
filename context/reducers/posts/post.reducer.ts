@@ -12,7 +12,7 @@ import {
     updatePostComment
 } from "../../actions/posts/posts.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 import {isEmpty} from "../../../shared/utils/object.utils";
 
 export type PostState = {
@@ -136,6 +136,13 @@ export const
                         }
                         return com;
                     })
+                }
+            }
+        }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+            if (!isEmpty(state.post)) {
+                state.post = {
+                    ...state.post,
+                    comments: state.post.comments.filter((com) => com.commenter._id !== payload._id)
                 }
             }
         })

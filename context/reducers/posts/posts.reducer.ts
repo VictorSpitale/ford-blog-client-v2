@@ -10,7 +10,7 @@ import {
 import {createReducer} from "@reduxjs/toolkit";
 import _ from 'lodash';
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type PostsState = {
     paginatedPosts: IPaginatedPosts;
@@ -130,6 +130,13 @@ export const postsReducer = createReducer(initial, (builder) => {
                     }
                     return com;
                 })
+            }
+        })
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        state.paginatedPosts.posts = state.paginatedPosts.posts.map((p) => {
+            return {
+                ...p,
+                comments: p.comments.filter((com) => com.commenter._id !== payload._id)
             }
         })
     })

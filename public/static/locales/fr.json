@@ -296,7 +296,8 @@
       },
       "deletePicture": "Supprimer la photo",
       "cantUpdate": "Rendez-vous sur votre compte pour modifier votre profil",
-      "cantDelete": "Rendez-vous sur votre compte pour supprimer votre compte"
+      "cantDelete": "Rendez-vous sur votre compte pour supprimer votre compte",
+      "delete": "Vous êtes sur le point de supprimer l'utilisateur : {{name}}"
     }
   },
   "tabs": {

@@ -2,7 +2,7 @@ import {IUser} from "../../../shared/types/user.type";
 import {createReducer} from "@reduxjs/toolkit";
 import {getUsers} from "../../actions/users/users.actions";
 import {getUserById} from "../../actions/admin/admin.actions";
-import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type UsersState = {
     users: IUser[];
@@ -69,6 +69,13 @@ export const usersReducer = createReducer(initial, (builder => {
         })
     }).addCase(updateUser.rejected, (state) => {
         state.pending = false
+    }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
+        state.users = state.users.filter((u) => u._id !== payload._id);
+        state.pending = false;
+    }).addCase(deleteAccount.pending, (state) => {
+        state.pending = true;
+    }).addCase(deleteAccount.rejected, (state) => {
+        state.pending = false;
     })
 }))
 
