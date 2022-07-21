@@ -1,6 +1,7 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {IBasicUser} from "../../../shared/types/user.type";
 import {getPostLikers} from "../../actions/admin/admin.actions";
+import {deletePost} from "../../actions/posts/posts.actions";
 
 export type PostLikers = {
     likers: IBasicUser[],
@@ -35,6 +36,8 @@ export const adminPostsLikersReducer = createReducer(initial, (builder => {
                 payload
             ]
         }
+    }).addCase(deletePost.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.filter((p) => p.slug !== payload);
     })
 }))
 

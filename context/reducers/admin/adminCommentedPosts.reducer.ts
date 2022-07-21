@@ -2,6 +2,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {IPost} from "../../../shared/types/post.type";
 import {getFilteredCommentedPostByUserId} from "../../actions/admin/admin.actions";
 import {updateCategory} from "../../actions/categories/categories.actions";
+import {deletePost} from "../../actions/posts/posts.actions";
 
 export type UserCommentedPosts = {
     posts: IPost[],
@@ -46,6 +47,13 @@ export const adminCommentedPostsReducer = createReducer(initial, (builder => {
                         })
                     }
                 })
+            }
+        });
+    }).addCase(deletePost.fulfilled, (state, {payload}) => {
+        state.users = state.users.map((u) => {
+            return {
+                ...u,
+                posts: u.posts.filter((p) => p.slug !== payload)
             }
         });
     })
