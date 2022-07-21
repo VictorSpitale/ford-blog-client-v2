@@ -2,6 +2,7 @@ import {IPost} from "../../../shared/types/post.type";
 import {createPost, deletePost, getLastPosts, updatePost} from "../../actions/posts/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
+import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type PostsState = {
     posts: IPost[];
@@ -72,6 +73,45 @@ export const lastPostsReducer = createReducer(initial, (builder) => {
             return {
                 ...p,
                 categories: p.categories.filter((cat) => cat._id !== payload._id)
+            }
+        })
+    }).addCase(updateUser.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((p) => {
+            return {
+                ...p,
+                comments: p.comments.map((com) => {
+                    if (com.commenter._id === payload._id) return {
+                        ...com,
+                        commenter: {...com.commenter, pseudo: payload.pseudo}
+                    }
+                    return com;
+                })
+            }
+        })
+    }).addCase(removePicture.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((p) => {
+            return {
+                ...p,
+                comments: p.comments.map((com) => {
+                    if (com.commenter._id === payload._id) return {
+                        ...com,
+                        commenter: {...com.commenter, picture: undefined}
+                    }
+                    return com;
+                })
+            }
+        })
+    }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((p) => {
+            return {
+                ...p,
+                comments: p.comments.map((com) => {
+                    if (com.commenter._id === payload._id) return {
+                        ...com,
+                        commenter: {...com.commenter, picture: payload.picture}
+                    }
+                    return com;
+                })
             }
         })
     })

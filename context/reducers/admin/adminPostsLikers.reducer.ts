@@ -2,6 +2,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {IBasicUser} from "../../../shared/types/user.type";
 import {getPostLikers} from "../../actions/admin/admin.actions";
 import {deletePost} from "../../actions/posts/posts.actions";
+import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type PostLikers = {
     likers: IBasicUser[],
@@ -38,6 +39,36 @@ export const adminPostsLikersReducer = createReducer(initial, (builder => {
         }
     }).addCase(deletePost.fulfilled, (state, {payload}) => {
         state.posts = state.posts.filter((p) => p.slug !== payload);
+    }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((lp) => {
+            return {
+                ...lp,
+                likers: lp.likers.map((u) => {
+                    if (u._id === payload._id) return {...u, picture: payload.picture}
+                    return u;
+                })
+            }
+        })
+    }).addCase(removePicture.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((lp) => {
+            return {
+                ...lp,
+                likers: lp.likers.map((u) => {
+                    if (u._id === payload._id) return {...u, picture: undefined}
+                    return u;
+                })
+            }
+        })
+    }).addCase(updateUser.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((lp) => {
+            return {
+                ...lp,
+                likers: lp.likers.map((u) => {
+                    if (u._id === payload._id) return {...u, pseudo: payload.pseudo}
+                    return u;
+                })
+            }
+        })
     })
 }))
 

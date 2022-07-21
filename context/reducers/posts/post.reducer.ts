@@ -12,6 +12,8 @@ import {
     updatePostComment
 } from "../../actions/posts/posts.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
+import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
+import {isEmpty} from "../../../shared/utils/object.utils";
 
 export type PostState = {
     post: IPost;
@@ -95,6 +97,45 @@ export const
                 state.post = {
                     ...state.post,
                     categories: state.post.categories.filter((cat) => cat._id !== payload._id)
+                }
+            }
+        }).addCase(updateUser.fulfilled, (state, {payload}) => {
+            if (!isEmpty(state.post)) {
+                state.post = {
+                    ...state.post,
+                    comments: state.post.comments.map((com) => {
+                        if (com.commenter._id === payload._id) return {
+                            ...com,
+                            commenter: {...com.commenter, pseudo: payload.pseudo}
+                        }
+                        return com;
+                    })
+                }
+            }
+        }).addCase(removePicture.fulfilled, (state, {payload}) => {
+            if (!isEmpty(state.post)) {
+                state.post = {
+                    ...state.post,
+                    comments: state.post.comments.map((com) => {
+                        if (com.commenter._id === payload._id) return {
+                            ...com,
+                            commenter: {...com.commenter, picture: undefined}
+                        }
+                        return com;
+                    })
+                }
+            }
+        }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
+            if (!isEmpty(state.post)) {
+                state.post = {
+                    ...state.post,
+                    comments: state.post.comments.map((com) => {
+                        if (com.commenter._id === payload._id) return {
+                            ...com,
+                            commenter: {...com.commenter, picture: payload.picture}
+                        }
+                        return com;
+                    })
                 }
             }
         })

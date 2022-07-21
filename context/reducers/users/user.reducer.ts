@@ -7,7 +7,7 @@ import {
     logout,
     removePicture,
     sendContactMail,
-    updateLoggedUser,
+    updateUser,
     uploadPicture
 } from "../../actions/users/user.actions";
 
@@ -34,26 +34,32 @@ export const userReducer = createReducer(initial, (builder => {
         state.user = {} as IUser;
     }).addCase(login, (state, {payload}) => {
         state.user = payload;
-    }).addCase(updateLoggedUser.pending, (state) => {
+    }).addCase(updateUser.pending, (state) => {
         state.pending = true
-    }).addCase(updateLoggedUser.fulfilled, (state, {payload}) => {
+    }).addCase(updateUser.fulfilled, (state, {payload}) => {
         state.pending = false;
-        state.user = payload;
-    }).addCase(updateLoggedUser.rejected, (state) => {
+        if (state.user._id === payload._id) {
+            state.user = payload;
+        }
+    }).addCase(updateUser.rejected, (state) => {
         state.pending = false
     }).addCase(uploadPicture.pending, (state) => {
         state.pending = true
     }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
         state.pending = false;
-        state.user.picture = payload;
+        if (state.user._id === payload._id) {
+            state.user.picture = payload.picture;
+        }
     }).addCase(uploadPicture.rejected, (state) => {
         state.pending = false
     }).addCase(removePicture.pending, (state) => {
         state.pending = true
-    }).addCase(removePicture.fulfilled, (state) => {
+    }).addCase(removePicture.fulfilled, (state, {payload}) => {
         state.pending = false;
-        const {picture, ...other} = state.user;
-        state.user = other;
+        if (state.user._id === payload._id) {
+            const {picture, ...other} = state.user;
+            state.user = other;
+        }
     }).addCase(removePicture.rejected, (state) => {
         state.pending = false
     }).addCase(deleteAccount.fulfilled, (state) => {

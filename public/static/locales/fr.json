@@ -288,11 +288,15 @@
     },
     "users": {
       "title": "Liste des utilisateurs",
+      "updateTitle": "Modifier l'utilisateur",
       "tabs": {
         "informations": "Informations",
         "likes": "Articles aimés",
         "comments": "Articles commentés"
-      }
+      },
+      "deletePicture": "Supprimer la photo",
+      "cantUpdate": "Rendez-vous sur votre compte pour modifier votre profil",
+      "cantDelete": "Rendez-vous sur votre compte pour supprimer votre compte"
     }
   },
   "tabs": {

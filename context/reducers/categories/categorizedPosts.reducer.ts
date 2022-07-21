@@ -3,6 +3,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {deletePost, getCategorizedPosts} from "../../actions/posts/posts.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 import {ICategory} from "../../../shared/types/category.type";
+import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type Categorized = {
     category: ICategory;
@@ -73,6 +74,60 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
             return {
                 ...categorized,
                 posts: categorized.posts.filter((p) => p.slug !== payload)
+            }
+        })
+    }).addCase(updateUser.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((categorized) => {
+            return {
+                ...categorized,
+                posts: categorized.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.map((com) => {
+                            if (com.commenter._id === payload._id) return {
+                                ...com,
+                                commenter: {...com.commenter, pseudo: payload.pseudo}
+                            }
+                            return com;
+                        })
+                    }
+                })
+            }
+        })
+    }).addCase(removePicture.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((categorized) => {
+            return {
+                ...categorized,
+                posts: categorized.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.map((com) => {
+                            if (com.commenter._id === payload._id) return {
+                                ...com,
+                                commenter: {...com.commenter, picture: undefined}
+                            }
+                            return com;
+                        })
+                    }
+                })
+            }
+        })
+    }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((categorized) => {
+            return {
+                ...categorized,
+                posts: categorized.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.map((com) => {
+                            if (com.commenter._id === payload._id) return {
+                                ...com,
+                                commenter: {...com.commenter, picture: payload.picture}
+                            }
+                            return com;
+                        })
+                    }
+                })
             }
         })
     })

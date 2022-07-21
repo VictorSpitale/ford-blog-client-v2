@@ -6,7 +6,7 @@ import {
     login,
     logout,
     removePicture,
-    updateLoggedUser,
+    updateUser,
     uploadPicture
 } from "../../../context/actions/users/user.actions";
 import {IUser} from "../../../shared/types/user.type";
@@ -146,7 +146,7 @@ describe('User Reducer & Actions', function () {
     describe('Update Logged User', function () {
 
         it('should set pending true while updating a user', () => {
-            const action: AnyAction = {type: updateLoggedUser.pending};
+            const action: AnyAction = {type: updateUser.pending};
             const state = userReducer(initialState, action);
             expect(state).toEqual({
                 ...initialState,
@@ -155,13 +155,13 @@ describe('User Reducer & Actions', function () {
         })
 
         it('should set pending false and not set error to true (unused error)', () => {
-            const action: AnyAction = {type: updateLoggedUser.rejected};
+            const action: AnyAction = {type: updateUser.rejected};
             const state = userReducer({...initialState, pending: true}, action);
             expect(state).toEqual(initialState);
         })
 
         it('should replace the user and pending false', () => {
-            const action: AnyAction = {type: updateLoggedUser.fulfilled, payload: {...UserStub(), pseudo: "nouveau"}};
+            const action: AnyAction = {type: updateUser.fulfilled, payload: {...UserStub(), pseudo: "nouveau"}};
             const state = userReducer({
                 ...initialState, pending: true, user: UserStub()
             }, action);
@@ -179,7 +179,7 @@ describe('User Reducer & Actions', function () {
             })
             const store = makeStore();
             const data = {_id: user._id};
-            await store.dispatch(updateLoggedUser(data));
+            await store.dispatch(updateUser(data));
             expect(getUserSpy).toHaveBeenCalledWith(`/api/users/{id}`, {
                 method: "patch",
                 params: {id: user._id},
@@ -202,7 +202,7 @@ describe('User Reducer & Actions', function () {
             })
             const store = makeStore();
             const data = {_id: user._id};
-            await store.dispatch(updateLoggedUser(data)).then(res => {
+            await store.dispatch(updateUser(data)).then(res => {
                 // Interceptor not included
                 expect(res.payload).toEqual({
                     response: {
@@ -310,7 +310,7 @@ describe('User Reducer & Actions', function () {
             const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({})
             const store = makeStore();
             const data = user._id;
-            await store.dispatch(removePicture(data));
+            await store.dispatch(removePicture(user));
             expect(getUserSpy).toHaveBeenCalledWith("/api/users/upload/{id}", {
                 method: "delete",
                 params: {id: user._id}

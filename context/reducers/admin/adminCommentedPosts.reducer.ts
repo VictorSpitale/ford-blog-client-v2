@@ -3,6 +3,7 @@ import {IPost} from "../../../shared/types/post.type";
 import {getFilteredCommentedPostByUserId} from "../../actions/admin/admin.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 import {deletePost} from "../../actions/posts/posts.actions";
+import {removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
 
 export type UserCommentedPosts = {
     posts: IPost[],
@@ -68,6 +69,60 @@ export const adminCommentedPostsReducer = createReducer(initial, (builder => {
                 posts: u.posts.filter((p) => p.slug !== payload)
             }
         });
+    }).addCase(removePicture.fulfilled, (state, {payload}) => {
+        state.users = state.users.map((u) => {
+            return {
+                ...u,
+                posts: u.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.map((com) => {
+                            if (com.commenter._id === payload._id) return {
+                                ...com,
+                                commenter: {...com.commenter, picture: undefined}
+                            }
+                            return com;
+                        })
+                    }
+                })
+            }
+        })
+    }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
+        state.users = state.users.map((u) => {
+            return {
+                ...u,
+                posts: u.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.map((com) => {
+                            if (com.commenter._id === payload._id) return {
+                                ...com,
+                                commenter: {...com.commenter, picture: payload.picture}
+                            }
+                            return com;
+                        })
+                    }
+                })
+            }
+        })
+    }).addCase(updateUser.fulfilled, (state, {payload}) => {
+        state.users = state.users.map((u) => {
+            return {
+                ...u,
+                posts: u.posts.map((p) => {
+                    return {
+                        ...p,
+                        comments: p.comments.map((com) => {
+                            if (com.commenter._id === payload._id) return {
+                                ...com,
+                                commenter: {...com.commenter, pseudo: payload.pseudo}
+                            }
+                            return com;
+                        })
+                    }
+                })
+            }
+        })
     })
 }))
 

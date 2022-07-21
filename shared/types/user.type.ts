@@ -16,6 +16,7 @@ export type UpdateUser = {
     pseudo?: string;
     password?: string;
     currentPassword?: string;
+    role?: "0" | "1" | "2";
 }
 
 export enum IUserRole {

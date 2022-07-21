@@ -220,6 +220,12 @@ export interface components {
        * @example password
        */
       currentPassword?: string;
+      /**
+       * @description User's role
+       * @default 0
+       * @enum {string}
+       */
+      role?: "0" | "1" | "2";
     };
     PasswordPreRecoveryDto: {
       /**

@@ -34,12 +34,12 @@ export const logout = createAsyncThunk<void, void, { state: RootState }>(LOGOUT,
 
 export const login = createAction<IUser>(LOGIN)
 
-export const updateLoggedUser = createAsyncThunk<IUser, UpdateUser & { _id: string }, { state: RootState }>(UPDATE_LOGGED_USER, async (user, {rejectWithValue}) => {
+export const updateUser = createAsyncThunk<IUser, UpdateUser & { _id: string }, { state: RootState }>(UPDATE_LOGGED_USER, async (user, {rejectWithValue}) => {
     let response = {} as IUser;
     return await fetchApi('/api/users/{id}', {
         method: "patch",
         params: {id: user._id},
-        json: {password: user.password, pseudo: user.pseudo, currentPassword: user.currentPassword}
+        json: {password: user.password, pseudo: user.pseudo, currentPassword: user.currentPassword, role: user.role}
     }).then((res) => {
         response = res.data as IUser;
         return response;
@@ -48,16 +48,21 @@ export const updateLoggedUser = createAsyncThunk<IUser, UpdateUser & { _id: stri
     })
 })
 
-export const uploadPicture = createAsyncThunk<string, { _id: string; data: FormData }, { state: RootState }>(UPLOAD_PICTURE, async (data) => {
-    let response = "";
+export const uploadPicture = createAsyncThunk<{ _id: string; picture: string }, { _id: string; data: FormData }, { state: RootState }>(UPLOAD_PICTURE, async (data) => {
+    let response = {} as { _id: string; picture: string };
     await fetchApi("/api/users/upload/{id}", {method: "patch", params: {id: data._id}, data: data.data}).then((res) => {
-        response = res.data.picture
+        response = {
+            _id: data._id,
+            picture: res.data.picture
+        }
     })
     return response;
 })
 
-export const removePicture = createAsyncThunk<void, string, { state: RootState }>(REMOVE_PICTURE, async (id) => {
-    await fetchApi("/api/users/upload/{id}", {method: "delete", params: {id}});
+export const removePicture = createAsyncThunk<IUser, IUser, { state: RootState }>(REMOVE_PICTURE, async (user) => {
+    await fetchApi("/api/users/upload/{id}", {method: "delete", params: {id: user._id}});
+    const {picture, ...other} = user;
+    return other;
 })
 
 export const deleteAccount = createAsyncThunk<void, string, { state: RootState }>(DELETE_ACCOUNT, async (id) => {

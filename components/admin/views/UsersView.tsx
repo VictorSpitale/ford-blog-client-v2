@@ -8,6 +8,7 @@ import Table from "../../table/Table";
 import {getUsers} from "../../../context/actions/users/users.actions";
 import {IUser} from "../../../shared/types/user.type";
 import DetailsModal from "../modals/details/DetailsModal";
+import UpdateUserModal from "../modals/update/UpdateUserModal";
 
 const UsersView = () => {
 
@@ -27,6 +28,8 @@ const UsersView = () => {
         hasPrevious
     } = useModal();
 
+    const {toggle: toggleEdit, isShowing: isEditShowing} = useModal();
+
     const fetchUsers = useCallback(async () => {
         await dispatch(getUsers());
     }, [dispatch]);
@@ -41,7 +44,8 @@ const UsersView = () => {
     }, []);
 
     const openEdit = useCallback((user: IUser) => {
-        console.log("edition :", user)
+        setActiveUser({...user});
+        toggleEdit();
     }, [])
 
     const openDelete = useCallback((user: IUser) => {
@@ -55,6 +59,9 @@ const UsersView = () => {
                               content={{type: "users", data: activeUser}} otherModal={otherModal}
                               setOtherModal={addOtherModal}
                               hasPrevious={hasPrevious} previous={previous} />
+            </RenderIf>
+            <RenderIf condition={isEditShowing}>
+                <UpdateUserModal user={activeUser} toggle={toggleEdit} isShowing={isEditShowing} />
             </RenderIf>
             <BaseView>
                 <div className={"flex items-center mb-4"}>

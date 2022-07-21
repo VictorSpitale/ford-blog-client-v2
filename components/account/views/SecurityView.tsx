@@ -6,7 +6,7 @@ import Button from "../../shared/Button";
 import {IUser} from "../../../shared/types/user.type";
 import DeleteAccountModal from "../modals/DeleteAccountModal";
 import {setError} from "../../../context/actions/errors.actions";
-import {deleteAccount, updateLoggedUser} from "../../../context/actions/users/user.actions";
+import {deleteAccount, updateUser} from "../../../context/actions/users/user.actions";
 import {HttpError} from "../../../shared/types/httpError.type";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import RenderIf from "../../shared/RenderIf";
@@ -43,7 +43,7 @@ const SecurityView = ({user, pending}: PropsType) => {
         if (currentPassword.trim() === "" || currentPassword.length < 6) {
             return dispatch(setError({error: t.account.security.errors.currentPassword, key: "securityViewError"}))
         }
-        await dispatch(updateLoggedUser({password, _id: user._id, currentPassword})).then((res) => {
+        await dispatch(updateUser({password, _id: user._id, currentPassword})).then((res) => {
             /* istanbul ignore if */
             if (!passwordRef.current || !currentPasswordRef.current) return;
             if (res.meta.requestStatus === "rejected") {
