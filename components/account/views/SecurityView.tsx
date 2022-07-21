@@ -62,7 +62,7 @@ const SecurityView = ({user, pending}: PropsType) => {
     const handleDeleteAccount = async () => {
         dispatch(setError({error: "", key: "securityViewError"}))
         setSuccess('');
-        await dispatch(deleteAccount(user._id)).then((res) => {
+        await dispatch(deleteAccount(user)).then((res) => {
             if (res.meta.requestStatus === "rejected") {
                 toggle();
                 return dispatch(setError({error: t.account.security.errors.deleteAccount, key: "securityViewError"}))
