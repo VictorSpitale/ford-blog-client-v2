@@ -32,7 +32,7 @@ export const usersReducer = createReducer(initial, (builder => {
         state.pending = false;
         const found = state.users.find((u) => u._id === payload._id);
         if (found) {
-            state.users.map((u) => {
+            state.users = state.users.map((u) => {
                 if (u._id === payload._id) return payload;
                 return u;
             })
