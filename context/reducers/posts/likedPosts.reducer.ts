@@ -1,6 +1,7 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {IPost} from "../../../shared/types/post.type";
 import {cleanLikedPosts, getLikedPosts} from "../../actions/posts/posts.actions";
+import {updateCategory} from "../../actions/categories/categories.actions";
 
 export type LikedPostsState = {
     users: {
@@ -37,6 +38,21 @@ export const likedPostsReducer = createReducer(initial, (builder => {
         state.pending = false;
     }).addCase(cleanLikedPosts, (state, {payload}) => {
         state.users = state.users.filter((u) => u.userId !== payload);
+    }).addCase(updateCategory.fulfilled, (state, {payload}) => {
+        state.users = state.users.map((list) => {
+            return {
+                ...list,
+                posts: list.posts.map((p) => {
+                    return {
+                        ...p,
+                        categories: p.categories.map((cat) => {
+                            if (cat._id === payload._id) return payload;
+                            return cat;
+                        })
+                    }
+                })
+            }
+        })
     })
 }));
 

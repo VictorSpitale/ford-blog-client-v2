@@ -1,6 +1,7 @@
 import {IPost} from "../../../shared/types/post.type";
 import {createPost, deletePost, getLastPosts, updatePost} from "../../actions/posts/posts.actions";
 import {createReducer} from "@reduxjs/toolkit";
+import {updateCategory} from "../../actions/categories/categories.actions";
 
 export type PostsState = {
     posts: IPost[];
@@ -56,6 +57,16 @@ export const lastPostsReducer = createReducer(initial, (builder) => {
         state.pending = true;
     }).addCase(createPost.rejected, (state) => {
         state.pending = false;
+    }).addCase(updateCategory.fulfilled, (state, {payload}) => {
+        state.posts = state.posts.map((p) => {
+            return {
+                ...p,
+                categories: p.categories.map((cat) => {
+                    if (cat._id === payload._id) return payload;
+                    return cat;
+                })
+            }
+        })
     })
 })
 export default lastPostsReducer

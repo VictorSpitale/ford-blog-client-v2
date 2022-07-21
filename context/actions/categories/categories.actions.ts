@@ -1,7 +1,7 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {RootState} from "../../store";
 import {fetchApi} from "../../instance";
-import {ICategory, ICategoryWithCount} from "../../../shared/types/category.type";
+import {ICategory, ICategoryWithCount, UpdateCategory} from "../../../shared/types/category.type";
 import {CategorySlideState} from "../../reducers/categories/categorySlide.reducer";
 import {capitalize} from "../../../shared/utils/string.utils";
 import {isEmpty} from "../../../shared/utils/object.utils";
@@ -10,11 +10,13 @@ export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORIES_WITH_COUNT = "GET_CATEGORIES_WITH_COUNT";
 export const CREATE_CATEGORY = "CREATE_CATEGORY";
 
-export const SET_SELECT_CATEGORIES = "SET_SELECT_CATEGORIES"
-export const ADD_SELECT_CATEGORIES = "ADD_SELECT_CATEGORIES"
-export const REMOVE_SELECT_CATEGORIES = "REMOVE_SELECT_CATEGORIES"
+export const SET_SELECT_CATEGORIES = "SET_SELECT_CATEGORIES";
+export const ADD_SELECT_CATEGORIES = "ADD_SELECT_CATEGORIES";
+export const REMOVE_SELECT_CATEGORIES = "REMOVE_SELECT_CATEGORIES";
 
-export const CATEGORY_SLIDE = "CATEGORY_SLIDE"
+export const CATEGORY_SLIDE = "CATEGORY_SLIDE";
+
+export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 
 export const getCategories = createAsyncThunk<ICategory[], void, { state: RootState }>(GET_CATEGORIES, async (_, {getState}) => {
     const categories = getState().categories.categories;
@@ -49,3 +51,15 @@ export const setSelectedCategories = createAction<ICategory[]>(SET_SELECT_CATEGO
 export const addSelectedCategories = createAction<ICategory>(ADD_SELECT_CATEGORIES);
 export const removeSelectedCategories = createAction<ICategory>(REMOVE_SELECT_CATEGORIES);
 export const setCategorySlide = createAction<CategorySlideState>(CATEGORY_SLIDE);
+
+export const updateCategory = createAsyncThunk<ICategory, { data: UpdateCategory } & { id: string }>(UPDATE_CATEGORY, async (updateCategory, {rejectWithValue}) => {
+    return await fetchApi("/api/categories/{id}", {
+        method: "patch",
+        json: {...updateCategory.data},
+        params: {id: updateCategory.id}
+    }).then((res) => {
+        return res.data;
+    }).catch((res) => {
+        return rejectWithValue(res);
+    })
+})

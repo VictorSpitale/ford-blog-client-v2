@@ -11,6 +11,7 @@ import {
     updatePost,
     updatePostComment
 } from "../../actions/posts/posts.actions";
+import {updateCategory} from "../../actions/categories/categories.actions";
 
 export type PostState = {
     post: IPost;
@@ -78,6 +79,14 @@ export const
             state.post = {
                 ...state.post,
                 authUserLiked: payload
+            }
+        }).addCase(updateCategory.fulfilled, (state, {payload}) => {
+            state.post = {
+                ...state.post,
+                categories: state.post.categories.map((cat) => {
+                    if (cat._id === payload._id) return payload;
+                    return cat;
+                })
             }
         })
     })

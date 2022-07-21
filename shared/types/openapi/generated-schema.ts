@@ -95,6 +95,7 @@ export interface paths {
   "/api/categories/{id}": {
     get: operations["CategoriesController_getCategoryById"];
     delete: operations["CategoriesController_deleteCategory"];
+    patch: operations["CategoriesController_updateCategory"];
   };
 }
 
@@ -540,6 +541,13 @@ export interface components {
        * @example 12
        */
       count: number;
+    };
+    UpdateCategoryDto: {
+      /**
+       * @description Category's name
+       * @example Sport
+       */
+      name: string;
     };
   };
 }
@@ -1396,7 +1404,7 @@ export interface operations {
   CategoriesController_deleteCategory: {
     parameters: {
       path: {
-        /** Category slug */
+        /** Category id */
         id: string;
       };
     };
@@ -1414,6 +1422,45 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["HttpErrorDto"];
         };
+      };
+    };
+  };
+  CategoriesController_updateCategory: {
+    parameters: {
+      path: {
+        /** Category id */
+        id: string;
+      };
+    };
+    responses: {
+      /** The category has been updated */
+      200: {
+        content: {
+          "application/json": components["schemas"]["CategoryDto"];
+        };
+      };
+      /** Validations failed */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpValidationError"];
+        };
+      };
+      /** Jwt failed | Insufficient permissions */
+      401: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** The category doesn't exist */
+      409: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateCategoryDto"];
       };
     };
   };

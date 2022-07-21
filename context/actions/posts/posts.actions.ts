@@ -55,8 +55,8 @@ export const getPosts = createAsyncThunk<IPaginatedPosts, number | undefined, { 
 
 export const getCategorizedPosts = createAsyncThunk<Categorized, ICategory, { state: RootState }>(CATEGORIZED_POSTS, async (category, {getState}) => {
     const {posts} = getState().categorizedPosts
-    const categorizedPosts = posts.find((list) => list.category === category);
-    if (categorizedPosts && categorizedPosts.posts.length > 0) {
+    const categorizedPosts = posts.find((list) => list.category._id === category._id);
+    if (categorizedPosts) {
         return categorizedPosts;
     }
     const response: Categorized = {posts: [], category};

@@ -39,6 +39,21 @@ export const categorizedPostsReducer = createReducer(initial, (builder) => {
     }).addCase(getCategorizedPosts.rejected, (state) => {
         state.pending = false
     }).addCase(updateCategory.fulfilled, (state, {payload}) => {
-        // Need refactoring to have cat id in the state
+        state.posts = state.posts.map((categorized) => {
+            let catName = categorized.category.name;
+            if (categorized.category._id === payload._id) catName = payload.name;
+            return {
+                category: {_id: categorized.category._id, name: catName},
+                posts: categorized.posts.map((p) => {
+                    return {
+                        ...p,
+                        categories: p.categories.map((cat) => {
+                            if (cat._id === payload._id) return payload;
+                            return cat;
+                        })
+                    }
+                })
+            }
+        })
     })
 });

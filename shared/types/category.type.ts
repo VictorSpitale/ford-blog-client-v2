@@ -6,3 +6,5 @@ export type ICategory = {
 export type ICategoryWithCount = ICategory & {
     count: number;
 }
+
+export type UpdateCategory = Pick<ICategory, "name">;

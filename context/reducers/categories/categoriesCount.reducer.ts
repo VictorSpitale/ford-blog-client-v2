@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {ICategoryWithCount} from "../../../shared/types/category.type";
-import {getCategoriesWithCount} from "../../actions/categories/categories.actions";
+import {getCategoriesWithCount, updateCategory} from "../../actions/categories/categories.actions";
 
 export type CategoriesWithCountState = {
     categories: ICategoryWithCount[];
@@ -21,6 +21,11 @@ export const categoriesCountReducer = createReducer(initial, (builder => {
         state.pending = true;
     }).addCase(getCategoriesWithCount.rejected, (state) => {
         state.pending = false;
+    }).addCase(updateCategory.fulfilled, (state, {payload}) => {
+        state.categories = state.categories.map((cat) => {
+            if (cat._id === payload._id) return {...cat, ...payload};
+            return cat;
+        })
     })
 }))
 
