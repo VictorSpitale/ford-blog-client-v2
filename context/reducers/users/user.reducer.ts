@@ -10,6 +10,7 @@ import {
     updateUser,
     uploadPicture
 } from "../../actions/users/user.actions";
+import {isEmpty} from "../../../shared/utils/object.utils";
 
 export type UserState = {
     user: IUser;
@@ -38,7 +39,7 @@ export const userReducer = createReducer(initial, (builder => {
         state.pending = true
     }).addCase(updateUser.fulfilled, (state, {payload}) => {
         state.pending = false;
-        if (state.user._id === payload._id) {
+        if (!isEmpty(state.user) && state.user._id === payload._id) {
             state.user = payload;
         }
     }).addCase(updateUser.rejected, (state) => {
@@ -47,7 +48,7 @@ export const userReducer = createReducer(initial, (builder => {
         state.pending = true
     }).addCase(uploadPicture.fulfilled, (state, {payload}) => {
         state.pending = false;
-        if (state.user._id === payload._id) {
+        if (!isEmpty(state.user) && state.user._id === payload._id) {
             state.user.picture = payload.picture;
         }
     }).addCase(uploadPicture.rejected, (state) => {
@@ -56,14 +57,14 @@ export const userReducer = createReducer(initial, (builder => {
         state.pending = true
     }).addCase(removePicture.fulfilled, (state, {payload}) => {
         state.pending = false;
-        if (state.user._id === payload._id) {
+        if (!isEmpty(state.user) && state.user._id === payload._id) {
             const {picture, ...other} = state.user;
             state.user = other;
         }
     }).addCase(removePicture.rejected, (state) => {
         state.pending = false
     }).addCase(deleteAccount.fulfilled, (state, {payload}) => {
-        if (state.user._id === payload._id) {
+        if (!isEmpty(state.user) && state.user._id === payload._id) {
             state.user = {} as IUser;
         }
         state.pending = false;

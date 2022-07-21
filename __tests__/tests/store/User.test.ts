@@ -175,17 +175,18 @@ describe('User Reducer & Actions', function () {
         it('should fetch the updated user', async () => {
             const user = UserStub();
             const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({
-                data: user
+                data: {...user, pseudo: "nouveau pseudo"}
             })
             const store = makeStore();
-            const data = {_id: user._id};
+            const data = {_id: user._id, pseudo: "nouveau pseudo"};
+            await store.dispatch(login(user));
             await store.dispatch(updateUser(data));
             expect(getUserSpy).toHaveBeenCalledWith(`/api/users/{id}`, {
                 method: "patch",
                 params: {id: user._id},
-                json: {password: undefined, pseudo: undefined}
+                json: {password: undefined, pseudo: "nouveau pseudo"}
             });
-            expect(store.getState().user.user).toEqual(UserStub());
+            expect(store.getState().user.user).toEqual({...UserStub(), pseudo: "nouveau pseudo"});
         })
 
         it('should not update the user on failure', async () => {
@@ -243,7 +244,10 @@ describe('User Reducer & Actions', function () {
         })
 
         it('should replace the user\'s picture and pending false', () => {
-            const action: AnyAction = {type: uploadPicture.fulfilled, payload: 'picture link'};
+            const action: AnyAction = {
+                type: uploadPicture.fulfilled,
+                payload: {picture: 'picture link', _id: UserStub()._id}
+            };
             const state = userReducer({
                 ...initialState, pending: true, user: UserStub()
             }, action);
@@ -266,6 +270,7 @@ describe('User Reducer & Actions', function () {
             })
             const store = makeStore();
             const data = {_id: user._id, data: new FormData()};
+            await store.dispatch(login(user));
             await store.dispatch(uploadPicture(data));
             expect(getUserSpy).toHaveBeenCalledWith(`/api/users/upload/{id}`, {
                 data: data.data,
@@ -294,7 +299,7 @@ describe('User Reducer & Actions', function () {
         })
 
         it('should remove the profile picture from the user and pending false', () => {
-            const action: AnyAction = {type: removePicture.fulfilled};
+            const action: AnyAction = {type: removePicture.fulfilled, payload: UserStub()};
             const state = userReducer({
                 ...initialState, pending: true, user: {...UserStub(), picture: 'picture'}
             }, action);
@@ -309,12 +314,13 @@ describe('User Reducer & Actions', function () {
             const user = UserStub();
             const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({})
             const store = makeStore();
-            const data = user._id;
+            await store.dispatch(login(user));
             await store.dispatch(removePicture(user));
             expect(getUserSpy).toHaveBeenCalledWith("/api/users/upload/{id}", {
                 method: "delete",
                 params: {id: user._id}
             });
+            expect(store.getState().user.user.picture).not.toBeDefined();
         })
 
     });
@@ -337,7 +343,7 @@ describe('User Reducer & Actions', function () {
         })
 
         it('should delete the account and set pending false', () => {
-            const action: AnyAction = {type: deleteAccount.fulfilled};
+            const action: AnyAction = {type: deleteAccount.fulfilled, payload: UserStub()};
             const state = userReducer({
                 ...initialState, pending: true, user: UserStub()
             }, action);
@@ -352,12 +358,13 @@ describe('User Reducer & Actions', function () {
             const user = UserStub();
             const getUserSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({})
             const store = makeStore();
-            const data = user._id;
-            await store.dispatch(deleteAccount(data));
+            await store.dispatch(login(user));
+            await store.dispatch(deleteAccount(user));
             expect(getUserSpy).toHaveBeenCalledWith("/api/users/{id}", {
                 "method": "delete",
                 "params": {"id": user._id}
             });
+            expect(store.getState().user.user).toEqual({});
         })
     });
 
