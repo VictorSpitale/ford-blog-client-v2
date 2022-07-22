@@ -1,13 +1,13 @@
-import {usersReducer, UsersState} from "../../../context/reducers/users/users.reducer";
+import {usersReducer, UsersState} from "../../../../context/reducers/users/users.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {getUsers} from "../../../context/actions/users/users.actions";
-import {UserStub} from "../../stub/UserStub";
-import {getUserById} from "../../../context/actions/admin/admin.actions";
-import {IUserRole} from "../../../shared/types/user.type";
-import * as fetch from "../../../context/instance";
-import {makeStore} from "../../../context/store";
-import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../../context/actions/users/user.actions";
-import {HttpErrorStub} from "../../stub/HttpErrorStub";
+import {getUsers} from "../../../../context/actions/users/users.actions";
+import {UserStub} from "../../../stub/UserStub";
+import {getUserById} from "../../../../context/actions/admin/admin.actions";
+import {IUserRole} from "../../../../shared/types/user.type";
+import * as fetch from "../../../../context/instance";
+import {makeStore} from "../../../../context/store";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../../../context/actions/users/user.actions";
+import {HttpErrorStub} from "../../../stub/HttpErrorStub";
 
 describe('Users Actions & Reducers', function () {
 

@@ -1,10 +1,10 @@
-import {postsReducer, PostsState} from "../../../context/reducers/posts/posts.reducer";
+import {postsReducer, PostsState} from "../../../../context/reducers/posts/posts.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {getPosts} from "../../../context/actions/posts/posts.actions";
-import {IPaginatedPosts} from "../../../shared/types/post.type";
-import {PostStub} from "../../stub/PostStub";
-import {makeStore} from "../../../context/store";
-import * as fetch from "../../../context/instance";
+import {getPosts} from "../../../../context/actions/posts/posts.actions";
+import {IPaginatedPosts} from "../../../../shared/types/post.type";
+import {PostStub} from "../../../stub/PostStub";
+import {makeStore} from "../../../../context/store";
+import * as fetch from "../../../../context/instance";
 
 describe('Posts Actions & Reducers', function () {
 

@@ -1,4 +1,4 @@
-import userReducer, {UserState} from "../../../context/reducers/users/user.reducer";
+import userReducer, {UserState} from "../../../../context/reducers/users/user.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
 import {
     deleteAccount,
@@ -9,12 +9,12 @@ import {
     sendContactMail,
     updateUser,
     uploadPicture
-} from "../../../context/actions/users/user.actions";
-import {IUser, IUserRole} from "../../../shared/types/user.type";
-import {UserStub} from "../../stub/UserStub";
-import * as fetch from "../../../context/instance";
-import {makeStore} from "../../../context/store";
-import {HttpErrorStub} from "../../stub/HttpErrorStub";
+} from "../../../../context/actions/users/user.actions";
+import {IUser, IUserRole} from "../../../../shared/types/user.type";
+import {UserStub} from "../../../stub/UserStub";
+import * as fetch from "../../../../context/instance";
+import {makeStore} from "../../../../context/store";
+import {HttpErrorStub} from "../../../stub/HttpErrorStub";
 
 describe('User Reducer & Actions', function () {
 

@@ -1,14 +1,14 @@
 import {
     selectCategoriesReducer,
     SelectCategoriesState
-} from "../../../context/reducers/categories/selectCategories.reducer";
+} from "../../../../context/reducers/categories/selectCategories.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
 import {
     addSelectedCategories,
     removeSelectedCategories,
     setSelectedCategories
-} from "../../../context/actions/categories/categories.actions";
-import {CategoryStub} from "../../stub/CategoryStub";
+} from "../../../../context/actions/categories/categories.actions";
+import {CategoryStub} from "../../../stub/CategoryStub";
 
 describe('Selected Categories Reducer & Actions', function () {
 

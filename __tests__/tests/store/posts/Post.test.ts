@@ -1,5 +1,5 @@
-import {postReducer, PostState} from "../../../context/reducers/posts/post.reducer";
-import {IPost, LikeStatus} from "../../../shared/types/post.type";
+import {postReducer, PostState} from "../../../../context/reducers/posts/post.reducer";
+import {IPost, LikeStatus} from "../../../../shared/types/post.type";
 import {AnyAction} from "@reduxjs/toolkit";
 import {
     changeLikeStatus,
@@ -10,12 +10,12 @@ import {
     patchLikeStatus,
     updatePost,
     updatePostComment
-} from "../../../context/actions/posts/posts.actions";
-import {PostStub} from "../../stub/PostStub";
-import * as fetch from "../../../context/instance";
-import {makeStore} from "../../../context/store";
+} from "../../../../context/actions/posts/posts.actions";
+import {PostStub} from "../../../stub/PostStub";
+import * as fetch from "../../../../context/instance";
+import {makeStore} from "../../../../context/store";
 import {NextPageContext} from "next";
-import {CommentStub} from "../../stub/CommentStub";
+import {CommentStub} from "../../../stub/CommentStub";
 
 describe('Post Actions & Reducers', function () {
 

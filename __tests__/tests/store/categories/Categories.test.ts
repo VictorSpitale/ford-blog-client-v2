@@ -1,10 +1,10 @@
-import {categoriesReducer, CategoriesState} from "../../../context/reducers/categories/categories.reducer";
+import {categoriesReducer, CategoriesState} from "../../../../context/reducers/categories/categories.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {createCategory, getCategories} from "../../../context/actions/categories/categories.actions";
-import {CategoryStub} from "../../stub/CategoryStub";
-import {makeStore} from "../../../context/store";
-import * as fetch from "../../../context/instance";
-import {capitalize} from "../../../shared/utils/string.utils";
+import {createCategory, getCategories} from "../../../../context/actions/categories/categories.actions";
+import {CategoryStub} from "../../../stub/CategoryStub";
+import {makeStore} from "../../../../context/store";
+import * as fetch from "../../../../context/instance";
+import {capitalize} from "../../../../shared/utils/string.utils";
 
 describe('Categories Reducer & Actions', function () {
 

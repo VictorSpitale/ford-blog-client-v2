@@ -1,11 +1,11 @@
-import {lastPostsReducer, PostsState} from "../../../context/reducers/posts/lastPosts.reducer";
+import {lastPostsReducer, PostsState} from "../../../../context/reducers/posts/lastPosts.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {createPost, deletePost, getLastPosts, updatePost} from "../../../context/actions/posts/posts.actions";
-import {PostStub} from "../../stub/PostStub";
-import * as fetch from "../../../context/instance";
-import {makeStore} from "../../../context/store";
-import {toUpdatePost} from "../../../shared/utils/post/post.utils";
-import {ICreatePost} from "../../../shared/types/post.type";
+import {createPost, deletePost, getLastPosts, updatePost} from "../../../../context/actions/posts/posts.actions";
+import {PostStub} from "../../../stub/PostStub";
+import * as fetch from "../../../../context/instance";
+import {makeStore} from "../../../../context/store";
+import {toUpdatePost} from "../../../../shared/utils/post/post.utils";
+import {ICreatePost} from "../../../../shared/types/post.type";
 
 describe('LastPosts Actions & Reducers', function () {
 

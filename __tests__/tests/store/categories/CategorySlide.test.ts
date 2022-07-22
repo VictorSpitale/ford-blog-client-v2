@@ -1,7 +1,7 @@
-import {categorySlideReducer, CategorySlideState} from "../../../context/reducers/categories/categorySlide.reducer";
+import {categorySlideReducer, CategorySlideState} from "../../../../context/reducers/categories/categorySlide.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {setCategorySlide} from "../../../context/actions/categories/categories.actions";
-import {CategoryStub} from "../../stub/CategoryStub";
+import {setCategorySlide} from "../../../../context/actions/categories/categories.actions";
+import {CategoryStub} from "../../../stub/CategoryStub";
 
 describe('CategorySlide Actions & Reducers', function () {
 

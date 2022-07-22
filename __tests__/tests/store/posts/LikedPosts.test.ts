@@ -1,9 +1,9 @@
-import {likedPostsReducer, LikedPostsState} from "../../../context/reducers/posts/likedPosts.reducer";
+import {likedPostsReducer, LikedPostsState} from "../../../../context/reducers/posts/likedPosts.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {cleanLikedPosts, getLikedPosts} from "../../../context/actions/posts/posts.actions";
-import {PostStub} from "../../stub/PostStub";
-import * as fetch from "../../../context/instance";
-import {makeStore} from "../../../context/store";
+import {cleanLikedPosts, getLikedPosts} from "../../../../context/actions/posts/posts.actions";
+import {PostStub} from "../../../stub/PostStub";
+import * as fetch from "../../../../context/instance";
+import {makeStore} from "../../../../context/store";
 
 describe('LikedPosts Actions & Reducers', function () {
 
