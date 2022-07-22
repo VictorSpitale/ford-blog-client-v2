@@ -88,7 +88,8 @@ const UpdateUserModal = ({user, isShowing, toggle}: PropsType) => {
                                    htmlFor="role-selector">{t.account.profile.role}</label>
                             <Select inputId={"role-selector"} name={"role-selector"} options={roleOptions}
                                     defaultValue={roleOptions.find((r) => r.value === user.role)}
-                                    onChange={(opt) => {
+                                    onChange={function (opt) {
+                                        /* istanbul ignore if */
                                         if (!opt) return;
                                         setUpdatedUser({...updatedUser, role: opt.value})
                                     }} />
