@@ -50,7 +50,7 @@ const CategoryDetailsModalContent = ({category, setOtherModal}: PropsType) => {
     }, []);
 
     return (
-        <div className={"px-4 py-2"} data-large={"false"}>
+        <div data-content={"category-details-content"} className={"px-4 py-2"} data-large={"false"}>
             <Tabs>
                 <div data-label={t.admin.categories.tabs.informations}
                      className={className("[&>*]:flex [&>*]:justify-between [&>*]:gap-x-3 [&>*]:mb-4",

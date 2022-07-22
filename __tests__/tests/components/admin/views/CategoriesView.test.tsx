@@ -7,6 +7,8 @@ import * as fetch from "../../../../../context/instance";
 import {CategoryStub} from "../../../../stub/CategoryStub";
 import CategoriesView from "../../../../../components/admin/views/CategoriesView";
 import fr from "../../../../../public/static/locales/fr.json";
+import {PostStub} from "../../../../stub/PostStub";
+import {getCategorizedPosts} from "../../../../../context/actions/posts/posts.actions";
 
 describe('CategoriesViewTest', function () {
 
@@ -37,7 +39,12 @@ describe('CategoriesViewTest', function () {
         const router = MockUseRouter({});
         const store = makeStore();
 
-        jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({data: [{...CategoryStub(), count: 1}]});
+        jest.spyOn(fetch, "fetchApi")
+            .mockResolvedValueOnce({
+                data: [PostStub()]
+            }).mockResolvedValueOnce({data: [{...CategoryStub(), count: 1}]});
+
+        await store.dispatch(getCategorizedPosts(CategoryStub()));
 
         render(
             <Provider store={store}>
