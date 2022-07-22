@@ -27,7 +27,7 @@ export const adminPostsLikersReducer = createReducer(initial, (builder => {
         state.pending = false;
         const found = state.posts.find((p) => p.slug === payload.slug);
         if (found) {
-            state.posts.map((p) => {
+            state.posts = state.posts.map((p) => {
                 if (p.slug === payload.slug) return payload;
                 return p;
             })
