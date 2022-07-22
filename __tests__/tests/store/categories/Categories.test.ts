@@ -1,10 +1,16 @@
 import {categoriesReducer, CategoriesState} from "../../../../context/reducers/categories/categories.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {createCategory, getCategories} from "../../../../context/actions/categories/categories.actions";
+import {
+    createCategory,
+    deleteCategory,
+    getCategories,
+    updateCategory
+} from "../../../../context/actions/categories/categories.actions";
 import {CategoryStub} from "../../../stub/CategoryStub";
 import {makeStore} from "../../../../context/store";
 import * as fetch from "../../../../context/instance";
 import {capitalize} from "../../../../shared/utils/string.utils";
+import {HttpErrorStub} from "../../../stub/HttpErrorStub";
 
 describe('Categories Reducer & Actions', function () {
 
@@ -15,7 +21,6 @@ describe('Categories Reducer & Actions', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-
     })
 
     it('should return the initialState', () => {
@@ -48,12 +53,14 @@ describe('Categories Reducer & Actions', function () {
             })
         })
 
-        it('should fetch the categories (action)', async () => {
+        it('should fetch the categories (action) and return the cached categories', async () => {
             const store = makeStore();
             const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({
                 data: [CategoryStub()]
             })
             await store.dispatch(getCategories());
+            await store.dispatch(getCategories());
+            expect(spy).toHaveBeenCalledTimes(1);
             expect(spy).toHaveBeenCalledWith('/api/categories', {method: "get"});
             expect(store.getState().categories.categories).toEqual([CategoryStub()]);
         })
@@ -128,6 +135,125 @@ describe('Categories Reducer & Actions', function () {
             expect(store.getState().categories.categories).toEqual([CategoryStub(name), CategoryStub(snName)]);
         })
 
+    });
+
+    describe('Update Category', function () {
+
+        it('should set pending true while updating', () => {
+            const action: AnyAction = {type: updateCategory.pending};
+            const state = categoriesReducer(initialState, action);
+            expect(state).toEqual({
+                ...initialState, pending: true
+            })
+        })
+
+        it('should set pending false on fulfilled', () => {
+            const action: AnyAction = {type: updateCategory.fulfilled, payload: CategoryStub("gt", "01")};
+            const state = categoriesReducer({
+                ...initialState, pending: true,
+                categories: [
+                    CategoryStub("sport", "01"),
+                    CategoryStub()
+                ]
+            }, action);
+            expect(state).toEqual({
+                ...initialState, pending: false,
+                categories: [
+                    CategoryStub("gt", "01"),
+                    CategoryStub()
+                ]
+            })
+        })
+
+        it('should set pending false on rejected (error unused)', () => {
+            const action: AnyAction = {type: updateCategory.rejected};
+            const state = categoriesReducer({...initialState, pending: true}, action);
+            expect(state).toEqual({
+                ...initialState, pending: false
+            })
+        })
+
+        it('should update a category then reject the update', async () => {
+            const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({
+                data: [CategoryStub("sport", "01"), CategoryStub("suv", "02")]
+            }).mockResolvedValueOnce({
+                data: CategoryStub("gt", "01")
+            }).mockRejectedValueOnce(HttpErrorStub());
+            const store = makeStore();
+            await store.dispatch(getCategories());
+            await store.dispatch(updateCategory({data: {name: "gt"}, id: CategoryStub("sport", "01")._id}));
+            await store.dispatch(updateCategory({
+                data: {name: "gt"},
+                id: CategoryStub("sport", "01")._id
+            })).then((res) => {
+                expect(res).toEqual({...res, payload: HttpErrorStub()})
+            });
+            expect(spy).toHaveBeenNthCalledWith(2, "/api/categories/{id}", {
+                method: "patch",
+                json: {name: "gt"},
+                params: {id: CategoryStub("sport", "01")._id}
+            });
+            expect(store.getState().categories.categories).toEqual(
+                [
+                    CategoryStub("gt", "01"),
+                    CategoryStub("suv", "02")
+                ]
+            );
+        })
+    });
+
+    describe('Delete Category', function () {
+
+        it('should set pending true while deleting', () => {
+            const action: AnyAction = {type: deleteCategory.pending};
+            const state = categoriesReducer(initialState, action);
+            expect(state).toEqual({
+                ...initialState, pending: true
+            })
+        })
+
+        it('should set pending false on fulfilled', () => {
+            const action: AnyAction = {type: deleteCategory.fulfilled, payload: CategoryStub("gt", "01")};
+            const state = categoriesReducer({
+                ...initialState, pending: true,
+                categories: [
+                    CategoryStub("gt", "01"),
+                    CategoryStub()
+                ]
+            }, action);
+            expect(state).toEqual({
+                ...initialState, pending: false,
+                categories: [
+                    CategoryStub()
+                ]
+            })
+        })
+
+        it('should set pending false on rejected (error unused)', () => {
+            const action: AnyAction = {type: deleteCategory.rejected};
+            const state = categoriesReducer({...initialState, pending: true}, action);
+            expect(state).toEqual({
+                ...initialState, pending: false
+            })
+        })
+
+        it('should delete a category', async () => {
+            const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({
+                data: [CategoryStub("sport", "01"), CategoryStub("suv", "02")]
+            }).mockResolvedValueOnce({});
+            const store = makeStore();
+            await store.dispatch(getCategories());
+            await store.dispatch(deleteCategory(CategoryStub("sport", "01")));
+            expect(spy).toHaveBeenNthCalledWith(2, "/api/categories/{id}", {
+                method: "delete",
+                params: {id: CategoryStub("sport", "01")._id}
+            });
+            expect(store.getState().categories.categories).toEqual(
+                [
+                    CategoryStub("suv", "02")
+                ]
+            );
+        })
     });
 
 });
