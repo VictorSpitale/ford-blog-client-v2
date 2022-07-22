@@ -4,11 +4,16 @@ import {
     CategorizedPostsType
 } from "../../../../context/reducers/categories/categorizedPosts.reducer";
 import {AnyAction} from "@reduxjs/toolkit";
-import {getCategorizedPosts} from "../../../../context/actions/posts/posts.actions";
+import {deletePost, getCategorizedPosts} from "../../../../context/actions/posts/posts.actions";
 import {PostStub} from "../../../stub/PostStub";
 import {makeStore} from "../../../../context/store";
 import * as fetch from "../../../../context/instance";
 import {CategoryStub} from "../../../stub/CategoryStub";
+import {deleteCategory, updateCategory} from "../../../../context/actions/categories/categories.actions";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../../../context/actions/users/user.actions";
+import {UserStub} from "../../../stub/UserStub";
+import {IUserRole} from "../../../../shared/types/user.type";
+import {CommentStub} from "../../../stub/CommentStub";
 
 describe('CategorizedPosts Actions & Reducers', function () {
 
@@ -159,5 +164,255 @@ describe('CategorizedPosts Actions & Reducers', function () {
         });
 
     });
+
+    describe('UpdateCategory', function () {
+
+        it('should update the category list and related posts categories', function () {
+            const action: AnyAction = {type: updateCategory.fulfilled, payload: CategoryStub("gt", "01")}
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("sport", "01"),
+                    posts: []
+                }, {
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {...PostStub(), categories: [CategoryStub("sport", "01"), CategoryStub("suv", "02")]}
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("gt", "01"),
+                    posts: []
+                }, {
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {...PostStub(), categories: [CategoryStub("gt", "01"), CategoryStub("suv", "02")]}
+                    ]
+                }]
+            })
+        });
+
+    });
+
+    describe('DeleteCategory', function () {
+
+        it('should delete the category list and related posts categories', function () {
+            const action: AnyAction = {type: deleteCategory.fulfilled, payload: CategoryStub("gt", "01")}
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("sport", "01"),
+                    posts: []
+                }, {
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {...PostStub(), categories: [CategoryStub("sport", "01"), CategoryStub("suv", "02")]}
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {...PostStub(), categories: [CategoryStub("suv", "02")]}
+                    ]
+                }]
+            })
+        });
+
+    });
+
+
+    describe('DeletePost', function () {
+
+        it('should filter the categorized posts list', function () {
+            const action: AnyAction = {type: deletePost.fulfilled, payload: "slug"}
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        PostStub(),
+                        {...PostStub(), slug: "slug"}
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        PostStub()
+                    ]
+                }]
+            })
+        });
+
+    });
+
+    describe('UpdateUser', function () {
+
+        it('should update the categorized posts comments', function () {
+            const action: AnyAction = {
+                type: updateUser.fulfilled,
+                payload: {...UserStub(IUserRole.USER, "01"), pseudo: "newPseudo"}
+            }
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01", pseudo: "oldPseudo"}
+                            }]
+                        }
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01", pseudo: "newPseudo"}
+                            }]
+                        }
+                    ]
+                }]
+            })
+        });
+
+    });
+
+    describe('removePicture', function () {
+
+        it('should update the categorized posts comments by removing the picture', function () {
+            const action: AnyAction = {
+                type: removePicture.fulfilled,
+                payload: {...UserStub(IUserRole.USER, "01"), picture: undefined}
+            }
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01", picture: "link"}
+                            }]
+                        }
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01", picture: undefined}
+                            }]
+                        }
+                    ]
+                }]
+            })
+        });
+    });
+
+    describe('UploadPicture', function () {
+
+        it('should update the categorized posts comments by adding the picture', function () {
+            const action: AnyAction = {
+                type: uploadPicture.fulfilled,
+                payload: {_id: "01", picture: "link"}
+            }
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01", picture: undefined}
+                            }]
+                        }
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01", picture: "link"}
+                            }]
+                        }
+                    ]
+                }]
+            })
+        });
+
+    });
+
+    describe('DeleteAccount', function () {
+
+        it('should filter the categorized posts comments', function () {
+            const action: AnyAction = {
+                type: deleteAccount.fulfilled,
+                payload: UserStub(IUserRole.USER, "01")
+            }
+            const state = categorizedPostsReducer({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub(), {
+                                ...CommentStub(),
+                                commenter: {...CommentStub().commenter, _id: "01"}
+                            }]
+                        }
+                    ]
+                }]
+            }, action);
+            expect(state).toEqual({
+                ...initialState,
+                posts: [{
+                    category: CategoryStub("suv", "02"),
+                    posts: [
+                        {
+                            ...PostStub(),
+                            comments: [CommentStub()]
+                        }
+                    ]
+                }]
+            })
+        });
+
+    });
+
 
 });
