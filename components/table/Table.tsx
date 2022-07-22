@@ -55,25 +55,24 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                     return a[keyType.key].length - b[keyType.key].length;
                 }
                 return ("" + a[keyType.key]).localeCompare(("" + b[keyType.key]));
-            } else if (sortState.state === "asc") {
+            } else {
                 setSortState({key: keyType.key, state: "desc"});
                 if (keyType.operation === "count") {
                     return b[keyType.key].length - a[keyType.key].length;
                 }
                 return ("" + b[keyType.key]).localeCompare(("" + a[keyType.key]));
             }
-            return 0;
         })
         setData(tempData);
     }
 
     return (
-        <table className={"text-lg w-full border-collapse table-auto"}>
+        <table data-content={"table"} className={"text-lg w-full border-collapse table-auto"}>
             <thead>
-                <tr className={"bg-primary-400 select-none"}>
+                <tr data-content={"keys-row"} className={"bg-primary-400 select-none"}>
                     {keys.map((k, i) => {
                         return (
-                            <th key={i} onClick={sortable ? () => sortData(k) : () => null}
+                            <th key={i} onClick={sortable ? () => sortData(k) : undefined}
                                 className={className(
                                     "first:rounded-tl-lg p-3",
                                     sortable ? "cursor-pointer" : "",
@@ -91,20 +90,21 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                         )
                     })}
                     <RenderIf condition={!!actions}>
-                        <th className={"rounded-tr-lg p-3  w-0"}>
+                        <th data-content={"actions"} className={"rounded-tr-lg p-3  w-0"}>
                             <h1 className={"text-left text-white text-sm md:text-lg"}>{t.tabs.actions}</h1>
                         </th>
                     </RenderIf>
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-content={"table-content"}>
                 {data.map((item, i) => {
                     return (
                         <tr key={i}
                             className={"transition-colors ease-out even:bg-primary-100 odd:bg-zinc-100"}>
                             {keys.map((k, j) => {
                                 return (
-                                    <td key={j} onClick={onOpen ? () => onOpen(item) : () => null}
+                                    <td data-content={`row-${i}-col-${j}`} key={j}
+                                        onClick={onOpen ? () => onOpen(item) : undefined}
                                         className={className(
                                             "first:break-words first:line-clamp-1 leading-[3] w-fit first:w-full",
                                             "p-3 text-left hover:cursor-pointer")}>
