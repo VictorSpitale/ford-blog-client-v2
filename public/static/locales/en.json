@@ -278,7 +278,8 @@
       "title": "Categories list",
       "updateTitle": "Update the category",
       "fields": {
-        "name": "Name"
+        "name": "Name",
+        "error": "You must fill the category name"
       },
       "tabs": {
         "informations": "Informations",

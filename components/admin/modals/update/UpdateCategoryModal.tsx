@@ -29,7 +29,9 @@ const UpdateCategoryModal = ({toggle, isShowing, category}: PropsType) => {
 
     const handleEdit = useCallback(async () => {
         setError('');
+        /* istanbul ignore if */
         if (!nameRef.current) return;
+        if (nameRef.current.value.trim() === "") return setError(t.admin.categories.fields.error);
         await dispatch(updateCategory({data: {name: nameRef.current.value}, id: category._id})).then((res) => {
             if (res.meta.requestStatus === "fulfilled") {
                 return toggle();

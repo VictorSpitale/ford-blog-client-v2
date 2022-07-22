@@ -279,7 +279,8 @@
       "title": "Liste des catégories",
       "updateTitle": "Modifier la catégorie",
       "fields": {
-        "name": "Nom"
+        "name": "Nom",
+        "error": "Vous devez renseigner le nom de la catégorie"
       },
       "tabs": {
         "informations": "Informations",
