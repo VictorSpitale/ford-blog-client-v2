@@ -8,7 +8,7 @@ type PropsType = {
 const ErrorMessage = ({error}: PropsType) => {
     return (
         <RenderIf condition={!!error}>
-            <p className={"rounded w-full bg-red-400 text-white px-3 text-justify mb-5"}>{error}</p>
+            <p className={"rounded w-full bg-red-400 text-white px-3 text-justify my-3"}>{error}</p>
         </RenderIf>
     );
 };

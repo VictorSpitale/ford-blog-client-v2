@@ -14,6 +14,7 @@ import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
 import {toUpdatePost} from "../../../shared/utils/post/post.utils";
 import {scrollTop} from "../../../shared/utils/refs.utils";
+import ErrorMessage from "../../shared/ErrorMessage";
 
 type PropsType = {
     post: IPost;
@@ -75,11 +76,7 @@ const UpdatePostModal = ({
 						src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
 						alt={post.title} />
 				</div>}
-                {error &&
-					<p className={"mt-2 bg-red-400 text-white rounded text-center mx-auto w-fit px-4"}>
-                        {error}
-					</p>
-                }
+                <ErrorMessage error={error} />
                 <div className={"separate_child"}>
                     <InputField name={"title"} value={postState.title} label={t.posts.update.fields.title}
                                 onChange={(e) => setPostState({
