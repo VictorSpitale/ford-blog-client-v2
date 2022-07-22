@@ -45,7 +45,9 @@ export const
             state.pending = true
         }).addCase(updatePost.fulfilled, (state, {payload}) => {
             state.pending = false
-            state.post = payload
+            if (state.post && state.post._id === payload._id) {
+                state.post = payload
+            }
         }).addCase(updatePost.rejected, (state) => {
             state.pending = false
             state.error = true
