@@ -46,14 +46,11 @@ export const postsReducer = createReducer(initial, (builder) => {
     }).addCase(updatePost.rejected, (state) => {
         state.pending = false;
     }).addCase(updatePost.fulfilled, (state, {payload}) => {
-        const post = state.paginatedPosts.posts.find((p) => p._id === payload._id);
-        const list = state.paginatedPosts.posts;
-        if (post) {
-            state.paginatedPosts.posts = list.map((p) => {
-                if (p._id === payload._id) return payload
-                return p;
-            })
-        }
+        state.pending = false;
+        state.paginatedPosts.posts = state.paginatedPosts.posts.map((p) => {
+            if (p._id === payload._id) return payload
+            return p;
+        })
     }).addCase(deletePost.pending, (state) => {
         state.pending = true;
     }).addCase(deletePost.rejected, (state) => {
