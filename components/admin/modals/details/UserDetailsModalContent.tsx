@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {displayRole, IUser} from "../../../../shared/types/user.type";
 import {AnyFunction} from "../../../../shared/types/props.type";
 import {useAppDispatch, useAppSelector} from "../../../../context/hooks";
-import {getFilteredCommentedPostByUserId, getUserById} from "../../../../context/actions/admin/admin.actions";
+import {getCommentedPostByUserId, getUserById} from "../../../../context/actions/admin/admin.actions";
 import RenderIf from "../../../shared/RenderIf";
 import {useTranslation} from "../../../../shared/hooks";
 import {isEmpty} from "../../../../shared/utils/object.utils";
@@ -55,7 +55,7 @@ const UserDetailsModalContent = (props: PropsType) => {
     }, [dispatch]);
 
     const fetchCommentedPosts = useCallback(async (userId) => {
-        await dispatch(getFilteredCommentedPostByUserId(userId));
+        await dispatch(getCommentedPostByUserId(userId));
     }, [dispatch]);
 
     // set Posts on usersLikedPosts is fetched 

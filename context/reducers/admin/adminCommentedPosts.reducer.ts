@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {IPost} from "../../../shared/types/post.type";
-import {getFilteredCommentedPostByUserId} from "../../actions/admin/admin.actions";
+import {getCommentedPostByUserId} from "../../actions/admin/admin.actions";
 import {deleteCategory, updateCategory} from "../../actions/categories/categories.actions";
 import {deletePost} from "../../actions/posts/posts.actions";
 import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../actions/users/user.actions";
@@ -20,11 +20,11 @@ const initial: AdminCommentedPostsState = {
 }
 
 export const adminCommentedPostsReducer = createReducer(initial, (builder => {
-    builder.addCase(getFilteredCommentedPostByUserId.pending, (state) => {
+    builder.addCase(getCommentedPostByUserId.pending, (state) => {
         state.pending = true;
-    }).addCase(getFilteredCommentedPostByUserId.rejected, (state) => {
+    }).addCase(getCommentedPostByUserId.rejected, (state) => {
         state.pending = false;
-    }).addCase(getFilteredCommentedPostByUserId.fulfilled, (state, {payload}) => {
+    }).addCase(getCommentedPostByUserId.fulfilled, (state, {payload}) => {
         state.pending = false;
         const found = state.users.find((u) => u.userId === payload.userId);
         if (found) {

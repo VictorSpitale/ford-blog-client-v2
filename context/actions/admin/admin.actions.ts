@@ -9,7 +9,7 @@ import {UserCommentedPosts} from "../../reducers/admin/adminCommentedPosts.reduc
 export const SET_ADMIN_VIEW = "SET_ADMIN_VIEW";
 export const GET_LIKERS = "GET_LIKERS";
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
-export const GET_FILTERED_COMMENTED_POST_BY_USERID = "GET_FILTERED_COMMENTED_POST_BY_USERID"
+export const GET_COMMENTED_POST_BY_USERID = "GET_FILTERED_COMMENTED_POST_BY_USERID"
 
 export const setAdminView = createAction<AdminViews>(SET_ADMIN_VIEW);
 
@@ -37,7 +37,7 @@ export const getUserById = createAsyncThunk<IUser, string, { state: RootState }>
     return response;
 })
 
-export const getFilteredCommentedPostByUserId = createAsyncThunk<UserCommentedPosts, string, { state: RootState }>(GET_FILTERED_COMMENTED_POST_BY_USERID, async (id, {getState}) => {
+export const getCommentedPostByUserId = createAsyncThunk<UserCommentedPosts, string, { state: RootState }>(GET_COMMENTED_POST_BY_USERID, async (id, {getState}) => {
     const {users} = getState().adminCommentedPosts;
     const found = users.find((u) => u.userId === id);
     if (found) return found;
