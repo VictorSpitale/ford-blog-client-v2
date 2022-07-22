@@ -6,6 +6,12 @@ import * as fetch from "../../../../context/instance";
 import {makeStore} from "../../../../context/store";
 import {toUpdatePost} from "../../../../shared/utils/post/post.utils";
 import {ICreatePost} from "../../../../shared/types/post.type";
+import {deleteCategory, updateCategory} from "../../../../context/actions/categories/categories.actions";
+import {CategoryStub} from "../../../stub/CategoryStub";
+import {deleteAccount, removePicture, updateUser, uploadPicture} from "../../../../context/actions/users/user.actions";
+import {UserStub} from "../../../stub/UserStub";
+import {IUserRole} from "../../../../shared/types/user.type";
+import {CommentStub} from "../../../stub/CommentStub";
 
 describe('LastPosts Actions & Reducers', function () {
 
@@ -319,6 +325,165 @@ describe('LastPosts Actions & Reducers', function () {
             expect(spy).toHaveBeenCalledTimes(2);
             expect(store.getState().lastPosts.posts[5]).not.toEqual(PostStub("5"));
 
+        });
+
+    });
+
+    describe('UpdateCategory', function () {
+
+        it('should update the category if it is related to a post', function () {
+            const action: AnyAction = {
+                type: updateCategory.fulfilled,
+                payload: CategoryStub("gt", "01")
+            }
+            const state = lastPostsReducer({
+                ...initialState,
+                posts: [PostStub(), {...PostStub(), categories: [CategoryStub("sport", "01")]}]
+            }, action)
+            expect(state).toEqual({
+                ...initialState,
+                posts: [
+                    PostStub(),
+                    {...PostStub(), categories: [CategoryStub("gt", "01")]}
+                ]
+            })
+        });
+
+    });
+
+    describe('DeleteCategory', function () {
+
+        it('should delete the category if it is related to a post', function () {
+            const action: AnyAction = {
+                type: deleteCategory.fulfilled,
+                payload: CategoryStub("gt", "01")
+            }
+            const state = lastPostsReducer({
+                ...initialState,
+                posts: [PostStub(), {...PostStub(), categories: [CategoryStub("gt", "01")]}]
+            }, action)
+            expect(state).toEqual({
+                ...initialState,
+                posts: [
+                    PostStub(),
+                    {...PostStub(), categories: []}
+                ]
+            })
+        });
+
+    });
+
+    describe('UpdateUser', function () {
+
+        it('should update the post comment on update user', function () {
+            const action: AnyAction = {
+                type: updateUser.fulfilled,
+                payload: {...UserStub(IUserRole.USER, "01"), pseudo: "nouveau"}
+            }
+            const state = lastPostsReducer({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {...CommentStub(), commenter: {_id: "01", pseudo: "ancien"}}]
+                }]
+            }, action)
+            expect(state).toEqual({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {...CommentStub(), commenter: {_id: "01", pseudo: "nouveau"}}]
+                }]
+            })
+        });
+
+    });
+
+    describe('RemovePicture', function () {
+
+        it('should update the post comment on remove picture', function () {
+            const action: AnyAction = {
+                type: removePicture.fulfilled,
+                payload: {...UserStub(IUserRole.USER, "01"), picture: undefined}
+            }
+            const state = lastPostsReducer({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {
+                        ...CommentStub(),
+                        commenter: {...CommentStub().commenter, _id: "01", picture: "link"}
+                    }]
+                }]
+            }, action)
+            expect(state).toEqual({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {
+                        ...CommentStub(),
+                        commenter: {...CommentStub().commenter, _id: "01", picture: undefined}
+                    }]
+                }]
+            })
+        });
+
+    });
+
+    describe('UploadPicture', function () {
+
+        it('should update the post comment on upload picture', function () {
+            const action: AnyAction = {
+                type: uploadPicture.fulfilled,
+                payload: {...UserStub(IUserRole.USER, "01"), picture: "link"}
+            }
+            const state = lastPostsReducer({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {
+                        ...CommentStub(),
+                        commenter: {...CommentStub().commenter, _id: "01", picture: undefined}
+                    }]
+                }]
+            }, action)
+            expect(state).toEqual({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {
+                        ...CommentStub(),
+                        commenter: {...CommentStub().commenter, _id: "01", picture: "link"}
+                    }]
+                }]
+            })
+        });
+
+    });
+
+    describe('DeleteAccount', function () {
+
+        it('should update the post comment on delete account', function () {
+            const action: AnyAction = {
+                type: deleteAccount.fulfilled,
+                payload: UserStub(IUserRole.USER, "01")
+            }
+            const state = lastPostsReducer({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub(), {
+                        ...CommentStub(),
+                        commenter: {...CommentStub().commenter, _id: "01"}
+                    }]
+                }]
+            }, action)
+            expect(state).toEqual({
+                ...initialState,
+                posts: [PostStub(), {
+                    ...PostStub(),
+                    comments: [CommentStub()]
+                }]
+            })
         });
 
     });
