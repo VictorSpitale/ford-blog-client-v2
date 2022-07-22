@@ -9,6 +9,7 @@ import AdminView from "../../components/admin/AdminView";
 import {AdminViews, getViewType} from "../../shared/types/adminViews.type";
 import {useRouter} from "next/router";
 import {setAdminView} from "../../context/actions/admin/admin.actions";
+import {IUserRole} from "../../shared/types/user.type";
 
 const Admin = () => {
 
@@ -34,7 +35,7 @@ const Admin = () => {
         }
     }, [dispatch, router.query])
 
-    if (isEmpty(user)) {
+    if (isEmpty(user) || user.role !== IUserRole.ADMIN) {
         return (
             <>
                 <SEO title={""} shouldIndex={false} />
