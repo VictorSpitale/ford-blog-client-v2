@@ -33,12 +33,14 @@ const PostsView = () => {
     const [activePost, setActivePost] = useState({} as IPost);
 
     const fetchPosts = useCallback(async () => {
+        /* istanbul ignore else */
         if (paginatedPosts.hasMore) {
             await dispatch(getPosts(paginatedPosts.page + 1));
         }
     }, [dispatch, paginatedPosts.hasMore, paginatedPosts.page]);
 
     useEffect(() => {
+        /* istanbul ignore else */
         if (paginatedPosts.page === 0) fetchPosts();
     }, []);
 
