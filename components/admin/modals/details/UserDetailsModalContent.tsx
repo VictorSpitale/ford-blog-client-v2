@@ -108,15 +108,15 @@ const UserDetailsModalContent = (props: PropsType) => {
                 <p>{t.common.noUser}</p>
             </RenderIf>
             <RenderIf condition={!isEmpty(user)}>
-                <div className={"flex gap-x-4"}>
-                    <div className={"w-1/3 bg-red-500f flex items-center flex-col"}>
+                <div className={"flex gap-x-4 flex-col md:flex-row"}>
+                    <div className={"w-full md:w-1/3 bg-red-500f flex items-center flex-col"}>
                         <div className={"relative rounded-lg overflow-hidden h-[200px] w-[200px]"}>
                             <Image alt={`${user.pseudo} profile picture`} src={getUserPictureSrc(user).src}
                                    layout={"fill"} objectFit={"cover"} />
                         </div>
                         <p className={"font-bold text-2xl mt-3"}>{user.pseudo}</p>
                     </div>
-                    <div className={"w-full"}>
+                    <div className={"w-full md:w-2/3 text-sm md:text-base"}>
                         <Tabs>
                             <div data-label={t.admin.users.tabs.informations}
                                  className={className("[&>*]:flex [&>*]:justify-between [&>*]:gap-x-3 [&>*]:mb-4",

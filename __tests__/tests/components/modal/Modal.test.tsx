@@ -23,7 +23,7 @@ describe('ModalTest', function () {
 
         expect(queryByContent("overlay")).toBeInTheDocument();
         expect(queryByContent("modal")).toBeInTheDocument();
-        expect(queryByContent("modal")).toHaveClass("w-64")
+        expect(queryByContent("modal")).toHaveClass("w-72")
         expect(queryByContent("content")).toBeInTheDocument();
         expect(queryByContent("modal-cross")).toBeInTheDocument();
         expect(queryByContent("modal-header")).toBeInTheDocument();

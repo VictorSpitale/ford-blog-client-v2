@@ -82,7 +82,7 @@ const UsersView = () => {
                 <RenderIf condition={!isEmpty((users))}>
                     <Table keys={[
                         {key: "pseudo", label: t.admin.tabs.pseudo},
-                        {key: "email", label: t.admin.tabs.email},
+                        {key: "email", label: t.admin.tabs.email, hideOnMobile: true},
                     ]} data={users} sortable={true} onOpen={openDetails} actions={[
                         {
                             label: t.common.update,

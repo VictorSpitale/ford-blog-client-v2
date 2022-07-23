@@ -10,6 +10,7 @@ type Key = {
     label: string;
     key: string;
     operation?: "count" | "date";
+    hideOnMobile?: boolean;
 }
 
 type Action = {
@@ -67,7 +68,7 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
     }
 
     return (
-        <table data-content={"table"} className={"text-lg w-full border-collapse table-auto"}>
+        <table data-content={"table"} className={"text-sm md:text-lg w-full border-collapse table-auto"}>
             <thead>
                 <tr data-content={"keys-row"} className={"bg-primary-400 select-none"}>
                     {keys.map((k, i) => {
@@ -76,7 +77,8 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                                 className={className(
                                     "first:rounded-tl-lg p-3",
                                     sortable ? "cursor-pointer" : "",
-                                    actions ? "" : "last:rounded-tr-lg")}>
+                                    actions ? "" : "last:rounded-tr-lg",
+                                    k.hideOnMobile ? "hidden md:table-cell" : "")}>
                                 {sortable && sortState.key === k.key && sortState.state !== "default" ?
                                     <div className={"flex gap-x-2 items-center"}>
                                         <h1 className={"text-white text-left text-sm md:text-lg"}>{k.label}</h1>
@@ -107,7 +109,8 @@ const Table = ({keys, data: defaultData, sortable, onOpen, actions}: PropsType) 
                                         onClick={onOpen ? () => onOpen(item) : undefined}
                                         className={className(
                                             "first:break-words first:line-clamp-1 leading-[3] w-fit first:w-full",
-                                            "p-3 text-left hover:cursor-pointer")}>
+                                            "p-3 text-left hover:cursor-pointer",
+                                            k.hideOnMobile ? "hidden md:table-cell" : "")}>
                                         <RenderIf condition={!k.operation}>
                                             {item[k.key]}
                                         </RenderIf>

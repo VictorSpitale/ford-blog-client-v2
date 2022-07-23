@@ -95,8 +95,8 @@ const PostsView = () => {
                 <RenderIf condition={!isEmpty((paginatedPosts.posts))}>
                     <Table keys={[
                         {key: "title", label: t.admin.tabs.title},
-                        {key: "likes", label: t.admin.tabs.likes},
-                        {key: "comments", label: t.admin.tabs.comments, operation: "count"},
+                        {key: "likes", label: t.admin.tabs.likes, hideOnMobile: true},
+                        {key: "comments", label: t.admin.tabs.comments, operation: "count", hideOnMobile: true},
                         {key: "createdAt", label: t.admin.tabs.date, operation: "date"}
                     ]} data={paginatedPosts.posts} sortable={true} onOpen={openDetails} actions={[
                         {

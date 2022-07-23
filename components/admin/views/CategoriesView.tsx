@@ -82,7 +82,7 @@ const CategoriesView = () => {
                 <RenderIf condition={!isEmpty((categories))}>
                     <Table keys={[
                         {key: "name", label: t.admin.tabs.name},
-                        {key: "count", label: t.admin.tabs.relatedPosts},
+                        {key: "count", label: t.admin.tabs.relatedPosts, hideOnMobile: true},
                     ]} data={categories} sortable={true} onOpen={openDetails} actions={[
                         {
                             label: t.common.update,

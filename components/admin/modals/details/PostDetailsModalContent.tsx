@@ -62,8 +62,8 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
 
     return (
         <div data-content={"post-details-content"} className={"px-4 py-2"}>
-            <div className={"flex gap-x-4"}>
-                <div className={"w-1/2"}>
+            <div className={"flex gap-x-4 flex-col md:flex-row"}>
+                <div className={"w-full md:w-1/2"}>
                     <div>
                         <RenderIf condition={!!post.picture}>
                             <div className={"overflow-hidden rounded-2xl w-full h-[300px] relative"}>
@@ -74,7 +74,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
                         <h1 className={"mt-5 text-center text-lg md:text-2xl text-justify md:font-semibold"}>{post.title}</h1>
                     </div>
                 </div>
-                <div className={"w-1/2 max-h-[450px] overflow-auto c-scroll"}>
+                <div className={"w-full md:w-1/2 max-h-[450px] overflow-auto c-scroll text-sm md:text-base"}>
                     <Tabs>
                         <div data-label={t.admin.posts.tabs.informations}
                              className={className("[&>*]:flex [&>*]:justify-between [&>*]:gap-x-3 [&>*]:mb-4",

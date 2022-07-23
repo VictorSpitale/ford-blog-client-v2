@@ -11,6 +11,7 @@ type PropsType = {
 const Tab = ({activeTab, onClick, label}: PropsType) => {
     return (
         <li data-content={activeTab === label ? "tab-active" : "tab-not-active"} className={className(
+            "text-sm md:text-lg",
             "list-none inline-block border-b border-secondary-200 cursor-pointer px-2 py-3",
             activeTab === label ? "border-b-0 border text-secondary-500" : ""
         )} onClick={() => onClick(label)}>
