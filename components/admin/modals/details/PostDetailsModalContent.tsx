@@ -61,7 +61,7 @@ const PostDetailsModalContent = ({post, setOtherModal}: PropsType) => {
     }, [post.slug, posts]);
 
     return (
-        <div className={"px-4 py-2"}>
+        <div data-content={"post-details-content"} className={"px-4 py-2"}>
             <div className={"flex gap-x-4"}>
                 <div className={"w-1/2"}>
                     <div>
