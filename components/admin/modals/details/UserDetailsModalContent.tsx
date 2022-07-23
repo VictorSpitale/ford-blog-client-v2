@@ -45,6 +45,7 @@ const UserDetailsModalContent = (props: PropsType) => {
     }
 
     const fetchUser = useCallback(async () => {
+        /* istanbul ignore else */
         if (props.needFetch) {
             await dispatch(getUserById(props.userId));
         }
@@ -99,7 +100,7 @@ const UserDetailsModalContent = (props: PropsType) => {
     }, []);
 
     return (
-        <div className={"px-4 py-2"}>
+        <div data-content={"user-details-content"} className={"px-4 py-2"}>
             <RenderIf condition={pending}>
                 <p className={"italic"}>{t.common.loading}</p>
             </RenderIf>
