@@ -6,14 +6,14 @@ import {RouterContext} from "next/dist/shared/lib/router-context";
 import PostPage from "../../../pages/post/[slug]";
 import {PostStub} from "../../stub/PostStub";
 import * as fetch from "../../../context/instance";
-import {getPost} from "../../../context/actions/posts.actions";
+import {getPost} from "../../../context/actions/posts/posts.actions";
 import {NextPageContext} from "next";
 
 describe('PostTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should render the error page on not found', function () {

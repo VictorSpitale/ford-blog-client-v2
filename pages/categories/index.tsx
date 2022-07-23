@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Layout from "../../components/layouts/Layout";
 import {NextPage} from "next";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 
 import CategoriesSlider from "../../components/categories/slider/CategoriesSlider";
-import {getCategories, setCategorySlide} from "../../context/actions/categories.actions";
+import {getCategories, setCategorySlide} from "../../context/actions/categories/categories.actions";
 import SEO from "../../components/shared/seo";
-import {wrapper} from "../../context/store";
 import {useTranslation} from "../../shared/hooks";
-import {getCategorizedPosts} from "../../context/actions/posts.actions";
+import {getCategorizedPosts} from "../../context/actions/posts/posts.actions";
 import PostsList from "../../components/posts/PostsList";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {useRouter} from "next/router";
@@ -28,7 +27,7 @@ const Index = () => {
         if (!category) {
             return [];
         }
-        const list = posts.find((list) => list.category === category.name);
+        const list = posts.find((list) => list.category._id === category._id);
         if (!list) return [];
         return list.posts;
     }
@@ -40,16 +39,21 @@ const Index = () => {
         }
     }
 
+    const fetchCategories = useCallback(async () => {
+        await dispatch(getCategories());
+    }, [dispatch]);
+
     useEffect(() => {
+        fetchCategories();
         return () => {
             dispatch(setCategorySlide({category: undefined}));
         }
-    }, [dispatch]);
+    }, [dispatch, fetchCategories]);
 
     useEffect(() => {
         const fetchPosts = async () => {
             if (category) {
-                await dispatch(getCategorizedPosts(category.name));
+                await dispatch(getCategorizedPosts(category));
             }
         }
         fetchPosts();
@@ -83,15 +87,3 @@ Index.getLayout = function (page: NextPage) {
         </Layout>
     )
 }
-
-/* istanbul ignore next */
-Index.getInitialProps = wrapper.getInitialPageProps(
-    ({dispatch}) =>
-        async (context) => {
-            if (context.query.selected) {
-                const name = (typeof context.query.selected === "string" ? context.query.selected : context.query.selected[0]);
-                await dispatch(getCategorizedPosts(name));
-            }
-            await dispatch(getCategories());
-        }
-);

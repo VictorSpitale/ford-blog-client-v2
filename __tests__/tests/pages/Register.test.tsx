@@ -12,7 +12,7 @@ describe('RegisterTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should render the register page', async function () {

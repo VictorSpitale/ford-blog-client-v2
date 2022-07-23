@@ -10,6 +10,12 @@ import {queryByContent} from "../../../../utils/CustomQueries";
 
 describe('PasswordRecoveryModalTest', function () {
 
+
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
+
     it('should render the modal', function () {
         const store = makeStore();
         const router = MockUseRouter({});

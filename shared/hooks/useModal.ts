@@ -8,11 +8,11 @@ export const useModal = (): UseModalType => {
     const [history, setHistory] = useState<JSX.Element[]>([]);
 
     const toggle = () => {
+        setIsShowing(!isShowing);
         if (isShowing) {
             setOtherModal(undefined);
             setHistory([]);
         }
-        setIsShowing(!isShowing);
     }
 
     const addOtherModal = (element: JSX.Element) => {
@@ -21,7 +21,7 @@ export const useModal = (): UseModalType => {
     }
 
     const previous = () => {
-        if (!hasPrevious()) return;
+        if (!hasPrevious) return;
         if (history.length === 1) {
             setOtherModal(undefined);
             setHistory([]);
@@ -31,9 +31,7 @@ export const useModal = (): UseModalType => {
         }
     }
 
-    const hasPrevious = (): boolean => {
-        return !isEmpty(history);
-    }
+    const hasPrevious = !isEmpty(history);
 
     return {
         isShowing,

@@ -7,7 +7,7 @@ import {RouterContext} from "next/dist/shared/lib/router-context";
 import CategoriesSlider from "../../../../../components/categories/slider/CategoriesSlider";
 import * as fr from "../../../../../public/static/locales/fr.json";
 import {CategoryStub} from "../../../../stub/CategoryStub";
-import {setCategorySlide} from "../../../../../context/actions/categories.actions";
+import {setCategorySlide} from "../../../../../context/actions/categories/categories.actions";
 import {queryByContent} from "../../../../utils/CustomQueries";
 
 describe('Categories Slider', function () {

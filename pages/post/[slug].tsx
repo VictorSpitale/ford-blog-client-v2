@@ -4,7 +4,7 @@ import {wrapper} from "../../context/store";
 import SEO from "../../components/shared/seo";
 import {getFirstSentence} from "../../shared/utils/string.utils";
 import SinglePost from "../../components/posts/SinglePost";
-import {getPost, patchLikeStatus} from "../../context/actions/posts.actions";
+import {getPost, patchLikeStatus} from "../../context/actions/posts/posts.actions";
 import {ErrorProps} from "../../shared/types/errors.type";
 import {isEmpty} from "../../shared/utils/object.utils";
 import {NextPageWithLayout} from "../../shared/types/page.type";
@@ -16,9 +16,6 @@ const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
     const {post} = useAppSelector((state => state.post))
     const {user} = useAppSelector(state => state.user)
     const {pending: lastPostPending} = useAppSelector(state => state.lastPosts)
-
-    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
-    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
     const {pending: postPending} = useAppSelector(state => state.post);
 
     const router = useRouter();
@@ -42,10 +39,7 @@ const PostPage: NextPageWithLayout<ErrorProps> = ({error}) => {
 					<SinglePost
 						post={post}
 						user={user}
-						categoriesPending={categoriesPending}
 						lastPostPending={lastPostPending}
-						categories={categories}
-						updatedCategories={updatedCategories}
 						postPending={postPending}
 					/>
 				</>}

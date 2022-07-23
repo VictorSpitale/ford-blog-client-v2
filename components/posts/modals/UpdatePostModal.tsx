@@ -6,35 +6,32 @@ import InputField from "../../shared/InputField";
 import Image from "next/image"
 import {getPostCardImg} from "../../../shared/images/postCardImg";
 import TextAreaField from "../../shared/TextAreaField";
-import {useAppDispatch} from "../../../context/hooks";
+import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
 import {isValidUrl} from "../../../shared/utils/regex.utils";
-import {updatePost} from "../../../context/actions/posts.actions";
+import {updatePost} from "../../../context/actions/posts/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import CategoriesSelector from "../../categories/CategoriesSelector";
 import {toUpdatePost} from "../../../shared/utils/post/post.utils";
-import {ICategory} from "../../../shared/types/category.type";
 import {scrollTop} from "../../../shared/utils/refs.utils";
+import ErrorMessage from "../../shared/ErrorMessage";
 
 type PropsType = {
     post: IPost;
     toggle: AnyFunction;
     isShowing: boolean;
-    categories: ICategory[];
-    updatedCategories: ICategory[];
     pending: boolean;
-    categoriesPending: boolean;
 }
 
 const UpdatePostModal = ({
                              post,
                              toggle,
                              isShowing,
-                             updatedCategories,
-                             pending,
-                             categoriesPending,
-                             categories
+                             pending
                          }: PropsType) => {
+
+    const {categories: updatedCategories} = useAppSelector(state => state.selectCategories)
+    const {categories, pending: categoriesPending} = useAppSelector(state => state.categories);
 
     const t = useTranslation();
 
@@ -79,11 +76,7 @@ const UpdatePostModal = ({
 						src={getPostCardImg(post)} width={"400"} height={"200"} objectFit={"cover"}
 						alt={post.title} />
 				</div>}
-                {error &&
-					<p className={"mt-2 bg-red-400 text-white rounded text-center mx-auto w-fit px-4"}>
-                        {error}
-					</p>
-                }
+                <ErrorMessage error={error} />
                 <div className={"separate_child"}>
                     <InputField name={"title"} value={postState.title} label={t.posts.update.fields.title}
                                 onChange={(e) => setPostState({

@@ -7,7 +7,7 @@ import News from "../../../pages/news";
 import * as fetch from "../../../context/instance";
 import * as fr from "../../../public/static/locales/fr.json";
 import {UserStub} from "../../stub/UserStub";
-import {getUser} from "../../../context/actions/user.actions";
+import {getUser} from "../../../context/actions/users/user.actions";
 import {PostStub} from "../../stub/PostStub";
 import * as hooks from "../../../context/hooks";
 
@@ -28,16 +28,11 @@ describe('NewsTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
     })
 
     it('should render the news page unAuth', function () {
         const store = makeStore();
         const router = MockUseRouter({});
-
-        const spy = jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({
-            data: UserStub()
-        })
 
         render(
             <Provider store={store}>
@@ -48,7 +43,6 @@ describe('NewsTest', function () {
         )
 
         expect(screen.getByText(fr.posts.news.cantAccess)).toBeInTheDocument();
-        expect(spy).not.toHaveBeenCalled();
     });
 
 

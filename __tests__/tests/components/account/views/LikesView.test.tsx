@@ -7,11 +7,12 @@ import * as fr from '../../../../../public/static/locales/fr.json';
 import {UserStub} from "../../../../stub/UserStub";
 import * as hooks from '../../../../../context/hooks'
 import * as fetch from '../../../../../context/instance'
-import {BasicPostStub} from "../../../../stub/PostStub";
+import {PostStub} from "../../../../stub/PostStub";
 import {makeStore} from "../../../../../context/store";
 import {Provider} from "react-redux";
 
 describe('Likes View', function () {
+
 
     afterEach(() => {
         jest.clearAllMocks();
@@ -44,7 +45,7 @@ describe('Likes View', function () {
         jest.spyOn(fetch, "fetchApi").mockResolvedValue({data: []})
 
         jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-            posts: [],
+            users: [],
             pending: true
         });
 
@@ -64,11 +65,10 @@ describe('Likes View', function () {
         const router = MockUseRouter({});
         const user = UserStub();
         const store = makeStore();
-        const basicPost = BasicPostStub();
         jest.spyOn(fetch, "fetchApi").mockResolvedValueOnce({data: []})
 
         jest.spyOn(hooks, "useAppSelector").mockReturnValue({
-            posts: [basicPost],
+            users: [{userId: user._id, posts: [PostStub()]}],
             pending: false
         });
 
@@ -79,7 +79,7 @@ describe('Likes View', function () {
                 </RouterContext.Provider>
             </Provider>
         )
-        expect(screen.queryByText(basicPost.title)).toBeInTheDocument();
+        expect(screen.queryByText(PostStub().title)).toBeInTheDocument();
 
     });
 

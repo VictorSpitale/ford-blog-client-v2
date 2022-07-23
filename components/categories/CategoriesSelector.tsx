@@ -8,7 +8,7 @@ import {
     createCategory,
     removeSelectedCategories,
     setSelectedCategories
-} from "../../context/actions/categories.actions";
+} from "../../context/actions/categories/categories.actions";
 import {useTranslation} from "../../shared/hooks";
 
 interface Option {

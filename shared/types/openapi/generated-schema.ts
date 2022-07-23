@@ -41,6 +41,9 @@ export interface paths {
   "/api/users/password/{token}": {
     post: operations["UsersController_recoverPassword"];
   };
+  "/api/users/{id}/comments": {
+    get: operations["UsersController_getCommentsByUserId"];
+  };
   "/api/mail/contact": {
     post: operations["MailController_contactMail"];
   };
@@ -61,6 +64,9 @@ export interface paths {
     get: operations["PostsController_getPost"];
     delete: operations["PostsController_deletePost"];
     patch: operations["PostsController_updatePost"];
+  };
+  "/api/posts/{slug}/likers": {
+    get: operations["PostsController_getPostLikers"];
   };
   "/api/posts/like/{slug}": {
     patch: operations["PostsController_likePost"];
@@ -83,9 +89,13 @@ export interface paths {
     get: operations["CategoriesController_getCategories"];
     post: operations["CategoriesController_create"];
   };
+  "/api/categories/count": {
+    get: operations["CategoriesController_getCategoriesWithCount"];
+  };
   "/api/categories/{id}": {
     get: operations["CategoriesController_getCategoryById"];
     delete: operations["CategoriesController_deleteCategory"];
+    patch: operations["CategoriesController_updateCategory"];
   };
 }
 
@@ -210,6 +220,12 @@ export interface components {
        * @example password
        */
       currentPassword?: string;
+      /**
+       * @description User's role
+       * @default 0
+       * @enum {string}
+       */
+      role?: "0" | "1" | "2";
     };
     PasswordPreRecoveryDto: {
       /**
@@ -226,60 +242,6 @@ export interface components {
        * @example password
        */
       password: string;
-    };
-    ContactDto: {
-      /**
-       * @description Name
-       * @example John Doe
-       */
-      name: string;
-      /**
-       * @description Email
-       * @example John@Doe.fr
-       */
-      email: string;
-      /**
-       * @description Message
-       * @example It is the story about...
-       */
-      message: string;
-    };
-    CreatePostDto: {
-      /**
-       * @description Post's title
-       * @example The new ford mustang
-       */
-      title: string;
-      /**
-       * @description Post's slug
-       * @example the-new-ford-mustang
-       */
-      slug: string;
-      /**
-       * @description Post's desc
-       * @example It is the story about...
-       */
-      desc: string;
-      /**
-       * @description Source's name
-       * @example auto-moto
-       */
-      sourceName: string;
-      /**
-       * @description Source's link
-       * @example https://auto-moto.fr
-       */
-      sourceLink: string;
-      /**
-       * @description Post's category ids
-       * @example [621bd3239a004010c4ba3b06e]
-       */
-      categories: string[];
-      /**
-       * Format: binary
-       * @description File to upload, converted to picture url
-       */
-      file?: string;
     };
     CategoryDto: {
       /**
@@ -414,21 +376,24 @@ export interface components {
        */
       updatedAt: string;
     };
-    PaginatedPostDto: {
+    ContactDto: {
       /**
-       * @description Has more posts
-       * @example true
+       * @description Name
+       * @example John Doe
        */
-      hasMore: boolean;
-      /** @description Posts */
-      posts: components["schemas"]["PostDto"][];
+      name: string;
       /**
-       * @description Page number
-       * @example 1
+       * @description Email
+       * @example John@Doe.fr
        */
-      page: number;
+      email: string;
+      /**
+       * @description Message
+       * @example It is the story about...
+       */
+      message: string;
     };
-    BasicPostDto: {
+    CreatePostDto: {
       /**
        * @description Post's title
        * @example The new ford mustang
@@ -444,6 +409,52 @@ export interface components {
        * @example It is the story about...
        */
       desc: string;
+      /**
+       * @description Source's name
+       * @example auto-moto
+       */
+      sourceName: string;
+      /**
+       * @description Source's link
+       * @example https://auto-moto.fr
+       */
+      sourceLink: string;
+      /**
+       * @description Post's category ids
+       * @example [621bd3239a004010c4ba3b06e]
+       */
+      categories: string[];
+      /**
+       * Format: binary
+       * @description File to upload, converted to picture url
+       */
+      file?: string;
+    };
+    PaginatedPostDto: {
+      /**
+       * @description Has more posts
+       * @example true
+       */
+      hasMore: boolean;
+      /** @description Posts */
+      posts: components["schemas"]["PostDto"][];
+      /**
+       * @description Page number
+       * @example 1
+       */
+      page: number;
+    };
+    BasicUserDto: {
+      /**
+       * @description User's pseudo
+       * @example John Doe
+       */
+      pseudo: string;
+      /**
+       * @description User's id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
       /**
        * @description Url to the picture
        * @example https://storage.googleapis.com/name
@@ -514,6 +525,30 @@ export interface components {
       commenterId: string;
     };
     CreateCategoryDto: {
+      /**
+       * @description Category's name
+       * @example Sport
+       */
+      name: string;
+    };
+    CategoryWithCountDto: {
+      /**
+       * @description Category's name
+       * @example Sport
+       */
+      name: string;
+      /**
+       * @description Category's id
+       * @example 61f59acf09f089c9df951c37
+       */
+      _id: string;
+      /**
+       * @description Number of related posts
+       * @example 12
+       */
+      count: number;
+    };
+    UpdateCategoryDto: {
       /**
        * @description Category's name
        * @example Sport
@@ -828,6 +863,34 @@ export interface operations {
       };
     };
   };
+  UsersController_getCommentsByUserId: {
+    parameters: {
+      path: {
+        /** User id */
+        id: string;
+      };
+    };
+    responses: {
+      /** User's commented posts */
+      200: {
+        content: {
+          "application/json": components["schemas"]["PostDto"][];
+        };
+      };
+      /** Id is not a valid id */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** User not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+  };
   MailController_contactMail: {
     parameters: {};
     responses: {
@@ -938,7 +1001,7 @@ export interface operations {
       /** Posts list */
       200: {
         content: {
-          "application/json": components["schemas"]["BasicPostDto"][];
+          "application/json": components["schemas"]["PostDto"][];
         };
       };
       /** Jwt failed | Insufficient permissions */
@@ -1031,6 +1094,28 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["UpdatePostDto"];
+      };
+    };
+  };
+  PostsController_getPostLikers: {
+    parameters: {
+      path: {
+        /** Post's slug to query */
+        slug: string;
+      };
+    };
+    responses: {
+      /** The post likers got by its slug */
+      200: {
+        content: {
+          "application/json": components["schemas"]["BasicUserDto"][];
+        };
+      };
+      /** The post doesnt exist */
+      404: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
       };
     };
   };
@@ -1284,6 +1369,17 @@ export interface operations {
       };
     };
   };
+  CategoriesController_getCategoriesWithCount: {
+    parameters: {};
+    responses: {
+      /** List all categories with related posts count */
+      200: {
+        content: {
+          "application/json": components["schemas"]["CategoryWithCountDto"][];
+        };
+      };
+    };
+  };
   CategoriesController_getCategoryById: {
     parameters: {
       path: {
@@ -1314,7 +1410,7 @@ export interface operations {
   CategoriesController_deleteCategory: {
     parameters: {
       path: {
-        /** Category slug */
+        /** Category id */
         id: string;
       };
     };
@@ -1332,6 +1428,45 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["HttpErrorDto"];
         };
+      };
+    };
+  };
+  CategoriesController_updateCategory: {
+    parameters: {
+      path: {
+        /** Category id */
+        id: string;
+      };
+    };
+    responses: {
+      /** The category has been updated */
+      200: {
+        content: {
+          "application/json": components["schemas"]["CategoryDto"];
+        };
+      };
+      /** Validations failed */
+      400: {
+        content: {
+          "application/json": components["schemas"]["HttpValidationError"];
+        };
+      };
+      /** Jwt failed | Insufficient permissions */
+      401: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+      /** The category doesn't exist */
+      409: {
+        content: {
+          "application/json": components["schemas"]["HttpErrorDto"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateCategoryDto"];
       };
     };
   };

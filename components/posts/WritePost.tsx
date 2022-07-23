@@ -9,7 +9,7 @@ import CategoriesSelector from "../categories/CategoriesSelector";
 import TextAreaField from "../shared/TextAreaField";
 import {getCreatePostKeys, ICreatePost} from "../../shared/types/post.type";
 import {isValidUrl} from "../../shared/utils/regex.utils";
-import {createPost} from "../../context/actions/posts.actions";
+import {createPost} from "../../context/actions/posts/posts.actions";
 import {HttpError} from "../../shared/types/httpError.type";
 import {useAppDispatch, useAppSelector} from "../../context/hooks";
 import {useTranslation} from "../../shared/hooks";

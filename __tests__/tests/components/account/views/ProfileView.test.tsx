@@ -12,6 +12,7 @@ import {IUser} from "../../../../../shared/types/user.type";
 
 describe('Profile View', function () {
 
+
     afterEach(() => {
         jest.clearAllMocks();
     })

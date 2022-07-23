@@ -7,7 +7,7 @@ import {getUserPictureSrc} from "../../../shared/images/ProfilePicture";
 import Button from "../../shared/Button";
 import ProfilePicture from "../../shared/ProfilePicture";
 import {setError} from "../../../context/actions/errors.actions";
-import {removePicture, updateLoggedUser, uploadPicture} from "../../../context/actions/user.actions";
+import {removePicture, updateUser, uploadPicture} from "../../../context/actions/users/user.actions";
 import {HttpError} from "../../../shared/types/httpError.type";
 import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import RenderIf from "../../shared/RenderIf";
@@ -35,7 +35,7 @@ const ProfileView = ({user, pending}: PropsType) => {
         if (updatedUser.pseudo?.trim() === "" || (updatedUser.pseudo && (updatedUser.pseudo?.length < 6 || updatedUser.pseudo?.length > 18))) {
             return dispatch(setError({error: t.account.profile.errors.pseudo, key: "profileViewError"}));
         }
-        await dispatch(updateLoggedUser({...updatedUser, _id: user._id})).then((res) => {
+        await dispatch(updateUser({...updatedUser, _id: user._id})).then((res) => {
             if (res.meta.requestStatus === "rejected") {
                 const payload = res.payload as HttpError;
                 return dispatch(setError({
@@ -69,7 +69,7 @@ const ProfileView = ({user, pending}: PropsType) => {
     const handleProfilePictureDeletion = async () => {
         setSuccess('');
         dispatch(setError({error: "", key: "profileViewError"}));
-        await dispatch(removePicture(user._id)).then((res) => {
+        await dispatch(removePicture(user)).then((res) => {
             if (res.meta.requestStatus === "rejected") {
                 return dispatch(setError({error: t.account.profile.errors.removeError, key: "profileViewError"}));
             }

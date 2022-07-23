@@ -5,27 +5,29 @@ import {fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {RouterContext} from "next/dist/shared/lib/router-context";
 import UpdatePostModal from "../../../../../components/posts/modals/UpdatePostModal";
 import {IPost} from "../../../../../shared/types/post.type";
-import {ICategory} from "../../../../../shared/types/category.type";
 import {PostStub} from "../../../../stub/PostStub";
-import {CategoryStub} from "../../../../stub/CategoryStub";
 import {queryByContent} from "../../../../utils/CustomQueries";
 import fr from "../../../../../public/static/locales/fr.json";
-import * as actions from "../../../../../context/actions/posts.actions";
+import * as actions from "../../../../../context/actions/posts/posts.actions";
 import * as fetch from "../../../../../context/instance";
+import * as hooks from "../../../../../context/hooks";
 import * as refUtils from '../../../../../shared/utils/refs.utils';
+import {CategoryStub} from "../../../../stub/CategoryStub";
 
 describe('UpdatePostModalTest', function () {
 
     let post: IPost;
-    let updatedCategories: ICategory[];
     let pending: boolean;
-    let categories: ICategory[];
 
     beforeEach(() => {
         post = PostStub();
-        updatedCategories = [];
         pending = false;
-        categories = [CategoryStub()];
+        jest.clearAllMocks()
+    })
+
+    afterEach(() => {
+
+        jest.clearAllMocks();
     })
 
     it('should render the update post modal', function () {
@@ -35,8 +37,7 @@ describe('UpdatePostModalTest', function () {
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
-                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                    <UpdatePostModal post={post} pending={pending} isShowing={true} toggle={jest.fn()} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -56,8 +57,8 @@ describe('UpdatePostModalTest', function () {
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
-                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                    <UpdatePostModal post={post}
+                                     pending={pending} isShowing={true} toggle={jest.fn()} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -76,11 +77,11 @@ describe('UpdatePostModalTest', function () {
             return null;
         })
 
-        const {rerender} = render(
+        render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
-                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                    <UpdatePostModal post={{...post, categories: []}}
+                                     pending={pending} isShowing={true} toggle={jest.fn()} />
                 </RouterContext.Provider>
             </Provider>
         )
@@ -102,16 +103,32 @@ describe('UpdatePostModalTest', function () {
         expect(updateSpy).not.toHaveBeenCalled();
         expect(fetchSpy).not.toHaveBeenCalled();
 
-        updatedCategories = categories;
+    });
 
-        rerender(
+    it('should render the update post modal with errors #2', async function () {
+        const store = makeStore();
+        const router = MockUseRouter({});
+
+        const updateSpy = jest.spyOn(actions, "updatePost")
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockRejectedValue({});
+        jest.spyOn(refUtils, "scrollTop").mockImplementation(() => {
+            return null;
+        })
+
+        jest.spyOn(hooks, "useAppSelector").mockReturnValue({
+            categories: [CategoryStub()],
+            pending: false
+        })
+
+        render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
-                                     pending={pending} categoriesPending={false} isShowing={true} toggle={jest.fn()} />
+                    <UpdatePostModal post={post}
+                                     pending={pending} isShowing={true} toggle={jest.fn()} />
                 </RouterContext.Provider>
             </Provider>
         )
+        const submit = screen.getByText(fr.posts.update.fields.confirm);
 
         fireEvent.change(queryByContent("sourceLink"), {target: {value: "wrong link"}});
         fireEvent.click(submit);
@@ -127,7 +144,6 @@ describe('UpdatePostModalTest', function () {
             expect(updateSpy).toHaveBeenCalled();
             expect(fetchSpy).toHaveBeenCalled();
         })
-
     });
 
     it('should update the post', async function () {
@@ -135,22 +151,20 @@ describe('UpdatePostModalTest', function () {
         const router = MockUseRouter({});
 
         const updateSpy = jest.spyOn(actions, "updatePost")
-        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({});
+        const fetchSpy = jest.spyOn(fetch, "fetchApi").mockResolvedValue({data: PostStub()});
         const toggle = jest.fn();
-        updatedCategories = categories;
 
         render(
             <Provider store={store}>
                 <RouterContext.Provider value={router}>
-                    <UpdatePostModal post={post} updatedCategories={updatedCategories} categories={categories}
-                                     pending={pending} categoriesPending={false} isShowing={true} toggle={toggle} />
+                    <UpdatePostModal post={post}
+                                     pending={pending} isShowing={true} toggle={toggle} />
                 </RouterContext.Provider>
             </Provider>
         )
         const submit = screen.getByText(fr.posts.update.fields.confirm);
 
         fireEvent.change(queryByContent("title"), {target: {value: `${post.title} !!`}});
-
         fireEvent.click(submit);
 
         await waitFor(() => {

@@ -10,8 +10,8 @@ import {IComment} from "../../../../../shared/types/comment.type";
 import {IUser, IUserRole} from "../../../../../shared/types/user.type";
 import fr from "../../../../../public/static/locales/fr.json";
 import {queryByContent} from "../../../../utils/CustomQueries";
-import * as actions from '../../../../../context/actions/commentEdit.actions'
-import {CHANGE_CURRENT_EDIT_COMMENT} from '../../../../../context/actions/commentEdit.actions'
+import * as actions from '../../../../../context/actions/posts/commentEdit.actions'
+import {CHANGE_CURRENT_EDIT_COMMENT} from '../../../../../context/actions/posts/commentEdit.actions'
 
 describe('CommentTest', function () {
     let updateFn: jest.Mock;
@@ -28,6 +28,11 @@ describe('CommentTest', function () {
         user = UserStub();
         isEditing = false;
         pending = false;
+    })
+
+    afterEach(() => {
+        jest.clearAllMocks();
+
     })
 
     it('should render a comment', function () {

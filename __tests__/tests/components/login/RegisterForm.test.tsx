@@ -38,6 +38,9 @@ describe('RegisterFormTest', function () {
         loading = false;
         code = undefined;
         fetchError = "";
+
+        jest.clearAllMocks();
+
     })
 
     it('should render the register form', function () {

@@ -12,7 +12,7 @@ describe('RecoveryTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should redirect on invalid token', async function () {
@@ -90,7 +90,7 @@ describe('RecoveryTest', function () {
             fireEvent.click(screen.getByText(fr.common.save));
             expect(push).not.toHaveBeenCalled();
         })
-        
+
         fireEvent.change(queryByContent("password"), {target: {value: "new_password"}});
         fireEvent.click(screen.getByText(fr.common.save));
         await waitFor(() => {

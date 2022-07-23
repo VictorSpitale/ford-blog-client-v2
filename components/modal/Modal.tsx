@@ -33,7 +33,7 @@ const Modal = forwardRef(({
 				<div data-content={"overlay"} className={styles.modalOverlay}>
 					<div className={styles.modalWrapper}>
 						<div className={
-                            className(large ? "w-3/4" : "w-64 md:w-1/2 lg:w-1/3", "c-scroll",
+                            className(large ? "w-3/4" : "w-72 md:w-1/2 lg:w-1/3", "c-scroll",
                                 styles.modal)} ref={mergeRefs(ref, modalRef)} data-content={"modal"}>
 							<div className={className(title ? "border-b border-b-secondary-500 justify-between p-4" :
                                 "justify-end pr-[11px]", styles.modalHeader)} data-content={"modal-header"}>

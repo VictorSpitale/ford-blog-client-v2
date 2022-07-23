@@ -11,6 +11,8 @@
     "confirm": "Valider",
     "send": "Envoyer",
     "noPost": "Aucun article disponible",
+    "noUser": "Aucun utilisateur disponible",
+    "noCategory": "Aucune catégorie disponible",
     "error": "Erreur {{code}}",
     "errorSub": "Une erreur s'est produite",
     "tryLater": "Une erreur s'est produite, réessayez plus tard",
@@ -21,7 +23,8 @@
       "2": "Catégories",
       "3": "Poster",
       "4": "Contact",
-      "5": "Mon Compte"
+      "5": "Mon Compte",
+      "6": "Administration"
     },
     "keywords": "Vos mots clés ...",
     "noResult": "Aucun résultat",
@@ -38,7 +41,14 @@
     "desc": "Découvre cette emblématique marque américaine à travers une communauté de passionnés",
     "warning": "ATTENTION",
     "delete": "Supprimer",
-    "deleting": "Suppression..."
+    "deleting": "Suppression...",
+    "update": "Modifier",
+    "loadMore": "Charger plus",
+    "roles": {
+      "user": "Utilisateur",
+      "poster": "Rédacteur",
+      "admin": "Administrateur"
+    }
   },
   "login": {
     "title": "Connexion",
@@ -84,9 +94,15 @@
     "8": "L'image dépasse les 500ko",
     "9": "Le format du ficher n'est pas pris en charge",
     "10": "Erreur lors de l'enregistrement",
+    "11": "Vous n'avez pas les permissions suffisantes",
+    "12": "La catégorie existe déjà",
     "17": "Votre mot de passe actuel n'est pas correct"
   },
   "posts": {
+    "noLike": "Aucun j'aime pour le moment",
+    "noComment": "Aucun commentaire pour le moment",
+    "noLiked": "Aucun article aimé pour le moment",
+    "noCommented": "Aucun article commenté pour le moment",
     "like": {
       "needLoggedIn": "Connectez-vous pour aimer cet article",
       "count": "{{count}} mention{{s}} j'aime"
@@ -102,6 +118,7 @@
       "comment": " le commentaire de {{pseudo}}."
     },
     "update": {
+      "action": "Modifier",
       "title": "Modifier l'article",
       "fields": {
         "categories": "Catégories",
@@ -163,6 +180,9 @@
       "delete": "Supprimer",
       "email": "Email",
       "pseudo": "Pseudo",
+      "role": "Role",
+      "firstLogin": "Première connexion",
+      "lastUpdate": "Dernière mise à jour",
       "errors": {
         "pseudo": "Le pseudo doit comprendre entre 6 et 18 caractères",
         "fileSize": "L'image est trop volumineuse",
@@ -200,7 +220,8 @@
     "title": "Catégories",
     "noPost": "Aucun article ne correspond à la recherche",
     "noCat": "Aucune catégorie disponible",
-    "selectorPlaceholder": "Sélectionner des catégories"
+    "selectorPlaceholder": "Sélectionner des catégories",
+    "delete": "Vous êtes sur le point de supprimer la catégorie : {{name}}"
   },
   "contact": {
     "title": "Contact",
@@ -214,5 +235,73 @@
       "fields": "Veuillez remplir tous les champs"
     },
     "sent": "Votre message a bien été envoyé"
+  },
+  "admin": {
+    "tabs": {
+      "title": "Titre",
+      "likes": "J'aimes",
+      "comments": "Commentaires",
+      "date": "Date",
+      "name": "Nom",
+      "relatedPosts": "Articles liés",
+      "pseudo": "Nom",
+      "email": "Email"
+    },
+    "title": "Administration",
+    "viewsName": {
+      "POSTS": "Articles",
+      "CATEGORIES": "Catégories",
+      "USERS": "Utilisateurs"
+    },
+    "details": "Détails",
+    "posts": {
+      "title": "Liste des articles",
+      "fields": {
+        "title": "Titre",
+        "likes": "J'aimes",
+        "comments": "Commentaires",
+        "date": "Date",
+        "slug": "Slug",
+        "source": "Source",
+        "categories": "Catégories",
+        "likeCount": "Nombre de j'aimes",
+        "commentCount": "Nombre de commentaires",
+        "createdAt": "Publié le",
+        "updatedAt": "Modifié le"
+      },
+      "tabs": {
+        "informations": "Informations",
+        "likes": "J'aimes",
+        "comments": "Commentaires"
+      }
+    },
+    "categories": {
+      "title": "Liste des catégories",
+      "updateTitle": "Modifier la catégorie",
+      "fields": {
+        "name": "Nom",
+        "error": "Vous devez renseigner le nom de la catégorie"
+      },
+      "tabs": {
+        "informations": "Informations",
+        "relatedPosts": "Articles liés"
+      }
+    },
+    "users": {
+      "title": "Liste des utilisateurs",
+      "updateTitle": "Modifier l'utilisateur",
+      "tabs": {
+        "informations": "Informations",
+        "likes": "Articles aimés",
+        "comments": "Articles commentés"
+      },
+      "deletePicture": "Supprimer la photo",
+      "cantUpdate": "Rendez-vous sur votre compte pour modifier votre profil",
+      "cantDelete": "Rendez-vous sur votre compte pour supprimer votre compte",
+      "delete": "Vous êtes sur le point de supprimer l'utilisateur : {{name}}"
+    }
+  },
+  "tabs": {
+    "actions": "Actions"
   }
 }

@@ -8,10 +8,15 @@ import {makeStore} from "../../../../context/store";
 import {queryByContent} from "../../../utils/CustomQueries";
 import {UserStub} from "../../../stub/UserStub";
 import * as fetch from "../../../../context/instance";
-import {getUser} from "../../../../context/actions/user.actions";
+import {getUser} from "../../../../context/actions/users/user.actions";
 import * as fr from "../../../../public/static/locales/fr.json";
 
 describe('Account View Switcher', function () {
+
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    })
 
     it('should render the switcher', function () {
 

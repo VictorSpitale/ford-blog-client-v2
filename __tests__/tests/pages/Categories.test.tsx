@@ -14,6 +14,11 @@ import {MatchPush} from "../../utils/MatchPush";
 
 describe('CategoriesTest', function () {
 
+    afterEach(() => {
+        jest.clearAllMocks();
+
+    })
+
     it('should render the categories page with no post', async function () {
         const store = makeStore();
         const router = MockUseRouter({});
@@ -61,7 +66,7 @@ describe('CategoriesTest', function () {
         jest.spyOn(hooks, "useAppSelector")
             .mockReturnValueOnce({
                 posts: [{
-                    category: "sport",
+                    category: CategoryStub(),
                     posts: [{...PostStub(), categories: [CategoryStub()]}]
                 }], pending: false
             })
@@ -75,13 +80,15 @@ describe('CategoriesTest', function () {
                 </RouterContext.Provider>
             </Provider>
         )
+        await waitFor(() => {
 
-        expect(screen.queryByText(fr.categories.noCat)).not.toBeInTheDocument();
-        expect(screen.queryByText(fr.categories.noPost)).not.toBeInTheDocument();
+            expect(screen.queryByText(fr.categories.noCat)).not.toBeInTheDocument();
+            expect(screen.queryByText(fr.categories.noPost)).not.toBeInTheDocument();
 
-        expect(screen.getByText(PostStub().title)).toBeInTheDocument();
-        expect(queryByContent(`category-slide-${CategoryStub().name}`)).toBeInTheDocument();
+            expect(screen.getByText(PostStub().title)).toBeInTheDocument();
+            expect(queryByContent(`category-slide-${CategoryStub().name}`)).toBeInTheDocument();
 
+        })
     });
 
     it('should switch category', async function () {

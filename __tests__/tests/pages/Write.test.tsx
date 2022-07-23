@@ -14,7 +14,7 @@ describe('WriteTest', function () {
 
     afterEach(() => {
         jest.clearAllMocks();
-        jest.resetAllMocks();
+
     })
 
     it('should block access on auAuth', function () {

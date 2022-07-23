@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.8.1",
-    "@tailwindcss/line-clamp": "0.3.1",
     "axios": "0.26.1",
     "cssnano": "5.1.7",
     "lodash": "4.17.21",
@@ -30,6 +29,7 @@
     "slick-carousel": "1.8.1"
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "0.3.1",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.5",
     "@types/lodash": "4.14.182",

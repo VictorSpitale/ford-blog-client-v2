@@ -7,7 +7,7 @@ import Trash from "../../shared/icons/Trash";
 import Edit from "../../shared/icons/Edit";
 import {useModal, useTranslation} from "../../../shared/hooks";
 import {getTimeSinceMsg, stringToDate, timeSince} from "../../../shared/utils/date.utils";
-import {changeCurrentEditComment} from "../../../context/actions/commentEdit.actions";
+import {changeCurrentEditComment} from "../../../context/actions/posts/commentEdit.actions";
 import Button from "../../shared/Button";
 import TextAreaField from "../../shared/TextAreaField";
 import {IUser, IUserRole} from "../../../shared/types/user.type";

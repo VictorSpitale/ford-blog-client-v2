@@ -7,14 +7,16 @@ import Account from "../../../pages/account";
 import * as fetch from "../../../context/instance";
 import * as hooks from "../../../context/hooks";
 import {UserStub} from "../../stub/UserStub";
-import {getUser} from "../../../context/actions/user.actions";
+import {getUser} from "../../../context/actions/users/user.actions";
 import * as fr from "../../../public/static/locales/fr.json";
 import {AccountViews} from "../../../shared/types/accountViews.type";
 
 describe('AccountTest', function () {
 
+
     afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should render the account page', async function () {

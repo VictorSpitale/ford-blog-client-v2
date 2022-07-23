@@ -20,8 +20,10 @@ describe('ContactFormTest', function () {
         pending = false;
     })
 
+
     afterEach(() => {
         jest.clearAllMocks();
+
     })
 
     it('should render the contact form', function () {

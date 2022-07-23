@@ -14,6 +14,11 @@ import {IUser} from "../../../../../shared/types/user.type";
 
 describe('Like Post Button', function () {
 
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    })
+
     describe('UnAuth', function () {
 
         it('should render the unAuth like post button', () => {
