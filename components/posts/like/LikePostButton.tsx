@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import Heart from "./Heart";
 import {IPost, LikeStatus} from "../../../shared/types/post.type";
-import {useAppDispatch} from "../../../context/hooks";
+import {useAppDispatch, useAppSelector} from "../../../context/hooks";
 import {changeLikeStatus} from "../../../context/actions/posts/posts.actions";
 import {useTranslation} from "../../../shared/hooks";
 import {isEmpty} from "../../../shared/utils/object.utils";
@@ -14,16 +14,23 @@ type PropsType = {
 
 const LikePostButton = ({post, user}: PropsType) => {
 
-    const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [isLiked, setIsLiked] = useState<boolean>(false);
+
+    const {pending} = useAppSelector(state => state.post);
+
     const dispatch = useAppDispatch();
     const t = useTranslation();
 
     const like = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setIsLiked(true)
         await dispatch(changeLikeStatus({status: LikeStatus.LIKE, slug: post.slug}))
     }
 
     const unLike = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setIsLiked(false)
         await dispatch(changeLikeStatus({status: LikeStatus.UNLIKE, slug: post.slug}))
     }

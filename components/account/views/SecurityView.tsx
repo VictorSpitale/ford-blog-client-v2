@@ -30,6 +30,8 @@ const SecurityView = ({user, pending}: PropsType) => {
     const currentPasswordRef = useRef<HTMLInputElement>(null);
 
     const handleChangePassword = async (e: FormEvent<HTMLFormElement>) => {
+        /* istanbul ignore if */
+        if (pending) return;
         e.preventDefault();
         dispatch(setError({error: "", key: "securityViewError"}))
         setSuccess('');
@@ -60,6 +62,8 @@ const SecurityView = ({user, pending}: PropsType) => {
     }
 
     const handleDeleteAccount = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         dispatch(setError({error: "", key: "securityViewError"}))
         setSuccess('');
         await dispatch(deleteAccount(user)).then((res) => {

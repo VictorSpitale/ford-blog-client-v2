@@ -39,6 +39,8 @@ const UpdateUserModal = ({user, isShowing, toggle}: PropsType) => {
     ]
 
     const handleDeletePicture = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setError('');
         await dispatch(removePicture(user)).then((res) => {
             if (res.meta.requestStatus === "rejected") {
@@ -46,9 +48,11 @@ const UpdateUserModal = ({user, isShowing, toggle}: PropsType) => {
             }
             setPicture(undefined);
         })
-    }, [dispatch, t, user]);
+    }, [dispatch, t, user, pending]);
 
     const handleSaveUser = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setError('');
         if (user._id === loggedUser._id) return setError(t.admin.users.cantUpdate);
         if (updatedUser.pseudo === user.pseudo) return;
@@ -62,7 +66,7 @@ const UpdateUserModal = ({user, isShowing, toggle}: PropsType) => {
             }
             toggle();
         })
-    }, [dispatch, t, toggle, updatedUser, user._id, user.pseudo, loggedUser]);
+    }, [dispatch, t, toggle, updatedUser, user._id, user.pseudo, loggedUser, pending]);
 
     return (
         <Modal isShowing={isShowing} hide={toggle} large={true} title={t.admin.users.updateTitle}>

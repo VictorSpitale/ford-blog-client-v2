@@ -19,10 +19,12 @@ const DeleteUserModal = ({toggle, isShowing, user}: PropsType) => {
     const {user: loggedUser} = useAppSelector(state => state.user);
 
     const handleDelete = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         await dispatch(deleteAccount(user)).then(() => {
             toggle();
         })
-    }, [dispatch, toggle]);
+    }, [pending, dispatch, user, toggle]);
 
     return (
         <DeleteModal handleDelete={user._id === loggedUser._id ? undefined : handleDelete} pending={pending}

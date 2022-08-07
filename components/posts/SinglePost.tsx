@@ -49,9 +49,11 @@ const SinglePost = ({
     const router = useRouter();
 
     const handleDelete = async () => {
+        /* istanbul ignore if */
+        if (postPending) return;
         await dispatch(deletePost(post.slug)).then(async () => {
             await router.push("/");
-            await dispatch(cleanPost());
+            dispatch(cleanPost());
         })
     }
 

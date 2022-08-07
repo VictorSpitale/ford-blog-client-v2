@@ -28,6 +28,8 @@ const ContactForm = ({user, pending}: PropsType) => {
     const dispatch = useAppDispatch();
 
     const handleSend = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setError("");
         setSuccess("");
         /* istanbul ignore if */

@@ -30,6 +30,8 @@ const Comments = ({post, user, pending}: PropsType) => {
     const t = useTranslation();
 
     const onDelete = useCallback(async (comment: IComment) => {
+        /* istanbul ignore if */
+        if (pending) return;
         await dispatch(deletePostComment({
             slug: post.slug,
             _id: comment._id,
@@ -40,9 +42,11 @@ const Comments = ({post, user, pending}: PropsType) => {
             }
             setComments((prevState) => prevState.filter((com) => com._id !== comment._id));
         })
-    }, [dispatch, post.slug, t.common.tryLater]);
+    }, [dispatch, post.slug, t.common.tryLater, pending]);
 
     const onUpdate = useCallback(async (comment: IComment, newValue: string) => {
+        /* istanbul ignore if */
+        if (pending) return;
         await dispatch(updatePostComment({
             comment: newValue,
             _id: comment._id,
@@ -60,9 +64,11 @@ const Comments = ({post, user, pending}: PropsType) => {
             }
             return setError(t.common.tryLater);
         })
-    }, [dispatch, post.slug, t.common.tryLater]);
+    }, [dispatch, post.slug, t.common.tryLater, pending]);
 
     const handleSubmit = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         if (isEmpty(commentValue.trim())) return;
         setError("");
         await dispatch(commentPost({
@@ -77,7 +83,7 @@ const Comments = ({post, user, pending}: PropsType) => {
             }
             return setError(t.common.tryLater);
         })
-    }, [commentValue, dispatch, post.slug, t.common.tryLater]);
+    }, [commentValue, dispatch, post.slug, t.common.tryLater, pending]);
 
     useEffect(() => {
         return () => {

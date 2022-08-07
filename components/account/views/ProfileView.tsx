@@ -29,6 +29,8 @@ const ProfileView = ({user, pending}: PropsType) => {
     const dispatch = useAppDispatch();
 
     const handleSaveProfile = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setSuccess('');
         dispatch(setError({error: "", key: "profileViewError"}));
         if (updatedUser.pseudo === user.pseudo) return;
@@ -48,6 +50,8 @@ const ProfileView = ({user, pending}: PropsType) => {
     }
 
     const handleProfilePictureUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+        /* istanbul ignore if */
+        if (pending) return;
         setSuccess('');
         dispatch(setError({error: "", key: "profileViewError"}));
         const files = e.target.files;
@@ -67,6 +71,8 @@ const ProfileView = ({user, pending}: PropsType) => {
     }
 
     const handleProfilePictureDeletion = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setSuccess('');
         dispatch(setError({error: "", key: "profileViewError"}));
         await dispatch(removePicture(user)).then((res) => {

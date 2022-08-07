@@ -53,27 +53,29 @@ const CategoriesSelector = ({categories, pending, defaultCategories, selectedCat
         return defaults;
     }
 
-    const handleChange = async (
+    const handleChange = (
         newValue: OnChangeValue<Option, true>,
         actionMeta: ActionMeta<Option>
     ) => {
         const category = categories.find((cat) => cat.name === actionMeta.option?.label);
         const catToDel = categories.find((cat) => cat.name === actionMeta.removedValue?.label);
         if (actionMeta.action === "select-option" && category) {
-            await dispatch(addSelectedCategories(category))
+            dispatch(addSelectedCategories(category))
             return;
         }
         /* istanbul ignore else */
         if (actionMeta.action === "remove-value" && catToDel) {
-            await dispatch(removeSelectedCategories(catToDel))
+            dispatch(removeSelectedCategories(catToDel))
             return;
         }
     }
 
     const handleCreate = async (newValue: string) => {
+        /* istanbul ignore if */
+        if (pending) return;
         await dispatch(createCategory(newValue)).then(async (res) => {
             if (res.meta.requestStatus === "rejected") return;
-            await dispatch(addSelectedCategories(res.payload as ICategory))
+            dispatch(addSelectedCategories(res.payload as ICategory))
         })
     }
 
@@ -86,11 +88,11 @@ const CategoriesSelector = ({categories, pending, defaultCategories, selectedCat
     }, [selectedCategories])
 
     useEffect(() => {
-        const setValues = async () => {
-            await dispatch(setSelectedCategories(defaultCategories))
+        const setValues = () => {
+            dispatch(setSelectedCategories(defaultCategories))
         }
-        const clear = async () => {
-            await dispatch(setSelectedCategories([]))
+        const clear = () => {
+            dispatch(setSelectedCategories([]))
         }
         setValues();
         return () => {

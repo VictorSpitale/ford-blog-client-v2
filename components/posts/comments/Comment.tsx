@@ -34,9 +34,11 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user, pending}: PropsT
     const {toggle, isShowing} = useModal();
 
     const handleDelete = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         await onDelete(comment);
         toggle();
-    }, [comment, onDelete, toggle]);
+    }, [pending, comment, onDelete, toggle]);
 
     const handleEdit = useCallback(() => {
         dispatch(changeCurrentEditComment({commentId: comment._id}));
@@ -47,10 +49,12 @@ const Comment = ({comment, onDelete, isEditing, onUpdate, user, pending}: PropsT
     }, [dispatch]);
 
     const handleUpdate = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         const value = editedCommentRef?.current?.value;
         if (!value || value === comment.comment) return;
         await onUpdate(comment, value);
-    }, [comment, onUpdate]);
+    }, [comment, onUpdate, pending]);
 
     useEffect(() => {
         setCreatedAt(getTimeSinceMsg(t, timeSince(stringToDate(comment.createdAt))))

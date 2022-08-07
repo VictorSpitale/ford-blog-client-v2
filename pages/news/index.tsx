@@ -23,6 +23,7 @@ const News = () => {
     const [page, setPage] = useState(1);
 
     const lastPostRef = useCallback((node) => {
+        /* istanbul ignore if */
         if (pending) return;
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver((entries) => {

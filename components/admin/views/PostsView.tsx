@@ -60,10 +60,12 @@ const PostsView = () => {
     }, [])
 
     const handleDeletePost = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         await dispatch(deletePost(activePost.slug)).then(() => {
             toggleDeletePost();
         });
-    }, [activePost.slug, dispatch, toggleDeletePost]);
+    }, [pending, activePost.slug, dispatch, toggleDeletePost]);
 
     return (
         <>

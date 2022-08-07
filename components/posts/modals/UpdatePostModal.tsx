@@ -42,6 +42,8 @@ const UpdatePostModal = ({
     const dispatch = useAppDispatch();
 
     const handleUpdate = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setError('');
         let k: keyof UpdatePost
         for (k in postState) {

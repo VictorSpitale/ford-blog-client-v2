@@ -28,6 +28,8 @@ const UpdateCategoryModal = ({toggle, isShowing, category}: PropsType) => {
     const [error, setError] = useState('');
 
     const handleEdit = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         setError('');
         /* istanbul ignore if */
         if (!nameRef.current) return;

@@ -16,9 +16,9 @@ const AccountViewSwitcher = ({activeView}: PropsType) => {
     const t = useTranslation();
     const dispatch = useAppDispatch();
 
-    const changeView = async (view: AccountViews) => {
+    const changeView = (view: AccountViews) => {
         if (view === activeView) return;
-        await dispatch(setView(view));
+        dispatch(setView(view));
     }
 
     const handleLogout = async () => {

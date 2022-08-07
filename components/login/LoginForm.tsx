@@ -30,7 +30,7 @@ const LoginForm = () => {
     const dispatch = useAppDispatch();
 
     const handleRequest = async (data: IUser) => {
-        await dispatch(login(data));
+        dispatch(login(data));
         await router.push("/account");
     }
 
@@ -41,6 +41,8 @@ const LoginForm = () => {
     }
 
     const handleSubmit = async (e: FormEvent) => {
+        /* istanbul ignore if */
+        if (loading) return;
         e.preventDefault();
         setError('');
         setSuccessMessage('');

@@ -37,6 +37,8 @@ const WritePost = ({selectedCategories, categoriesPending, pending, categories}:
 
 
     const handleSubmit = async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         dispatch(setError({key: "writePageError", error: ''}));
         for (const key of getCreatePostKeys()) {
             if (isEmpty(post[key])) {

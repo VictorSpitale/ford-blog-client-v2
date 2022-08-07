@@ -17,10 +17,12 @@ const DeleteCategoryModal = ({toggle, isShowing, category}: PropsType) => {
     const {pending} = useAppSelector(state => state.categories);
 
     const handleDelete = useCallback(async () => {
+        /* istanbul ignore if */
+        if (pending) return;
         await dispatch(deleteCategory(category)).then(() => {
             toggle();
         });
-    }, [category, dispatch, toggle]);
+    }, [category, dispatch, toggle, pending]);
 
     return (
         <DeleteModal handleDelete={handleDelete} pending={pending} isShowing={isShowing} toggle={toggle}>
