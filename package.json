@@ -15,7 +15,7 @@
     "test:o": "jest --config ./jest.config.js --coverage -o"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "1.8.1",
+    "@reduxjs/toolkit": "1.9.7",
     "axios": "0.26.1",
     "cssnano": "5.1.7",
     "lodash": "4.17.21",
